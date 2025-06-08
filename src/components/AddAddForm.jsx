@@ -1,9 +1,29 @@
 import './AddAddForm.css'
 import tonIcon from '../assets/ton.svg'
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export default function AddAddForm( { selectedPackage } ) {
     const [selectedType, setSelectedType] = useState("1");
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const dropdownRef = useRef(null);
+
+    const options = [
+        { value: "1", label: "Текст" },
+        { value: "2", label: "Баннер" }
+    ];
+
+    const selectedOption = options.find(opt => opt.value === selectedType);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setIsDropdownOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
 
     return (
         <div className="add-add-form">
@@ -12,19 +32,31 @@ export default function AddAddForm( { selectedPackage } ) {
             <div className="add-add-form-free-slots">Свободных слотов: 10/10</div>
             <div className="add-add-form-package-info-title">Информация о пакете</div>
             <div className="add-add-form-package-info-container">
-                <div className="add-add-form-package-info-item">
-                    <div className="add-add-form-package-info-item-title">Название: {selectedPackage}</div>
-                    <div className="add-add-form-package-info-item-description">Дней: 1</div>
-                    <div className="add-add-form-package-info-item-price">Цена: 1000</div>
-                    <img src={tonIcon} alt="TON" />
-                </div>
+                    <div className="add-add-form-package-info-item-title">Название: {selectedPackage.ruName}</div>
+                    <div className="add-add-form-package-info-item-description">Дней: {selectedPackage.days}</div>
+                    <div className="add-add-form-package-info-item-price-container">
+                        <div className="add-add-form-package-info-item-price">Цена: {selectedPackage.price}</div>
+                        <div className="add-add-form-package-info-item-price-icon">
+                            <img src={tonIcon} alt="TON" />
+                        </div>
+                    </div>
             </div>
             <div className="add-add-form-add-title">Добавить рекламу</div>
             <div className="add-add-form-add-container">
-                <select className="add-add-form-add-select" onChange={(e) => setSelectedType(e.target.value)}>
-                    <option value="1">Текст</option>
-                    <option value="2">Баннер</option>
-                </select>
+                <div className={`add-add-form-add-select-container ${isDropdownOpen ? 'open' : ''}`} ref={dropdownRef}>
+                    <div className="add-add-form-add-select" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+                        <span>{selectedOption?.label}</span>
+                    </div>
+                    {isDropdownOpen && (
+                        <div className="add-add-form-add-options">
+                            {options.map((option) => (
+                                <div key={option.value} className="add-add-form-add-select-option" onClick={() => {setSelectedType(option.value); setIsDropdownOpen(false);}}>
+                                    {option.label}
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
                 {selectedType === "1" ? (
                     <>
                         <input type="text" placeholder="Введите текст рекламы" className="add-add-form-add-input" />

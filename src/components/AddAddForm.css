@@ -1,0 +1,223 @@
+.add-add-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    overflow-y: auto;
+    max-height: calc(100vh - 140px);
+    padding-bottom: 100px;
+    box-sizing: border-box;
+}
+
+.add-add-form-title {
+    font-family: 'Montserrat';
+    font-size: 24px;
+    font-weight: 800;
+    color: #F4F4F4;
+    text-align: center;
+}
+
+.add-add-form-description {
+    font-family: 'Montserrat';
+    font-size: 16px;
+    font-weight: 500;
+    color: #F4F4F4;
+    text-align: center;
+}
+
+.add-add-form-free-slots {
+    font-family: 'Montserrat';
+    font-size: 18px;
+    font-weight: 500;
+    color: #F4F4F4;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.add-add-form-package-info-title {
+    font-family: 'Montserrat';
+    font-size: 18px;
+    font-weight: 500;
+    color: #F4F4F4;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.add-add-form-package-info-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    max-width: 90%;
+    width: 100%;
+    gap: 10px;
+    background-color: #C9C9C9;
+    border-radius: 44px;
+    padding: 10px;
+}
+
+.add-add-form-package-info-item-title {
+    font-family: 'Montserrat';
+    font-size: 18px;
+    font-weight: 500;
+    color: #000000;
+    margin-left: 20px;
+}
+
+.add-add-form-package-info-item-description {
+    font-family: 'Montserrat';
+    font-size: 16px;
+    font-weight: 500;
+    color: #000000;
+    margin-left: 20px;
+}
+
+.add-add-form-package-info-item-price-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.add-add-form-package-info-item-price {
+    font-family: 'Montserrat';
+    font-size: 16px;
+    font-weight: 500;
+    color: #000000;
+    margin-left: 20px;
+}
+
+.add-add-form-package-info-item-price-icon {
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+}
+
+.add-add-form-add-title {
+    font-family: 'Montserrat';
+    font-size: 18px;
+    font-weight: 500;
+    color: #F4F4F4;
+    margin-top: 20px;
+}
+
+.add-add-form-add-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    max-width: 90%;
+    width: 100%;
+    gap: 10px;
+    background-color: #C9C9C9;
+    border-radius: 44px;
+    padding: 10px;
+}
+
+.add-add-form-add-select-container {
+    position: relative;
+    width: 100%;
+}
+
+.add-add-form-add-select {
+    background-color: #343434;
+    color: #78AA28;
+    font-family: 'Montserrat';
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 44px;
+    width: 100%;
+    padding: 15px 20px;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' width='4' height='5'><path fill='%2378AA28' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 20px center;
+    background-size: 12px;
+}
+
+.add-add-form-add-options {
+    position: absolute;
+    top: calc(100% - 15px);
+    left: 0;
+    right: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    background-color: #343434;
+    border-radius: 0 0 44px 44px;
+    border-top: 1px solid #555;
+    width: 100%;
+    padding: 15px 20px 15px 20px;
+    box-sizing: border-box;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.add-add-form-add-select-option {
+    font-family: 'Montserrat';
+    font-size: 16px;
+    font-weight: 500;
+    color: #78AA28;
+    cursor: pointer;
+    border-radius: 22px;
+    transition: background-color 0.2s;
+    padding: 10px 15px;
+}
+
+.add-add-form-add-select-container.open .add-add-form-add-select {
+    border-radius: 44px 44px 0 0;
+}
+
+.add-add-form-add-input {
+    background-color: #343434;
+    color: #F4F4F4;
+    font-family: 'Montserrat';
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 44px;
+    width: 100%;
+    padding: 15px 20px;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+    margin-top: 10px;
+}
+
+.add-add-form-add-input::placeholder {
+    color: #888;
+}
+
+.add-banner-title {
+    font-family: 'Montserrat';
+    font-size: 16px;
+    font-weight: 500;
+    color: #000000;
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+.add-banner-description {
+    font-family: 'Montserrat';
+    font-size: 14px;
+    font-weight: 400;
+    color: #666;
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+.add-add-form-add-button {
+    background-color: #78AA28;
+    color: #F4F4F4;
+    font-family: 'Montserrat';
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 44px;
+    width: 90%;
+    max-width: 300px;
+    padding: 15px 20px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    margin-top: 30px;
+}
