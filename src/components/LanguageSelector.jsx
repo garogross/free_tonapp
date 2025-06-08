@@ -1,4 +1,4 @@
-import React, { useState, useEffect, dropdownRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { languages } from '../data';
 import './LanguageSelector.css';
 
@@ -6,6 +6,7 @@ const LanguageSelector = () => {
 
     const [isOpen, setIsOpen] = useState(false);
     const [selectedLanguage, setSelectedLanguage] = useState(languages[0]);
+    const dropdownRef = useRef(null);
 
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
