@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import RollButton from './components/RollButton'
 import FootMenu from './components/FootMenu'
 import Header from './components/Header'
@@ -23,6 +23,35 @@ function App() {
   const [currentContent, setCurrentContent] = useState('cran')
   const [profileSubMenu, setProfileSubMenu] = useState('profile')
   const [selectedPackage, setSelectedPackage] = useState(null)
+  const [backPath, setBackPath] = useState(null)
+
+  useEffect(() => {
+    switch (currentContent) {
+      case 'cran':
+      case 'challenges':
+      case 'staking':
+      case 'friends':
+      case 'profile':
+        setBackPath('None')
+        break;
+      case 'cashIn':
+      case 'addPackagesForm':
+      case 'cashOut':
+        setBackPath('profile')
+        break;
+      case 'cashInRequest':
+        setBackPath('cashIn')
+        break;
+      case 'addChallengeForm':
+        setBackPath('challenges')
+        break;
+      case 'addAddForm':
+        setBackPath('addPackagesForm')
+        break;
+      default:
+        setBackPath('None')
+    }
+  }, [currentContent])
 
   const renderContent = () => {
     switch (currentContent) {
@@ -130,7 +159,7 @@ function App() {
 
   return (
     <div className="app-container">
-      <Header />
+      <Header setCurrentContent={setCurrentContent} path={backPath} />
       <main className="main-content">
         {renderContent()}
       </main>
