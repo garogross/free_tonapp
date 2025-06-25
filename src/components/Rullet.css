@@ -64,6 +64,22 @@
     grid-template-columns: repeat(5, 1fr);
     gap: clamp(5px, 1vw, 10px);
     padding: clamp(15px, 3vw, 30px) clamp(10px, 2vw, 20px);
+    position: relative;
+}
+
+.rullet-result-container.pushed {
+    background-color: transparent;
+}
+
+.rullet-timer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(2rem, 5vw, 3rem);
+    padding-top: 5px;
+    white-space: nowrap;
+    font-weight: 600;
 }
 
 [class^="rullet-result-number-item"] {

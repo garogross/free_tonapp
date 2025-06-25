@@ -14,6 +14,10 @@
   grid-row: 4;
 }
 
+.roll-button.pushed {
+  background-color: #575757;
+}
+
 .roll-button-text {
   font-family: 'montserrat';
   font-weight: 800;
@@ -29,4 +33,8 @@
   position: absolute;
   z-index: -1;
   top: 7px;
+}
+
+.roll-button-shadow.pushed {
+  background-color: #343434;
 }
