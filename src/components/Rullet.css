@@ -136,3 +136,10 @@
     font-weight: 800;
     color: #343434;
 }
+
+.rullet-last-roll-number {
+    text-align: center;
+    font-family: 'Montserrat';
+    font-weight: 600;
+    color: #78AA28;
+}

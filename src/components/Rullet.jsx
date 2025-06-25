@@ -2,7 +2,7 @@ import './Rullet.css';
 import tonIcon from '../assets/ton.svg';
 import { useState, useEffect } from 'react';
 
-export default function Rullet({ currentContent, gridRow, setCurrentContent, luckyNumber, isPushed, endTime, setIsPushed, rollStarted, setRollStarted }) {
+export default function Rullet({ currentContent, gridRow, setCurrentContent, luckyNumber, isPushed, endTime, setIsPushed, rollStarted, setRollStarted, tonBalance, lastRollNumber }) {
 
     const [showTimer, setShowTimer] = useState(true);
     const [timeLeft, setTimeLeft] = useState(0);
@@ -63,7 +63,7 @@ export default function Rullet({ currentContent, gridRow, setCurrentContent, luc
         <div className="rullet" grid-row={gridRow}>
             <div className="rullet-title">Ваш баланс</div>
             <div className="rullet-balance">
-                <div className="rullet-balance-value">100,000.00</div>
+                <div className="rullet-balance-value">{tonBalance.toFixed(6)}</div>
                 <div className="rullet-balance-icon">
                     <img src={tonIcon} alt="TON" />
                 </div>
@@ -73,7 +73,9 @@ export default function Rullet({ currentContent, gridRow, setCurrentContent, luc
                     <div className="rullet-subtitle">{isPushed ? 'Время сбора' : 'Выпавшее число'}</div>
                     <div className={`rullet-result-container ${isPushed  && !rollStarted ? 'pushed' : ''}`}>
                         {showTimer ? (
-                            <div className="rullet-timer">{formatTime(timeLeft)}</div>
+                            <>
+                                <div className="rullet-timer">{formatTime(timeLeft)}</div>
+                            </>
                         ) : (
                         <>
                             <div className="rullet-result-number-item1">{digits[0]}</div>
@@ -84,6 +86,9 @@ export default function Rullet({ currentContent, gridRow, setCurrentContent, luc
                         </>
                         )}
                     </div>
+                    {showTimer && (
+                        <div className="rullet-last-roll-number">Выпало: {lastRollNumber}</div>
+                    )}
                 </>
             )}
             {currentContent === 'profile' && (

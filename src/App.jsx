@@ -32,7 +32,10 @@ function App() {
   const [displayNumber, setDisplayNumber] = useState(null)
   const [isAnimating, setIsAnimating] = useState(false)
   const [endTime, setEndTime] = useState(0)
-  const [rollStarted, setRollStarted] = useState(false);
+  const [rollStarted, setRollStarted] = useState(false)
+  const [lastRollNumber, setLastRollNumber] = useState(0)
+  
+  const [tonBalance, setTonBalance] = useState(0)
 
   const intervalRef = useRef(null);
 
@@ -59,8 +62,8 @@ function App() {
   }, [isAnimating, luckyNumber]);
 
   useEffect(() => {
-    async function checkIsRollAvailable() {
-      const dataRaw = retrieveRawInitData();
+    const dataRaw = retrieveRawInitData();
+    async function checkIsRollAvailable(dataRaw) {
       axios.get('/api/checkroll', {
         headers: {
           'Authorization': 'tma ' + dataRaw
@@ -70,12 +73,28 @@ function App() {
         setIsPushed(!response.data.isAvailable);
         const endDateTime = parseDateTime(response.data.endTime);
         setEndTime(endDateTime);
+        setLastRollNumber(response.data.lastRollNumber);
       })
       .catch(error => {
         console.error('Check is roll available error: ', error);
       })
     }
-    checkIsRollAvailable();
+    checkIsRollAvailable(dataRaw);
+
+    async function getTonBalance(dataRaw) {
+      axios.get('/api/balance', {
+        headers: {
+          'Authorization': 'tma ' + dataRaw
+        }
+      })
+      .then(response => {
+        setTonBalance(response.data.tonBalance);
+      })
+      .catch(error => {
+        console.error('Getting balance error: ', error);
+      })
+    }
+    getTonBalance(dataRaw);
   }, []);
 
   const initData = useMemo(() => {
@@ -122,9 +141,9 @@ function App() {
       case 'cran':
         return (
           <>
-            <Rullet currentContent={currentContent} gridRow="1" luckyNumber={isAnimating ? displayNumber : luckyNumber} isPushed={isPushed} endTime={endTime} setIsPushed={setIsPushed} rollStarted={rollStarted} setRollStarted={setRollStarted}/>
+            <Rullet currentContent={currentContent} gridRow="1" luckyNumber={isAnimating ? displayNumber : luckyNumber} isPushed={isPushed} endTime={endTime} setIsPushed={setIsPushed} rollStarted={rollStarted} setRollStarted={setRollStarted} tonBalance={tonBalance} lastRollNumber={lastRollNumber}/>
             <RollTable />
-            <RollButton isPushed={isPushed} setIsPushed={setIsPushed} setLuckyNumber={setLuckyNumber} setIsAnimating={setIsAnimating} setEndTime={setEndTime} setRollStarted={setRollStarted}/>
+            <RollButton isPushed={isPushed} setIsPushed={setIsPushed} setLuckyNumber={setLuckyNumber} setIsAnimating={setIsAnimating} setEndTime={setEndTime} setRollStarted={setRollStarted} setTonBalance={setTonBalance} setLastRollNumber={setLastRollNumber}/>
             <Add />
           </> 
         );
@@ -155,7 +174,7 @@ function App() {
             return (
               <>
                 <ProfileMenu profileSubMenu={profileSubMenu} setProfileSubMenu={setProfileSubMenu}/>
-                <Rullet currentContent={currentContent} gridRow="2" setCurrentContent={setCurrentContent} luckyNumber={null} isPushed={true} endTime={endTime} setIsPushed={setIsPushed} rollStarted={rollStarted}/>
+                <Rullet currentContent={currentContent} gridRow="2" setCurrentContent={setCurrentContent} luckyNumber={null} isPushed={true} endTime={endTime} setIsPushed={setIsPushed} rollStarted={rollStarted} setRollStarted={setRollStarted} tonBalance={tonBalance} lastRollNumber={lastRollNumber}/>
                 <div className="last-transactions">Последние транзакции</div>
                 <div className="transaction-column-names">
                   <div className="transaction-column-name">Дата</div>
@@ -170,7 +189,7 @@ function App() {
           case 'advertising':
             return (
               <>
-                <AdvertisingCabinet setCurrentContent={setCurrentContent}/>
+                <AdvertisingCabinet setCurrentContent={setCurrentContent} tonBalance={tonBalance}/>
                 <ProfileMenu profileSubMenu={profileSubMenu} setProfileSubMenu={setProfileSubMenu}/>
                 <Add />
               </>

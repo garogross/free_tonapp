@@ -20,6 +20,8 @@ export default function RollButton( props ) {
         const now = new Date();
         const oneHourLater = new Date(now.getTime() + 60 * 60 * 1000);
         props.setEndTime(oneHourLater);
+        props.setTonBalance(response.data.tonBalance);
+        props.setLastRollNumber(response.data.luckyNumber);
       })
       .catch(error => {
         if (error.response && error.response.status === 429) {
@@ -33,9 +35,11 @@ export default function RollButton( props ) {
   }
 
   return (
-    <button className={`roll-button ${props.isPushed ? 'pushed' : ''}`} onClick={() => getRoll()} disabled={props.isPushed}>
-      <span className="roll-button-text">ROLL</span>
-      <div className={`roll-button-shadow ${props.isPushed ? 'pushed' : ''}`}></div>
-    </button>
+    <div class="roll-button-wrapper">
+      <button className={`roll-button ${props.isPushed ? 'pushed' : ''}`} onClick={() => getRoll()} disabled={props.isPushed}>
+        <span className="roll-button-text">ROLL</span>
+        <div className={`roll-button-shadow ${props.isPushed ? 'pushed' : ''}`}></div>
+      </button>
+    </div>
   )
 }
