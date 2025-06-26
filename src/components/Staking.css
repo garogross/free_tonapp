@@ -108,7 +108,12 @@
     width: 100%;
     box-sizing: border-box;
     min-width: fit-content;
+    transition: transform 0.15s ease;
     padding: 10px 20px;
+}
+
+.staking-accelerate-button:active {
+    transform: scale(0.95);
 }
 
 .staking-accelerate-overlay {
@@ -159,8 +164,9 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: clamp(10px, 3vw, 20px);
+    gap: clamp(5px,2vw, 10px);
     margin-top: 10px;
+    cursor: pointer;
 }
 
 .stacking-accelerate-accelerators-item {
@@ -173,6 +179,10 @@
     border-radius: 35px;
     padding: 10px;
     min-width: fit-content;
+}
+
+.stacking-accelerate-accelerators-item.active {
+    background-color: #919191;
 }
 
 .stacking-accelerate-accelerators-item-title {
@@ -360,6 +370,10 @@
     cursor: pointer;
 }
 
+.counter-button-minus:active {
+    transform: scale(0.95);
+}
+
 .counter-button-plus {
     font-family: 'Montserrat';
     font-weight: 800;
@@ -367,6 +381,10 @@
     color: #FFFFFF;
     margin-right: 20px;
     cursor: pointer;
+}
+
+.counter-button-plus:active {
+    transform: scale(0.95);
 }
 
 .counter-value {
@@ -415,5 +433,35 @@
     width: 100%;
     box-sizing: border-box;
     min-width: fit-content;
+    transition: transform 0.1s ease, background-color 0.1s ease;
     margin-top: 10px;
 }
+
+.staking-rent-accelerate-button.disabled {
+    background-color: #343434;
+}
+
+.staking-rent-accelerate-button:active {
+    transform: scale(0.95);
+    background-color: #6a9624;
+}
+
+.staking-rent-accelerate-button.disabled:active {
+    background-color: #343434;
+    transform: scale(0.95);
+}
+
+.loading-inline-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #343434;
+    border-top: 2px solid #78AA28;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+    margin-left: 4px;
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }

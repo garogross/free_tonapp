@@ -149,7 +149,7 @@ function App() {
       case 'staking':
         return (
           <>
-            <Staking />
+            <Staking setTonBalance={setTonBalance} tonBalance={tonBalance}/>
             <Add />
           </>
         );

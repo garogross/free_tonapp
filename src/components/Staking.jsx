@@ -2,16 +2,31 @@ import { useState, useEffect } from 'react';
 import './Staking.css'
 import miner from '../assets/miner.png'
 import miner2 from '../assets/miner2.png'
+import { accelerators } from '../data'
+import { retrieveRawInitData } from '@telegram-apps/sdk'
+import axios from 'axios';
 
-export default function Staking() {
+const globalMinerImageCache = window.__minerImageCache || (window.__minerImageCache = { loaded: false, images: [] });
+
+export default function Staking( {setTonBalance, tonBalance} ) {
     const [currentImage, setCurrentImage] = useState(0);
     const [isAnimating, setIsAnimating] = useState(false);
-    const [counter, setCounter] = useState(1);
-    const [imagesLoaded, setImagesLoaded] = useState(false);
-    const [cachedImages, setCachedImages] = useState([]);
+    const [counter, setCounter] = useState(0);
+    const [imagesLoaded, setImagesLoaded] = useState(globalMinerImageCache.loaded);
+    const [cachedImages, setCachedImages] = useState(globalMinerImageCache.images);
+    const [selectedAccelerator, setSelectedAccelerator] = useState(0);
+    const [showAccelerateModal, setShowAccelerateModal] = useState(false);
+    const [amountsByType, setAmountsByType] = useState([0, 0, 0]);
+    const [isAcceleratorsLoading, setIsAcceleratorsLoading] = useState(false);
     const imageUrls = [miner, miner2];
 
     useEffect(() => {
+        if (globalMinerImageCache.loaded) {
+            setCachedImages(globalMinerImageCache.images);
+            setImagesLoaded(true);
+            return;
+        }
+
         const preloadImages = async () => {
             try {
                 const cachedImagePromises = imageUrls.map(async (src) => {
@@ -23,22 +38,22 @@ export default function Staking() {
                 const cachedImageUrls = await Promise.all(cachedImagePromises);
                 setCachedImages(cachedImageUrls);
                 setImagesLoaded(true);
+
+                globalMinerImageCache.loaded = true;
+                globalMinerImageCache.images = cachedImageUrls;
             } catch (error) {
                 console.error('Ошибка загрузки изображений:', error);
                 setCachedImages(imageUrls);
                 setImagesLoaded(true);
+
+                globalMinerImageCache.loaded = true;
+                globalMinerImageCache.images = imageUrls;
             }
         };
 
         preloadImages();
 
-        return () => {
-            cachedImages.forEach(url => {
-                if (url.startsWith('blob:')) {
-                    URL.revokeObjectURL(url);
-                }
-            });
-        };
+        return () => {};
     }, []);
 
     useEffect(() => {
@@ -55,75 +70,142 @@ export default function Staking() {
         return () => clearInterval(interval);
     }, [imagesLoaded, cachedImages]);
 
-    const [showAccelerateModal, setShowAccelerateModal] = useState(false);
+    const rentMiner = (rentCount, selectedAccelerator) => {
+        setIsAcceleratorsLoading(true);
+        const postData = {
+            rentCount: rentCount,
+            type: selectedAccelerator
+        }
+        const dataRaw = retrieveRawInitData();
+
+        axios.post('/api/accelerators', postData,
+        {
+            headers: {
+                'Authorization': 'tma ' + dataRaw
+            }
+        })
+        .then(response => {
+            setCounter(response.data.amountsByType[selectedAccelerator])
+            setAmountsByType(response.data.amountsByType);
+            setIsAcceleratorsLoading(false);
+            setTonBalance(response.data.tonBalance);
+        })
+        .catch(error => {
+            console.error('Rent accelerators error: ', error);
+            alert(error);
+            setIsAcceleratorsLoading(false);
+        });
+    }
 
     const handleAccelerate = () => {
+        setIsAcceleratorsLoading(true);
         setShowAccelerateModal(true);
-        setCounter(1);
+
+        const dataRaw = retrieveRawInitData();
+        axios.get('/api/accelerators', {
+            headers: {
+                'Authorization': 'tma ' + dataRaw
+            }
+        })
+        .then(response => {
+            setCounter(response.data.amountsByType[selectedAccelerator]);
+            setAmountsByType(response.data.amountsByType);
+            setIsAcceleratorsLoading(false);
+        })
+        .catch(error => {
+            console.error('Get accelerators error: ', error);
+            alert(error);
+            setIsAcceleratorsLoading(false);
+        });
+    }
+
+    const handleSetSelectedAccelerator = (idx) => {
+        setCounter(amountsByType[idx]);
+        setSelectedAccelerator(idx);
     }
 
     const closeAccelerateModal = () => {
         setShowAccelerateModal(false);
+        setCounter(amountsByType[selectedAccelerator]);
     }
 
     const handleDecrement = () => {
-        if (counter > 1) {
+        if (counter > amountsByType[selectedAccelerator]) {
             setCounter(counter - 1);
         }
     }
 
     const handleIncrement = () => {
-        setCounter(counter + 1);
+        if (counter < 5) {
+            setCounter(counter + 1);
+        }
     }
+
+    const spinner = <span className="loading-inline-spinner"></span>;
 
     const renderAccelerateModal = () => {
         if (!showAccelerateModal) return null;
-        
+
+        const rentCount = Math.max(0, counter - amountsByType[selectedAccelerator]);
+        const totalRentPrice = accelerators[selectedAccelerator]['rentCost'] * rentCount;
+        const totalPerDay = accelerators[selectedAccelerator]['incomePerDay'] * counter;
+        const totalProfit = accelerators[selectedAccelerator]['totalIncome'] * counter;
+
         return (
             <div className="staking-accelerate-overlay" onClick={closeAccelerateModal}>
                 <div className="staking-accelerate-container" onClick={(e) => e.stopPropagation()}>
                     <div className="staking-accelerate-title">УСКОРИТЕЛЬ</div>
                     <button className="staking-accelerate-close" onClick={closeAccelerateModal}>×</button>
                     <div className="stacking-accelerate-accelerators-container">
-                        <div className="stacking-accelerate-accelerators-item">
+                        <div className={`stacking-accelerate-accelerators-item ${selectedAccelerator === 0 ? 'active' : ''}`} onClick={() => handleSetSelectedAccelerator(0)}>
                             <div className="stacking-accelerate-accelerators-item-title">CORE I-9</div>
                             <div className="accelerator-image-1"></div>
-                            <div className="stacking-accelerate-accelerators-item-description">100 GH/s</div>
+                            <div className="stacking-accelerate-accelerators-item-description">2.7 mkT/s</div>
                         </div>
-                        <div className="stacking-accelerate-accelerators-item">
+                        <div className={`stacking-accelerate-accelerators-item ${selectedAccelerator === 1 ? 'active' : ''}`} onClick={() => handleSetSelectedAccelerator(1)}>
                             <div className="stacking-accelerate-accelerators-item-title">RTX 4090</div>
                             <div className="accelerator-image-2"></div>
-                            <div className="stacking-accelerate-accelerators-item-description">250 GH/s</div>
+                            <div className="stacking-accelerate-accelerators-item-description">5.7 mkT/s</div>
                         </div>
-                        <div className="stacking-accelerate-accelerators-item">
+                        <div className={`stacking-accelerate-accelerators-item ${selectedAccelerator === 2 ? 'active' : ''}`} onClick={() => handleSetSelectedAccelerator(2)}>
                             <div className="stacking-accelerate-accelerators-item-title">A100 GPU</div>
                             <div className="accelerator-image-3"></div>
-                            <div className="stacking-accelerate-accelerators-item-description">500 GH/s</div>
+                            <div className="stacking-accelerate-accelerators-item-description">11.7 mkT/s</div>
                         </div>
                     </div>
                     <div className="rent-period-container">
                         <div className="rent-period-title">Период аренды</div>
-                        <div className="rent-period-description">30 дней</div>
+                        <div className="rent-period-description">
+                            {isAcceleratorsLoading ? spinner : accelerators[selectedAccelerator]['period']} дней
+                        </div>
                     </div>
                     <div className="per-day-container">
                         <div className="per-day-title">Прибыль/день</div>
-                        <div className="per-day-description">6.66624 TON</div>
+                        <div className="per-day-description">
+                            {isAcceleratorsLoading ? spinner : totalPerDay} TON
+                        </div>
                     </div>
                     <div className="total-profit-container">
                         <div className="total-profit-title">Общая прибыль</div>
-                        <div className="total-profit-description">199.9872 TON</div>
+                        <div className="total-profit-description">
+                            {isAcceleratorsLoading ? spinner : totalProfit} TON
+                        </div>
                     </div>
-                    <div className="counter-title">Количество</div>
+                    <div className="counter-title">Общее количество</div>
                     <div className="counter-container">
                         <div className="counter-button-minus" onClick={handleDecrement}>-</div>
-                        <div className="counter-value">{counter}</div>
+                        <div className="counter-value">{isAcceleratorsLoading ? spinner : counter}</div>
                         <div className="counter-button-plus" onClick={handleIncrement}>+</div>
                     </div>
                     <div className="total-rent-price-container">
                         <div className="total-rent-price-title">Цена аренды</div>
-                        <div className="total-rent-price-description">10.000 TON</div>
+                        <div className="total-rent-price-description">
+                            {isAcceleratorsLoading ? spinner : totalRentPrice} TON
+                        </div>
                     </div>
-                    <button className="staking-rent-accelerate-button">АРЕНДОВАТЬ МАЙНЕР</button>
+                    <button className={`staking-rent-accelerate-button ${(isAcceleratorsLoading || totalRentPrice > tonBalance || rentCount == 0) ? 'disabled' : ''}`} disabled={(isAcceleratorsLoading || totalRentPrice > tonBalance || rentCount == 0)} onClick={() => rentMiner(rentCount, selectedAccelerator)}>
+                        АРЕНДОВАТЬ МАЙНЕР
+                    </button>
                 </div>
             </div>
         )
@@ -147,11 +229,11 @@ export default function Staking() {
                 alt="Miner animation" 
                 className={`miner-gif ${isAnimating ? 'miner-transition' : ''}`}
             />
-            <div className="staking-total-mined">0.002789766 TON</div>
-            <div className="staking-hashrate">Хэшрейт: 1 GH/s</div>
+            <div className="staking-total-mined">0.00000000 TON</div>
+            <div className="staking-hashrate">СКОРОСТЬ: 0.00000033 T/s</div>
             <button className="staking-get-button">ЗАПРОСИТЬ</button>
             <button className="staking-accelerate-button" onClick={handleAccelerate}>УСКОРИТЕЛЬ</button>
             {renderAccelerateModal()}
         </div>
     )
-};
+}
