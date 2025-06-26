@@ -3,7 +3,7 @@ import tonIcon from '../assets/ton.svg';
 import { useState } from 'react';
 import catImage from '../assets/cat.png';
 
-export default function Challenges( {setCurrentContent} ) {
+export default function Challenges( {setCurrentContent, tonBalance} ) {
     const [currentChallenge, setCurrentChallenge] = useState('surfing');
     const [isClient, setIsClient] = useState(false);
 
@@ -40,7 +40,7 @@ export default function Challenges( {setCurrentContent} ) {
                 <div className="balance-container">
                     <div className="balance-title">Баланс</div>
                     <div className="value-container">
-                        <div className="balance-value">100,000.00</div>
+                        <div className="balance-value">{tonBalance.toFixed(6)}</div>
                         <div className="balance-icon">
                             <img src={tonIcon} alt="TON" />
                         </div>

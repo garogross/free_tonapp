@@ -39,14 +39,6 @@ function App() {
 
   const intervalRef = useRef(null);
 
-  function parseDateTime(dtString) {
-    const [datePart, timePart] = dtString.split('T');
-    const [year, month, day] = datePart.split('-').map(Number);
-    const [hour, minute, second] = timePart.split(':').map(Number);
-    
-    return new Date(year, month - 1, day, hour, minute, second);
-  } 
-
   useEffect(() => {
     if (isAnimating) {
       intervalRef.current = setInterval(() => {
@@ -71,7 +63,7 @@ function App() {
       })
       .then(response => {
         setIsPushed(!response.data.isAvailable);
-        const endDateTime = parseDateTime(response.data.endTime);
+        const endDateTime = new Date(response.data.endTime);
         setEndTime(endDateTime);
         setLastRollNumber(response.data.lastRollNumber);
       })
@@ -150,7 +142,7 @@ function App() {
       case 'challenges':
         return (
           <>
-            <Challenges setCurrentContent={setCurrentContent} />
+            <Challenges setCurrentContent={setCurrentContent} tonBalance={tonBalance}/>
             <Add />
           </>
         );
