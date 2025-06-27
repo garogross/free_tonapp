@@ -69,7 +69,23 @@ export default function Staking( {setTonBalance, tonBalance, accelerateBalance, 
     
         return () => clearInterval(interval);
     }, [imagesLoaded, cachedImages]);
-    
+
+    const getUnfund = () => {
+        const dataRaw = retrieveRawInitData();
+        axios.get('/api/accelerateunfund', {
+            headers: {
+                'Authorization': 'tma ' + dataRaw
+            }
+        })
+        .then(response => {
+            setTonBalance(response.data.tonBalance);
+            setAccelerateBalance(response.data.accelerateBalance);
+            setAccelerateSpeed(response.data.accelerateSpeed);
+        })
+        .catch(error => {
+            console.error('Unfund accelerate balance error: ', error);
+          })
+    }  
 
     const rentMiner = (rentCount, selectedAccelerator) => {
         setIsAcceleratorsLoading(true);
@@ -247,7 +263,7 @@ export default function Staking( {setTonBalance, tonBalance, accelerateBalance, 
             />
             <div className="staking-total-mined">{accelerateBalance.toFixed(8)} TON</div>
             <div className="staking-hashrate">СКОРОСТЬ: {accelerateSpeed.toFixed(8)} T/s</div>
-            <button className="staking-get-button">ЗАПРОСИТЬ</button>
+            <button className={`staking-get-button ${accelerateBalance<5 ? 'disabled' : ''}`} disabled={accelerateBalance<5} onClick={() => getUnfund()}>ЗАПРОСИТЬ</button>
             <button className="staking-accelerate-button" onClick={handleAccelerate}>УСКОРИТЕЛЬ</button>
             {renderAccelerateModal()}
         </div>
