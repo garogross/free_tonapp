@@ -8,7 +8,7 @@ import axios from 'axios';
 
 const globalMinerImageCache = window.__minerImageCache || (window.__minerImageCache = { loaded: false, images: [] });
 
-export default function Staking( {setTonBalance, tonBalance} ) {
+export default function Staking( {setTonBalance, tonBalance, accelerateBalance, accelerateSpeed, setAccelerateBalance, setAccelerateSpeed} ) {
     const [currentImage, setCurrentImage] = useState(0);
     const [isAnimating, setIsAnimating] = useState(false);
     const [counter, setCounter] = useState(0);
@@ -58,17 +58,18 @@ export default function Staking( {setTonBalance, tonBalance} ) {
 
     useEffect(() => {
         if (!imagesLoaded || cachedImages.length === 0) return;
-
+    
         const interval = setInterval(() => {
             setIsAnimating(true);
             setTimeout(() => {
-                setCurrentImage((prev) => (prev + 1) % cachedImages.length);
+                setCurrentImage(prev => (prev + 1) % cachedImages.length);
                 setIsAnimating(false);
             }, 250);
         }, 1000);
-
+    
         return () => clearInterval(interval);
     }, [imagesLoaded, cachedImages]);
+    
 
     const rentMiner = (rentCount, selectedAccelerator) => {
         setIsAcceleratorsLoading(true);
@@ -89,6 +90,21 @@ export default function Staking( {setTonBalance, tonBalance} ) {
             setAmountsByType(response.data.amountsByType);
             setIsAcceleratorsLoading(false);
             setTonBalance(response.data.tonBalance);
+            function getAccelerateBalance(dataRaw) {
+                axios.get('/api/acceleratebalance', {
+                  headers: {
+                    'Authorization': 'tma ' + dataRaw
+                  }
+                })
+                .then(response => {
+                  setAccelerateBalance(response.data.accelerateBalance);
+                  setAccelerateSpeed(response.data.accelerateSpeed);
+                })
+                .catch(error => {
+                  console.error('Getting accelerate balance error: ', error);
+                })
+              }
+            getAccelerateBalance(dataRaw);
         })
         .catch(error => {
             console.error('Rent accelerators error: ', error);
@@ -229,8 +245,8 @@ export default function Staking( {setTonBalance, tonBalance} ) {
                 alt="Miner animation" 
                 className={`miner-gif ${isAnimating ? 'miner-transition' : ''}`}
             />
-            <div className="staking-total-mined">0.00000000 TON</div>
-            <div className="staking-hashrate">СКОРОСТЬ: 0.00000033 T/s</div>
+            <div className="staking-total-mined">{accelerateBalance.toFixed(8)} TON</div>
+            <div className="staking-hashrate">СКОРОСТЬ: {accelerateSpeed.toFixed(8)} T/s</div>
             <button className="staking-get-button">ЗАПРОСИТЬ</button>
             <button className="staking-accelerate-button" onClick={handleAccelerate}>УСКОРИТЕЛЬ</button>
             {renderAccelerateModal()}

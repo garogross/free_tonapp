@@ -39,6 +39,9 @@ function App() {
 
   const intervalRef = useRef(null);
 
+  const [accelerateSpeed, setAccelerateSpeed] = useState(0.00000033);
+  const [accelerateBalance, setAccelerateBalance] = useState(0.00000000);
+
   useEffect(() => {
     if (isAnimating) {
       intervalRef.current = setInterval(() => {
@@ -52,6 +55,14 @@ function App() {
 
     return () => clearInterval(intervalRef.current);
   }, [isAnimating, luckyNumber]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+        setAccelerateBalance(prevBalance => prevBalance + accelerateSpeed);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [accelerateSpeed]);
 
   useEffect(() => {
     const dataRaw = retrieveRawInitData();
@@ -83,10 +94,26 @@ function App() {
         setTonBalance(response.data.tonBalance);
       })
       .catch(error => {
-        console.error('Getting balance error: ', error);
+        console.error('Getting ton balance error: ', error);
       })
     }
     getTonBalance(dataRaw);
+
+    async function getAccelerateBalance(dataRaw) {
+      axios.get('/api/acceleratebalance', {
+        headers: {
+          'Authorization': 'tma ' + dataRaw
+        }
+      })
+      .then(response => {
+        setAccelerateBalance(response.data.accelerateBalance);
+        setAccelerateSpeed(response.data.accelerateSpeed);
+      })
+      .catch(error => {
+        console.error('Getting accelerate balance error: ', error);
+      })
+    }
+    getAccelerateBalance(dataRaw);
   }, []);
 
   const initData = useMemo(() => {
@@ -149,7 +176,7 @@ function App() {
       case 'staking':
         return (
           <>
-            <Staking setTonBalance={setTonBalance} tonBalance={tonBalance}/>
+            <Staking setTonBalance={setTonBalance} tonBalance={tonBalance} accelerateBalance={accelerateBalance} accelerateSpeed={accelerateSpeed} setAccelerateBalance={setAccelerateBalance} setAccelerateSpeed={setAccelerateSpeed}/>
             <Add />
           </>
         );
