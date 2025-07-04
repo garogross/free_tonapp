@@ -18,6 +18,9 @@ import AddChallengeForm from './components/AddChallengeForm'
 import AddsPackagesForm from './components/AddsPackagesForm'
 import AddAddForm from './components/AddAddForm'
 import { retrieveLaunchParams, retrieveRawInitData } from '@telegram-apps/sdk'
+import { TonConnectUIProvider } from '@tonconnect/ui-react';
+import SockJS from 'sockjs-client';
+import { Client } from '@stomp/stompjs';
 import './App.css'
 import axios from 'axios'
 
@@ -41,6 +44,37 @@ function App() {
 
   const [accelerateSpeed, setAccelerateSpeed] = useState(0.00000033);
   const [accelerateBalance, setAccelerateBalance] = useState(0.00000000);
+  const stompClient = useRef(null);
+
+  useEffect(() => {
+    const dataRaw = retrieveRawInitData();
+    const socket = new SockJS('/ws');
+
+    stompClient.current = new Client({
+      webSocketFactory: () => socket,
+      connectHeaders: {
+        'X-Authorization': 'tma ' + dataRaw,
+      },
+      onConnect: () => {
+        console.log('Connected');
+        stompClient.current.subscribe('/user/queue/balance', (message) => {
+          const body = JSON.parse(message.body);
+          setTonBalance(body.tonBalance);
+        });
+      },
+      onStompError: (frame) => {
+        console.error('STOMP error:', frame.headers['message']);
+      },
+    });
+
+    stompClient.current.activate();
+
+    return () => {
+      if (stompClient.current) {
+        stompClient.current.deactivate();
+      }
+    };
+  }, []);
 
   useEffect(() => {
     if (isAnimating) {
@@ -139,10 +173,8 @@ function App() {
       case 'cashIn':
       case 'addPackagesForm':
       case 'cashOut':
-        setBackPath('profile')
-        break;
       case 'cashInRequest':
-        setBackPath('cashIn')
+        setBackPath('profile')
         break;
       case 'addChallengeForm':
         setBackPath('challenges')
@@ -260,6 +292,7 @@ function App() {
   };
 
   return (
+    <TonConnectUIProvider manifestUrl="https://freeton-back.ru.tuna.am/tonconnect-manifest.json">
     <div className="app-container">
       <Header setCurrentContent={setCurrentContent} path={backPath} />
       <main className="main-content">
@@ -267,6 +300,7 @@ function App() {
       </main>
       <FootMenu setCurrentContent={setCurrentContent} currentContent={currentContent}/>
     </div>
+    </TonConnectUIProvider>
   )
 }
 

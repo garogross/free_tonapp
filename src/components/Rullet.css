@@ -123,7 +123,13 @@
     padding: 15px 80px;
     font-family: 'Montserrat';
     font-weight: 800;
+    transition: transform 0.1s ease, background-color 0.1s ease;
     color: #F2F2F2;
+}
+
+.cash-in:active {
+    transform: scale(0.95);
+    background-color: #6a9624;
 }
 
 .cash-out {

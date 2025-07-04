@@ -1,6 +1,8 @@
 import './Rullet.css';
 import tonIcon from '../assets/ton.svg';
 import { useState, useEffect } from 'react';
+import { useTonConnectUI, useTonAddress } from '@tonconnect/ui-react';
+import React from 'react';
 
 export default function Rullet({ currentContent, gridRow, setCurrentContent, luckyNumber, isPushed, endTime, setIsPushed, rollStarted, setRollStarted, tonBalance, lastRollNumber }) {
 
@@ -59,6 +61,16 @@ export default function Rullet({ currentContent, gridRow, setCurrentContent, luc
         return `${m}:${s}`;
       };
 
+    const [tonConnectUI, setOptions] = useTonConnectUI();
+    const userFriendlyAddress = useTonAddress();
+    const handleTonConnectClick = () => {
+        if (!userFriendlyAddress) {
+            tonConnectUI.openModal();
+        } else {
+            setCurrentContent('cashInRequest');
+        }
+      };
+
     return (
         <div className="rullet" grid-row={gridRow}>
             <div className="rullet-title">Ваш баланс</div>
@@ -93,7 +105,7 @@ export default function Rullet({ currentContent, gridRow, setCurrentContent, luc
             )}
             {currentContent === 'profile' && (
                 <>
-                    <button className="cash-in" onClick={() => setCurrentContent('cashIn')}>ПОПОЛНИТЬ</button>
+                    <button className="cash-in" onClick={() => handleTonConnectClick()}>{userFriendlyAddress ? 'ПОПОЛНИТЬ' : 'ПОДКЛЮЧИТЬ'}</button>
                     <button className="cash-out" onClick={() => setCurrentContent('cashOut')}>ВЫВЕСТИ</button>
                 </>
             )}
