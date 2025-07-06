@@ -2,7 +2,7 @@ import './CashInRequestForm.css';
 import React, { useState } from 'react';
 import { useTonConnectUI } from '@tonconnect/ui-react';
 
-export default function CashInRequestForm() {
+export default function CashInRequestForm( {setCurrentContent} ) {
     const [tonConnectUI, setOptions] = useTonConnectUI();
     const [amount, setAmount] = useState('');
 
@@ -18,7 +18,7 @@ export default function CashInRequestForm() {
             validUntil: Date.now() + 5 * 60 * 1000,
             messages: [
                 {
-                    address: "UQDY51Tm9tIAyGsRwcnA-r6p4oodHZ7F-6XDYRYT7KFKvcLM",
+                    address: "UQCQ84P_-bW15oozG-_GDlNaj96s780Kxofd6RfBa_LPOYUd",
                     amount: amountNano,
                 },
             ],
@@ -30,6 +30,11 @@ export default function CashInRequestForm() {
         } catch (error) {
             console.error('Ошибка при отправке транзакции:', error);
         }
+    };
+
+    const unlinkWallet = () => {
+        tonConnectUI.disconnect();
+        setCurrentContent("profile");
     };
 
     return (
@@ -46,6 +51,7 @@ export default function CashInRequestForm() {
                 />
             </div>
             <button className="cash-in-request-form-button" onClick={requestTransaction}>ПОПОЛНИТЬ</button>
+            <button className="cash-in-request-form-button" onClick={unlinkWallet}>ОТВЯЗАТЬ</button>
         </div>
     )
 };

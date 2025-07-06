@@ -65,6 +65,15 @@ function App() {
       onStompError: (frame) => {
         console.error('STOMP error:', frame.headers['message']);
       },
+      onDisconnect: () => {
+        console.log('Disconnected');
+      },
+      onWebSocketClose: () => {
+        console.log('WebSocket closed, trying to reconnect...');
+        setTimeout(() => stompClient.current.activate(), 5000);
+      },
+      heartbeatIncoming: 10000,    
+      heartbeatOutgoing: 10000,
     });
 
     stompClient.current.activate();
@@ -256,7 +265,7 @@ function App() {
       case 'cashInRequest':
         return (
           <>
-            <CashInRequestForm />
+            <CashInRequestForm setCurrentContent={setCurrentContent}/>
             <Add />
           </>
         );
