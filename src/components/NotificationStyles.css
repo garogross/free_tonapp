@@ -1,49 +1,60 @@
 .notification-wrapper {
   position: fixed;
   top: 20px;
-  right: 20px;
-  width: 300px;
-  z-index: 1000;
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  max-width: 400px;
+  z-index: 10000;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  font-family: 'Georgia', serif;
+  gap: 12px;
+  font-family: 'Orbitron', 'Courier New', monospace;
+  pointer-events: none; /* чтобы уведомления не блокировали клики */
 }
 
 .notification {
-  background: #fff8dc;
-  border: 2px solid #deb887;
-  padding: 15px 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(222, 184, 135, 0.3);
-  color: #5a3e1b;
-  font-size: 16px;
-  font-style: italic;
-  line-height: 1.4;
-  animation: fadeInOut 3s ease forwards;
+  background: linear-gradient(135deg, #0ff, #08f);
+  border: 2px solid #0ff;
+  box-shadow:
+    0 0 8px #0ff,
+    0 0 20px #0ff,
+    0 0 30px #08f,
+    0 0 40px #0ff;
+  color: #00ffff;
+  font-size: 18px;
+  font-weight: 700;
+  text-shadow:
+    0 0 5px #0ff,
+    0 0 10px #0ff,
+    0 0 20px #08f;
+  padding: 15px 25px;
+  border-radius: 10px;
+  letter-spacing: 1.2px;
+  animation: cyberFadeInOut 3s ease forwards;
+  pointer-events: auto; /* чтобы можно было кликать, если нужно */
 }
 
-@keyframes fadeInOut {
+@keyframes cyberFadeInOut {
   0% {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-20px) scale(0.95);
+    filter: drop-shadow(0 0 5px #0ff);
   }
   10%, 90% {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
+    filter: drop-shadow(0 0 10px #0ff);
   }
   100% {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-20px) scale(0.95);
+    filter: drop-shadow(0 0 5px #0ff);
   }
 }
 
-.notification {
-  background-color: yellow !important;
-  color: black !important;
-  font-weight: bold !important;
-  position: relative !important;
-  z-index: 9999 !important;
-  padding: 10px !important;
-  border-radius: 5px !important;
-}
+/* Подключите шрифт Orbitron в вашем HTML или CSS */
+/* Например, в index.html: */
+/*
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+*/

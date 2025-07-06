@@ -7,7 +7,7 @@ export function NotificationProvider({ children }) {
 
   const showNotification = useCallback((message, duration = 3000) => {
     const id = Date.now();
-    setNotifications((prev) => [...prev, { id, message }]);
+    setNotifications([{ id, message }]);
     setTimeout(() => {
       setNotifications((prev) => prev.filter((n) => n.id !== id));
     }, duration);
