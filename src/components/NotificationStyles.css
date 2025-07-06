@@ -3,58 +3,46 @@
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  width: auto;
   max-width: 400px;
+  width: auto;
   z-index: 10000;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  font-family: 'Orbitron', 'Courier New', monospace;
-  pointer-events: none; /* чтобы уведомления не блокировали клики */
+  font-family: 'Montserrat', sans-serif;
+  pointer-events: none;
 }
 
 .notification {
-  background: linear-gradient(135deg, #0ff, #08f);
-  border: 2px solid #0ff;
-  box-shadow:
-    0 0 8px #0ff,
-    0 0 20px #0ff,
-    0 0 30px #08f,
-    0 0 40px #0ff;
-  color: #00ffff;
-  font-size: 18px;
+  background: #78aa28;
+  color: #F4F4F4;
+  font-size: 16px;
   font-weight: 700;
-  text-shadow:
-    0 0 5px #0ff,
-    0 0 10px #0ff,
-    0 0 20px #08f;
   padding: 15px 25px;
-  border-radius: 10px;
-  letter-spacing: 1.2px;
-  animation: cyberFadeInOut 3s ease forwards;
-  pointer-events: auto; /* чтобы можно было кликать, если нужно */
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+  text-align: center;
+  pointer-events: auto;
+  animation: fadeInOut 3s ease forwards;
+  user-select: none;
 }
 
-@keyframes cyberFadeInOut {
+
+@keyframes fadeInOut {
   0% {
     opacity: 0;
     transform: translateY(-20px) scale(0.95);
-    filter: drop-shadow(0 0 5px #0ff);
   }
-  10%, 90% {
-    opacity: 1;
+  10% {
+    opacity: 0.9;
     transform: translateY(0) scale(1);
-    filter: drop-shadow(0 0 10px #0ff);
+  }
+  90% {
+    opacity: 0.9;
+    transform: translateY(0) scale(1);
   }
   100% {
     opacity: 0;
     transform: translateY(-20px) scale(0.95);
-    filter: drop-shadow(0 0 5px #0ff);
   }
 }
-
-/* Подключите шрифт Orbitron в вашем HTML или CSS */
-/* Например, в index.html: */
-/*
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
-*/
