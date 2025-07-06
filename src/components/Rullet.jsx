@@ -3,6 +3,7 @@ import tonIcon from '../assets/ton.svg';
 import { useState, useEffect } from 'react';
 import { useTonConnectUI, useTonAddress, useTonWallet } from '@tonconnect/ui-react';
 import { retrieveRawInitData } from '@telegram-apps/sdk';
+import { useNotification } from './useNotification';
 import React from 'react';
 import axios from 'axios';
 
@@ -21,13 +22,13 @@ export default function Rullet(props) {
         lastRollNumber,
     } = props;
 
-    // Состояния компонента
     const [showTimer, setShowTimer] = useState(true);
     const [timeLeft, setTimeLeft] = useState(0);
     const [walletButton, setWalletButton] = useState('ПОДКЛЮЧИТЬ');
     const [payload, setPayload] = useState(null);
     const [proof, setProof] = useState(null);
     const [walletAccount, setWalletAccount] = useState(null);
+    const { showError } = useNotification();
 
     const getLuckyDigits = (number) => {
         if (number === null) return Array(5).fill('--');
@@ -116,7 +117,7 @@ export default function Rullet(props) {
                     throw new Error('Proof verification failed');
                 }
             } catch (error) {
-                alert('Ошибка проверки адреса: ' + (error.response?.data?.error || error.message));
+                showError('Ошибка проверки адреса: ' + (error.response?.data?.error || error.message));
                 setWalletButton('ПОДКЛЮЧИТЬ');
             }
         };
@@ -146,7 +147,7 @@ export default function Rullet(props) {
             }
         } catch (error) {
             console.error('Ошибка проверки адреса:', error);
-            alert(error.message || error);
+            showError(error.message || error);
             setWalletButton('ПОДКЛЮЧИТЬ');
         }
     };

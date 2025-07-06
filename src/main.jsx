@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { init, miniApp } from '@telegram-apps/sdk'
 import './index.css'
 import App from './App.jsx'
+import { NotificationProvider } from './components/NotificationProvider';
 
 const initializeTelegramSDK = async () => {
   try {
@@ -21,6 +22,8 @@ initializeTelegramSDK();
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App />
+    <NotificationProvider>
+      <App />
+    </NotificationProvider>
   </StrictMode>,
 )

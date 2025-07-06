@@ -1,14 +1,16 @@
 import './CashInRequestForm.css';
 import React, { useState } from 'react';
 import { useTonConnectUI } from '@tonconnect/ui-react';
+import { useNotification } from './useNotification';
 
 export default function CashInRequestForm( {setCurrentContent} ) {
     const [tonConnectUI, setOptions] = useTonConnectUI();
     const [amount, setAmount] = useState('');
+    const { showNotification, showError } = useNotification();
 
     const requestTransaction = async () => {
         if (!amount || isNaN(amount) || Number(amount) <= 0) {
-            alert('Введите корректную сумму');
+            showError('Введите корректную сумму');
             return;
         }
 
@@ -26,8 +28,9 @@ export default function CashInRequestForm( {setCurrentContent} ) {
 
         try {
             await tonConnectUI.sendTransaction(transaction);
-            alert('Транзакция отправлена. Ожидайте подтверждения.');
+            showNotification('Транзакция отправлена');
         } catch (error) {
+            showError(error);
             console.error('Ошибка при отправке транзакции:', error);
         }
     };

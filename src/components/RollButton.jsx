@@ -1,8 +1,10 @@
 import './RollButton.css';
 import axios from 'axios';
 import { retrieveRawInitData } from '@telegram-apps/sdk';
+import { useNotification } from './useNotification';
 
 export default function RollButton( props ) {
+  const { showError } = useNotification();
   const getRoll = () => {
     props.setIsPushed(true);
     props.setIsAnimating(true);
@@ -25,9 +27,9 @@ export default function RollButton( props ) {
       })
       .catch(error => {
         if (error.response && error.response.status === 429) {
-          alert("Попробуйте через час")
+          showError("Попробуйте через час");
         } else {
-          alert(error.message || 'Произошла ошибка');
+          showError(error.message || error);
         }
         props.setRollStarted(false);
         props.setIsAnimating(false);

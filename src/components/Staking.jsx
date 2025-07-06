@@ -19,7 +19,7 @@ export default function Staking( {setTonBalance, tonBalance, accelerateBalance, 
     const [amountsByType, setAmountsByType] = useState([0, 0, 0]);
     const [isAcceleratorsLoading, setIsAcceleratorsLoading] = useState(false);
     const imageUrls = [miner, miner2];
-    const { showNotification } = useNotification();
+    const { showError } = useNotification();
 
     useEffect(() => {
         if (globalMinerImageCache.loaded) {
@@ -74,7 +74,7 @@ export default function Staking( {setTonBalance, tonBalance, accelerateBalance, 
                 console.error('Unfund accelerate balance error: ', error);
               })
         } else {
-            showNotification("Запросить вывод можно от 0.5 TON");
+            showError("Запросить вывод можно от 0.5 TON");
         }
     }  
 
@@ -115,7 +115,7 @@ export default function Staking( {setTonBalance, tonBalance, accelerateBalance, 
         })
         .catch(error => {
             console.error('Rent accelerators error: ', error);
-            alert(error);
+            showError(error);
             setIsAcceleratorsLoading(false);
         });
     }
@@ -137,7 +137,7 @@ export default function Staking( {setTonBalance, tonBalance, accelerateBalance, 
         })
         .catch(error => {
             console.error('Get accelerators error: ', error);
-            alert(error);
+            showError(error);
             setIsAcceleratorsLoading(false);
         });
     }
@@ -161,6 +161,8 @@ export default function Staking( {setTonBalance, tonBalance, accelerateBalance, 
     const handleIncrement = () => {
         if (counter < 5) {
             setCounter(counter + 1);
+        } else {
+            showError("Максимум 5 ускорителей каждого типа")
         }
     }
 

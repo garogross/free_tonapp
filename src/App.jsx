@@ -19,11 +19,11 @@ import AddsPackagesForm from './components/AddsPackagesForm'
 import AddAddForm from './components/AddAddForm'
 import { retrieveLaunchParams, retrieveRawInitData } from '@telegram-apps/sdk'
 import { TonConnectUIProvider } from '@tonconnect/ui-react';
-import { NotificationProvider } from './components/NotificationProvider';
 import SockJS from 'sockjs-client';
 import { Client } from '@stomp/stompjs';
 import './App.css'
 import axios from 'axios'
+import { useNotification } from './components/useNotification'
 
 function App() {
   const [currentContent, setCurrentContent] = useState('cran')
@@ -47,6 +47,8 @@ function App() {
   const [accelerateBalance, setAccelerateBalance] = useState(0.00000000);
   const stompClient = useRef(null);
 
+  const { showNotification } = useNotification();
+
   useEffect(() => {
     const dataRaw = retrieveRawInitData();
     const socket = new SockJS('/ws');
@@ -61,6 +63,7 @@ function App() {
         stompClient.current.subscribe('/user/queue/balance', (message) => {
           const body = JSON.parse(message.body);
           setTonBalance(body.tonBalance);
+          showNotification("Баланс пополнен");
         });
       },
       onStompError: (frame) => {
@@ -303,7 +306,6 @@ function App() {
 
   return (
     <TonConnectUIProvider manifestUrl="https://freeton-back.ru.tuna.am/tonconnect-manifest.json">
-      <NotificationProvider>
         <div className="app-container">
           <Header setCurrentContent={setCurrentContent} path={backPath} />
           <main className="main-content">
@@ -311,7 +313,6 @@ function App() {
           </main>
           <FootMenu setCurrentContent={setCurrentContent} currentContent={currentContent}/>
         </div>
-      </NotificationProvider>
     </TonConnectUIProvider>
   )
 }
