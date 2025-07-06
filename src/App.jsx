@@ -19,6 +19,7 @@ import AddsPackagesForm from './components/AddsPackagesForm'
 import AddAddForm from './components/AddAddForm'
 import { retrieveLaunchParams, retrieveRawInitData } from '@telegram-apps/sdk'
 import { TonConnectUIProvider } from '@tonconnect/ui-react';
+import { NotificationProvider } from './components/NotificationProvider';
 import SockJS from 'sockjs-client';
 import { Client } from '@stomp/stompjs';
 import './App.css'
@@ -302,13 +303,15 @@ function App() {
 
   return (
     <TonConnectUIProvider manifestUrl="https://freeton-back.ru.tuna.am/tonconnect-manifest.json">
-    <div className="app-container">
-      <Header setCurrentContent={setCurrentContent} path={backPath} />
-      <main className="main-content">
-        {renderContent()}
-      </main>
-      <FootMenu setCurrentContent={setCurrentContent} currentContent={currentContent}/>
-    </div>
+      <NotificationProvider>
+        <div className="app-container">
+          <Header setCurrentContent={setCurrentContent} path={backPath} />
+          <main className="main-content">
+            {renderContent()}
+          </main>
+          <FootMenu setCurrentContent={setCurrentContent} currentContent={currentContent}/>
+        </div>
+      </NotificationProvider>
     </TonConnectUIProvider>
   )
 }

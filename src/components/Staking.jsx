@@ -1,16 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import './Staking.css'
 import miner from '../assets/miner.png'
 import miner2 from '../assets/miner2.png'
 import { accelerators } from '../data'
 import { retrieveRawInitData } from '@telegram-apps/sdk'
+import MinerAnimation from './MinerAnimation';
 import axios from 'axios';
+import { useNotification } from './useNotification';
 
 const globalMinerImageCache = window.__minerImageCache || (window.__minerImageCache = { loaded: false, images: [] });
 
 export default function Staking( {setTonBalance, tonBalance, accelerateBalance, accelerateSpeed, setAccelerateBalance, setAccelerateSpeed} ) {
-    const [currentImage, setCurrentImage] = useState(0);
-    const [isAnimating, setIsAnimating] = useState(false);
     const [counter, setCounter] = useState(0);
     const [imagesLoaded, setImagesLoaded] = useState(globalMinerImageCache.loaded);
     const [cachedImages, setCachedImages] = useState(globalMinerImageCache.images);
@@ -19,6 +19,7 @@ export default function Staking( {setTonBalance, tonBalance, accelerateBalance, 
     const [amountsByType, setAmountsByType] = useState([0, 0, 0]);
     const [isAcceleratorsLoading, setIsAcceleratorsLoading] = useState(false);
     const imageUrls = [miner, miner2];
+    const { showNotification } = useNotification();
 
     useEffect(() => {
         if (globalMinerImageCache.loaded) {
@@ -56,35 +57,25 @@ export default function Staking( {setTonBalance, tonBalance, accelerateBalance, 
         return () => {};
     }, []);
 
-    useEffect(() => {
-        if (!imagesLoaded || cachedImages.length === 0) return;
-    
-        const interval = setInterval(() => {
-            setIsAnimating(true);
-            setTimeout(() => {
-                setCurrentImage(prev => (prev + 1) % cachedImages.length);
-                setIsAnimating(false);
-            }, 250);
-        }, 1000);
-    
-        return () => clearInterval(interval);
-    }, [imagesLoaded, cachedImages]);
-
     const getUnfund = () => {
-        const dataRaw = retrieveRawInitData();
-        axios.get('/api/accelerateunfund', {
-            headers: {
-                'Authorization': 'tma ' + dataRaw
-            }
-        })
-        .then(response => {
-            setTonBalance(response.data.tonBalance);
-            setAccelerateBalance(response.data.accelerateBalance);
-            setAccelerateSpeed(response.data.accelerateSpeed);
-        })
-        .catch(error => {
-            console.error('Unfund accelerate balance error: ', error);
-          })
+        if (accelerateBalance >= 0.5) {
+            const dataRaw = retrieveRawInitData();
+            axios.get('/api/accelerateunfund', {
+                headers: {
+                    'Authorization': 'tma ' + dataRaw
+                }
+            })
+            .then(response => {
+                setTonBalance(response.data.tonBalance);
+                setAccelerateBalance(response.data.accelerateBalance);
+                setAccelerateSpeed(response.data.accelerateSpeed);
+            })
+            .catch(error => {
+                console.error('Unfund accelerate balance error: ', error);
+              })
+        } else {
+            showNotification("Запросить вывод можно от 0.5 TON");
+        }
     }  
 
     const rentMiner = (rentCount, selectedAccelerator) => {
@@ -255,17 +246,15 @@ export default function Staking( {setTonBalance, tonBalance, accelerateBalance, 
     }
 
     return (
-        <div className="staking-container">
-            <img 
-                src={cachedImages[currentImage]} 
-                alt="Miner animation" 
-                className={`miner-gif ${isAnimating ? 'miner-transition' : ''}`}
-            />
-            <div className="staking-total-mined">{accelerateBalance.toFixed(8)} TON</div>
-            <div className="staking-hashrate">СКОРОСТЬ: {accelerateSpeed.toFixed(8)} T/s</div>
-            <button className={`staking-get-button ${accelerateBalance<5 ? 'disabled' : ''}`} disabled={accelerateBalance<5} onClick={() => getUnfund()}>ЗАПРОСИТЬ</button>
-            <button className="staking-accelerate-button" onClick={handleAccelerate}>УСКОРИТЕЛЬ</button>
-            {renderAccelerateModal()}
-        </div>
+        <>
+            <div className="staking-container">
+                <MinerAnimation images={cachedImages} />
+                <div className="staking-total-mined">{accelerateBalance.toFixed(8)} TON</div>
+                <div className="staking-hashrate">СКОРОСТЬ: {accelerateSpeed.toFixed(8)} T/s</div>
+                <button className={`staking-get-button ${accelerateBalance<0.5 ? 'disabled-view' : ''}`} onClick={() => getUnfund()}>ЗАПРОСИТЬ</button>
+                <button className="staking-accelerate-button" onClick={handleAccelerate}>УСКОРИТЕЛЬ</button>
+                {renderAccelerateModal()}
+            </div>
+        </>
     )
 }
