@@ -17,7 +17,7 @@ import Challenges from './components/Challenges'
 import AddChallengeForm from './components/AddChallengeForm'
 import AddsPackagesForm from './components/AddsPackagesForm'
 import AddAddForm from './components/AddAddForm'
-import { retrieveLaunchParams, retrieveRawInitData } from '@telegram-apps/sdk'
+import { retrieveLaunchParams, retrieveRawInitData, postEvent } from '@telegram-apps/sdk'
 import { TonConnectUIProvider } from '@tonconnect/ui-react';
 import SockJS from 'sockjs-client';
 import { Client } from '@stomp/stompjs';
@@ -48,6 +48,14 @@ function App() {
   const stompClient = useRef(null);
 
   const { showNotification } = useNotification();
+  function lockOrientation() {
+    try {
+      postEvent('web_app_toggle_orientation_lock', { locked: true });
+    } catch (error) {
+      console.error('Failed to lock orientation:', error);
+    }
+  }
+  lockOrientation();
 
   useEffect(() => {
     const dataRaw = retrieveRawInitData();
