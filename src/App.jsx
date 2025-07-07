@@ -216,28 +216,28 @@ function App() {
             <Rullet currentContent={currentContent} gridRow="1" luckyNumber={isAnimating ? displayNumber : luckyNumber} isPushed={isPushed} endTime={endTime} setIsPushed={setIsPushed} rollStarted={rollStarted} setRollStarted={setRollStarted} tonBalance={tonBalance} lastRollNumber={lastRollNumber}/>
             <RollTable />
             <RollButton isPushed={isPushed} setIsPushed={setIsPushed} setLuckyNumber={setLuckyNumber} setIsAnimating={setIsAnimating} setEndTime={setEndTime} setRollStarted={setRollStarted} setTonBalance={setTonBalance} setLastRollNumber={setLastRollNumber}/>
-            <Add />
+            <Add setCurrentContent={setCurrentContent} setProfileSubMenu={setProfileSubMenu}/>
           </> 
         );
       case 'challenges':
         return (
           <>
             <Challenges setCurrentContent={setCurrentContent} tonBalance={tonBalance}/>
-            <Add />
+            <Add setCurrentContent={setCurrentContent} setProfileSubMenu={setProfileSubMenu}/>
           </>
         );
       case 'staking':
         return (
           <>
             <Staking setTonBalance={setTonBalance} tonBalance={tonBalance} accelerateBalance={accelerateBalance} accelerateSpeed={accelerateSpeed} setAccelerateBalance={setAccelerateBalance} setAccelerateSpeed={setAccelerateSpeed}/>
-            <Add />
+            <Add setCurrentContent={setCurrentContent} setProfileSubMenu={setProfileSubMenu}/>
           </>
         );
       case 'friends':
         return (
           <>
            <Friends />
-           <Add />
+           <Add setCurrentContent={setCurrentContent} setProfileSubMenu={setProfileSubMenu}/>
           </>
         );
       case 'profile':
@@ -255,7 +255,7 @@ function App() {
                   <div className="transaction-column-name">Статус</div>
                 </div>
                 <TransactionTable />
-                <Add />
+                <Add setCurrentContent={setCurrentContent} setProfileSubMenu={setProfileSubMenu}/>
               </>
             );
           case 'advertising':
@@ -263,7 +263,7 @@ function App() {
               <>
                 <AdvertisingCabinet setCurrentContent={setCurrentContent} tonBalance={tonBalance}/>
                 <ProfileMenu profileSubMenu={profileSubMenu} setProfileSubMenu={setProfileSubMenu}/>
-                <Add />
+                <Add setCurrentContent={setCurrentContent} setProfileSubMenu={setProfileSubMenu}/>
               </>
             );
         }
@@ -271,42 +271,42 @@ function App() {
         return (
           <>
             <CashInForm setCurrentContent={setCurrentContent}/>
-            <Add />
+            <Add setCurrentContent={setCurrentContent} setProfileSubMenu={setProfileSubMenu}/>
           </>
         );
       case 'cashInRequest':
         return (
           <>
             <CashInRequestForm setCurrentContent={setCurrentContent}/>
-            <Add />
+            <Add setCurrentContent={setCurrentContent} setProfileSubMenu={setProfileSubMenu}/>
           </>
         );
       case 'cashOut':
         return (
           <>
             <CashOutForm />
-            <Add />
+            <Add setCurrentContent={setCurrentContent} setProfileSubMenu={setProfileSubMenu}/>
           </>
         );
       case 'addChallengeForm':
         return (
           <>
             <AddChallengeForm />
-            <Add />
+            <Add setCurrentContent={setCurrentContent} setProfileSubMenu={setProfileSubMenu}/>
           </>
         );
       case 'addPackagesForm':
         return (
           <>
             <AddsPackagesForm setCurrentContent={setCurrentContent} setSelectedPackage={setSelectedPackage} />
-            <Add />
+            <Add setCurrentContent={setCurrentContent} setProfileSubMenu={setProfileSubMenu}/>
           </>
         );
       case 'addAddForm':
         return (
           <>
             <AddAddForm selectedPackage={selectedPackage} />
-            <Add />
+            <Add setCurrentContent={setCurrentContent} setProfileSubMenu={setProfileSubMenu}/>
           </>
         );
     }
