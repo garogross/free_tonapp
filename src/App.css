@@ -1,18 +1,3 @@
-.app-container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  width: 100vw;
-}
-
-.main-content {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-auto-rows: minmax(10px, auto);
-  margin: 0 auto;
-  width: 100%;
-}
-
 .last-transactions {
   font-family: 'Montserrat';
   font-size: 16px;

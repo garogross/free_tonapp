@@ -216,28 +216,24 @@ function App() {
             <Rullet currentContent={currentContent} gridRow="1" luckyNumber={isAnimating ? displayNumber : luckyNumber} isPushed={isPushed} endTime={endTime} setIsPushed={setIsPushed} rollStarted={rollStarted} setRollStarted={setRollStarted} tonBalance={tonBalance} lastRollNumber={lastRollNumber}/>
             <RollTable />
             <RollButton isPushed={isPushed} setIsPushed={setIsPushed} setLuckyNumber={setLuckyNumber} setIsAnimating={setIsAnimating} setEndTime={setEndTime} setRollStarted={setRollStarted} setTonBalance={setTonBalance} setLastRollNumber={setLastRollNumber}/>
-            <Add setCurrentContent={setCurrentContent} setProfileSubMenu={setProfileSubMenu}/>
           </> 
         );
       case 'challenges':
         return (
           <>
             <Challenges setCurrentContent={setCurrentContent} tonBalance={tonBalance}/>
-            <Add setCurrentContent={setCurrentContent} setProfileSubMenu={setProfileSubMenu}/>
           </>
         );
       case 'staking':
         return (
           <>
             <Staking setTonBalance={setTonBalance} tonBalance={tonBalance} accelerateBalance={accelerateBalance} accelerateSpeed={accelerateSpeed} setAccelerateBalance={setAccelerateBalance} setAccelerateSpeed={setAccelerateSpeed}/>
-            <Add setCurrentContent={setCurrentContent} setProfileSubMenu={setProfileSubMenu}/>
           </>
         );
       case 'friends':
         return (
           <>
            <Friends />
-           <Add setCurrentContent={setCurrentContent} setProfileSubMenu={setProfileSubMenu}/>
           </>
         );
       case 'profile':
@@ -255,15 +251,13 @@ function App() {
                   <div className="transaction-column-name">Статус</div>
                 </div>
                 <TransactionTable />
-                <Add setCurrentContent={setCurrentContent} setProfileSubMenu={setProfileSubMenu}/>
               </>
             );
           case 'advertising':
             return (
               <>
-                <AdvertisingCabinet setCurrentContent={setCurrentContent} tonBalance={tonBalance}/>
                 <ProfileMenu profileSubMenu={profileSubMenu} setProfileSubMenu={setProfileSubMenu}/>
-                <Add setCurrentContent={setCurrentContent} setProfileSubMenu={setProfileSubMenu}/>
+                <AdvertisingCabinet setCurrentContent={setCurrentContent} tonBalance={tonBalance}/>
               </>
             );
         }
@@ -271,42 +265,36 @@ function App() {
         return (
           <>
             <CashInForm setCurrentContent={setCurrentContent}/>
-            <Add setCurrentContent={setCurrentContent} setProfileSubMenu={setProfileSubMenu}/>
           </>
         );
       case 'cashInRequest':
         return (
           <>
             <CashInRequestForm setCurrentContent={setCurrentContent}/>
-            <Add setCurrentContent={setCurrentContent} setProfileSubMenu={setProfileSubMenu}/>
           </>
         );
       case 'cashOut':
         return (
           <>
             <CashOutForm />
-            <Add setCurrentContent={setCurrentContent} setProfileSubMenu={setProfileSubMenu}/>
           </>
         );
       case 'addChallengeForm':
         return (
           <>
             <AddChallengeForm />
-            <Add setCurrentContent={setCurrentContent} setProfileSubMenu={setProfileSubMenu}/>
           </>
         );
       case 'addPackagesForm':
         return (
           <>
             <AddsPackagesForm setCurrentContent={setCurrentContent} setSelectedPackage={setSelectedPackage} />
-            <Add setCurrentContent={setCurrentContent} setProfileSubMenu={setProfileSubMenu}/>
           </>
         );
       case 'addAddForm':
         return (
           <>
             <AddAddForm selectedPackage={selectedPackage} />
-            <Add setCurrentContent={setCurrentContent} setProfileSubMenu={setProfileSubMenu}/>
           </>
         );
     }
@@ -314,13 +302,16 @@ function App() {
 
   return (
     <TonConnectUIProvider manifestUrl="https://freeton-back.ru.tuna.am/tonconnect-manifest.json">
-        <div className="app-container">
-          <Header setCurrentContent={setCurrentContent} path={backPath} />
-          <main className="main-content">
+          <header>
+            <Header setCurrentContent={setCurrentContent} path={backPath} />
+          </header>
+          <main>
             {renderContent()}
           </main>
-          <FootMenu setCurrentContent={setCurrentContent} currentContent={currentContent}/>
-        </div>
+          <footer>
+            <Add setCurrentContent={setCurrentContent} setProfileSubMenu={setProfileSubMenu}/>
+            <FootMenu setCurrentContent={setCurrentContent} currentContent={currentContent}/>
+          </footer>
     </TonConnectUIProvider>
   )
 }

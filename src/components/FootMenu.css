@@ -1,13 +1,9 @@
 .foot-menu {
+    flex: 0 0 52px;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
     background-color: #343434;
-    height: 52px;
     z-index: 1000;
 }
 
