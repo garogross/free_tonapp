@@ -64,7 +64,6 @@
     font-weight: 500;
     font-size: 16px;
     color: #F4F4F4;
-    margin-bottom: 10px;
 }
 
 .staking-get-button {
@@ -516,4 +515,23 @@
     justify-content: center;
     width: 100%;
     flex-grow: 1;
+}
+
+.accelearate-speed-info-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.staking-info-button {
+    border: #78AA28 solid 2px;
+    font-size: 12px;
+    background-color: #121212;
+    border-radius: 14px;
+    transition: transform 0.1s ease, font-size 0.1s ease;
+}
+
+.staking-info-button:active {
+    transform: scale(0.95);
+    font-size: 11px;
 }

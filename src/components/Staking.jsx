@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import './Staking.css'
 import miner from '../assets/miner.png'
 import miner2 from '../assets/miner2.png'
@@ -20,7 +20,7 @@ export default function Staking( {setTonBalance, tonBalance, accelerateBalance, 
     const [amountsByType, setAmountsByType] = useState([0, 0, 0]);
     const [isAcceleratorsLoading, setIsAcceleratorsLoading] = useState(false);
     const imageUrls = [miner, miner2];
-    const { showError } = useNotification();
+    const { showError, showNotification } = useNotification();
 
     useEffect(() => {
         if (globalMinerImageCache.loaded) {
@@ -167,6 +167,10 @@ export default function Staking( {setTonBalance, tonBalance, accelerateBalance, 
         }
     }
 
+    const showStakingInfo = () => {
+        showNotification("Для пользователей без подключённых ускорителей оффлайн-майнинг доступен только 12 часов — чтобы он не останавливался, заходите в приложение не реже чем раз в 12 часов.", 10000);
+    }
+
     const spinner = <span className="loading-inline-spinner"></span>;
 
     const renderAccelerateModal = () => {
@@ -262,7 +266,10 @@ export default function Staking( {setTonBalance, tonBalance, accelerateBalance, 
             <div className="staking-container">
                 <MinerAnimation images={cachedImages} />
                 <div className="staking-total-mined">{accelerateBalance.toFixed(8)} TON</div>
-                <div className="staking-hashrate">СКОРОСТЬ: {accelerateSpeed.toFixed(8)} T/s</div>
+                <div className="accelearate-speed-info-container">
+                    <div className="staking-hashrate">СКОРОСТЬ: {accelerateSpeed.toFixed(8)} T/s</div>
+                    <button className="staking-info-button" onClick={showStakingInfo}>i</button>
+                </div>
                 <div className="staling-button-wrapper">
                     <button className={`staking-get-button ${accelerateBalance<0.5 ? 'disabled-view' : ''}`} onClick={() => getUnfund()}>ЗАПРОСИТЬ</button>
                     <button className="staking-accelerate-button" onClick={handleAccelerate}>УСКОРИТЕЛЬ</button>
