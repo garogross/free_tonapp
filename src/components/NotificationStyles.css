@@ -26,7 +26,7 @@
   letter-spacing: 0.5px;
   text-align: center;
   pointer-events: auto;
-  animation: fadeInOut 3s ease forwards;
+  animation: fadeInOut ease forwards;
   user-select: none;
   width: 100%;
   max-width: 100%;
@@ -45,7 +45,7 @@
   letter-spacing: 0.5px;
   text-align: center;
   pointer-events: auto;
-  animation: fadeInOut 3s ease forwards;
+  animation: fadeInOut ease forwards;
   user-select: none;
   width: 100%;
   max-width: 100%;

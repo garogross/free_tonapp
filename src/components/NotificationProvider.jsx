@@ -6,16 +6,16 @@ export function NotificationProvider({ children }) {
   const [notifications, setNotifications] = useState([]);
 
   const showNotification = useCallback((message, duration = 3000) => {
-    const id = Date.now();
-    setNotifications([{ id, message, type: 'normal' }]);
+    const id = `${Date.now()}-${Math.random()}`;
+    setNotifications([{ id, message, type: 'normal', duration }]);
     setTimeout(() => {
       setNotifications((prev) => prev.filter((n) => n.id !== id));
     }, duration);
   }, []);
 
   const showError = useCallback((message, duration = 3000) => {
-    const id = Date.now();
-    setNotifications([{ id, message, type: 'error' }]);
+    const id = `${Date.now()}-${Math.random()}`;
+    setNotifications([{ id, message, type: 'error', duration }]);
     setTimeout(() => {
       setNotifications((prev) => prev.filter((n) => n.id !== id));
     }, duration);
@@ -25,8 +25,8 @@ export function NotificationProvider({ children }) {
     <NotificationContext.Provider value={{ showNotification, showError }}>
       {children}
       <div className="notification-wrapper">
-        {notifications.map(({ id, message, type }) => (
-          <div key={id} className={type === 'error' ? 'notification-error' : 'notification'}>
+        {notifications.map(({ id, message, type, duration }) => (
+          <div key={id} className={type === 'error' ? 'notification-error' : 'notification'} style={{ animationDuration: `${duration}ms` }}>
             {message}
           </div>
         ))}
