@@ -7,6 +7,7 @@ import { retrieveRawInitData } from '@telegram-apps/sdk'
 import MinerAnimation from './MinerAnimation';
 import axios from 'axios';
 import { useNotification } from './useNotification';
+import tonIcon from '../assets/ton.svg';
 
 const globalMinerImageCache = window.__minerImageCache || (window.__minerImageCache = { loaded: false, images: [] });
 
@@ -249,12 +250,23 @@ export default function Staking( {setTonBalance, tonBalance, accelerateBalance, 
 
     return (
         <>
+            <div className="staking-balance-container">
+                <div className="staking-balance-title">Баланс</div>
+                <div className="staking-value-container">
+                    <div className="staking-balance-value">{tonBalance.toFixed(6)}</div>
+                    <div className="staking-balance-icon">
+                        <img src={tonIcon} alt="TON" />
+                    </div>
+                </div>
+            </div>
             <div className="staking-container">
                 <MinerAnimation images={cachedImages} />
                 <div className="staking-total-mined">{accelerateBalance.toFixed(8)} TON</div>
                 <div className="staking-hashrate">СКОРОСТЬ: {accelerateSpeed.toFixed(8)} T/s</div>
-                <button className={`staking-get-button ${accelerateBalance<0.5 ? 'disabled-view' : ''}`} onClick={() => getUnfund()}>ЗАПРОСИТЬ</button>
-                <button className="staking-accelerate-button" onClick={handleAccelerate}>УСКОРИТЕЛЬ</button>
+                <div className="staling-button-wrapper">
+                    <button className={`staking-get-button ${accelerateBalance<0.5 ? 'disabled-view' : ''}`} onClick={() => getUnfund()}>ЗАПРОСИТЬ</button>
+                    <button className="staking-accelerate-button" onClick={handleAccelerate}>УСКОРИТЕЛЬ</button>
+                </div>
                 {renderAccelerateModal()}
             </div>
         </>
