@@ -1,3 +1,10 @@
+.roll-button-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: center;
+}
+
 .roll-button {
   background-color: #4D6B1E;
   border: none;

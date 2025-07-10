@@ -212,11 +212,11 @@ function App() {
     switch (currentContent) {
       case 'cran':
         return (
-          <>
+          <div className="cran-wrapper">
             <Rullet currentContent={currentContent} gridRow="1" luckyNumber={isAnimating ? displayNumber : luckyNumber} isPushed={isPushed} endTime={endTime} setIsPushed={setIsPushed} rollStarted={rollStarted} setRollStarted={setRollStarted} tonBalance={tonBalance} lastRollNumber={lastRollNumber}/>
             <RollTable />
             <RollButton isPushed={isPushed} setIsPushed={setIsPushed} setLuckyNumber={setLuckyNumber} setIsAnimating={setIsAnimating} setEndTime={setEndTime} setRollStarted={setRollStarted} setTonBalance={setTonBalance} setLastRollNumber={setLastRollNumber}/>
-          </> 
+          </div> 
         );
       case 'challenges':
         return (

@@ -35,3 +35,9 @@
   max-height: 30vh;
   margin-top: 70px;
 }
+
+.cran-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
