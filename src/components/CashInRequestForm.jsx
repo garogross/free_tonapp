@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useTonConnectUI } from '@tonconnect/ui-react';
 import { useNotification } from './useNotification';
 
-export default function CashInRequestForm( {setCurrentContent} ) {
+export default function CashInRequestForm( { setCurrentContent, addTransaction } ) {
     const [tonConnectUI, setOptions] = useTonConnectUI();
     const [amount, setAmount] = useState('');
     const { showNotification, showError } = useNotification();
@@ -28,6 +28,13 @@ export default function CashInRequestForm( {setCurrentContent} ) {
 
         try {
             await tonConnectUI.sendTransaction(transaction);
+            addTransaction({
+                utime: Math.floor(Date.now() / 1000),
+                type: "in",
+                amount: amount,
+                status: "load"
+            }
+            );
             showNotification('Транзакция отправлена', 6000);
         } catch (error) {
             showError(error);
