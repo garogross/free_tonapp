@@ -79,46 +79,54 @@ export default function Staking( {setTonBalance, tonBalance, accelerateBalance, 
         }
     }  
 
-    const rentMiner = (rentCount, selectedAccelerator) => {
-        setIsAcceleratorsLoading(true);
-        const postData = {
-            rentCount: rentCount,
-            type: selectedAccelerator
-        }
-        const dataRaw = retrieveRawInitData();
-
-        axios.post('/api/accelerators', postData,
-        {
-            headers: {
-                'Authorization': 'tma ' + dataRaw
+    const rentMiner = (rentCount, selectedAccelerator, isAcceleratorsLoading, totalRentPrice, amountBuyedAccelerators) => {
+        if (!(isAcceleratorsLoading || totalRentPrice > tonBalance || rentCount == 0)) {
+            setIsAcceleratorsLoading(true);
+            const postData = {
+                rentCount: rentCount,
+                type: selectedAccelerator
             }
-        })
-        .then(response => {
-            setCounter(response.data.amountsByType[selectedAccelerator])
-            setAmountsByType(response.data.amountsByType);
-            setIsAcceleratorsLoading(false);
-            setTonBalance(response.data.tonBalance);
-            function getAccelerateBalance(dataRaw) {
-                axios.get('/api/acceleratebalance', {
-                  headers: {
+            const dataRaw = retrieveRawInitData();
+
+            axios.post('/api/accelerators', postData,
+            {
+                headers: {
                     'Authorization': 'tma ' + dataRaw
-                  }
-                })
-                .then(response => {
-                  setAccelerateBalance(response.data.accelerateBalance);
-                  setAccelerateSpeed(response.data.accelerateSpeed);
-                })
-                .catch(error => {
-                  console.error('Getting accelerate balance error: ', error);
-                })
-              }
-            getAccelerateBalance(dataRaw);
-        })
-        .catch(error => {
-            console.error('Rent accelerators error: ', error);
-            showError(error);
-            setIsAcceleratorsLoading(false);
-        });
+                }
+            })
+            .then(response => {
+                setCounter(response.data.amountsByType[selectedAccelerator])
+                setAmountsByType(response.data.amountsByType);
+                setIsAcceleratorsLoading(false);
+                setTonBalance(response.data.tonBalance);
+                function getAccelerateBalance(dataRaw) {
+                    axios.get('/api/acceleratebalance', {
+                    headers: {
+                        'Authorization': 'tma ' + dataRaw
+                    }
+                    })
+                    .then(response => {
+                    setAccelerateBalance(response.data.accelerateBalance);
+                    setAccelerateSpeed(response.data.accelerateSpeed);
+                    })
+                    .catch(error => {
+                    console.error('Getting accelerate balance error: ', error);
+                    })
+                }
+                getAccelerateBalance(dataRaw);
+            })
+            .catch(error => {
+                console.error('Rent accelerators error: ', error);
+                showError(error);
+                setIsAcceleratorsLoading(false);
+            });
+        } else {
+            if (amountBuyedAccelerators == 5) {
+                showError("Максимум 5 ускорителей каждого типа");
+            } else {
+                showError("Недостаточно средств");
+            }
+        }
     }
 
     const handleAccelerate = () => {
@@ -233,7 +241,7 @@ export default function Staking( {setTonBalance, tonBalance, accelerateBalance, 
                             {isAcceleratorsLoading ? spinner : totalRentPrice} TON
                         </div>
                     </div>
-                    <button className={`staking-rent-accelerate-button ${(isAcceleratorsLoading || totalRentPrice > tonBalance || rentCount == 0) ? 'disabled' : ''}`} disabled={(isAcceleratorsLoading || totalRentPrice > tonBalance || rentCount == 0)} onClick={() => rentMiner(rentCount, selectedAccelerator)}>
+                    <button className={`staking-rent-accelerate-button ${(isAcceleratorsLoading || totalRentPrice > tonBalance || rentCount == 0) ? 'disabled-rent-button' : ''}`} onClick={() => rentMiner(rentCount, selectedAccelerator, isAcceleratorsLoading, totalRentPrice, amountsByType[selectedAccelerator])}>
                         АРЕНДОВАТЬ МАЙНЕР
                     </button>
                 </div>

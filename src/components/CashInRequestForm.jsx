@@ -28,7 +28,7 @@ export default function CashInRequestForm( {setCurrentContent} ) {
 
         try {
             await tonConnectUI.sendTransaction(transaction);
-            showNotification('Транзакция отправлена');
+            showNotification('Транзакция отправлена', 6000);
         } catch (error) {
             showError(error);
             console.error('Ошибка при отправке транзакции:', error);

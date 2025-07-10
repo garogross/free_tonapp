@@ -440,7 +440,7 @@
     margin-top: 10px;
 }
 
-.staking-rent-accelerate-button.disabled {
+.staking-rent-accelerate-button.disabled-rent-button {
     background-color: #343434;
 }
 
@@ -449,7 +449,7 @@
     background-color: #6a9624;
 }
 
-.staking-rent-accelerate-button.disabled:active {
+.staking-rent-accelerate-button.disabled-rent-button:active {
     background-color: #343434;
     transform: scale(0.95);
 }
@@ -525,6 +525,7 @@
 
 .staking-info-button {
     border: #78AA28 solid 2px;
+    color: #F4F4F4;
     font-size: 12px;
     background-color: #121212;
     border-radius: 14px;
