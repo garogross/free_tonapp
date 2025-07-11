@@ -61,7 +61,7 @@ export default function CashInRequestForm( { setCurrentContent, addTransaction }
                 />
             </div>
             <button className="cash-in-request-form-button" onClick={requestTransaction}>ПОПОЛНИТЬ</button>
-            <button className="cash-in-request-form-button" onClick={unlinkWallet}>ОТВЯЗАТЬ</button>
+            <button className="cash-in-request-form-unlink-button" onClick={unlinkWallet}>ОТВЯЗАТЬ</button>
         </div>
     )
 };
