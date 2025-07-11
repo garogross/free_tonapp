@@ -1,7 +1,7 @@
 import './Rullet.css';
 import tonIcon from '../assets/ton.svg';
 import { useState, useEffect } from 'react';
-import { useTonConnectUI, useTonAddress, useTonWallet } from '@tonconnect/ui-react';
+import { useTonConnectUI, useTonAddress } from '@tonconnect/ui-react';
 import { retrieveRawInitData } from '@telegram-apps/sdk';
 import { useNotification } from './useNotification';
 import React from 'react';

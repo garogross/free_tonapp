@@ -309,7 +309,7 @@ function App() {
       case 'cashOut':
         return (
           <>
-            <CashOutForm />
+            <CashOutForm tonBalance={tonBalance} setTonBalance={setTonBalance} setTransactions={setTransactions}/>
           </>
         );
       case 'addChallengeForm':

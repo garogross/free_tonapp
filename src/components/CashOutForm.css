@@ -3,6 +3,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    height: 100%;
 }
 
 .cash-out-form-title {
@@ -92,6 +93,14 @@
     text-align: center;
 }
 
+.cash-out-button-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    flex-grow: 1;
+    justify-content: center;
+}
+
 .cash-out-form-button {
     font-family: 'Montserrat';
     font-size: 16px;
@@ -109,6 +118,7 @@
     width: 100%;
     box-sizing: border-box;
     min-width: fit-content;
+    transition: transform 0.1s ease, opacity 0.1s ease;
     margin-top: 5px;
 }
 
@@ -119,6 +129,7 @@
     color: #343434;
     text-align: center;
     background-color: #C9C9C9;
+    padding: 10px 20px;
     border-radius: 44px;
     display: flex;
     justify-content: center;
@@ -128,7 +139,18 @@
     width: 100%;
     box-sizing: border-box;
     min-width: fit-content;
+    transition: transform 0.1s ease, opacity 0.1s ease;
     margin-top: 10px;
+}
+
+.cash-out-form-button:active,
+.cash-out-form-all-button:active {
+    transform: scale(0.95);
+    opacity: 0.95;
+}
+
+.cash-out-form-button.disable-view {
+    background-color: #575757;
 }
 
 .alert-description {
@@ -138,4 +160,5 @@
     color: #F4F4F4;
     text-align: center;
     margin-top: 10px;
+    padding: 0 10px;
 }
