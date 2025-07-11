@@ -32,6 +32,7 @@ function App() {
   const [backPath, setBackPath] = useState(null)
 
   const [transactions, setTransactions] = useState([]);
+  const [friends, setFriends] = useState([]);
 
   const [isPushed, setIsPushed] = useState(true)
   const [luckyNumber, setLuckyNumber] = useState(null)
@@ -71,6 +72,21 @@ function App() {
       )
       .catch(error => {
         console.error('Get transactions error: ', error);
+      })
+  }
+
+  async function getFriends(dataRaw) {
+    axios.get('/api/friends', {
+      headers: {
+        'Authorization': 'tma ' + dataRaw
+      }
+    })
+      .then(response => {
+        setFriends(response.data.friends);
+      }
+      )
+      .catch(error => {
+        console.error('Get friends error: ', error);
       })
   }
 
@@ -187,6 +203,7 @@ function App() {
         })
     }
     getAccelerateBalance(dataRaw);
+    getFriends(dataRaw);
     getTransactions(dataRaw);
   }, []);
 
@@ -256,7 +273,7 @@ function App() {
       case 'friends':
         return (
           <>
-            <Friends />
+            <Friends friends={friends}/>
           </>
         );
       case 'profile':
