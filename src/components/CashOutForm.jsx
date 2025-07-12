@@ -59,12 +59,16 @@ export default function CashOutForm({ tonBalance, setTonBalance, setTransactions
         setAmount(value);
     };
 
+    function toFixedDown(number, digits) {
+        const factor = Math.pow(10, digits);
+        return Math.floor(number * factor) / factor;
+      }
 
     const handleCashOutAll = () => {
         if (tonBalance < 1) {
             showError("Нет минимальной суммы для вывода")
         }
-        setAmount(tonBalance.toFixed(2).toString());
+        setAmount(toFixedDown(tonBalance, 2).toString());
     }
 
     const handleCashOut = () => {
