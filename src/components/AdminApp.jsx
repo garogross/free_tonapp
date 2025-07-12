@@ -34,7 +34,7 @@ export default function AdminApp({ setCurrentContent }) {
         switch (adminCurrentContent) {
             case 'admintransactions':
                 return (
-                    <WithdrawalRequests adminTransactions={adminTransactions} />
+                    <WithdrawalRequests adminTransactions={adminTransactions} setAdminTransactions={setAdminTransactions}/>
                 );
             case 'adminstatistic':
                 return (

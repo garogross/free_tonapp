@@ -1,8 +1,10 @@
+import axios from 'axios';
 import './WithdrawalRequests.css'
 import { useNotification } from './useNotification'
+import { retrieveRawInitData } from '@telegram-apps/sdk'
 
-export default function WithdrawalRequests({ adminTransactions }) {
-  const { showNotification } = useNotification();
+export default function WithdrawalRequests({ adminTransactions, setAdminTransactions }) {
+  const { showNotification, showError } = useNotification();
 
   const copyTelegramUsername = (telegramUsername) => {
     navigator.clipboard.writeText(telegramUsername)
@@ -16,7 +18,28 @@ export default function WithdrawalRequests({ adminTransactions }) {
 
   const copySenderAddress = (senderAdress) => {
     navigator.clipboard.writeText(senderAdress)
-    showNotification("Адрес кошелька скопирован",2000)
+    showNotification("Адрес кошелька скопирован", 2000)
+  }
+
+  const handleDecision = (id, decision) => {
+    const dataRaw = retrieveRawInitData();
+    const postData = {
+      id: id,
+      decision: decision
+    };
+    axios.post('/api/freetonadmin/transactions', postData, {
+      headers: {
+        'Authorization': 'tma ' + dataRaw
+      }
+    })
+      .then(response => {
+        setAdminTransactions(response.data.transactionsWithUser);
+        showNotification("Успешно выполнено")
+      })
+      .catch(error => {
+        showError("Не удалось выполнить")
+        console.error('Post decision error: ', error);
+      })
   }
 
   const renderWithdrawlRequestTransactions = () => {
@@ -41,14 +64,14 @@ export default function WithdrawalRequests({ adminTransactions }) {
         </div>
         {tx.transaction.status === 'load' ? (
           <div className='withdrawal-request-buttons'>
-            <button className='withdrawal-button yes'>ОДОБРИТЬ</button>
-            <button className='withdrawal-button no'>ОТКЛОНИТЬ</button>
+            <button className='withdrawal-button yes' onClick={() => handleDecision(tx.id, 'done')}>ОДОБРИТЬ</button>
+            <button className='withdrawal-button no' onClick={() => handleDecision(tx.id, 'deny')}>ОТКЛОНИТЬ</button>
           </div>
         ) : tx.transaction.status === 'deny' ? (
-            <div className="withdrawal-status">ОТКЛОНЕНО</div>
-          ) : (
-            <div className="withdrawal-status">ОДОБРЕНО</div>
-          )}
+          <div className="withdrawal-status">ОТКЛОНЕНО</div>
+        ) : (
+          <div className="withdrawal-status">ОДОБРЕНО</div>
+        )}
       </div>
     ));
   }
