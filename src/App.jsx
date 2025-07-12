@@ -17,7 +17,6 @@ import Challenges from './components/Challenges'
 import AddChallengeForm from './components/AddChallengeForm'
 import AddsPackagesForm from './components/AddsPackagesForm'
 import AddAddForm from './components/AddAddForm'
-import AdminFootMenu from './components/AdminFootMenu'
 import { retrieveLaunchParams, retrieveRawInitData, postEvent } from '@telegram-apps/sdk'
 import { TonConnectUIProvider } from '@tonconnect/ui-react';
 import SockJS from 'sockjs-client';
@@ -25,6 +24,8 @@ import { Client } from '@stomp/stompjs';
 import './App.css'
 import axios from 'axios'
 import { useNotification } from './components/useNotification'
+import ProtectedRoute from './components/ProtectedRoute'
+import AdminApp from './components/AdminApp'
 import {
   BrowserRouter as Router,
   Routes,
@@ -32,10 +33,12 @@ import {
 } from "react-router-dom";
 
 function App() {
+  const [user, setUser] = useState(null);
   const [currentContent, setCurrentContent] = useState('cran')
   const [profileSubMenu, setProfileSubMenu] = useState('profile')
   const [selectedPackage, setSelectedPackage] = useState(null)
   const [backPath, setBackPath] = useState(null)
+  const [loadingUser, setLoadingUser] = useState(true);
 
   const [transactions, setTransactions] = useState([]);
   const [friends, setFriends] = useState([]);
@@ -95,6 +98,23 @@ function App() {
         console.error('Get friends error: ', error);
       })
   }
+
+  useEffect(() => {
+    const dataRaw = retrieveRawInitData();
+    async function fetchUser() {
+      try {
+        const response = await axios.get('/api/login', {
+          headers: { 'Authorization': 'tma ' + dataRaw }
+        });
+        setUser(response.data.user);
+      } catch {
+        setUser(null);
+      } finally {
+        setLoadingUser(false);
+      }
+    }
+    fetchUser();
+  }, []);
 
   useEffect(() => {
     const dataRaw = retrieveRawInitData();
@@ -357,16 +377,9 @@ function App() {
           </TonConnectUIProvider>
         } />
         <Route path="/freetonadmin" element={
-          <>
-            <header>
-              <Header setCurrentContent={setCurrentContent} path={backPath} />
-            </header>
-            <main>
-            </main>
-            <footer className="admin">
-              <AdminFootMenu setCurrentContent={setCurrentContent} currentContent={currentContent} />
-            </footer>
-          </>
+          <ProtectedRoute user={user} loadingUser={loadingUser} allowedRoles={['admin']}>
+            <AdminApp setCurrentContent={setCurrentContent}/>
+          </ProtectedRoute>
         } />
       </Routes>
     </Router>
