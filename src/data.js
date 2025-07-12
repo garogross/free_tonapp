@@ -26,6 +26,29 @@ export const footMenuItems = [
     },
 ]
 
+export const adminFootMenuItems = [
+    {
+        image: 'src/images/staking.svg',
+        alt: 'Статистика',
+        text: 'Статистика',  
+    },
+    {
+        image: 'src/images/staking.svg',
+        alt: 'Операции',
+        text: 'Операции',  
+    },
+    {
+        image: 'src/images/staking.svg',
+        alt: 'Реклама',
+        text: 'Реклама',  
+    },
+    {
+        image: 'src/images/staking.svg',
+        alt: 'Настройки',
+        text: 'Настройки',  
+    }
+]
+
 export const languages = [
     {
         image: 'src/assets/russia.svg',

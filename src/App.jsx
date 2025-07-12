@@ -17,6 +17,7 @@ import Challenges from './components/Challenges'
 import AddChallengeForm from './components/AddChallengeForm'
 import AddsPackagesForm from './components/AddsPackagesForm'
 import AddAddForm from './components/AddAddForm'
+import AdminFootMenu from './components/AdminFootMenu'
 import { retrieveLaunchParams, retrieveRawInitData, postEvent } from '@telegram-apps/sdk'
 import { TonConnectUIProvider } from '@tonconnect/ui-react';
 import SockJS from 'sockjs-client';
@@ -24,6 +25,11 @@ import { Client } from '@stomp/stompjs';
 import './App.css'
 import axios from 'axios'
 import { useNotification } from './components/useNotification'
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route
+} from "react-router-dom";
 
 function App() {
   const [currentContent, setCurrentContent] = useState('cran')
@@ -273,7 +279,7 @@ function App() {
       case 'friends':
         return (
           <>
-            <Friends friends={friends}/>
+            <Friends friends={friends} />
           </>
         );
       case 'profile':
@@ -303,13 +309,13 @@ function App() {
       case 'cashInRequest':
         return (
           <>
-            <CashInRequestForm setCurrentContent={setCurrentContent} addTransaction={addTransaction}/>
+            <CashInRequestForm setCurrentContent={setCurrentContent} addTransaction={addTransaction} />
           </>
         );
       case 'cashOut':
         return (
           <>
-            <CashOutForm tonBalance={tonBalance} setTonBalance={setTonBalance} setTransactions={setTransactions}/>
+            <CashOutForm tonBalance={tonBalance} setTonBalance={setTonBalance} setTransactions={setTransactions} />
           </>
         );
       case 'addChallengeForm':
@@ -334,18 +340,36 @@ function App() {
   };
 
   return (
-    <TonConnectUIProvider manifestUrl="https://freeton-back.ru.tuna.am/tonconnect-manifest.json">
-      <header>
-        <Header setCurrentContent={setCurrentContent} path={backPath} />
-      </header>
-      <main>
-        {renderContent()}
-      </main>
-      <footer>
-        <Add setCurrentContent={setCurrentContent} setProfileSubMenu={setProfileSubMenu} />
-        <FootMenu setCurrentContent={setCurrentContent} currentContent={currentContent} />
-      </footer>
-    </TonConnectUIProvider>
+    <Router>
+      <Routes>
+        <Route path="/" element={
+          <TonConnectUIProvider manifestUrl="https://freeton-back.ru.tuna.am/tonconnect-manifest.json">
+            <header>
+              <Header setCurrentContent={setCurrentContent} path={backPath} />
+            </header>
+            <main>
+              {renderContent()}
+            </main>
+            <footer>
+              <Add setCurrentContent={setCurrentContent} setProfileSubMenu={setProfileSubMenu} />
+              <FootMenu setCurrentContent={setCurrentContent} currentContent={currentContent} />
+            </footer>
+          </TonConnectUIProvider>
+        } />
+        <Route path="/freetonadmin" element={
+          <>
+            <header>
+              <Header setCurrentContent={setCurrentContent} path={backPath} />
+            </header>
+            <main>
+            </main>
+            <footer className="admin">
+              <AdminFootMenu setCurrentContent={setCurrentContent} currentContent={currentContent} />
+            </footer>
+          </>
+        } />
+      </Routes>
+    </Router>
   )
 }
 
