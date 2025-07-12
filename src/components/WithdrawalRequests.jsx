@@ -1,0 +1,61 @@
+import './WithdrawalRequests.css'
+import { useNotification } from './useNotification'
+
+export default function WithdrawalRequests({ adminTransactions }) {
+  const { showNotification } = useNotification();
+
+  const copyTelegramUsername = (telegramUsername) => {
+    navigator.clipboard.writeText(telegramUsername)
+    showNotification("Username пользователя скопирован", 2000);
+  }
+
+  const copyTelegramId = (telegramId) => {
+    navigator.clipboard.writeText(telegramId)
+    showNotification("Id пользователя скопирован", 2000);
+  }
+
+  const copySenderAddress = (senderAdress) => {
+    navigator.clipboard.writeText(senderAdress)
+    showNotification("Адрес кошелька скопирован",2000)
+  }
+
+  const renderWithdrawlRequestTransactions = () => {
+    if (!adminTransactions || adminTransactions.length === 0) {
+      return (
+        <div className="empty-wrapper">
+          <div className="empty-message">Список пуст</div>
+        </div>
+      );
+    }
+
+    return adminTransactions.map((tx, index) => (
+      <div className="withdrawal-request-container" key={tx.id || index}>
+        <div className="transaction-row">
+          <div className="transaction-cell-date">
+            {new Date(tx.transaction.utime * 1000).toLocaleString('ru-RU', { hour12: false })}
+          </div>
+          <div className="transaction-cell">{tx.transaction.amount} TON</div>
+          <div className='transaction-cell' onClick={() => copySenderAddress(tx.transaction.senderAddress)}>{tx.transaction.senderAddress}</div>
+          <div className="transaction-cell" onClick={() => copyTelegramUsername(tx.telegramUsername)}>{tx.telegramUsername}</div>
+          <div className="transaction-cell" onClick={() => copyTelegramId(tx.telegramId)}>{tx.telegramId}</div>
+        </div>
+        {tx.transaction.status === 'load' ? (
+          <div className='withdrawal-request-buttons'>
+            <button className='withdrawal-button yes'>ОДОБРИТЬ</button>
+            <button className='withdrawal-button no'>ОТКЛОНИТЬ</button>
+          </div>
+        ) : tx.transaction.status === 'deny' ? (
+            <div className="withdrawal-status">ОТКЛОНЕНО</div>
+          ) : (
+            <div className="withdrawal-status">ОДОБРЕНО</div>
+          )}
+      </div>
+    ));
+  }
+
+  return (
+    <div>
+      {renderWithdrawlRequestTransactions()}
+    </div>
+  )
+}
