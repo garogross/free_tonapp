@@ -37,7 +37,8 @@ export default function CashInRequestForm( { setCurrentContent, addTransaction }
             );
             showNotification('Транзакция отправлена', 6000);
         } catch (error) {
-            showError(error);
+            const message = error?.message || String(error);
+            showError(message);
             console.error('Ошибка при отправке транзакции:', error);
         }
     };
