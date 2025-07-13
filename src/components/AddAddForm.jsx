@@ -5,7 +5,7 @@ import { useNotification } from './useNotification'
 import { retrieveRawInitData } from '@telegram-apps/sdk'
 import axios from 'axios';
 
-export default function AddAddForm({ selectedPackage, setAdvertisements, setTonBalance }) {
+export default function AddAddForm({ selectedPackage, setAdvertisements, setTonBalance, setCurrentContent, setProfileSubMenu }) {
     const [selectedType, setSelectedType] = useState("1");
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const { showError, showNotification } = useNotification();
@@ -111,7 +111,9 @@ export default function AddAddForm({ selectedPackage, setAdvertisements, setTonB
         })
             .then(response => {
                 setAdvertisements(response.data.advertisements);
-                setTonBalance(response.data.tonBalance)
+                setTonBalance(response.data.tonBalance);
+                setCurrentContent('profile');
+                setProfileSubMenu('advertising');
                 showNotification("Успешно выполнено")
             })
             .catch(error => {

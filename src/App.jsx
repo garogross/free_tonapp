@@ -389,7 +389,7 @@ function App() {
       case 'addAddForm':
         return (
           <>
-            <AddAddForm selectedPackage={selectedPackage} setAdvertisements={setAdvertisements} setTonBalance={setTonBalance}/>
+            <AddAddForm selectedPackage={selectedPackage} setAdvertisements={setAdvertisements} setTonBalance={setTonBalance} setProfileSubMenu={setProfileSubMenu} setCurrentContent={setCurrentContent}/>
           </>
         );
     }
