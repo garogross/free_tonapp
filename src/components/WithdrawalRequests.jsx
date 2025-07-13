@@ -7,8 +7,10 @@ export default function WithdrawalRequests({ adminTransactions, setAdminTransact
   const { showNotification, showError } = useNotification();
 
   const copyTelegramUsername = (telegramUsername) => {
-    navigator.clipboard.writeText(telegramUsername)
-    showNotification("Username пользователя скопирован", 2000);
+    if (telegramUsername != "username_not_found") {
+      navigator.clipboard.writeText(telegramUsername)
+      showNotification("Username пользователя скопирован", 2000);
+    }
   }
 
   const copyTelegramId = (telegramId) => {
@@ -43,7 +45,9 @@ export default function WithdrawalRequests({ adminTransactions, setAdminTransact
   }
 
   const renderWithdrawlRequestTransactions = () => {
-    if (!adminTransactions || adminTransactions.length === 0) {
+    const countOutTransactions = adminTransactions.filter(tx => tx.transaction.type === "out").length;
+
+    if (!adminTransactions || adminTransactions.length === 0 || countOutTransactions === 0) {
       return (
         <div className="empty-wrapper">
           <div className="empty-message">Список пуст</div>
@@ -51,7 +55,7 @@ export default function WithdrawalRequests({ adminTransactions, setAdminTransact
       );
     }
 
-    return adminTransactions.map((tx, index) => (
+    return adminTransactions.map((tx, index) => tx.transaction.type === "out" && (
       <div className="withdrawal-request-container" key={tx.id || index}>
         <div className="transaction-row">
           <div className="transaction-cell-date">
@@ -59,7 +63,7 @@ export default function WithdrawalRequests({ adminTransactions, setAdminTransact
           </div>
           <div className="transaction-cell">{tx.transaction.amount} TON</div>
           <div className='transaction-cell' onClick={() => copySenderAddress(tx.transaction.senderAddress)}>{tx.transaction.senderAddress}</div>
-          <div className="transaction-cell" onClick={() => copyTelegramUsername(tx.telegramUsername)}>{tx.telegramUsername}</div>
+          <div className="transaction-cell" onClick={() => copyTelegramUsername(tx.telegramUsername)}>{tx.telegramUsername === 'username_not_found' ? '--------' : tx.telegramUsername}</div>
           <div className="transaction-cell" onClick={() => copyTelegramId(tx.telegramId)}>{tx.telegramId}</div>
         </div>
         {tx.transaction.status === 'load' ? (

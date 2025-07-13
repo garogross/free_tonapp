@@ -1,6 +1,7 @@
 import Header from "./Header"
 import AdminFootMenu from "./AdminFootMenu"
 import WithdrawalRequests from "./WithdrawalRequests"
+import AdminTransaction from './AdminTransaction'
 
 import { useState, useEffect } from "react"
 import { retrieveRawInitData } from '@telegram-apps/sdk'
@@ -34,7 +35,7 @@ export default function AdminApp({ setCurrentContent }) {
         switch (adminCurrentContent) {
             case 'admintransactions':
                 return (
-                    <WithdrawalRequests adminTransactions={adminTransactions} setAdminTransactions={setAdminTransactions}/>
+                    <AdminTransaction adminTransactions={adminTransactions} setAdminTransactions={setAdminTransactions}/>
                 );
             case 'adminstatistic':
                 return (
