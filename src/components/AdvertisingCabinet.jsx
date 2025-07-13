@@ -77,7 +77,6 @@ export default function AdvertisingCabinet({ setCurrentContent, tonBalance, adve
 
     return (
         <div className="advertising-cabinet">
-            <div className="advertising-cabinet-title">Рекламный кабинет</div>
             <div className="advertising-cabinet-balance-title">Ваш баланс</div>
             <div className="advertising-cabinet-balance-container">
                 <div className="advertising-cabinet-balance-value">{tonBalance.toFixed(6)}</div>
