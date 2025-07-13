@@ -16,10 +16,10 @@ export default function AddAddForm({ selectedPackage, setAdvertisements, setTonB
 
     const handleAdTextChange = (e) => {
         let value = e.target.value;
-        const maxLength = 100;
+        const maxLength = 75;
         if (value.length > maxLength) {
             value = value.slice(0, maxLength);
-            showError("Максимальная длина текста 100 символов");
+            showError("Максимальная длина текста 75 символов");
         }
 
         setAdText(value);

@@ -7,8 +7,11 @@
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    justify-content: flex-end;
     gap: 6px;
     font-family: 'Montserrat', Arial, sans-serif;
+    height: 76px;
+    min-height: fit-content;
 }
 
 .add-text {

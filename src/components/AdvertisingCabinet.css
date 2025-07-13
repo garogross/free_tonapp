@@ -53,19 +53,18 @@
 }
 
 .adds-list {
-    margin: 0 auto;
-    max-width: 95%;
-    width: 100%;
-    box-sizing: border-box;
     color: #F4F4F4;
     font-family: 'Montserrat';
     font-size: 20px;
     font-weight: 500;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
-    height: calc(100vh - 535px);
+    height: calc(100vh - 470px);
     margin-bottom: 10px;
+    overflow-y: auto;
+    gap: 10px;
 }
 
 .buy-add-button {
@@ -89,4 +88,10 @@
 
 .buy-add-button:active {
     transform: scale(0.95);
+}
+
+.advertising-container {
+    width: 100%;
+    border: 1px solid #78AA28;
+    box-sizing: border-box;
 }
