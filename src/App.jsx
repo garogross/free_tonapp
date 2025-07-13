@@ -352,7 +352,7 @@ function App() {
             return (
               <>
                 <ProfileMenu profileSubMenu={profileSubMenu} setProfileSubMenu={setProfileSubMenu} />
-                <AdvertisingCabinet setCurrentContent={setCurrentContent} tonBalance={tonBalance} advertisements={advertisements}/>
+                <AdvertisingCabinet setCurrentContent={setCurrentContent} tonBalance={tonBalance} advertisements={advertisements} adPackages={adPackages}/>
               </>
             );
         }

@@ -92,6 +92,25 @@
 
 .advertising-container {
     width: 100%;
-    border: 1px solid #78AA28;
+    border: 1px solid #C9C9C9;
     box-sizing: border-box;
+    background-color: #121212;
+}
+
+.demo-ad-container {
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #C9C9C9;
+    color: #121212;
+    border-radius: 10px;
+}
+
+.demo-ad-info-container {
+    padding-left: 10px;
+}
+
+.demo-add-info {
+    font-family: 'Montserrat';
+    font-size: 16px;
+    font-weight: 500;
 }
