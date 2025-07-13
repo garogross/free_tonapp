@@ -5,7 +5,7 @@ import { useNotification } from './useNotification'
 import { retrieveRawInitData } from '@telegram-apps/sdk'
 import axios from 'axios';
 
-export default function AddAddForm({ selectedPackage, setAdvertisements, setTonBalance, setCurrentContent, setProfileSubMenu }) {
+export default function AddAddForm({ selectedPackage, setAdvertisements, setTonBalance, setCurrentContent, setProfileSubMenu, blockedSlots }) {
     const [selectedType, setSelectedType] = useState("1");
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const { showError, showNotification } = useNotification();
@@ -72,7 +72,11 @@ export default function AddAddForm({ selectedPackage, setAdvertisements, setTonB
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    const startAdvertisement = (adPackageName, adText, adLink, adButtonText) => {
+    const startAdvertisement = (adPackageName, adText, adLink, adButtonText, blockedSlots) => {
+        if (blockedSlots === 10) {
+            showError("Нет свободных слотов");
+            return;
+        }
         if (adText.length === 0) {
             showError("Текст рекламы обязателен");
             return;
@@ -126,7 +130,7 @@ export default function AddAddForm({ selectedPackage, setAdvertisements, setTonB
         <div className="add-add-form">
             <div className="add-add-form-title">Размещение рекламы</div>
             <div className="add-add-form-description">Оформите заявку на размещение рекламы в нашем приложении</div>
-            <div className="add-add-form-free-slots">Свободных слотов: 10/10</div>
+            <div className="add-add-form-free-slots">Свободных слотов: {10-blockedSlots}/10</div>
             <div className="add-add-form-package-info-title">Информация о пакете</div>
             <div className="add-add-form-package-info-container">
                 <div className="add-add-form-package-info-item-title">Название: {selectedPackage.adPackageName}</div>

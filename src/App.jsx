@@ -40,7 +40,9 @@ function App() {
   const [selectedPackage, setSelectedPackage] = useState(null)
   const [backPath, setBackPath] = useState(null)
   const [loadingUser, setLoadingUser] = useState(true);
+  const [blockedSlots, setBlockedSlots] = useState(0);
 
+  const [activeAds, setActiveAds] = useState([]);
   const [transactions, setTransactions] = useState([]);
   const [advertisements, setAdvertisements] = useState([]);
   const [adPackages, setAdPackages] = useState([]);
@@ -71,6 +73,22 @@ function App() {
     }
   }
   lockOrientation();
+
+  async function getActiveAds(dataRaw) {
+    axios.get('/api/activeads',{
+      headers: {
+        'Authorization': 'tma ' + dataRaw
+      }
+    })
+    .then(response => {
+      setActiveAds(response.data.advertisements);
+      setBlockedSlots(response.data.blockedSlots);
+    }
+    )
+    .catch(error => {
+      console.error('Get active advertisements error: ', error);
+    })
+  }
 
   async function getTransactions(dataRaw) {
     axios.get('/api/transactions', {
@@ -262,6 +280,7 @@ function App() {
           console.error('Getting accelerate balance error: ', error);
         })
     }
+    getActiveAds(dataRaw);
     getAdPackages(dataRaw);
     getAdvertisements(dataRaw);
     getAccelerateBalance(dataRaw);
@@ -389,7 +408,7 @@ function App() {
       case 'addAddForm':
         return (
           <>
-            <AddAddForm selectedPackage={selectedPackage} setAdvertisements={setAdvertisements} setTonBalance={setTonBalance} setProfileSubMenu={setProfileSubMenu} setCurrentContent={setCurrentContent}/>
+            <AddAddForm selectedPackage={selectedPackage} setAdvertisements={setAdvertisements} setTonBalance={setTonBalance} setProfileSubMenu={setProfileSubMenu} setCurrentContent={setCurrentContent} blockedSlots={blockedSlots}/>
           </>
         );
     }
@@ -407,7 +426,7 @@ function App() {
               {renderContent()}
             </main>
             <footer>
-              <Add setCurrentContent={setCurrentContent} setProfileSubMenu={setProfileSubMenu} />
+              <Add setCurrentContent={setCurrentContent} setProfileSubMenu={setProfileSubMenu} activeAds={activeAds}/>
               <FootMenu setCurrentContent={setCurrentContent} currentContent={currentContent} />
             </footer>
           </TonConnectUIProvider>
