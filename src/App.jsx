@@ -93,6 +93,7 @@ function App() {
     })
       .then(response => {
         setAdvertisements(response.data.advertisements);
+        setTonBalance(response.data.tonBalance);
       }
       )
       .catch(error => {
@@ -370,7 +371,7 @@ function App() {
       case 'addAddForm':
         return (
           <>
-            <AddAddForm selectedPackage={selectedPackage} setAdvertisements={setAdvertisements}/>
+            <AddAddForm selectedPackage={selectedPackage} setAdvertisements={setAdvertisements} setTonBalance={setTonBalance}/>
           </>
         );
     }
