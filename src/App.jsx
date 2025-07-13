@@ -29,7 +29,8 @@ import AdminApp from './components/AdminApp'
 import {
   BrowserRouter as Router,
   Routes,
-  Route
+  Route,
+  data
 } from "react-router-dom";
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
 
   const [transactions, setTransactions] = useState([]);
   const [advertisements, setAdvertisements] = useState([]);
+  const [adPackages, setAdPackages] = useState([]);
   const [friends, setFriends] = useState([]);
 
   const [isPushed, setIsPushed] = useState(true)
@@ -82,6 +84,21 @@ function App() {
       )
       .catch(error => {
         console.error('Get transactions error: ', error);
+      })
+  }
+
+  async function getAdPackages(dataRaw) {
+    axios.get('/api/adpackages', {
+      headers: {
+        'Authorization': 'tma ' + dataRaw
+      }
+    })
+      .then(response => {
+        setAdPackages(response.data.adPackages);
+      }
+      )
+      .catch(error => {
+        console.error('Get adpackages error: ', error);
       })
   }
 
@@ -245,6 +262,7 @@ function App() {
           console.error('Getting accelerate balance error: ', error);
         })
     }
+    getAdPackages(dataRaw);
     getAdvertisements(dataRaw);
     getAccelerateBalance(dataRaw);
     getFriends(dataRaw);
@@ -365,7 +383,7 @@ function App() {
       case 'addPackagesForm':
         return (
           <>
-            <AddsPackagesForm setCurrentContent={setCurrentContent} setSelectedPackage={setSelectedPackage} />
+            <AddsPackagesForm setCurrentContent={setCurrentContent} setSelectedPackage={setSelectedPackage} adPackages={adPackages}/>
           </>
         );
       case 'addAddForm':

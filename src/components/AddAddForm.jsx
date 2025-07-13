@@ -127,8 +127,8 @@ export default function AddAddForm({ selectedPackage, setAdvertisements, setTonB
             <div className="add-add-form-free-slots">Свободных слотов: 10/10</div>
             <div className="add-add-form-package-info-title">Информация о пакете</div>
             <div className="add-add-form-package-info-container">
-                <div className="add-add-form-package-info-item-title">Название: {selectedPackage.ruName}</div>
-                <div className="add-add-form-package-info-item-description">Дней: {selectedPackage.days}</div>
+                <div className="add-add-form-package-info-item-title">Название: {selectedPackage.adPackageName}</div>
+                <div className="add-add-form-package-info-item-description">Дней: {selectedPackage.adDays}</div>
                 <div className="add-add-form-package-info-item-price-container">
                     <div className="add-add-form-package-info-item-price">Цена: {selectedPackage.price}</div>
                     <div className="add-add-form-package-info-item-price-icon">
@@ -180,7 +180,7 @@ export default function AddAddForm({ selectedPackage, setAdvertisements, setTonB
                     </>
                 )}
             </div>
-            <button className="add-add-form-add-button" onClick={() => startAdvertisement(selectedPackage.ruName, adText, adLink, adButtonText)}>Запустить рекламу</button>
+            <button className="add-add-form-add-button" onClick={() => startAdvertisement(selectedPackage.adPackageName, adText, adLink, adButtonText)}>Запустить рекламу</button>
         </div>
     )
 }
