@@ -4,7 +4,7 @@ import { retrieveRawInitData } from '@telegram-apps/sdk';
 import { useNotification } from './useNotification';
 
 export default function AdminAd({ adminAds, setAdminAds, adPackages }) {
-    const {showError, showNotification} = useNotification();
+    const { showError, showNotification } = useNotification();
 
     const calculateDeadline = (adPackageName, moderatedAt, adPackages) => {
         const pkg = adPackages.find(p => p.adPackageName === adPackageName);
@@ -32,23 +32,43 @@ export default function AdminAd({ adminAds, setAdminAds, adPackages }) {
     const handleDecision = (id, decision) => {
         const dataRaw = retrieveRawInitData();
         const postData = {
-          id: id,
-          decision: decision
+            id: id,
+            decision: decision
         };
         axios.post('/api/freetonadmin/ad', postData, {
-          headers: {
-            'Authorization': 'tma ' + dataRaw
-          }
+            headers: {
+                'Authorization': 'tma ' + dataRaw
+            }
         })
-          .then(response => {
-            setAdminAds(response.data.advertisements);
-            showNotification("Успешно выполнено")
-          })
-          .catch(error => {
-            showError("Не удалось выполнить")
-            console.error('Post decision error: ', error);
-          })
-      }
+            .then(response => {
+                setAdminAds(response.data.advertisements);
+                showNotification("Успешно выполнено")
+            })
+            .catch(error => {
+                showError("Не удалось выполнить")
+                console.error('Post ad decision error: ', error);
+            })
+    }
+
+    const handleDelete = (id) => {
+        const dataRaw = retrieveRawInitData();
+        const postData = {
+            id: id
+        };
+        axios.post('/api/freetonadmin/delete/ad', postData, {
+            headers: {
+                'Authorization': 'tma ' + dataRaw
+            }
+        })
+            .then(response => {
+                setAdminAds(response.data.advertisements);
+                showNotification("Успешно выполнено")
+            })
+            .catch(error => {
+                showError("Не удалось выполнить")
+                console.error('Post delete ad error: ', error);
+            })
+    }
 
     const renderAdminAds = () => {
         if (!adminAds || adminAds.length === 0) {
@@ -104,7 +124,7 @@ export default function AdminAd({ adminAds, setAdminAds, adPackages }) {
                     ) : ad.status === 'active' ? (
                         <div className='active-ad-container'>
                             <div className="withdrawal-status">ОДОБРЕНО</div>
-                            <button className='withdrawal-button delete'>УДАЛИТЬ</button>
+                            <button className='withdrawal-button delete' onClick={() => handleDelete(ad.id)}>УДАЛИТЬ</button>
                         </div>
                     ) : (
                         <div className='withdrawal-status'>ПОКАЗ ЗАКОНЧЕН</div>
