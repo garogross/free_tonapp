@@ -56,7 +56,6 @@ export default function Add({ setCurrentContent, setProfileSubMenu, activeAds })
                 </button>
                 <button
                     className="add-button"
-                    onClick={(e) => e.stopPropagation()}
                 >
                     {currentAd.adButtonText || 'ПЕРЕЙТИ'}
                 </button>
