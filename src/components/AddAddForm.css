@@ -3,7 +3,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    overflow-y: auto;
     max-height: calc(100vh - 140px);
     padding-bottom: 100px;
     box-sizing: border-box;

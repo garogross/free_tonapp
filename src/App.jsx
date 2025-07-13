@@ -41,6 +41,7 @@ function App() {
   const [loadingUser, setLoadingUser] = useState(true);
 
   const [transactions, setTransactions] = useState([]);
+  const [advertisements, setAdvertisements] = useState([]);
   const [friends, setFriends] = useState([]);
 
   const [isPushed, setIsPushed] = useState(true)
@@ -81,6 +82,21 @@ function App() {
       )
       .catch(error => {
         console.error('Get transactions error: ', error);
+      })
+  }
+
+  async function getAdvertisements(dataRaw) {
+    axios.get('/api/advertisement', {
+      headers: {
+        'Authorization': 'tma ' + dataRaw
+      }
+    })
+      .then(response => {
+        setAdvertisements(response.data.advertisements);
+      }
+      )
+      .catch(error => {
+        console.error('Get advertisements error: ', error);
       })
   }
 
@@ -228,6 +244,7 @@ function App() {
           console.error('Getting accelerate balance error: ', error);
         })
     }
+    getAdvertisements(dataRaw);
     getAccelerateBalance(dataRaw);
     getFriends(dataRaw);
     getTransactions(dataRaw);
@@ -353,7 +370,7 @@ function App() {
       case 'addAddForm':
         return (
           <>
-            <AddAddForm selectedPackage={selectedPackage} />
+            <AddAddForm selectedPackage={selectedPackage} setAdvertisements={setAdvertisements}/>
           </>
         );
     }
