@@ -1,0 +1,37 @@
+.admin-ads-list {
+    color: #F4F4F4;
+    font-family: 'Montserrat';
+    font-size: 20px;
+    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 10px;
+    overflow-y: auto;
+    gap: 10px;
+}
+
+.admin-ad-container {
+    background-color: #C9C9C9;
+    border-radius: 10px;
+    width: 100%;
+}
+
+.admin-ad-manage-container {
+    padding-top: 10px;
+}
+
+.withdrawal-button.delete {
+    background-color: #AA2828;
+}
+
+.withdrawal-button.delete:active {
+    transform: scale(0.95);
+}
+.active-ad-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

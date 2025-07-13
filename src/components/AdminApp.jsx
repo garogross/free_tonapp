@@ -1,6 +1,6 @@
 import Header from "./Header"
 import AdminFootMenu from "./AdminFootMenu"
-import WithdrawalRequests from "./WithdrawalRequests"
+import AdminAd from "./AdminAd"
 import AdminTransaction from './AdminTransaction'
 
 import { useState, useEffect } from "react"
@@ -8,26 +8,44 @@ import { retrieveRawInitData } from '@telegram-apps/sdk'
 import axios from 'axios'
 
 
-export default function AdminApp({ setCurrentContent }) {
+export default function AdminApp({ setCurrentContent, adPackages }) {
     const [adminCurrentContent, setAdminCurrentContent] = useState('adminstatistic')
     const [adminTransactions, setAdminTransactions] = useState([]);
+    const [adminAds, setAdminAds] = useState([]);
+
+    async function getTransactions(dataRaw) {
+        axios.get('/api/freetonadmin/transactions', {
+            headers: {
+                'Authorization': 'tma ' + dataRaw
+            }
+        })
+            .then(response => {
+                setAdminTransactions(response.data.transactionsWithUser);
+            }
+            )
+            .catch(error => {
+                console.error('Get transactions error: ', error);
+            })
+    }
+
+    async function getAdvertisements(dataRaw) {
+        axios.get('/api/freetonadmin/ad', {
+            headers: {
+                'Authorization': 'tma ' + dataRaw
+            }
+        })
+            .then(response => {
+                setAdminAds(response.data.advertisements);
+            }
+            )
+            .catch(error => {
+                console.error('Get advertisements error: ', error);
+            })
+    }
 
     useEffect(() => {
         const dataRaw = retrieveRawInitData();
-        async function getTransactions(dataRaw) {
-            axios.get('/api/freetonadmin/transactions', {
-                headers: {
-                    'Authorization': 'tma ' + dataRaw
-                }
-            })
-                .then(response => {
-                    setAdminTransactions(response.data.transactionsWithUser);
-                }
-                )
-                .catch(error => {
-                    console.error('Get transactions error: ', error);
-                })
-        }
+        getAdvertisements(dataRaw);
         getTransactions(dataRaw);
     }, []);
 
@@ -43,7 +61,7 @@ export default function AdminApp({ setCurrentContent }) {
                 )
             case 'adminad':
                 return (
-                    <></>
+                    <AdminAd adminAds={adminAds} setAdminAds={setAdminAds} adPackages={adPackages}/>
                 )
             case 'adminsettings':
                 return (
