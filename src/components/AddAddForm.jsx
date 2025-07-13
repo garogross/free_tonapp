@@ -72,7 +72,7 @@ export default function AddAddForm({ selectedPackage, setAdvertisements, setTonB
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    const startAdvertisement = (ruName, adText, adLink, adButtonText) => {
+    const startAdvertisement = (adPackageName, adText, adLink, adButtonText) => {
         if (adText.length === 0) {
             showError("Текст рекламы обязателен");
             return;
@@ -99,7 +99,7 @@ export default function AddAddForm({ selectedPackage, setAdvertisements, setTonB
 
         const dataRaw = retrieveRawInitData();
         const postData = {
-            adPackageName: ruName,
+            adPackageName: adPackageName,
             adText: adText,
             adLink: adLink,
             adButtonText: adButtonText

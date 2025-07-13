@@ -383,7 +383,7 @@ function App() {
       case 'addPackagesForm':
         return (
           <>
-            <AddsPackagesForm setCurrentContent={setCurrentContent} setSelectedPackage={setSelectedPackage} adPackages={adPackages}/>
+            <AddsPackagesForm setCurrentContent={setCurrentContent} setSelectedPackage={setSelectedPackage} adPackages={adPackages} tonBalance={tonBalance}/>
           </>
         );
       case 'addAddForm':
