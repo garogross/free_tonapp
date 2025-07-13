@@ -84,4 +84,9 @@
     max-width: 70%;
     width: 100%;
     box-sizing: border-box;
+    transition: transform 0.1s ease;
+}
+
+.buy-add-button:active {
+    transform: scale(0.95);
 }
