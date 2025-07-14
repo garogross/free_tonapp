@@ -3,6 +3,15 @@ import './TransactionTable.css';
 
 export default function TransactionTable({ transactions }) {
 
+    const moderationStatusToEmoji = (status) => {
+        switch(status) {
+            case "done": return "✅";
+            case "load": return "⏳";
+            case "deny": return "❌";
+            default: return "❔";
+        }
+    }
+
     const renderTransactionTable = () => {
         if (!transactions || transactions.length === 0) {
             return (
@@ -19,7 +28,7 @@ export default function TransactionTable({ transactions }) {
                 </div>
                 <div className="transaction-cell">{tx.type}</div>
                 <div className="transaction-cell">{tx.amount}</div>
-                <div className="transaction-cell">{tx.status}</div>
+                <div className="transaction-cell">{moderationStatusToEmoji(tx.status)}</div>
             </div>
         ));
     };

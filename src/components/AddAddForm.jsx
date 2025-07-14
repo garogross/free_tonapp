@@ -118,7 +118,7 @@ export default function AddAddForm({ selectedPackage, setAdvertisements, setTonB
                 setTonBalance(response.data.tonBalance);
                 setCurrentContent('profile');
                 setProfileSubMenu('advertising');
-                showNotification("Успешно выполнено")
+                showNotification("Заявка отправлена на модерацию")
             })
             .catch(error => {
                 showError("Не удалось выполнить")
