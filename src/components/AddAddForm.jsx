@@ -13,6 +13,60 @@ export default function AddAddForm({ selectedPackage, setAdvertisements, setTonB
     const [adLink, setAdLink] = useState('');
     const [adButtonText, setAdButtonText] = useState('');
     const dropdownRef = useRef(null);
+    const [bannerFile, setBannerFile] = useState(null);
+    const [bannerPreviewUrl, setBannerPreviewUrl] = useState(null);
+    const [bannerLink, setBannerLink] = useState('');
+
+    useEffect(() => {
+        if (!bannerFile) {
+            setBannerPreviewUrl(null);
+            return;
+        }
+
+        const objectUrl = URL.createObjectURL(bannerFile);
+        setBannerPreviewUrl(objectUrl);
+
+        return () => URL.revokeObjectURL(objectUrl);
+    }, [bannerFile]);
+
+
+    const handleBannerChange = (e) => {
+        const file = e.target.files[0];
+        const allowedTypes = ['image/png', 'image/jpeg'];
+        if (!file) return;
+
+        if (!allowedTypes.includes(file.type)) {
+            showError("Можно загружать только PNG или JPEG изображения");
+            return;
+        }
+
+        const maxSizeMB = 5;
+        if (file.size > maxSizeMB * 1024 * 1024) {
+            showError(`Максимальный размер файла ${maxSizeMB} МБ`);
+            return;
+        }
+
+        const img = new Image();
+        img.onload = () => {
+            const width = img.width;
+            const height = img.height;
+
+            const desiredRatio = 480 / 75;
+            const actualRatio = width / height;
+            const tolerance = 0.5;
+
+            if (Math.abs(actualRatio - desiredRatio) > tolerance) {
+                showError(`Неверное соотношение сторон. Требуется примерно ${desiredRatio.toFixed(2)} (например, 480x75)`);
+                return;
+            }
+            setBannerFile(file);
+        };
+        img.onerror = () => {
+            showError("Не удалось загрузить изображение для проверки");
+        };
+
+        img.src = URL.createObjectURL(file);
+    };
 
     const handleAdTextChange = (e) => {
         let value = e.target.value;
@@ -23,6 +77,24 @@ export default function AddAddForm({ selectedPackage, setAdvertisements, setTonB
         }
 
         setAdText(value);
+    }
+
+    const handleBannerLinkChange = (e) => {
+        let value = e.target.value;
+        const maxLength = 100;
+        if (value.length > maxLength) {
+            value = value.slice(0, maxLength);
+            showError("Максимальная длина ссылки 100 символов");
+        }
+        try {
+            new URL(value);
+        } catch (_) {
+            if (value.length > 0) {
+                showError("Введите корректный URL");
+            }
+        }
+
+        setBannerLink(value);
     }
 
     const handleAdLinkChange = (e) => {
@@ -77,40 +149,62 @@ export default function AddAddForm({ selectedPackage, setAdvertisements, setTonB
             showError("Нет свободных слотов");
             return;
         }
-        if (adText.length === 0) {
-            showError("Текст рекламы обязателен");
-            return;
-        }
+        const formData = new FormData();
 
-        if (adLink.length === 0) {
-            showError("Ссылка на продукт обязательна");
-            return;
-        }
-
-        if (adButtonText.length === 0) {
-            showError("Текст кнопки обязателен");
-            return;
-        }
-
-        try {
-            new URL(adLink);
-        } catch (_) {
-            if (adLink.length > 0) {
-                showError("Введите корректный URL");
+        if (selectedType === "1") {
+            if (adText.length === 0) {
+                showError("Текст рекламы обязателен");
                 return;
             }
+            if (adLink.length === 0) {
+                showError("Ссылка на продукт обязательна");
+                return;
+            }
+            if (adButtonText.length === 0) {
+                showError("Текст кнопки обязателен");
+                return;
+            }
+            try {
+                new URL(adLink);
+            } catch (_) {
+                if (adLink.length > 0) {
+                    showError("Введите корректный URL");
+                    return;
+                }
+            }
+            formData.append("adPackageName", adPackageName);
+            formData.append("adText", adText);
+            formData.append("adLink", adLink);
+            formData.append("adButtonText", adButtonText);
+            formData.append("adType", selectedType);
+        } else if (selectedType === "2") {
+            if (!bannerFile) {
+                showError("Выберите баннер для загрузки");
+                return;
+            }
+            if (bannerLink.length === 0) {
+                showError("Ссылка на продукт обязательна");
+                return;
+            }
+            try {
+                new URL(bannerLink);
+            } catch (_) {
+                if (bannerLink.length > 0) {
+                    showError("Введите корректный URL");
+                    return;
+                }
+            }
+            formData.append("adPackageName", adPackageName);
+            formData.append("banner", bannerFile);
+            formData.append("bannerLink", bannerLink);
+            formData.append("adType", selectedType);
         }
 
         const dataRaw = retrieveRawInitData();
-        const postData = {
-            adPackageName: adPackageName,
-            adText: adText,
-            adLink: adLink,
-            adButtonText: adButtonText
-        };
-        axios.post('/api/advertisement ', postData, {
+        axios.post('/api/advertisement ', formData, {
             headers: {
-                'Authorization': 'tma ' + dataRaw
+                'Authorization': 'tma ' + dataRaw,
+                'Content-Type': 'multipart/form-data'
             }
         })
             .then(response => {
@@ -122,7 +216,7 @@ export default function AddAddForm({ selectedPackage, setAdvertisements, setTonB
             })
             .catch(error => {
                 showError("Не удалось выполнить")
-                console.error('Post decision error: ', error);
+                console.error('Post ad error: ', error);
             })
     }
 
@@ -130,7 +224,7 @@ export default function AddAddForm({ selectedPackage, setAdvertisements, setTonB
         <div className="add-add-form">
             <div className="add-add-form-title">Размещение рекламы</div>
             <div className="add-add-form-description">Оформите заявку на размещение рекламы в нашем приложении</div>
-            <div className="add-add-form-free-slots">Свободных слотов: {10-blockedSlots}/10</div>
+            <div className="add-add-form-free-slots">Свободных слотов: {10 - blockedSlots}/10</div>
             <div className="add-add-form-package-info-title">Информация о пакете</div>
             <div className="add-add-form-package-info-container">
                 <div className="add-add-form-package-info-item-title">Название: {selectedPackage.adPackageName}</div>
@@ -180,9 +274,28 @@ export default function AddAddForm({ selectedPackage, setAdvertisements, setTonB
                     </>
                 ) : (
                     <>
-                        <div className="add-banner-title">Выбрать баннер</div>
-                        <div className="add-banner-description">Размер баннера: 946х305, длительность: 7 сек.</div>
-                        <input type="text" className="add-add-form-add-input" placeholder="Введите ссылку" />
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleBannerChange}
+                            className="add-add-form-add-input"
+                        />
+                        {bannerFile && (
+                            <div className="banner-preview-container">
+                                <img
+                                    src={bannerPreviewUrl}
+                                    alt="Превью баннера"
+                                    className='banner-preview'
+                                />
+                            </div>
+                        )}
+                        <div className="add-banner-description">Размер баннера: 480x75, PNG/JPEG, длительность: 7 сек.</div>
+                        <input
+                            type="text"
+                            placeholder="Введите ссылку"
+                            className="add-add-form-add-input"
+                            onChange={handleBannerLinkChange}
+                            value={bannerLink} />
                     </>
                 )}
             </div>

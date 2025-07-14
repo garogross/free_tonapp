@@ -225,3 +225,11 @@
 .add-add-form-add-button:active {
     transform: scale(0.95);
 }
+
+.banner-preview {
+    margin-top: 5px;
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+}
