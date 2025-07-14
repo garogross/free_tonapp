@@ -127,8 +127,7 @@ export default function AddAddForm({ selectedPackage, setAdvertisements, setTonB
     }
 
     const options = [
-        { value: "1", label: "Текст" },
-        { value: "2", label: "Баннер" }
+        { value: "1", label: "Текст" }
     ];
 
     const selectedOption = options.find(opt => opt.value === selectedType);
