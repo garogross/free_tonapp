@@ -433,7 +433,7 @@ function App() {
         } />
         <Route path="/freetonadmin" element={
           <ProtectedRoute user={user} loadingUser={loadingUser} allowedRoles={['admin']}>
-            <AdminApp setCurrentContent={setCurrentContent} adPackages={adPackages}/>
+            <AdminApp setCurrentContent={setCurrentContent} adPackages={adPackages} setAdPackages={setAdPackages}/>
           </ProtectedRoute>
         } />
       </Routes>

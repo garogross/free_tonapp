@@ -3,7 +3,7 @@ import './AdminAd.css';
 import AdminAdRequests from './AdminAdRequests';
 import AdminAdPackages from './AdminAdPackages';
 
-export default function AdminAd({ adminAds, setAdminAds, adPackages }) {
+export default function AdminAd({ adminAds, setAdminAds, adPackages, setAdPackages }) {
     const [adPage, setAdPage] = useState('adrequests');
 
     const handleMenuButtonClick = (transactionPage) => {
@@ -19,7 +19,7 @@ export default function AdminAd({ adminAds, setAdminAds, adPackages }) {
             {adPage === "adrequests" ? (
                 <AdminAdRequests adminAds={adminAds} setAdminAds={setAdminAds} adPackages={adPackages} />
             ) : (
-                <AdminAdPackages adPackages={adPackages} />
+                <AdminAdPackages adPackages={adPackages} setAdPackages={setAdPackages}/>
             )}
         </>
     )
