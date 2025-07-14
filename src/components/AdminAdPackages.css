@@ -1,0 +1,25 @@
+.add-package-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 95%;
+    gap: 10px;
+    padding-top: 10px;
+    border: #C9C9C9 2px dashed;
+}
+
+.create-ad-package-button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.withdrawal-button.create-ad-package {
+    background-color: #78aa28;
+    margin-top: 20px;
+    transition: transform 0.1s ease;
+}
+
+.withdrawal-button.create-ad-package:active {
+    transform: scale(0.95);
+}
