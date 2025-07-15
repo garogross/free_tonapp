@@ -9,17 +9,26 @@
     border: #C9C9C9 2px dashed;
 }
 
-.create-ad-package-button-container {
+.create-ad-package-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
+    background-color: #C9C9C9;
+    width: 95%;
+    border-radius: 10px;
 }
 
 .withdrawal-button.create-ad-package {
     background-color: #78aa28;
-    margin-top: 20px;
     transition: transform 0.1s ease;
+    margin-top: 10px;
 }
 
 .withdrawal-button.create-ad-package:active {
     transform: scale(0.95);
+}
+
+.create-ad-package-inputs-container {
+    width: 95%;
 }
