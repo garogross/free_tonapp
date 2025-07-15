@@ -5,7 +5,7 @@ import { retrieveRawInitData } from '@telegram-apps/sdk';
 import axios from "axios";
 
 export default function AdminSettingsCran({ initialNumbers, setInitialNumbers }) {
-    const {showError, showNotification} = useNotification();
+    const { showError, showNotification } = useNotification();
     const [isLoading, setIsLoading] = useState(false);
     const [inputs, setInputs] = useState(Array(6).fill(''));
 
@@ -27,14 +27,16 @@ export default function AdminSettingsCran({ initialNumbers, setInitialNumbers })
         }
     }
 
-    const isFormValid = inputs.some((val, idx) => val !== originalInputs[idx]);
+    const isFormValid = inputs.some((val, idx) => val !== originalInputs[idx]) && inputs.every(val => val !== '0' && val !== '');
+
 
     const handleUpdatePrizeTable = () => {
         setIsLoading(true);
         const numbers = inputs.map(val => Number(val));
         if (numbers.some(num => isNaN(num) || num <= 0)) {
-          showError("Все призы должны быть положительными числами");
-          return;
+            showError("Все призы должны быть положительными числами");
+            setIsLoading(false);
+            return;
         }
 
         const dataRaw = retrieveRawInitData();
