@@ -78,12 +78,6 @@ export default function Rullet(props) {
         return () => clearInterval(intervalId);
     }, [showTimer, endTime, setIsPushed]);
 
-    const formatTime = (seconds) => {
-        const m = Math.floor((seconds % 3600) / 60).toString().padStart(2, '0');
-        const s = (seconds % 60).toString().padStart(2, '0');
-        return `${m}:${s}`;
-    };
-
     useEffect(() =>
         tonConnectUI.onStatusChange(wallet => {
             if (wallet.connectItems?.tonProof && 'proof' in wallet.connectItems.tonProof) {
@@ -91,6 +85,34 @@ export default function Rullet(props) {
                 setWalletAccount(wallet.account);
             }
         }), []);
+
+    const PrettyTimer = (secondsLeft) => {
+        const m = Math.floor((secondsLeft % 3600) / 60)
+            .toString()
+            .padStart(2, '0');
+        const s = (secondsLeft % 60).toString().padStart(2, '0');
+
+        return (
+            <div className="pretty-timer">
+                <div className="timer-block">
+                    <div className='timer-digits'>
+                        <span className="timer-digit">{m[0]}</span>
+                        <span className="timer-digit">{m[1]}</span>
+                    </div>
+                    <span className="timer-label">Минуты</span>
+                </div>
+                <span className="timer-separator">:</span>
+                <div className="timer-block">
+                    <div className='timer-digits'>
+                        <span className="timer-digit">{s[0]}</span>
+                        <span className="timer-digit">{s[1]}</span>
+                    </div>
+                    <span className="timer-label">Секунды</span>
+                </div>
+            </div>
+        );
+    }
+
 
     useEffect(() => {
         if (!proof || !payload || !userFriendlyAddress) return;
@@ -173,15 +195,15 @@ export default function Rullet(props) {
                     <div className="rullet-subtitle">{isPushed ? 'Время сбора' : 'Выпавшее число'}</div>
                     <div className={`rullet-result-container ${isPushed && !rollStarted ? 'pushed' : ''}`}>
                         {showTimer ? (
-                            <div className="rullet-timer">{formatTime(timeLeft)}</div>
+                            <div className="rullet-timer">{PrettyTimer(timeLeft)}</div>
                         ) : (
-                            <>
+                            <div className='rullet-result-numbers'>
                                 <div className="rullet-result-number-item1">{digits[0]}</div>
                                 <div className="rullet-result-number-item2">{digits[1]}</div>
                                 <div className="rullet-result-number-item3">{digits[2]}</div>
                                 <div className="rullet-result-number-item4">{digits[3]}</div>
                                 <div className="rullet-result-number-item5">{digits[4]}</div>
-                            </>
+                            </div>
                         )}
                     </div>
                     {showTimer && <div className="rullet-last-roll-number">Выпало: {lastRollNumber}</div>}
