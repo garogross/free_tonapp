@@ -1,0 +1,35 @@
+.admin-statistic-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.admin-statistic-title {
+    margin-top: 10px;
+    color: white;
+    font-family: "Montserrat";
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.statistic-profit-loss-row {
+    display: flex;
+    justify-content: space-between;
+    width: 95%;
+}
+
+
+.statistic-profit-loss-value,
+.statistic-profit-loss-text {
+    color: white;
+    font-family: "Montserrat";
+    font-weight: 600;
+}
+
+.statistic-profit-loss-value.green {
+    color: #78aa28;
+}
+
+.statistic-profit-loss-value.red {
+    color: #AA2828;
+}

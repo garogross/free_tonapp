@@ -3,6 +3,7 @@ import AdminFootMenu from "./AdminFootMenu"
 import AdminAd from "./AdminAd"
 import AdminTransaction from './AdminTransaction'
 import AdminSettings from './AdminSettings'
+import AdminStatistic from './AdminStatistic'
 
 import { useState, useEffect } from "react"
 import { retrieveRawInitData } from '@telegram-apps/sdk'
@@ -13,6 +14,23 @@ export default function AdminApp({ setCurrentContent, adPackages, setAdPackages,
     const [adminCurrentContent, setAdminCurrentContent] = useState('adminstatistic')
     const [adminTransactions, setAdminTransactions] = useState([]);
     const [adminAds, setAdminAds] = useState([]);
+    const [statistic, setStatistic] = useState(null);
+
+    async function getStatistic(dataRaw) {
+        axios.get('/api/freetonadmin/statistic', {
+            headers: {
+                'Authorization': 'tma ' + dataRaw
+            }
+        })
+            .then(response => {
+                setStatistic(response.data.statistic);
+                console.log(response.data.statistic);
+            }
+            )
+            .catch(error => {
+                console.error('Get statistic error: ', error);
+            })
+    }
 
     async function getTransactions(dataRaw) {
         axios.get('/api/freetonadmin/transactions', {
@@ -46,6 +64,7 @@ export default function AdminApp({ setCurrentContent, adPackages, setAdPackages,
 
     useEffect(() => {
         const dataRaw = retrieveRawInitData();
+        getStatistic(dataRaw);
         getAdvertisements(dataRaw);
         getTransactions(dataRaw);
     }, []);
@@ -58,7 +77,7 @@ export default function AdminApp({ setCurrentContent, adPackages, setAdPackages,
                 );
             case 'adminstatistic':
                 return (
-                    <></>
+                    <AdminStatistic statistic={statistic}/>
                 )
             case 'adminad':
                 return (
