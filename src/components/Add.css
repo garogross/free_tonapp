@@ -12,10 +12,10 @@
     font-family: 'Montserrat', Arial, sans-serif;
     height: 76px;
     min-height: fit-content;
+    border: #78AA28 1px solid;
 }
 
 .add-container.no-add {
-    border: #78AA28 1px solid;
     justify-content: center;
     align-items: center;
 }

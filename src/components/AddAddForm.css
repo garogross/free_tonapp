@@ -205,6 +205,14 @@
     margin-bottom: 10px;
 }
 
+.add-add-form-add-button-container {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 30px;
+}
+
 .add-add-form-add-button {
     background-color: #78AA28;
     color: #F4F4F4;

@@ -298,7 +298,9 @@ export default function AddAddForm({ selectedPackage, setAdvertisements, setTonB
                     </>
                 )}
             </div>
-            <button className="add-add-form-add-button" onClick={() => startAdvertisement(selectedPackage.adPackageName, adText, adLink, adButtonText)}>Запустить рекламу</button>
+            <div className='add-add-form-add-button-container'>
+                <button className="add-add-form-add-button" onClick={() => startAdvertisement(selectedPackage.adPackageName, adText, adLink, adButtonText)}>Запустить рекламу</button>
+            </div>
         </div>
     )
 }
