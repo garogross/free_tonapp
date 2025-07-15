@@ -11,14 +11,16 @@ import tonIcon from '../assets/ton.svg';
 
 const globalMinerImageCache = window.__minerImageCache || (window.__minerImageCache = { loaded: false, images: [] });
 
-export default function Staking( {setTonBalance, tonBalance, accelerateBalance, accelerateSpeed, setAccelerateBalance, setAccelerateSpeed} ) {
-    const [counter, setCounter] = useState(0);
+export default function Staking({ setTonBalance, tonBalance, accelerateBalance, accelerateSpeed, setAccelerateBalance, setAccelerateSpeed }) {
+    const [counter, setCounter] = useState(1);
     const [imagesLoaded, setImagesLoaded] = useState(globalMinerImageCache.loaded);
     const [cachedImages, setCachedImages] = useState(globalMinerImageCache.images);
     const [selectedAccelerator, setSelectedAccelerator] = useState(0);
     const [showAccelerateModal, setShowAccelerateModal] = useState(false);
     const [amountsByType, setAmountsByType] = useState([0, 0, 0]);
     const [isAcceleratorsLoading, setIsAcceleratorsLoading] = useState(false);
+    const [modalPage, setModalPage] = useState('accelerators');
+    const [acceleratorsList, setAcceleratorsList] = useState([]);
     const imageUrls = [miner, miner2];
     const { showError, showNotification } = useNotification();
 
@@ -55,7 +57,7 @@ export default function Staking( {setTonBalance, tonBalance, accelerateBalance, 
 
         preloadImages();
 
-        return () => {};
+        return () => { };
     }, []);
 
     const getUnfund = () => {
@@ -66,18 +68,18 @@ export default function Staking( {setTonBalance, tonBalance, accelerateBalance, 
                     'Authorization': 'tma ' + dataRaw
                 }
             })
-            .then(response => {
-                setTonBalance(response.data.tonBalance);
-                setAccelerateBalance(response.data.accelerateBalance);
-                setAccelerateSpeed(response.data.accelerateSpeed);
-            })
-            .catch(error => {
-                console.error('Unfund accelerate balance error: ', error);
-              })
+                .then(response => {
+                    setTonBalance(response.data.tonBalance);
+                    setAccelerateBalance(response.data.accelerateBalance);
+                    setAccelerateSpeed(response.data.accelerateSpeed);
+                })
+                .catch(error => {
+                    console.error('Unfund accelerate balance error: ', error);
+                })
         } else {
             showError("Запросить вывод можно от 0.5 TON");
         }
-    }  
+    }
 
     const rentMiner = (rentCount, selectedAccelerator, isAcceleratorsLoading, totalRentPrice, amountBuyedAccelerators) => {
         if (!(isAcceleratorsLoading || totalRentPrice > tonBalance || rentCount == 0)) {
@@ -89,37 +91,39 @@ export default function Staking( {setTonBalance, tonBalance, accelerateBalance, 
             const dataRaw = retrieveRawInitData();
 
             axios.post('/api/accelerators', postData,
-            {
-                headers: {
-                    'Authorization': 'tma ' + dataRaw
-                }
-            })
-            .then(response => {
-                setCounter(response.data.amountsByType[selectedAccelerator])
-                setAmountsByType(response.data.amountsByType);
-                setIsAcceleratorsLoading(false);
-                setTonBalance(response.data.tonBalance);
-                function getAccelerateBalance(dataRaw) {
-                    axios.get('/api/acceleratebalance', {
+                {
                     headers: {
                         'Authorization': 'tma ' + dataRaw
                     }
-                    })
-                    .then(response => {
-                    setAccelerateBalance(response.data.accelerateBalance);
-                    setAccelerateSpeed(response.data.accelerateSpeed);
-                    })
-                    .catch(error => {
-                    console.error('Getting accelerate balance error: ', error);
-                    })
-                }
-                getAccelerateBalance(dataRaw);
-            })
-            .catch(error => {
-                console.error('Rent accelerators error: ', error);
-                showError(error);
-                setIsAcceleratorsLoading(false);
-            });
+                })
+                .then(response => {
+                    setCounter(1);
+                    setAmountsByType(response.data.amountsByType);
+                    setAcceleratorsList(response.data.accelerators);
+                    setIsAcceleratorsLoading(false);
+                    setTonBalance(response.data.tonBalance);
+                    function getAccelerateBalance(dataRaw) {
+                        axios.get('/api/acceleratebalance', {
+                            headers: {
+                                'Authorization': 'tma ' + dataRaw
+                            }
+                        })
+                            .then(response => {
+                                setAccelerateBalance(response.data.accelerateBalance);
+                                setAccelerateSpeed(response.data.accelerateSpeed);
+                                showNotification("Аренда успешна");
+                            })
+                            .catch(error => {
+                                console.error('Getting accelerate balance error: ', error);
+                            })
+                    }
+                    getAccelerateBalance(dataRaw);
+                })
+                .catch(error => {
+                    console.error('Rent accelerators error: ', error);
+                    showError(error);
+                    setIsAcceleratorsLoading(false);
+                });
         } else {
             if (amountBuyedAccelerators == 5) {
                 showError("Максимум 5 ускорителей каждого типа");
@@ -139,36 +143,37 @@ export default function Staking( {setTonBalance, tonBalance, accelerateBalance, 
                 'Authorization': 'tma ' + dataRaw
             }
         })
-        .then(response => {
-            setCounter(response.data.amountsByType[selectedAccelerator]);
-            setAmountsByType(response.data.amountsByType);
-            setIsAcceleratorsLoading(false);
-        })
-        .catch(error => {
-            console.error('Get accelerators error: ', error);
-            showError(error);
-            setIsAcceleratorsLoading(false);
-        });
+            .then(response => {
+                setAmountsByType(response.data.amountsByType);
+                setAcceleratorsList(response.data.accelerators);
+                setIsAcceleratorsLoading(false);
+            })
+            .catch(error => {
+                console.error('Get accelerators error: ', error);
+                showError(error);
+                setIsAcceleratorsLoading(false);
+            });
     }
 
     const handleSetSelectedAccelerator = (idx) => {
-        setCounter(amountsByType[idx]);
+        setCounter(1);
         setSelectedAccelerator(idx);
     }
 
     const closeAccelerateModal = () => {
         setShowAccelerateModal(false);
-        setCounter(amountsByType[selectedAccelerator]);
+        setModalPage('accelerators');
+        setSelectedAccelerator(0);
     }
 
     const handleDecrement = () => {
-        if (counter > amountsByType[selectedAccelerator]) {
+        if (counter > 1) {
             setCounter(counter - 1);
         }
     }
 
     const handleIncrement = () => {
-        if (counter < 5) {
+        if (counter < 5 - amountsByType[selectedAccelerator]) {
             setCounter(counter + 1);
         } else {
             showError("Максимум 5 ускорителей каждого типа")
@@ -181,69 +186,160 @@ export default function Staking( {setTonBalance, tonBalance, accelerateBalance, 
 
     const spinner = <span className="loading-inline-spinner"></span>;
 
+    const renderAcceleratorsTable = () => {
+        if (!acceleratorsList || acceleratorsList.length === 0) {
+            return (
+                <div className="empty-wrapper">
+                    <div className="empty-message">НЕТ АКТИВНЫХ УСКОРИТЕЛЕЙ</div>
+                </div>
+            );
+        }
+    
+        const now = new Date();
+    
+        // Фильтруем активные ускорители
+        const activeAccelerators = acceleratorsList.filter(acc => new Date(acc.stopDate) > now);
+    
+        if (activeAccelerators.length === 0) {
+            return (
+                <div className="empty-wrapper">
+                    <div className="empty-message">НЕТ АКТИВНЫХ УСКОРИТЕЛЕЙ</div>
+                </div>
+            );
+        }
+    
+        const acceleratorTypeInfo = [
+            { title: 'CORE I-9', iconClass: 'accelerator-image-1', data: accelerators[0] },
+            { title: 'RTX 4090', iconClass: 'accelerator-image-2', data: accelerators[1] },
+            { title: 'A100 GPU', iconClass: 'accelerator-image-3', data: accelerators[2] },
+        ];
+    
+        const calculateRealtimeIncome = (stopDateStr, periodDays, incomePerDay) => {
+            const stopDate = new Date(stopDateStr);
+            const startDate = new Date(stopDate);
+            startDate.setDate(stopDate.getDate() - periodDays);
+    
+            const secondsPassed = Math.min(
+                (now - startDate) / 1000,
+                periodDays * 24 * 3600
+            );
+            const incomePerSecond = incomePerDay / (24 * 3600);
+            return incomePerSecond * secondsPassed;
+        };
+    
+        const declOfNum = (number) => {
+            const n = Math.abs(number) % 100;
+            const n1 = n % 10;
+            if (n > 10 && n < 20) return 'дней';
+            if (n1 > 1 && n1 < 5) return 'дня';
+            if (n1 === 1) return 'день';
+            return 'дней';
+        };
+    
+        return (
+            <div className="staking-accelerate-active-list">
+                {activeAccelerators.map((acc) => {
+                    const stopDateObj = new Date(acc.stopDate);
+                    const daysLeft = Math.ceil((stopDateObj - now) / (1000 * 60 * 60 * 24));
+    
+                    const typeInfo = acceleratorTypeInfo[acc.type] || { title: 'Неизвестный тип', iconClass: '', data: {} };
+                    const { period, incomePerDay } = typeInfo.data || { period: 30, incomePerDay: 0 };
+    
+                    const realtimeIncome = calculateRealtimeIncome(acc.stopDate, +period, +incomePerDay);
+    
+                    return (
+                        <div key={acc.id} className="staking-accelerate-active-item">
+                            <div className={`accelerator-icon ${typeInfo.iconClass}`}></div>
+                            <div className="accelerator-details">
+                                <div className="accelerator-title">{typeInfo.title}</div>
+                                <div className="accelerator-stop-date">
+                                    Осталось: {daysLeft} {declOfNum(daysLeft)}
+                                </div>
+                                <div className="accelerator-income">
+                                    Добыто всего: {realtimeIncome.toFixed(6)} TON
+                                </div>
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
+        );
+    }    
+
     const renderAccelerateModal = () => {
         if (!showAccelerateModal) return null;
 
-        const rentCount = Math.max(0, counter - amountsByType[selectedAccelerator]);
-        const totalRentPrice = accelerators[selectedAccelerator]['rentCost'] * rentCount;
+        const rentCount = 5 - amountsByType[selectedAccelerator];
+        const totalRentPrice = accelerators[selectedAccelerator]['rentCost'] * counter;
         const totalPerDay = accelerators[selectedAccelerator]['incomePerDay'] * counter;
         const totalProfit = accelerators[selectedAccelerator]['totalIncome'] * counter;
 
         return (
             <div className="staking-accelerate-overlay" onClick={closeAccelerateModal}>
                 <div className="staking-accelerate-container" onClick={(e) => e.stopPropagation()}>
-                    <div className="staking-accelerate-title">УСКОРИТЕЛЬ</div>
+                    <div className='staking-accelerate-menu-buttons'>
+                        <button className={`staking-accelerate-menu-button ${modalPage === 'accelerators' ? 'btn-active' : ''}`} onClick={() => setModalPage('accelerators')}>УСКОРИТЕЛИ</button>
+                        <button className={`staking-accelerate-menu-button ${modalPage === 'store' ? 'btn-active' : ''}`} onClick={() => setModalPage('store')}>КУПИТЬ</button>
+                    </div>
                     <button className="staking-accelerate-close" onClick={closeAccelerateModal}>×</button>
-                    <div className="stacking-accelerate-accelerators-container">
-                        <div className={`stacking-accelerate-accelerators-item ${selectedAccelerator === 0 ? 'active' : ''}`} onClick={() => handleSetSelectedAccelerator(0)}>
-                            <div className="stacking-accelerate-accelerators-item-title">CORE I-9</div>
-                            <div className="accelerator-image-1"></div>
-                            <div className="stacking-accelerate-accelerators-item-description">2.7 mkT/s</div>
-                        </div>
-                        <div className={`stacking-accelerate-accelerators-item ${selectedAccelerator === 1 ? 'active' : ''}`} onClick={() => handleSetSelectedAccelerator(1)}>
-                            <div className="stacking-accelerate-accelerators-item-title">RTX 4090</div>
-                            <div className="accelerator-image-2"></div>
-                            <div className="stacking-accelerate-accelerators-item-description">5.7 mkT/s</div>
-                        </div>
-                        <div className={`stacking-accelerate-accelerators-item ${selectedAccelerator === 2 ? 'active' : ''}`} onClick={() => handleSetSelectedAccelerator(2)}>
-                            <div className="stacking-accelerate-accelerators-item-title">A100 GPU</div>
-                            <div className="accelerator-image-3"></div>
-                            <div className="stacking-accelerate-accelerators-item-description">11.7 mkT/s</div>
-                        </div>
-                    </div>
-                    <div className="rent-period-container">
-                        <div className="rent-period-title">Период аренды</div>
-                        <div className="rent-period-description">
-                            {isAcceleratorsLoading ? spinner : accelerators[selectedAccelerator]['period']} дней
-                        </div>
-                    </div>
-                    <div className="per-day-container">
-                        <div className="per-day-title">Прибыль/день</div>
-                        <div className="per-day-description">
-                            {isAcceleratorsLoading ? spinner : totalPerDay} TON
-                        </div>
-                    </div>
-                    <div className="total-profit-container">
-                        <div className="total-profit-title">Общая прибыль</div>
-                        <div className="total-profit-description">
-                            {isAcceleratorsLoading ? spinner : totalProfit} TON
-                        </div>
-                    </div>
-                    <div className="counter-title">Общее количество</div>
-                    <div className="counter-container">
-                        <div className="counter-button-minus" onClick={handleDecrement}>-</div>
-                        <div className="counter-value">{isAcceleratorsLoading ? spinner : counter}</div>
-                        <div className="counter-button-plus" onClick={handleIncrement}>+</div>
-                    </div>
-                    <div className="total-rent-price-container">
-                        <div className="total-rent-price-title">Цена аренды</div>
-                        <div className="total-rent-price-description">
-                            {isAcceleratorsLoading ? spinner : totalRentPrice} TON
-                        </div>
-                    </div>
-                    <button className={`staking-rent-accelerate-button ${(isAcceleratorsLoading || totalRentPrice > tonBalance || rentCount == 0) ? 'disabled-rent-button' : ''}`} onClick={() => rentMiner(rentCount, selectedAccelerator, isAcceleratorsLoading, totalRentPrice, amountsByType[selectedAccelerator])}>
-                        АРЕНДОВАТЬ МАЙНЕР
-                    </button>
+                    {modalPage === 'store' ? (
+                        <>
+                            <div className="stacking-accelerate-accelerators-container">
+                                <div className={`stacking-accelerate-accelerators-item ${selectedAccelerator === 0 ? 'active' : ''}`} onClick={() => handleSetSelectedAccelerator(0)}>
+                                    <div className="stacking-accelerate-accelerators-item-title">CORE I-9</div>
+                                    <div className="accelerator-image-1"></div>
+                                    <div className="stacking-accelerate-accelerators-item-description">2.7 mkT/s</div>
+                                </div>
+                                <div className={`stacking-accelerate-accelerators-item ${selectedAccelerator === 1 ? 'active' : ''}`} onClick={() => handleSetSelectedAccelerator(1)}>
+                                    <div className="stacking-accelerate-accelerators-item-title">RTX 4090</div>
+                                    <div className="accelerator-image-2"></div>
+                                    <div className="stacking-accelerate-accelerators-item-description">5.7 mkT/s</div>
+                                </div>
+                                <div className={`stacking-accelerate-accelerators-item ${selectedAccelerator === 2 ? 'active' : ''}`} onClick={() => handleSetSelectedAccelerator(2)}>
+                                    <div className="stacking-accelerate-accelerators-item-title">A100 GPU</div>
+                                    <div className="accelerator-image-3"></div>
+                                    <div className="stacking-accelerate-accelerators-item-description">11.7 mkT/s</div>
+                                </div>
+                            </div>
+                            <div className="rent-period-container">
+                                <div className="rent-period-title">Период аренды</div>
+                                <div className="rent-period-description">
+                                    {isAcceleratorsLoading ? spinner : accelerators[selectedAccelerator]['period']} дней
+                                </div>
+                            </div>
+                            <div className="per-day-container">
+                                <div className="per-day-title">Прибыль/день</div>
+                                <div className="per-day-description">
+                                    {isAcceleratorsLoading ? spinner : totalPerDay} TON
+                                </div>
+                            </div>
+                            <div className="total-profit-container">
+                                <div className="total-profit-title">Общая прибыль</div>
+                                <div className="total-profit-description">
+                                    {isAcceleratorsLoading ? spinner : totalProfit} TON
+                                </div>
+                            </div>
+                            <div className="counter-title">Общее количество</div>
+                            <div className="counter-container">
+                                <div className="counter-button-minus" onClick={handleDecrement}>-</div>
+                                <div className="counter-value">{isAcceleratorsLoading ? spinner : counter}</div>
+                                <div className="counter-button-plus" onClick={handleIncrement}>+</div>
+                            </div>
+                            <div className="total-rent-price-container">
+                                <div className="total-rent-price-title">Цена аренды</div>
+                                <div className="total-rent-price-description">
+                                    {isAcceleratorsLoading ? spinner : totalRentPrice} TON
+                                </div>
+                            </div>
+                            <button className={`staking-rent-accelerate-button ${(isAcceleratorsLoading || totalRentPrice > tonBalance || rentCount == 0) ? 'disabled-rent-button' : ''}`} onClick={() => rentMiner(rentCount, selectedAccelerator, isAcceleratorsLoading, totalRentPrice, amountsByType[selectedAccelerator])}>
+                                АРЕНДОВАТЬ МАЙНЕР
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            {renderAcceleratorsTable()}
+                        </>
+                    )}
                 </div>
             </div>
         )
@@ -279,7 +375,7 @@ export default function Staking( {setTonBalance, tonBalance, accelerateBalance, 
                     <button className="staking-info-button" onClick={showStakingInfo}>i</button>
                 </div>
                 <div className="staling-button-wrapper">
-                    <button className={`staking-get-button ${accelerateBalance<0.5 ? 'disabled-view' : ''}`} onClick={() => getUnfund()}>ЗАПРОСИТЬ</button>
+                    <button className={`staking-get-button ${accelerateBalance < 0.5 ? 'disabled-view' : ''}`} onClick={() => getUnfund()}>ЗАПРОСИТЬ</button>
                     <button className="staking-accelerate-button" onClick={handleAccelerate}>УСКОРИТЕЛЬ</button>
                 </div>
                 {renderAccelerateModal()}
