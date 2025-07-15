@@ -1,0 +1,11 @@
+.cran-settings-form-title {
+    margin-top: 10px;
+    color: black;
+    font-family: "Montserrat";
+    font-weight: 600;
+}
+
+.cran-settings-container {
+    display: flex;
+    justify-content: center;
+}

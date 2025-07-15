@@ -1,0 +1,25 @@
+.settings-menu-button {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    border-radius: 10px;
+    padding: 10px 40px;
+    margin-bottom: 10px;
+    max-width: 30%;
+    flex-grow: 1;
+    transition: transform 0.1s ease;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #343434;
+}
+
+.settings-menu-button.btn-active {
+    background-color: #78AA28;
+    color: #000000;
+}
+
+.settings-menu-button:active {
+    transform: scale(0.95);
+}

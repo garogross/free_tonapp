@@ -47,6 +47,7 @@ function App() {
   const [advertisements, setAdvertisements] = useState([]);
   const [adPackages, setAdPackages] = useState([]);
   const [friends, setFriends] = useState([]);
+  const [initialNumbers, setInitialNumbers] = useState([]);
 
   const [isPushed, setIsPushed] = useState(true)
   const [luckyNumber, setLuckyNumber] = useState(null)
@@ -73,6 +74,21 @@ function App() {
     }
   }
   lockOrientation();
+
+  async function getInitialNumbers(dataRaw) {
+    axios.get('/api/freetonadmin/prizestable', {
+        headers: {
+            'Authorization': 'tma ' + dataRaw
+        }
+    })
+        .then(response => {
+            setInitialNumbers(response.data.prizesTable);
+        }
+        )
+        .catch(error => {
+            console.error('Get prizes table error: ', error);
+        })
+}
 
   async function getActiveAds(dataRaw) {
     axios.get('/api/activeads',{
@@ -280,6 +296,7 @@ function App() {
           console.error('Getting accelerate balance error: ', error);
         })
     }
+    getInitialNumbers(dataRaw);
     getActiveAds(dataRaw);
     getAdPackages(dataRaw);
     getAdvertisements(dataRaw);
@@ -335,7 +352,7 @@ function App() {
         return (
           <div className="cran-wrapper">
             <Rullet currentContent={currentContent} gridRow="1" luckyNumber={isAnimating ? displayNumber : luckyNumber} isPushed={isPushed} endTime={endTime} setIsPushed={setIsPushed} rollStarted={rollStarted} setRollStarted={setRollStarted} tonBalance={tonBalance} lastRollNumber={lastRollNumber} />
-            <RollTable />
+            <RollTable initialNumbers={initialNumbers}/>
             <RollButton isPushed={isPushed} setIsPushed={setIsPushed} setLuckyNumber={setLuckyNumber} setIsAnimating={setIsAnimating} setEndTime={setEndTime} setRollStarted={setRollStarted} setTonBalance={setTonBalance} setLastRollNumber={setLastRollNumber} />
           </div>
         );
@@ -433,7 +450,7 @@ function App() {
         } />
         <Route path="/freetonadmin" element={
           <ProtectedRoute user={user} loadingUser={loadingUser} allowedRoles={['admin']}>
-            <AdminApp setCurrentContent={setCurrentContent} adPackages={adPackages} setAdPackages={setAdPackages}/>
+            <AdminApp setCurrentContent={setCurrentContent} adPackages={adPackages} setAdPackages={setAdPackages} initialNumbers={initialNumbers}/>
           </ProtectedRoute>
         } />
       </Routes>
