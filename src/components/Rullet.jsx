@@ -211,14 +211,14 @@ export default function Rullet(props) {
             )}
 
             {currentContent === 'profile' && (
-                <>
+                <div className='profile-buttons'>
                     <button className="cash-in" onClick={handleTonConnectClick}>
                         {walletButton}
                     </button>
                     <button className="cash-out" onClick={() => setCurrentContent('cashOut')}>
                         ВЫВЕСТИ
                     </button>
-                </>
+                </div>
             )}
         </div>
     );
