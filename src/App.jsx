@@ -76,7 +76,7 @@ function App() {
   lockOrientation();
 
   async function getInitialNumbers(dataRaw) {
-    axios.get('/api/freetonadmin/prizestable', {
+    axios.get('/api/prizestable', {
         headers: {
             'Authorization': 'tma ' + dataRaw
         }
