@@ -124,7 +124,7 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    height: calc(100vh - 510px);
+    height: calc(100vh - 511px);
     margin-top: 10px;
     overflow-y: auto;
 }
