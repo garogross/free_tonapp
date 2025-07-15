@@ -1,7 +1,12 @@
 import "./AdminSettingsCran.css"
 import { useState, useEffect } from 'react';
+import { useNotification } from "./useNotification";
+import { retrieveRawInitData } from '@telegram-apps/sdk';
+import axios from "axios";
 
-export default function AdminSettingsCran({ initialNumbers }) {
+export default function AdminSettingsCran({ initialNumbers, setInitialNumbers }) {
+    const {showError, showNotification} = useNotification();
+    const [isLoading, setIsLoading] = useState(false);
     const [inputs, setInputs] = useState(Array(6).fill(''));
 
     const [originalInputs, setOriginalInputs] = useState(Array(6).fill(''));
@@ -24,6 +29,36 @@ export default function AdminSettingsCran({ initialNumbers }) {
 
     const isFormValid = inputs.some((val, idx) => val !== originalInputs[idx]);
 
+    const handleUpdatePrizeTable = () => {
+        setIsLoading(true);
+        const numbers = inputs.map(val => Number(val));
+        if (numbers.some(num => isNaN(num) || num <= 0)) {
+          showError("Все призы должны быть положительными числами");
+          return;
+        }
+
+        const dataRaw = retrieveRawInitData();
+        const postData = {
+            prizesTable: numbers
+        };
+        axios.post('/api/freetonadmin/prizestable', postData, {
+            headers: {
+                'Authorization': 'tma ' + dataRaw
+            }
+        })
+            .then(response => {
+                setInitialNumbers(response.data.prizesTable);
+                setOriginalInputs(response.data.prizesTable.map(String));
+                showNotification("Изменения сохранены");
+                setIsLoading(false);
+            })
+            .catch(error => {
+                showError("Не удалось выполнить");
+                console.error('Post update prize table error: ', error);
+                setIsLoading(false);
+            })
+    }
+
     return (
         <div className="cran-settings-container">
             <div className='create-ad-package-container'>
@@ -44,13 +79,10 @@ export default function AdminSettingsCran({ initialNumbers }) {
                 </div>
                 <button
                     className='withdrawal-button create-ad-package'
-                    disabled={!isFormValid}
-                    onClick={() => {
-                        const numbers = inputs.map(Number);
-                        console.log('Сохраняем:', numbers);
-                    }}
+                    disabled={!isFormValid || isLoading}
+                    onClick={handleUpdatePrizeTable}
                 >
-                    СОХРАНИТЬ
+                    {isLoading ? "СОХРАНЕНИЕ..." : "СОХРАНИТЬ"}
                 </button>
             </div>
         </div>

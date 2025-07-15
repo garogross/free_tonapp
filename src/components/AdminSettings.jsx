@@ -2,7 +2,7 @@ import './AdminSettings.css'
 import { useState } from "react";
 import AdminSettingsCran from './AdminSettingsCran';
 
-export default function AdminSettings( {initialNumbers} ) {
+export default function AdminSettings( {initialNumbers, setInitialNumbers} ) {
     const [settingPage, setSettingPage] = useState('settingscran');
 
     const handleMenuButtonClick = (settingPage) => {
@@ -17,7 +17,7 @@ export default function AdminSettings( {initialNumbers} ) {
                 <button className={`settings-menu-button ${settingPage === 'settingsstaking' ? 'btn-active' : ''}`} onClick={() => handleMenuButtonClick("settingsstaking")}>УСКОРИТЕЛИ</button>
             </div>
             {settingPage === "settingscran" ? (
-                <AdminSettingsCran initialNumbers={initialNumbers}/>
+                <AdminSettingsCran initialNumbers={initialNumbers} setInitialNumbers={setInitialNumbers}/>
             ) : settingPage === "settingschallenges" ? (
                 <></>
             ) : (
