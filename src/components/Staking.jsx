@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import './Staking.css'
 import miner from '../assets/miner.png'
 import miner2 from '../assets/miner2.png'
-import { accelerators } from '../data'
 import { retrieveRawInitData } from '@telegram-apps/sdk'
 import MinerAnimation from './MinerAnimation';
 import axios from 'axios';
@@ -20,6 +19,7 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
     const [amountsByType, setAmountsByType] = useState([0, 0, 0]);
     const [isAcceleratorsLoading, setIsAcceleratorsLoading] = useState(false);
     const [modalPage, setModalPage] = useState('accelerators');
+    const [acceleratorsConfig, setAcceleratorsConfig] = useState([]);
     const [acceleratorsList, setAcceleratorsList] = useState([]);
     const imageUrls = [miner, miner2];
     const { showError, showNotification } = useNotification();
@@ -146,6 +146,7 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
             .then(response => {
                 setAmountsByType(response.data.amountsByType);
                 setAcceleratorsList(response.data.accelerators);
+                setAcceleratorsConfig(response.data.acceleratorsConfig);
                 setIsAcceleratorsLoading(false);
             })
             .catch(error => {
@@ -208,9 +209,9 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
         }
     
         const acceleratorTypeInfo = [
-            { title: 'CORE I-9', iconClass: 'accelerator-image-1', data: accelerators[0] },
-            { title: 'RTX 4090', iconClass: 'accelerator-image-2', data: accelerators[1] },
-            { title: 'A100 GPU', iconClass: 'accelerator-image-3', data: accelerators[2] },
+            { title: 'CORE I-9', iconClass: 'accelerator-image-1', data: acceleratorsConfig[0] },
+            { title: 'RTX 4090', iconClass: 'accelerator-image-2', data: acceleratorsConfig[1] },
+            { title: 'A100 GPU', iconClass: 'accelerator-image-3', data: acceleratorsConfig[2] },
         ];
     
         const calculateRealtimeIncome = (stopDateStr, periodDays, incomePerDay) => {
@@ -242,9 +243,9 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
                     const daysLeft = Math.ceil((stopDateObj - now) / (1000 * 60 * 60 * 24));
     
                     const typeInfo = acceleratorTypeInfo[acc.type] || { title: 'Неизвестный тип', iconClass: '', data: {} };
-                    const { period, incomePerDay } = typeInfo.data || { period: 30, incomePerDay: 0 };
+                    const { rentPeriod, profitPerDay } = typeInfo.data || { rentPeriod: 30, profitPerDay: 0 };
     
-                    const realtimeIncome = calculateRealtimeIncome(acc.stopDate, +period, +incomePerDay);
+                    const realtimeIncome = calculateRealtimeIncome(acc.stopDate, +rentPeriod, +profitPerDay);
     
                     return (
                         <div key={acc.id} className="staking-accelerate-active-item">
@@ -266,12 +267,16 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
     }    
 
     const renderAccelerateModal = () => {
-        if (!showAccelerateModal) return null;
+        if (!showAccelerateModal 
+            || !Array.isArray(acceleratorsConfig)
+            || !acceleratorsConfig[selectedAccelerator]
+        ) return null;
+        
 
         const rentCount = 5 - amountsByType[selectedAccelerator];
-        const totalRentPrice = accelerators[selectedAccelerator]['rentCost'] * counter;
-        const totalPerDay = accelerators[selectedAccelerator]['incomePerDay'] * counter;
-        const totalProfit = accelerators[selectedAccelerator]['totalIncome'] * counter;
+        const totalRentPrice = acceleratorsConfig[selectedAccelerator].rentPrice * counter;
+        const totalPerDay = acceleratorsConfig[selectedAccelerator].profitPerDay * counter;
+        const totalProfit = Math.ceil(acceleratorsConfig[selectedAccelerator].profitPerDay * acceleratorsConfig[selectedAccelerator].rentPeriod * counter);
 
         return (
             <div className="staking-accelerate-overlay" onClick={closeAccelerateModal}>
@@ -287,23 +292,23 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
                                 <div className={`stacking-accelerate-accelerators-item ${selectedAccelerator === 0 ? 'active' : ''}`} onClick={() => handleSetSelectedAccelerator(0)}>
                                     <div className="stacking-accelerate-accelerators-item-title">CORE I-9</div>
                                     <div className="accelerator-image-1"></div>
-                                    <div className="stacking-accelerate-accelerators-item-description">2.7 mkT/s</div>
+                                    <div className="stacking-accelerate-accelerators-item-description">{(acceleratorsConfig[0].profitPerDay/0.0864).toFixed(1)} mkT/s</div>
                                 </div>
                                 <div className={`stacking-accelerate-accelerators-item ${selectedAccelerator === 1 ? 'active' : ''}`} onClick={() => handleSetSelectedAccelerator(1)}>
                                     <div className="stacking-accelerate-accelerators-item-title">RTX 4090</div>
                                     <div className="accelerator-image-2"></div>
-                                    <div className="stacking-accelerate-accelerators-item-description">5.7 mkT/s</div>
+                                    <div className="stacking-accelerate-accelerators-item-description">{(acceleratorsConfig[1].profitPerDay/0.0864).toFixed(1)} mkT/s</div>
                                 </div>
                                 <div className={`stacking-accelerate-accelerators-item ${selectedAccelerator === 2 ? 'active' : ''}`} onClick={() => handleSetSelectedAccelerator(2)}>
                                     <div className="stacking-accelerate-accelerators-item-title">A100 GPU</div>
                                     <div className="accelerator-image-3"></div>
-                                    <div className="stacking-accelerate-accelerators-item-description">11.7 mkT/s</div>
+                                    <div className="stacking-accelerate-accelerators-item-description">{(acceleratorsConfig[2].profitPerDay/0.0864).toFixed(1)} mkT/s</div>
                                 </div>
                             </div>
                             <div className="rent-period-container">
                                 <div className="rent-period-title">Период аренды</div>
                                 <div className="rent-period-description">
-                                    {isAcceleratorsLoading ? spinner : accelerators[selectedAccelerator]['period']} дней
+                                    {isAcceleratorsLoading ? spinner : acceleratorsConfig[selectedAccelerator].rentPeriod} дней
                                 </div>
                             </div>
                             <div className="per-day-container">
