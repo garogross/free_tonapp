@@ -154,6 +154,42 @@ export default function AdminStatistic({ statistic }) {
                     </div>
                 </div>
             </div>
+
+            <div className='admin-statistic-subcontainer'>
+                <div className="statistic-title">РЕКЛАМНЫЕ ЗАПРОСЫ</div>
+                <div className='admin-statistic-subcontainer sub'>
+                    <div className='statistic-row'>
+                        <div className='statistic-text black'>
+                            ЗАПРОСОВ:
+                        </div>
+                        <div className='statistic-value green'>{statistic.countAdRequests}</div>
+                    </div>
+                    <div className='statistic-row'>
+                        <div className='statistic-text black'>
+                            ОБЩАЯ СТОИМОСТЬ:
+                        </div>
+                        <div className='statistic-value green'>{statistic.totalAdCost.toFixed(3)} TON</div>
+                    </div>
+                </div>
+            </div>
+
+            <div className='admin-statistic-subcontainer'>
+                <div className="statistic-title">ЗАДАНИЯ</div>
+                <div className='admin-statistic-subcontainer sub'>
+                    <div className='statistic-row'>
+                        <div className='statistic-text black'>
+                            ЗАПРОСОВ:
+                        </div>
+                        <div className='statistic-value green'>{statistic.countChallengesRequests}</div>
+                    </div>
+                    <div className='statistic-row'>
+                        <div className='statistic-text black'>
+                            ОБЩАЯ СТОИМОСТЬ:
+                        </div>
+                        <div className='statistic-value green'>{statistic.totalChallengesCost.toFixed(3)} TON</div>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
