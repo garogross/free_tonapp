@@ -156,6 +156,24 @@ export default function AdminStatistic({ statistic }) {
             </div>
 
             <div className='admin-statistic-subcontainer'>
+                <div className="statistic-title">УСКОРИТЕЛИ</div>
+                <div className='admin-statistic-subcontainer sub'>
+                    <div className='statistic-row'>
+                        <div className='statistic-text black'>
+                            ДОБЫТО ВСЕГО:
+                        </div>
+                        <div className='statistic-value green'>{statistic.totalMined}</div>
+                    </div>
+                    <div className='statistic-row'>
+                        <div className='statistic-text black'>
+                            КУПЛЕНО УСКОРИТЕЛЕЙ:
+                        </div>
+                        <div className='statistic-value green'>{statistic.countAccelerators}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div className='admin-statistic-subcontainer'>
                 <div className="statistic-title">РЕКЛАМНЫЕ ЗАПРОСЫ</div>
                 <div className='admin-statistic-subcontainer sub'>
                     <div className='statistic-row'>
