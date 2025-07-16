@@ -197,7 +197,6 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
     
         const now = new Date();
     
-        // Фильтруем активные ускорители
         const activeAccelerators = acceleratorsList.filter(acc => new Date(acc.stopDate) > now);
     
         if (activeAccelerators.length === 0) {
