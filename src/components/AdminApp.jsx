@@ -15,6 +15,7 @@ export default function AdminApp({ setCurrentContent, adPackages, setAdPackages,
     const [adminTransactions, setAdminTransactions] = useState([]);
     const [adminAds, setAdminAds] = useState([]);
     const [statistic, setStatistic] = useState(null);
+    const [acceleratorsConfig, setAcceleratorsConfig] = useState([]);
 
     async function getStatistic(dataRaw) {
         axios.get('/api/freetonadmin/statistic', {
@@ -62,8 +63,24 @@ export default function AdminApp({ setCurrentContent, adPackages, setAdPackages,
             })
     }
 
+    async function getAcceleratorsConfig(dataRaw) {
+        axios.get('/api/freetonadmin/acceleratorsconfig', {
+            headers: {
+                'Authorization': 'tma ' + dataRaw
+            }
+        })
+            .then(response => {
+                setAcceleratorsConfig(response.data.acceleratorsConfig);
+            }
+            )
+            .catch(error => {
+                console.error('Get accelerators config error: ', error);
+            })
+    }
+
     useEffect(() => {
         const dataRaw = retrieveRawInitData();
+        getAcceleratorsConfig(dataRaw);
         getStatistic(dataRaw);
         getAdvertisements(dataRaw);
         getTransactions(dataRaw);
@@ -85,7 +102,7 @@ export default function AdminApp({ setCurrentContent, adPackages, setAdPackages,
                 )
             case 'adminsettings':
                 return (
-                    <AdminSettings initialNumbers={initialNumbers} setInitialNumbers={setInitialNumbers}/>
+                    <AdminSettings initialNumbers={initialNumbers} setInitialNumbers={setInitialNumbers} setAcceleratorsConfig={setAcceleratorsConfig} acceleratorsConfig={acceleratorsConfig}/>
                 )
         }
     };

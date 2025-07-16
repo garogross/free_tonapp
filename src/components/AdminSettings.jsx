@@ -1,8 +1,9 @@
 import './AdminSettings.css'
 import { useState } from "react";
 import AdminSettingsCran from './AdminSettingsCran';
+import AdminSettingsAccelerator from './AdminSettingsAccelerator';
 
-export default function AdminSettings( {initialNumbers, setInitialNumbers} ) {
+export default function AdminSettings( {initialNumbers, setInitialNumbers, setAcceleratorsConfig, acceleratorsConfig} ) {
     const [settingPage, setSettingPage] = useState('settingscran');
 
     const handleMenuButtonClick = (settingPage) => {
@@ -21,7 +22,7 @@ export default function AdminSettings( {initialNumbers, setInitialNumbers} ) {
             ) : settingPage === "settingschallenges" ? (
                 <></>
             ) : (
-                <></>
+                <AdminSettingsAccelerator setAcceleratorsConfig={setAcceleratorsConfig} acceleratorsConfig={acceleratorsConfig}/>
             )}
         </>
     )
