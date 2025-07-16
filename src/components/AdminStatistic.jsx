@@ -25,79 +25,133 @@ export default function AdminStatistic({ statistic }) {
 
             <div className='admin-statistic-subcontainer'>
                 <div className="statistic-title">ОБЩАЯ ИНФОРМАЦИЯ</div>
-                <div className='statistic-row'>
-                    <div className='statistic-text black'>
-                        ВСЕГО ПОЛЬЗОВАТЕЛЕЙ:
+                <div className='admin-statistic-subcontainer sub'>
+                    <div className='statistic-row'>
+                        <div className='statistic-text black'>
+                            ВСЕГО ПОЛЬЗОВАТЕЛЕЙ:
+                        </div>
+                        <div className='statistic-value green'>{statistic.totalUsers}</div>
                     </div>
-                    <div className='statistic-value green'>{statistic.totalUsers}</div>
-                </div>
-                <div className='statistic-row'>
-                    <div className='statistic-text black'>
-                        ВСЕГО МОНЕТ:
+                    <div className='statistic-row'>
+                        <div className='statistic-text black'>
+                            ВСЕГО МОНЕТ:
+                        </div>
+                        <div className='statistic-value green'>{statistic.totalTonBalance.toFixed(3)}</div>
                     </div>
-                    <div className='statistic-value green'>{statistic.totalTonBalance.toFixed(6)}</div>
-                </div>
-                <div className='statistic-row'>
-                    <div className='statistic-text black'>
-                        ВСЕГО ПОПОЛНЕНИЙ:
+                    <div className='statistic-row'>
+                        <div className='statistic-text black'>
+                            ВСЕГО ПОПОЛНЕНИЙ:
+                        </div>
+                        <div className='statistic-value green'>{statistic.totalReplenishments}</div>
                     </div>
-                    <div className='statistic-value green'>{statistic.totalReplenishments}</div>
-                </div>
-                <div className='statistic-row'>
-                    <div className='statistic-text black'>
-                        ВСЕГО ВЫВОДОВ:
+                    <div className='statistic-row'>
+                        <div className='statistic-text black'>
+                            ВСЕГО ВЫВОДОВ:
+                        </div>
+                        <div className='statistic-value green'>{statistic.totalWithdrawlars}</div>
                     </div>
-                    <div className='statistic-value green'>{statistic.totalWithdrawlars}</div>
-                </div>
-                <div className='statistic-row'>
-                    <div className='statistic-text black'>
-                        АКТИВНЫХ ОБЪЯВЛЕНИЙ:
+                    <div className='statistic-row'>
+                        <div className='statistic-text black'>
+                            АКТИВНЫХ ОБЪЯВЛЕНИЙ:
+                        </div>
+                        <div className='statistic-value green'>{statistic.countActiveAds}</div>
                     </div>
-                    <div className='statistic-value green'>{statistic.countActiveAds}</div>
                 </div>
             </div>
 
             <div className='admin-statistic-subcontainer'>
                 <div className="statistic-title">НОВЫЕ ПОЛЬЗОВАТЕЛИ</div>
-                <div className='statistic-row'>
-                    <div className='statistic-text black'>
-                        ЗА ДЕНЬ:
+                <div className='admin-statistic-subcontainer sub'>
+                    <div className='statistic-row'>
+                        <div className='statistic-text black'>
+                            ЗА ДЕНЬ:
+                        </div>
+                        <div className='statistic-value green'>{statistic.newUsersPerDay}</div>
                     </div>
-                    <div className='statistic-value green'>{statistic.newUsersPerDay}</div>
-                </div>
-                <div className='statistic-row'>
-                    <div className='statistic-text black'>
-                        ЗА НЕДЕЛЮ:
+                    <div className='statistic-row'>
+                        <div className='statistic-text black'>
+                            ЗА НЕДЕЛЮ:
+                        </div>
+                        <div className='statistic-value green'>{statistic.newUsersPerWeek}</div>
                     </div>
-                    <div className='statistic-value green'>{statistic.newUsersPerWeek}</div>
-                </div>
-                <div className='statistic-row'>
-                    <div className='statistic-text black'>
-                        ЗА МЕСЯЦ:
+                    <div className='statistic-row'>
+                        <div className='statistic-text black'>
+                            ЗА МЕСЯЦ:
+                        </div>
+                        <div className='statistic-value green'>{statistic.newUsersPerMonth}</div>
                     </div>
-                    <div className='statistic-value green'>{statistic.newUsersPerMonth}</div>
                 </div>
             </div>
 
             <div className='admin-statistic-subcontainer'>
                 <div className="statistic-title">ЗАПУСКИ ПРИЛОЖЕНИЯ</div>
+                <div className='admin-statistic-subcontainer sub'>
+                    <div className='statistic-row'>
+                        <div className='statistic-text black'>
+                            ЗА ДЕНЬ:
+                        </div>
+                        <div className='statistic-value green'>{statistic.appStartsPerDay}</div>
+                    </div>
+                    <div className='statistic-row'>
+                        <div className='statistic-text black'>
+                            ЗА НЕДЕЛЮ:
+                        </div>
+                        <div className='statistic-value green'>{statistic.appStartsPerWeek}</div>
+                    </div>
+                    <div className='statistic-row'>
+                        <div className='statistic-text black'>
+                            ЗА МЕСЯЦ:
+                        </div>
+                        <div className='statistic-value green'>{statistic.appStartsPerMonth}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div className='admin-statistic-subcontainer'>
+                <div className="statistic-title">ТРАНЗАКЦИИ</div>
                 <div className='statistic-row'>
                     <div className='statistic-text black'>
-                        ЗА ДЕНЬ:
+                        ПОПОЛНЕНИЯ
                     </div>
-                    <div className='statistic-value green'>{statistic.appStartsPerDay}</div>
+                </div>
+                <div className='admin-statistic-subcontainer sub'>
+                    <div className='statistic-row'>
+                        <div className='statistic-text black'>
+                            ЗАПРОСОВ:
+                        </div>
+                        <div className='statistic-value green'>{statistic.countReplenishmentsRequests}</div>
+                    </div>
+                    <div className='statistic-row'>
+                        <div className='statistic-text black'>
+                            ОБЩАЯ СУММА:
+                        </div>
+                        <div className='statistic-value green'>{statistic.totalReplenishmentsAmount} TON</div>
+                    </div>
                 </div>
                 <div className='statistic-row'>
                     <div className='statistic-text black'>
-                        ЗА НЕДЕЛЮ:
+                        ВЫВОДЫ
                     </div>
-                    <div className='statistic-value green'>{statistic.appStartsPerWeek}</div>
                 </div>
-                <div className='statistic-row'>
-                    <div className='statistic-text black'>
-                        ЗА МЕСЯЦ:
+                <div className='admin-statistic-subcontainer sub'>
+                    <div className='statistic-row'>
+                        <div className='statistic-text black'>
+                            ЗАПРОСОВ:
+                        </div>
+                        <div className='statistic-value green'>{statistic.countWithdrawalRequests}</div>
                     </div>
-                    <div className='statistic-value green'>{statistic.appStartsPerMonth}</div>
+                    <div className='statistic-row'>
+                        <div className='statistic-text black'>
+                            ОБЩАЯ СУММА:
+                        </div>
+                        <div className='statistic-value green'>{statistic.totalWithdrawalAmount} TON</div>
+                    </div>
+                    <div className='statistic-row'>
+                        <div className='statistic-text black'>
+                            ОДОБРЕННАЯ СУММА:
+                        </div>
+                        <div className='statistic-value green'>{statistic.approvedWithdrawalAmount} TON</div>
+                    </div>
                 </div>
             </div>
         </div>
