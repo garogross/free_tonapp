@@ -86,6 +86,15 @@ export default function AdminSettingsAccelerator({ acceleratorsConfig, setAccele
         }
     }
 
+    const acceleratorNameColor = (id) => {
+        switch(id) {
+            case 1: return "#343434";
+            case 2: return "#78AA28";
+            case 3: return "#5C74DE";
+            default: return "#343434";
+        }
+    }
+
     return (
         <div className="cran-settings-container">
             <div className='create-ad-package-container'>
@@ -96,11 +105,10 @@ export default function AdminSettingsAccelerator({ acceleratorsConfig, setAccele
                     {inputs.map((acc, index) => (
                         <div key={acc.id} className="accelerator-edit-row" style={{ marginBottom: 12 }}>
                             <div className='admin-settings-accelerators-sub'>
-                                <div style={{ marginBottom: 8, fontWeight: 600, color: '#333' }}>
-                                    Ускоритель: {acceleratorNames[acc.id] || 'Неизвестный'}
+                                <div style={{ marginBottom: 8, fontWeight: 600, color: acceleratorNameColor(acc.id)}}>
+                                    Ускоритель: {acceleratorNames[acc.id]}
                                 </div>
-                            </div>
-                            <div>ПЕРИОД АРЕНДЫ:</div>
+                            <div className="admin-settings-accelerator-input-header">ПЕРИОД АРЕНДЫ:</div>
                             <input
                                 type="text"
                                 placeholder="Период аренды (дней)"
@@ -108,7 +116,7 @@ export default function AdminSettingsAccelerator({ acceleratorsConfig, setAccele
                                 value={acc.rentPeriod}
                                 onChange={e => handleInputChange(index, 'rentPeriod', e.target.value)}
                             />
-                            <div>ПРИБЫЛЬ В ДЕНЬ:</div>
+                            <div className="admin-settings-accelerator-input-header">ПРИБЫЛЬ В ДЕНЬ:</div>
                             <input
                                 type="text"
                                 placeholder="Прибыль в день (TON)"
@@ -116,7 +124,7 @@ export default function AdminSettingsAccelerator({ acceleratorsConfig, setAccele
                                 value={acc.profitPerDay}
                                 onChange={e => handleInputChange(index, 'profitPerDay', e.target.value)}
                             />
-                            <div>ЦЕНА ЗА УСКОРИТЕЛЬ:</div>
+                            <div className="admin-settings-accelerator-input-header">ЦЕНА ЗА УСКОРИТЕЛЬ:</div>
                             <input
                                 type="text"
                                 placeholder="Цена аренды (TON)"
@@ -124,6 +132,7 @@ export default function AdminSettingsAccelerator({ acceleratorsConfig, setAccele
                                 value={acc.rentPrice}
                                 onChange={e => handleInputChange(index, 'rentPrice', e.target.value)}
                             />
+                            </div>
                         </div>
                     ))}
                 </div>
