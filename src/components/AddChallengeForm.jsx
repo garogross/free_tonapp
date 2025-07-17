@@ -1,8 +1,10 @@
 import './AddChallengeForm.css';
 import { useEffect, useState } from 'react';
 import { useNotification } from './useNotification';
+import { retrieveRawInitData } from '@telegram-apps/sdk'
+import axios from 'axios';
 
-export default function AddChallengeForm({ currentChallenge, challengesConfigs }) {
+export default function AddChallengeForm({ currentChallenge, challengesConfigs, tonBalance }) {
     const { showError, showNotification } = useNotification();
     const [selectedTimes, setSelectedTimes] = useState("10");
     const [challengeName, setChallengeName] = useState('');
@@ -11,6 +13,7 @@ export default function AddChallengeForm({ currentChallenge, challengesConfigs }
     const [challengeDoAmount, setChallengeDoAmount] = useState('');
     const [calculateTotalPrice, setCalculateTotalPrice] = useState(0)
     const [isLoading, setIsLoading] = useState(false);
+    const [checkLinkResult, setCheckLinkResult] = useState(null);
 
     const handleTimesClick = (time) => {
         setSelectedTimes(time);
@@ -101,7 +104,61 @@ export default function AddChallengeForm({ currentChallenge, challengesConfigs }
         setCalculateTotalPrice((priceBySelectedTimes || 0) * doAmount);
         setIsLoading(false);
     }, [selectedTimes, challengeDoAmount, challengesConfigs]);
-    
+
+    const handleCheckLink = () => {
+        const maxLength = 100;
+        if (challengeLink.length > maxLength) {
+            showError("Максимальная длина ссылки 100 символов");
+            return;
+        }
+        if (challengeLink.length > 0) {
+            try {
+                const url = new URL(challengeLink);
+                if (url.protocol !== "https:") {
+                    showError("Ссылка должна начинаться с https://");
+                    return;
+                }
+            } catch (_) {
+                showError("Введите корректный URL");
+                return;
+            }
+        } else {
+            showError("Введите ссылку");
+            return;
+        }
+
+        const dataRaw = retrieveRawInitData();
+        setCheckLinkResult(null);
+        setIsLoading(true);
+        const postData = {
+            challengeLink: challengeLink
+        }
+        axios.post('/api/checklink/iframe', postData, {
+            headers: {
+                'Authorization': 'tma ' + dataRaw
+            }
+        })
+            .then(response => {
+                setCheckLinkResult(response.data);
+                setIsLoading(false);
+            })
+            .catch(error => {
+                console.log("Checklink for iframe error: {}", error);
+                setIsLoading(false);
+            })
+    }
+
+    const renderCheckLinkResult = () => {
+        if (checkLinkResult === null) {
+            return;
+        }
+        return checkLinkResult ? (
+            <div className='check-link-result yes'>ССЫЛКА ДОСТУПНА ДЛЯ ВСТРАИВАНИЯ</div>
+        ) : (
+            <div className='check-link-result no'>ЭТУ ССЫЛКУ НЕЛЬЗЯ ДОБАВИТЬ ДЛЯ СЕРФИНГА</div>
+        )
+    }
+
     return (
         <div className="add-challenge-form">
             <div className="add-challenge-form-title">Создать задание {titleCurrentChalengeToName(currentChallenge)}</div>
@@ -128,7 +185,8 @@ export default function AddChallengeForm({ currentChallenge, challengesConfigs }
                     value={challengeLink}
                 />
                 <div className='link-ping-check'>Проверьте сайт на доступность</div>
-                <button className='ping-check-button'>Проверить сайт</button>
+                <button className='ping-check-button' onClick={handleCheckLink} disabled={isLoading}>ПРОВЕРИТЬ САЙТ</button>
+                {renderCheckLinkResult()}
                 <div className='times-container-title'>Время на сайте (в секундах)</div>
                 <div className='times-container'>
                     <div className={`times-container-item ${selectedTimes === "10" ? "active" : ""}`} onClick={() => handleTimesClick("10")}>10</div>
@@ -148,10 +206,10 @@ export default function AddChallengeForm({ currentChallenge, challengesConfigs }
             </div>
             <div className='total-price-container'>
                 <div className='total-price-container-title'>К оплате:</div>
-                <div className='total-price-container-price'>{calculateTotalPrice.toFixed(6)}</div>
+                <div className={`total-price-container-price ${tonBalance < calculateTotalPrice ? 'red' : 'green'}`}>{calculateTotalPrice.toFixed(6)}</div>
             </div>
             <div className='add-challenge-form-button-container'>
-                <button className='add-challenge-form-button' disabled={isLoading}>ЗАПУСТИТЬ ЗАДАНИЕ</button>
+                <button className='add-challenge-form-button' disabled={isLoading || tonBalance < calculateTotalPrice}>ЗАПУСТИТЬ ЗАДАНИЕ</button>
             </div>
         </div>
     )

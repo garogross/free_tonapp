@@ -430,7 +430,7 @@ function App() {
       case 'addChallengeForm':
         return (
           <>
-            <AddChallengeForm currentChallenge={currentChallenge} challengesConfigs={challengesConfigs}/>
+            <AddChallengeForm currentChallenge={currentChallenge} challengesConfigs={challengesConfigs} tonBalance={tonBalance}/>
           </>
         );
       case 'addPackagesForm':

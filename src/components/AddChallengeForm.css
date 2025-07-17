@@ -73,14 +73,19 @@
     padding: 5px 20px;
     font-family: 'Montserrat';
     font-size: 13px;
-    font-weight: 500;
+    margin-top: 10px;
     max-width: fit-content;
     margin-left: 10px;
     transition: transform 0.1s ease;
+    font-weight: 600;
 }
 
 .ping-check-button:active {
     transform: scale(0.95);
+}
+
+.ping-check-button:disabled {
+    color: rgba(0, 0, 0, 0.6);
 }
 
 .times-container-title {
@@ -89,6 +94,7 @@
     font-size: 14px;
     font-weight: 500;
     margin-left: 10px;
+    margin-top: 15px;
 }
 
 .times-container {
@@ -145,11 +151,18 @@
 }
 
 .total-price-container-price {
-    color: #78AA28;
     font-family: 'Montserrat';
     font-size: 24px;
     font-weight: 800;
     margin-left: 20px;
+}
+
+.total-price-container-price.green {
+    color: #78AA28;
+}
+
+.total-price-container-price.red {
+    color: #AA2828;
 }
 
 .add-challenge-form-button {
@@ -177,4 +190,19 @@
     align-items: center;
     padding-top: 10px;
     padding-bottom: 20px;
+}
+
+.check-link-result {
+    font-family: 'Montserrat';
+    font-size: 14px;
+    margin-left: 10px;
+    font-weight: 600;
+}
+
+.check-link-result.yes {
+    color: #78AA28;
+}
+
+.check-link-result.no {
+    color: #AA2828;
 }
