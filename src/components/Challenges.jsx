@@ -3,8 +3,7 @@ import tonIcon from '../assets/ton.svg';
 import { useState } from 'react';
 import catImage from '../assets/cat.png';
 
-export default function Challenges( {setCurrentContent, tonBalance} ) {
-    const [currentChallenge, setCurrentChallenge] = useState('surfing');
+export default function Challenges({ setCurrentContent, tonBalance, currentChallenge, setCurrentChallenge }) {
     const [isClient, setIsClient] = useState(false);
 
     const handleClientSwitch = () => {
@@ -14,12 +13,16 @@ export default function Challenges( {setCurrentContent, tonBalance} ) {
     const renderChallenges = () => {
         switch (isClient) {
             case true:
-                return (
-                    <>
-                        <div className="no-clients-challenges-title">Список заданий пуст</div>
-                        <button className="add-challenges-button" onClick={() => setCurrentContent('addChallengeForm')}>Добавить задание</button>
-                    </>
-                )
+                switch (currentChallenge) {
+                    case 'youtube': return <div><img className="content-not-found" src={catImage} alt="Telegram" /></div>;
+                    case 'reviews': return <div><img className="content-not-found" src={catImage} alt="Telegram" /></div>;
+                    default: return (
+                        <>
+                            <div className="no-clients-challenges-title">Список заданий пуст</div>
+                            <button className="add-challenges-button" onClick={() => setCurrentContent('addChallengeForm')}>Добавить задание</button>
+                        </>
+                    );
+                }
             case false:
                 switch (currentChallenge) {
                     case 'surfing':
@@ -52,10 +55,10 @@ export default function Challenges( {setCurrentContent, tonBalance} ) {
                 </div>
             </div>
             <div className="challenges-menu-container">
-                    <button className={`challenges-menu-button ${currentChallenge === 'surfing' ? 'active' : ''}`} onClick={() => setCurrentChallenge('surfing')}>Серфинг</button>
-                    <button className={`challenges-menu-button ${currentChallenge === 'telegram' ? 'active' : ''}`} onClick={() => setCurrentChallenge('telegram')}>Телеграм</button>
-                    <button className={`challenges-menu-button ${currentChallenge === 'youtube' ? 'active' : ''}`} onClick={() => setCurrentChallenge('youtube')}>YouTube</button>
-                    <button className={`challenges-menu-button ${currentChallenge === 'reviews' ? 'active' : ''}`} onClick={() => setCurrentChallenge('reviews')}>Отзывы</button>
+                <button className={`challenges-menu-button ${currentChallenge === 'surfing' ? 'active' : ''}`} onClick={() => setCurrentChallenge('surfing')}>Серфинг</button>
+                <button className={`challenges-menu-button ${currentChallenge === 'telegram' ? 'active' : ''}`} onClick={() => setCurrentChallenge('telegram')}>Телеграм</button>
+                <button className={`challenges-menu-button ${currentChallenge === 'youtube' ? 'active' : ''}`} onClick={() => setCurrentChallenge('youtube')}>YouTube</button>
+                <button className={`challenges-menu-button ${currentChallenge === 'reviews' ? 'active' : ''}`} onClick={() => setCurrentChallenge('reviews')}>Отзывы</button>
             </div>
             {renderChallenges()}
         </div>

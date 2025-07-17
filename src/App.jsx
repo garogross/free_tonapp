@@ -37,6 +37,7 @@ function App() {
   const [user, setUser] = useState(null);
   const [currentContent, setCurrentContent] = useState('cran')
   const [profileSubMenu, setProfileSubMenu] = useState('profile')
+  const [currentChallenge, setCurrentChallenge] = useState('surfing');
   const [selectedPackage, setSelectedPackage] = useState(null)
   const [backPath, setBackPath] = useState(null)
   const [loadingUser, setLoadingUser] = useState(true);
@@ -56,6 +57,7 @@ function App() {
   const [endTime, setEndTime] = useState(0)
   const [rollStarted, setRollStarted] = useState(false)
   const [lastRollNumber, setLastRollNumber] = useState(0)
+  const [challengesConfigs, setChallengesConfigs] = useState(null);
 
   const [tonBalance, setTonBalance] = useState(0)
 
@@ -77,33 +79,47 @@ function App() {
 
   async function getInitialNumbers(dataRaw) {
     axios.get('/api/prizestable', {
-        headers: {
-            'Authorization': 'tma ' + dataRaw
-        }
-    })
-        .then(response => {
-            setInitialNumbers(response.data.prizesTable);
-        }
-        )
-        .catch(error => {
-            console.error('Get prizes table error: ', error);
-        })
-}
-
-  async function getActiveAds(dataRaw) {
-    axios.get('/api/activeads',{
       headers: {
         'Authorization': 'tma ' + dataRaw
       }
     })
-    .then(response => {
-      setActiveAds(response.data.advertisements);
-      setBlockedSlots(response.data.blockedSlots);
-    }
-    )
-    .catch(error => {
-      console.error('Get active advertisements error: ', error);
+      .then(response => {
+        setInitialNumbers(response.data.prizesTable);
+      }
+      )
+      .catch(error => {
+        console.error('Get prizes table error: ', error);
+      })
+  }
+
+  async function getChallegesConfigs(dataRaw) {
+    axios.get('/api/challengesconfigs', {
+      headers: {
+        'Authorization': 'tma ' + dataRaw
+      }
     })
+      .then(response => {
+        setChallengesConfigs(response.data)
+      })
+      .catch(error => {
+        console.error('Get challeges configs error: ', error);
+      })
+  }
+
+  async function getActiveAds(dataRaw) {
+    axios.get('/api/activeads', {
+      headers: {
+        'Authorization': 'tma ' + dataRaw
+      }
+    })
+      .then(response => {
+        setActiveAds(response.data.advertisements);
+        setBlockedSlots(response.data.blockedSlots);
+      }
+      )
+      .catch(error => {
+        console.error('Get active advertisements error: ', error);
+      })
   }
 
   async function getTransactions(dataRaw) {
@@ -296,6 +312,7 @@ function App() {
           console.error('Getting accelerate balance error: ', error);
         })
     }
+    getChallegesConfigs(dataRaw);
     getInitialNumbers(dataRaw);
     getActiveAds(dataRaw);
     getAdPackages(dataRaw);
@@ -352,14 +369,14 @@ function App() {
         return (
           <div className="cran-wrapper">
             <Rullet currentContent={currentContent} gridRow="1" luckyNumber={isAnimating ? displayNumber : luckyNumber} isPushed={isPushed} endTime={endTime} setIsPushed={setIsPushed} rollStarted={rollStarted} setRollStarted={setRollStarted} tonBalance={tonBalance} lastRollNumber={lastRollNumber} />
-            <RollTable initialNumbers={initialNumbers}/>
+            <RollTable initialNumbers={initialNumbers} />
             <RollButton isPushed={isPushed} setIsPushed={setIsPushed} setLuckyNumber={setLuckyNumber} setIsAnimating={setIsAnimating} setEndTime={setEndTime} setRollStarted={setRollStarted} setTonBalance={setTonBalance} setLastRollNumber={setLastRollNumber} />
           </div>
         );
       case 'challenges':
         return (
           <>
-            <Challenges setCurrentContent={setCurrentContent} tonBalance={tonBalance} />
+            <Challenges setCurrentContent={setCurrentContent} tonBalance={tonBalance} currentChallenge={currentChallenge} setCurrentChallenge={setCurrentChallenge} />
           </>
         );
       case 'staking':
@@ -388,7 +405,7 @@ function App() {
             return (
               <>
                 <ProfileMenu profileSubMenu={profileSubMenu} setProfileSubMenu={setProfileSubMenu} />
-                <AdvertisingCabinet setCurrentContent={setCurrentContent} tonBalance={tonBalance} advertisements={advertisements} adPackages={adPackages}/>
+                <AdvertisingCabinet setCurrentContent={setCurrentContent} tonBalance={tonBalance} advertisements={advertisements} adPackages={adPackages} />
               </>
             );
         }
@@ -413,19 +430,19 @@ function App() {
       case 'addChallengeForm':
         return (
           <>
-            <AddChallengeForm />
+            <AddChallengeForm currentChallenge={currentChallenge} challengesConfigs={challengesConfigs}/>
           </>
         );
       case 'addPackagesForm':
         return (
           <>
-            <AddsPackagesForm setCurrentContent={setCurrentContent} setSelectedPackage={setSelectedPackage} adPackages={adPackages} tonBalance={tonBalance}/>
+            <AddsPackagesForm setCurrentContent={setCurrentContent} setSelectedPackage={setSelectedPackage} adPackages={adPackages} tonBalance={tonBalance} />
           </>
         );
       case 'addAddForm':
         return (
           <>
-            <AddAddForm selectedPackage={selectedPackage} setAdvertisements={setAdvertisements} setTonBalance={setTonBalance} setProfileSubMenu={setProfileSubMenu} setCurrentContent={setCurrentContent} blockedSlots={blockedSlots}/>
+            <AddAddForm selectedPackage={selectedPackage} setAdvertisements={setAdvertisements} setTonBalance={setTonBalance} setProfileSubMenu={setProfileSubMenu} setCurrentContent={setCurrentContent} blockedSlots={blockedSlots} />
           </>
         );
     }
@@ -443,14 +460,14 @@ function App() {
               {renderContent()}
             </main>
             <footer>
-              <Add setCurrentContent={setCurrentContent} setProfileSubMenu={setProfileSubMenu} activeAds={activeAds}/>
+              <Add setCurrentContent={setCurrentContent} setProfileSubMenu={setProfileSubMenu} activeAds={activeAds} />
               <FootMenu setCurrentContent={setCurrentContent} currentContent={currentContent} />
             </footer>
           </TonConnectUIProvider>
         } />
         <Route path="/freetonadmin" element={
           <ProtectedRoute user={user} loadingUser={loadingUser} allowedRoles={['admin']}>
-            <AdminApp setCurrentContent={setCurrentContent} adPackages={adPackages} setAdPackages={setAdPackages} initialNumbers={initialNumbers} setInitialNumbers={setInitialNumbers}/>
+            <AdminApp setCurrentContent={setCurrentContent} adPackages={adPackages} setAdPackages={setAdPackages} initialNumbers={initialNumbers} setInitialNumbers={setInitialNumbers} />
           </ProtectedRoute>
         } />
       </Routes>
