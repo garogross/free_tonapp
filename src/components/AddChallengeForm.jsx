@@ -4,7 +4,7 @@ import { useNotification } from './useNotification';
 import { retrieveRawInitData } from '@telegram-apps/sdk'
 import axios from 'axios';
 
-export default function AddChallengeForm({ currentChallenge, challengesConfigs, tonBalance }) {
+export default function AddChallengeForm({ currentChallenge, challengesConfigs, tonBalance, setChallenges }) {
     const { showError, showNotification } = useNotification();
     const [selectedTimes, setSelectedTimes] = useState("10");
     const [challengeName, setChallengeName] = useState('');
@@ -13,7 +13,38 @@ export default function AddChallengeForm({ currentChallenge, challengesConfigs, 
     const [challengeDoAmount, setChallengeDoAmount] = useState('');
     const [calculateTotalPrice, setCalculateTotalPrice] = useState(0)
     const [isLoading, setIsLoading] = useState(false);
+    const [isFormValid, setIsFormValid] = useState(false);
     const [checkLinkResult, setCheckLinkResult] = useState(null);
+    const [activeSurfingConfig, setActiveSurfingConfig] = useState(null);
+
+    const validateForm = () => {
+        if (!challengeName.trim()) return false;
+        if (!challengeDescription.trim()) return false;
+        if (!challengeLink) return false;
+        try {
+            const url = new URL(challengeLink);
+            if (url.protocol !== 'https:') return false;
+        } catch {
+            return false;
+        }
+        const amount = Number(challengeDoAmount);
+        if (!challengeDoAmount || amount <= 0 || !Number.isInteger(amount)) return false;
+        if (checkLinkResult !== true) return false;
+        if (tonBalance < calculateTotalPrice) return false;
+        return true;
+    }
+
+    useEffect(() => {
+        setIsFormValid(validateForm());
+    }, [
+        challengeName,
+        challengeDescription,
+        challengeLink,
+        challengeDoAmount,
+        checkLinkResult,
+        tonBalance,
+        calculateTotalPrice
+    ]);
 
     const handleTimesClick = (time) => {
         setSelectedTimes(time);
@@ -21,10 +52,10 @@ export default function AddChallengeForm({ currentChallenge, challengesConfigs, 
 
     const handleChallengeNameChange = (e) => {
         let value = e.target.value;
-        const maxLength = 20;
+        const maxLength = 21;
         if (value.length > maxLength) {
             value = value.slice(0, maxLength);
-            showError("Максимальная длина названия 20 символов");
+            showError("Максимальная длина названия 21 символ");
         }
 
         setChallengeName(value);
@@ -83,7 +114,7 @@ export default function AddChallengeForm({ currentChallenge, challengesConfigs, 
     }
 
     const selectedTimesToDtoArgumen = (activeSurfingConfig) => {
-        if (!activeSurfingConfig) return 0;
+        if (!activeSurfingConfig) return 9999;
         switch (selectedTimes) {
             case "10": return activeSurfingConfig.price10Sec;
             case "20": return activeSurfingConfig.price20Sec;
@@ -97,9 +128,10 @@ export default function AddChallengeForm({ currentChallenge, challengesConfigs, 
     useEffect(() => {
         setIsLoading(true);
         if (!challengesConfigs?.surfingConfigs) return;
-        const activeSurfingConfig = challengesConfigs.surfingConfigs.find(cfg => cfg.status === "active");
-        if (!activeSurfingConfig) return;
-        const priceBySelectedTimes = selectedTimesToDtoArgumen(activeSurfingConfig);
+        const activeSurfingConfigRaw = challengesConfigs.surfingConfigs.find(cfg => cfg.status === "active");
+        if (!activeSurfingConfigRaw) return;
+        setActiveSurfingConfig(activeSurfingConfigRaw);
+        const priceBySelectedTimes = selectedTimesToDtoArgumen(activeSurfingConfigRaw);
         let doAmount = Number(challengeDoAmount) || 0;
         setCalculateTotalPrice((priceBySelectedTimes || 0) * doAmount);
         setIsLoading(false);
@@ -148,6 +180,41 @@ export default function AddChallengeForm({ currentChallenge, challengesConfigs, 
             })
     }
 
+    const handleCreateChallenge = () => {
+        setIsLoading(true);
+        const dataRaw = retrieveRawInitData();;
+        const postData = {
+            challengeName: challengeName,
+            challengeDescription: challengeDescription,
+            challengeLink: challengeLink,
+            selectedTimes: selectedTimes,
+            challengeDoAmount: challengeDoAmount,
+            challengeType: currentChallenge,
+            configId: activeSurfingConfig.id
+        }
+        axios.post('/api/challenges', postData, {
+            headers: {
+                'Authorization': 'tma ' + dataRaw
+            }
+        })
+            .then(response => {
+                setChallenges(response.data);
+                setIsLoading(false);
+                setChallengeName('');
+                setChallengeDescription('');
+                setChallengeLink('');
+                setSelectedTimes('10');
+                setChallengeDoAmount('');
+                setCheckLinkResult(null);
+                showNotification("Задание отправлено на модерацию");
+            })
+            .catch(error => {
+                console.log("Error creating challenge: {}", error)
+                showError("Не удалось создать задание")
+                setIsLoading(false);
+            })
+    }
+
     const renderCheckLinkResult = () => {
         if (checkLinkResult === null) {
             return;
@@ -184,7 +251,7 @@ export default function AddChallengeForm({ currentChallenge, challengesConfigs, 
                     onChange={handleChallengeLinkChange}
                     value={challengeLink}
                 />
-                <div className='link-ping-check'>Проверьте сайт на доступность</div>
+                <div className='link-ping-check'>Проверьте сайт на доступность (обязательный шаг)</div>
                 <button className='ping-check-button' onClick={handleCheckLink} disabled={isLoading}>ПРОВЕРИТЬ САЙТ</button>
                 {renderCheckLinkResult()}
                 <div className='times-container-title'>Время на сайте (в секундах)</div>
@@ -209,7 +276,7 @@ export default function AddChallengeForm({ currentChallenge, challengesConfigs, 
                 <div className={`total-price-container-price ${tonBalance < calculateTotalPrice ? 'red' : 'green'}`}>{calculateTotalPrice.toFixed(6)}</div>
             </div>
             <div className='add-challenge-form-button-container'>
-                <button className='add-challenge-form-button' disabled={isLoading || tonBalance < calculateTotalPrice}>ЗАПУСТИТЬ ЗАДАНИЕ</button>
+                <button className='add-challenge-form-button' disabled={isLoading || tonBalance < calculateTotalPrice || !isFormValid} onClick={handleCreateChallenge}>ЗАПУСТИТЬ ЗАДАНИЕ</button>
             </div>
         </div>
     )

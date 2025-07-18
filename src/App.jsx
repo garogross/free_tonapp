@@ -42,6 +42,7 @@ function App() {
   const [backPath, setBackPath] = useState(null)
   const [loadingUser, setLoadingUser] = useState(true);
   const [blockedSlots, setBlockedSlots] = useState(0);
+  const [challenges, setChallenges] = useState(null);
 
   const [activeAds, setActiveAds] = useState([]);
   const [transactions, setTransactions] = useState([]);
@@ -103,6 +104,20 @@ function App() {
       })
       .catch(error => {
         console.error('Get challeges configs error: ', error);
+      })
+  }
+
+  async function getChalleges(dataRaw) {
+    axios.get('/api/challenges', {
+      headers: {
+        'Authorization': 'tma ' + dataRaw
+      }
+    })
+      .then(response => {
+        setChallenges(response.data)
+      })
+      .catch(error => {
+        console.error('Get challenges error: ', error);
       })
   }
 
@@ -312,6 +327,7 @@ function App() {
           console.error('Getting accelerate balance error: ', error);
         })
     }
+    getChalleges(dataRaw);
     getChallegesConfigs(dataRaw);
     getInitialNumbers(dataRaw);
     getActiveAds(dataRaw);
@@ -376,7 +392,7 @@ function App() {
       case 'challenges':
         return (
           <>
-            <Challenges setCurrentContent={setCurrentContent} tonBalance={tonBalance} currentChallenge={currentChallenge} setCurrentChallenge={setCurrentChallenge} />
+            <Challenges setCurrentContent={setCurrentContent} tonBalance={tonBalance} currentChallenge={currentChallenge} setCurrentChallenge={setCurrentChallenge} challenges={challenges}/>
           </>
         );
       case 'staking':
@@ -430,7 +446,7 @@ function App() {
       case 'addChallengeForm':
         return (
           <>
-            <AddChallengeForm currentChallenge={currentChallenge} challengesConfigs={challengesConfigs} tonBalance={tonBalance}/>
+            <AddChallengeForm currentChallenge={currentChallenge} challengesConfigs={challengesConfigs} tonBalance={tonBalance} setChallenges={setChallenges}/>
           </>
         );
       case 'addPackagesForm':

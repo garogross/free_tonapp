@@ -1,13 +1,60 @@
 import './Challenges.css';
 import tonIcon from '../assets/ton.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import catImage from '../assets/cat.png';
+import smallTonIcon from '../assets/small_ton.svg';
 
-export default function Challenges({ setCurrentContent, tonBalance, currentChallenge, setCurrentChallenge }) {
+export default function Challenges({ setCurrentContent, tonBalance, currentChallenge, setCurrentChallenge, challenges }) {
     const [isClient, setIsClient] = useState(false);
+    const [surfingChallenges, setSurfingChallenges] = useState([]);
+    const [ownedSurfingChallenges, setOwnedSurfingChallenges] = useState([]);
+
+    useEffect(() => {
+        if (!challenges) return;
+        setSurfingChallenges(challenges.activeSurfingChalleges);
+        setOwnedSurfingChallenges(challenges.ownedSurfingChallenges);
+    }, [challenges]);
 
     const handleClientSwitch = () => {
         setIsClient(!isClient);
+    }
+
+    const renderSurfingChallengesTable = () => {
+        let table = [];
+        switch (isClient) {
+            case true:
+                table = ownedSurfingChallenges;
+                break;
+            case false:
+                table = surfingChallenges;
+                break;
+        }
+        if (!table || table.length === 0) {
+            return (
+                <div className="empty-wrapper">
+                    <div className="empty-message">Список заданий пуст</div>
+                </div>
+            );
+        }
+        return table.map((sc, index) =>
+            <div className="challenge-row" key={sc.id || index}>
+                <div className="challenge-row-sub start">
+                    <div className="challenge-item-text challenge-name">{sc.name}</div>
+                    <div className="challenge-item-text challenge-description">{sc.description}</div>
+                </div>
+                <div className="challenge-row-sub end">
+                    <div className="challenge-time-container">
+                        <div className="challenge-item-text">ВРЕМЯ: </div>
+                        <div className="challenge-item-text challenge-time-of-execution">{sc.timeOfExecution} сек</div>
+                    </div>
+                    <span className="challenge-item-payment">
+                        <div className="challenge-item-text challege-price">{sc.price.toFixed(7)}</div>
+                        <img src={smallTonIcon} alt="TON" />
+                    </span>
+                    <button className="challenge-surf-button">ПОСЕТИТЬ</button>
+                </div>
+            </div>
+        );
     }
 
     const renderChallenges = () => {
@@ -16,17 +63,27 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
                 switch (currentChallenge) {
                     case 'youtube': return <div><img className="content-not-found" src={catImage} alt="Telegram" /></div>;
                     case 'reviews': return <div><img className="content-not-found" src={catImage} alt="Telegram" /></div>;
-                    default: return (
+                    case 'surfing': return (
+                        <>
+                            <div className="no-clients-challenges-title">{renderSurfingChallengesTable()}</div>
+                            <div className="add-challenges-button-container">
+                                <button className="add-challenges-button" onClick={() => setCurrentContent('addChallengeForm')}>Добавить задание</button>
+                            </div>
+                        </>
+                    );
+                    case 'telegram': return (
                         <>
                             <div className="no-clients-challenges-title">Список заданий пуст</div>
-                            <button className="add-challenges-button" onClick={() => setCurrentContent('addChallengeForm')}>Добавить задание</button>
+                            <div className="add-challenges-button-container">
+                                <button className="add-challenges-button" onClick={() => setCurrentContent('addChallengeForm')}>Добавить задание</button>
+                            </div>
                         </>
                     );
                 }
             case false:
                 switch (currentChallenge) {
                     case 'surfing':
-                        return <div className="no-clients-challenges-title">Список заданий пуст</div>;
+                        return <div className="no-clients-challenges-title">{renderSurfingChallengesTable()}</div>;
                     case 'telegram':
                         return <div className="no-clients-challenges-title">Список заданий пуст</div>;
                     case 'youtube':
