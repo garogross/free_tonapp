@@ -249,3 +249,15 @@
     display: flex;
     gap: 5px;
 }
+
+.challenge-item-text.active {
+    color: #78AA28;
+}
+
+.challenge-item-text.moderation {
+    color: #d4a017;
+}
+
+.challenge-item-text.deprecated {
+    color: #AA2828;
+}

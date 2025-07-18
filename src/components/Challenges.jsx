@@ -19,6 +19,14 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
         setIsClient(!isClient);
     }
 
+    const statusToMean = (status) => {
+        switch (status) {
+            case "moderation": return "МОДЕРИРУЕТСЯ";
+            case "active": return "ЗАПУЩЕНО";
+            case "deprecated": return "ЗАКОНЧЕНО";
+        }
+    }
+
     const renderSurfingChallengesTable = () => {
         let table = [];
         switch (isClient) {
@@ -39,6 +47,7 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
         return table.map((sc, index) =>
             <div className="challenge-row" key={sc.id || index}>
                 <div className="challenge-row-sub start">
+                    <div className={`challenge-item-text ${sc.status}`}>{isClient ? statusToMean(sc.status) : ''}</div>
                     <div className="challenge-item-text challenge-name">{sc.name}</div>
                     <div className="challenge-item-text challenge-description">{sc.description}</div>
                 </div>
