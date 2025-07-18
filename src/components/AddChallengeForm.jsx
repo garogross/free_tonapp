@@ -4,7 +4,7 @@ import { useNotification } from './useNotification';
 import { retrieveRawInitData } from '@telegram-apps/sdk'
 import axios from 'axios';
 
-export default function AddChallengeForm({ currentChallenge, challengesConfigs, tonBalance, setChallenges }) {
+export default function AddChallengeForm({ currentChallenge, challengesConfigs, tonBalance, setChallenges, setTonBalance }) {
     const { showError, showNotification } = useNotification();
     const [selectedTimes, setSelectedTimes] = useState("10");
     const [challengeName, setChallengeName] = useState('');
@@ -199,6 +199,7 @@ export default function AddChallengeForm({ currentChallenge, challengesConfigs, 
         })
             .then(response => {
                 setChallenges(response.data);
+                setTonBalance(response.data.tonBalance);
                 setIsLoading(false);
                 setChallengeName('');
                 setChallengeDescription('');
