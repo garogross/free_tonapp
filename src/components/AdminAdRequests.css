@@ -9,7 +9,9 @@
     align-items: center;
     margin-bottom: 10px;
     overflow-y: auto;
+    overflow: hidden;
     gap: 10px;
+    width: 100%;
 }
 
 .admin-ad-container {
@@ -35,4 +37,69 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.ad-challenges-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.ad-menu-button-container {
+    display: flex;
+    justify-content: space-evenly;
+    background-color: #C9C9C9;
+    align-items: center;
+    padding: 10px 0px;
+    width: 95%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.ad-menu-button {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    border-radius: 10px;
+    padding: 10px 40px;
+    max-width: 45%;
+    flex-grow: 1;
+    transition: transform 0.1s ease;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #343434;
+}
+
+.ad-menu-button.btn-active {
+    background-color: #78AA28;
+    color: #000000;
+}
+
+.ad-menu-button:active {
+    transform: scale(0.95);
+}
+
+.challenge-moderation-container {
+    background-color: #C9C9C9;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 10px;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+.moderarion-info-block {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-left: 20px;
+    margin-bottom: 10px;
+    justify-content: flex-start;   
 }

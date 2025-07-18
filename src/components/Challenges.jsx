@@ -3,11 +3,13 @@ import tonIcon from '../assets/ton.svg';
 import { useEffect, useState } from 'react';
 import catImage from '../assets/cat.png';
 import smallTonIcon from '../assets/small_ton.svg';
+import { useNotification } from './useNotification';
 
 export default function Challenges({ setCurrentContent, tonBalance, currentChallenge, setCurrentChallenge, challenges }) {
     const [isClient, setIsClient] = useState(false);
     const [surfingChallenges, setSurfingChallenges] = useState([]);
     const [ownedSurfingChallenges, setOwnedSurfingChallenges] = useState([]);
+    const { showNotification } = useNotification();
 
     useEffect(() => {
         if (!challenges) return;
@@ -24,6 +26,7 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
             case "moderation": return "МОДЕРИРУЕТСЯ";
             case "active": return "ЗАПУЩЕНО";
             case "deprecated": return "ЗАКОНЧЕНО";
+            case "deny": return "ОТКЛОНЕНО";
         }
     }
 
@@ -49,7 +52,7 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
                 <div className="challenge-row-sub start">
                     <div className={`challenge-item-text ${sc.status}`}>{isClient ? statusToMean(sc.status) : ''}</div>
                     <div className="challenge-item-text challenge-name">{sc.name}</div>
-                    <div className="challenge-item-text challenge-description">{sc.description}</div>
+                    <div className="challenge-item-text challenge-description" onClick={() => showNotification(sc.description)}>{sc.description}</div>
                 </div>
                 <div className="challenge-row-sub end">
                     <div className="challenge-time-container">

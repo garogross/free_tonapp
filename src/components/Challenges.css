@@ -184,7 +184,8 @@
 .challenge-item-text {
     color: black;
     font-size: 12px;
-    text-wrap: nowrap;
+    white-space: normal;
+    text-align: left; 
 }
 
 .challenge-row-sub {
@@ -229,8 +230,11 @@
 .challenge-description {
     color: #343434;
     font-size: 12px;
-    white-space: normal;
-    text-align: left;    
+    white-space: nowrap;
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    text-align: left;
+    max-width: 150px;  
 }
 
 .challenge-item-payment {
@@ -259,5 +263,9 @@
 }
 
 .challenge-item-text.deprecated {
+    color: #AA2828;
+}
+
+.challenge-item-text.deny {
     color: #AA2828;
 }

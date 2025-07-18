@@ -3,7 +3,7 @@ import './AdminAd.css';
 import AdminAdRequests from './AdminAdRequests';
 import AdminAdPackages from './AdminAdPackages';
 
-export default function AdminAd({ adminAds, setAdminAds, adPackages, setAdPackages }) {
+export default function AdminAd({ adminAds, setAdminAds, adPackages, setAdPackages, challenges, setChallenges }) {
     const [adPage, setAdPage] = useState('adrequests');
 
     const handleMenuButtonClick = (transactionPage) => {
@@ -17,7 +17,7 @@ export default function AdminAd({ adminAds, setAdminAds, adPackages, setAdPackag
                 <button className={`transaction-menu-button ${adPage === 'adpackages' ? 'btn-active' : ''}`} onClick={() => handleMenuButtonClick("adpackages")}>ТАРИФЫ</button>
             </div>
             {adPage === "adrequests" ? (
-                <AdminAdRequests adminAds={adminAds} setAdminAds={setAdminAds} adPackages={adPackages} />
+                <AdminAdRequests adminAds={adminAds} setAdminAds={setAdminAds} adPackages={adPackages} challenges={challenges} setChallenges={setChallenges}/>
             ) : (
                 <AdminAdPackages adPackages={adPackages} setAdPackages={setAdPackages}/>
             )}

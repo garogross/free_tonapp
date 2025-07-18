@@ -16,6 +16,7 @@ export default function AdminApp({ setCurrentContent, adPackages, setAdPackages,
     const [adminAds, setAdminAds] = useState([]);
     const [statistic, setStatistic] = useState(null);
     const [acceleratorsConfig, setAcceleratorsConfig] = useState([]);
+    const [challenges, setChallenges] = useState(null);
 
     async function getStatistic(dataRaw) {
         axios.get('/api/freetonadmin/statistic', {
@@ -78,8 +79,24 @@ export default function AdminApp({ setCurrentContent, adPackages, setAdPackages,
             })
     }
 
+    async function getChallenges(dataRaw) {
+        axios.get('/api/freetonadmin/challenges', {
+            headers: {
+                'Authorization': 'tma ' + dataRaw
+            }
+        })
+            .then(response => {
+                setChallenges(response.data);
+            }
+            )
+            .catch(error => {
+                console.error('Get challenges error: ', error);
+            })
+    }
+
     useEffect(() => {
         const dataRaw = retrieveRawInitData();
+        getChallenges(dataRaw);
         getAcceleratorsConfig(dataRaw);
         getStatistic(dataRaw);
         getAdvertisements(dataRaw);
@@ -98,7 +115,7 @@ export default function AdminApp({ setCurrentContent, adPackages, setAdPackages,
                 )
             case 'adminad':
                 return (
-                    <AdminAd adminAds={adminAds} setAdminAds={setAdminAds} adPackages={adPackages} setAdPackages={setAdPackages}/>
+                    <AdminAd adminAds={adminAds} setAdminAds={setAdminAds} adPackages={adPackages} setAdPackages={setAdPackages} challenges={challenges} setChallenges={setChallenges}/>
                 )
             case 'adminsettings':
                 return (
