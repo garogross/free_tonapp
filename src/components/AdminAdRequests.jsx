@@ -176,6 +176,7 @@ export default function AdminAdRequests({ adminAds, setAdminAds, adPackages, cha
                             </div>
                         </div>
                         <div className="moderarion-info-block">
+                            <div className="challenge-item-text">ТИП: СЁРФИНГ</div>
                             <div className="challenge-item-text">ИМЯ: {challenge.name}</div>
                             <div className="challenge-item-text">ОПИСАНИЕ: {challenge.description}</div>
                             <div className="challenge-item-text" onClick={() => copyLink(challenge.link)}>ССЫЛКА: {challenge.link}</div>

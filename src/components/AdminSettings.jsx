@@ -2,8 +2,9 @@ import './AdminSettings.css'
 import { useState } from "react";
 import AdminSettingsCran from './AdminSettingsCran';
 import AdminSettingsAccelerator from './AdminSettingsAccelerator';
+import AdminSettingsChallenges from './AdminSettingsChallenges';
 
-export default function AdminSettings( {initialNumbers, setInitialNumbers, setAcceleratorsConfig, acceleratorsConfig} ) {
+export default function AdminSettings( {initialNumbers, setInitialNumbers, setAcceleratorsConfig, acceleratorsConfig, challengesConfig, setChallengesConfig } ) {
     const [settingPage, setSettingPage] = useState('settingscran');
 
     const handleMenuButtonClick = (settingPage) => {
@@ -20,7 +21,7 @@ export default function AdminSettings( {initialNumbers, setInitialNumbers, setAc
             {settingPage === "settingscran" ? (
                 <AdminSettingsCran initialNumbers={initialNumbers} setInitialNumbers={setInitialNumbers}/>
             ) : settingPage === "settingschallenges" ? (
-                <></>
+                <AdminSettingsChallenges surfingConfigs={challengesConfig.surfingConfigs} setSurfingConfigs={setChallengesConfig}/>
             ) : (
                 <AdminSettingsAccelerator setAcceleratorsConfig={setAcceleratorsConfig} acceleratorsConfig={acceleratorsConfig}/>
             )}

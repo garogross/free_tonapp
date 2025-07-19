@@ -10,7 +10,7 @@ import { retrieveRawInitData } from '@telegram-apps/sdk'
 import axios from 'axios'
 
 
-export default function AdminApp({ setCurrentContent, adPackages, setAdPackages, initialNumbers, setInitialNumbers }) {
+export default function AdminApp({ setCurrentContent, adPackages, setAdPackages, initialNumbers, setInitialNumbers, challengesConfig, setChallengesConfig }) {
     const [adminCurrentContent, setAdminCurrentContent] = useState('adminstatistic')
     const [adminTransactions, setAdminTransactions] = useState([]);
     const [adminAds, setAdminAds] = useState([]);
@@ -119,7 +119,7 @@ export default function AdminApp({ setCurrentContent, adPackages, setAdPackages,
                 )
             case 'adminsettings':
                 return (
-                    <AdminSettings initialNumbers={initialNumbers} setInitialNumbers={setInitialNumbers} setAcceleratorsConfig={setAcceleratorsConfig} acceleratorsConfig={acceleratorsConfig}/>
+                    <AdminSettings initialNumbers={initialNumbers} setInitialNumbers={setInitialNumbers} setAcceleratorsConfig={setAcceleratorsConfig} acceleratorsConfig={acceleratorsConfig} challengesConfig={challengesConfig} setChallengesConfig={setChallengesConfig}/>
                 )
         }
     };
