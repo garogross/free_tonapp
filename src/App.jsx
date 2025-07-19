@@ -26,6 +26,7 @@ import axios from 'axios'
 import { useNotification } from './components/useNotification'
 import ProtectedRoute from './components/ProtectedRoute'
 import AdminApp from './components/AdminApp'
+import AddTelegramChallengeForm from './components/AddTelegramChallengeForm'
 import {
   BrowserRouter as Router,
   Routes,
@@ -368,6 +369,7 @@ function App() {
       case 'cashInRequest':
         setBackPath('profile')
         break;
+      case 'addTelegramChallengeForm':
       case 'addChallengeForm':
         setBackPath('challenges')
         break;
@@ -461,6 +463,12 @@ function App() {
             <AddAddForm selectedPackage={selectedPackage} setAdvertisements={setAdvertisements} setTonBalance={setTonBalance} setProfileSubMenu={setProfileSubMenu} setCurrentContent={setCurrentContent} blockedSlots={blockedSlots} />
           </>
         );
+      case 'addTelegramChallengeForm':
+        return (
+          <>
+            <AddTelegramChallengeForm tonBalance={tonBalance}/>
+          </>
+        )
     }
   };
 

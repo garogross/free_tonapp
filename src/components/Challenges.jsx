@@ -30,6 +30,25 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
         }
     }
 
+    const renderTelegramChallengesTable = () => {
+        let table = [];
+        switch (isClient) {
+            case true:
+                table = ownedSurfingChallenges;
+                break;
+            case false:
+                table = surfingChallenges;
+                break;
+        }
+        if (!table || table.length === 0) {
+            return (
+                <div className="empty-wrapper">
+                    <div className="empty-message">Список заданий пуст</div>
+                </div>
+            );
+        }
+    }
+
     const renderSurfingChallengesTable = () => {
         let table = [];
         switch (isClient) {
@@ -85,9 +104,9 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
                     );
                     case 'telegram': return (
                         <>
-                            <div className="no-clients-challenges-title">Список заданий пуст</div>
+                            <div className="no-clients-challenges-title">{renderTelegramChallengesTable()}</div>
                             <div className="add-challenges-button-container">
-                                <button className="add-challenges-button" onClick={() => setCurrentContent('addChallengeForm')}>Добавить задание</button>
+                                <button className="add-challenges-button" onClick={() => setCurrentContent('addTelegramChallengeForm')}>Добавить задание</button>
                             </div>
                         </>
                     );
@@ -97,7 +116,7 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
                     case 'surfing':
                         return <div className="no-clients-challenges-title">{renderSurfingChallengesTable()}</div>;
                     case 'telegram':
-                        return <div className="no-clients-challenges-title">Список заданий пуст</div>;
+                        return <div className="no-clients-challenges-title">{renderTelegramChallengesTable()}</div>;
                     case 'youtube':
                         return <div><img className="content-not-found" src={catImage} alt="YouTube" /></div>;
                     case 'reviews':
