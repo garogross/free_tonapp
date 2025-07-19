@@ -1,15 +1,16 @@
+import './AdminSettingsChallenges.css'
 import { useState, useEffect } from 'react';
 import { useNotification } from "./useNotification";
 import { retrieveRawInitData } from '@telegram-apps/sdk';
 import axios from "axios";
 
 const FIELD_NAMES = [
-    {label: "Цена за 10 сек", field: "price10Sec"},
-    {label: "Цена за 20 сек", field: "price20Sec"},
-    {label: "Цена за 30 сек", field: "price30Sec"},
-    {label: "Цена за 40 сек", field: "price40Sec"},
-    {label: "Цена за 50 сек", field: "price50Sec"},
-    {label: "Цена за 60 сек", field: "price60Sec"},
+    { label: "Цена за 10 сек", field: "price10Sec" },
+    { label: "Цена за 20 сек", field: "price20Sec" },
+    { label: "Цена за 30 сек", field: "price30Sec" },
+    { label: "Цена за 40 сек", field: "price40Sec" },
+    { label: "Цена за 50 сек", field: "price50Sec" },
+    { label: "Цена за 60 сек", field: "price60Sec" },
 ];
 
 export default function AdminSettingsChallenges({ surfingConfigs, setSurfingConfigs }) {
@@ -85,14 +86,17 @@ export default function AdminSettingsChallenges({ surfingConfigs, setSurfingConf
                 </div>
                 <div className='create-ad-package-inputs-container'>
                     {FIELD_NAMES.map(({ label, field }) => (
-                        <input
-                            key={field}
-                            type="text"
-                            placeholder={label}
-                            className="add-add-form-add-input"
-                            value={inputs[field] || ''}
-                            onChange={e => handleInputChange(field, e.target.value)}
-                        />
+                        <>
+                            <div className="challenge-settings-label">{label}</div>
+                            <input
+                                key={field}
+                                type="text"
+                                placeholder={label}
+                                className="add-add-form-add-input"
+                                value={inputs[field] || ''}
+                                onChange={e => handleInputChange(field, e.target.value)}
+                            />
+                        </>
                     ))}
                 </div>
                 <button
