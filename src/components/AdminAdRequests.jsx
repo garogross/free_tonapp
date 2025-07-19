@@ -9,6 +9,7 @@ export default function AdminAdRequests({ adminAds, setAdminAds, adPackages, cha
     const { showError, showNotification } = useNotification();
     const [adPage, setAdPage] = useState('ads');
     const [mergedChallenges, setMergedChallenges] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleMenuButtonClick = (transactionPage) => {
         setAdPage(transactionPage);
@@ -43,6 +44,7 @@ export default function AdminAdRequests({ adminAds, setAdminAds, adPackages, cha
     }
 
     const handleDecisionAd = (id, decision) => {
+        setIsLoading(true);
         const dataRaw = retrieveRawInitData();
         const postData = {
             id: id,
@@ -56,14 +58,17 @@ export default function AdminAdRequests({ adminAds, setAdminAds, adPackages, cha
             .then(response => {
                 setAdminAds(response.data.advertisements);
                 showNotification("Успешно выполнено")
+                setIsLoading(false);
             })
             .catch(error => {
                 showError("Не удалось выполнить")
                 console.error('Post ad decision error: ', error);
+                setIsLoading(false);
             })
     }
 
     const handleDeleteAd = (id) => {
+        setIsLoading(true);
         const dataRaw = retrieveRawInitData();
         const postData = {
             id: id
@@ -76,17 +81,21 @@ export default function AdminAdRequests({ adminAds, setAdminAds, adPackages, cha
             .then(response => {
                 setAdminAds(response.data.advertisements);
                 showNotification("Успешно выполнено")
+                setIsLoading(false);
             })
             .catch(error => {
                 showError("Не удалось выполнить")
                 console.error('Post delete ad error: ', error);
+                setIsLoading(false);
             })
     }
 
-    const handleDeleteChallenge = (id) => {
+    const handleDeleteChallenge = (id, challengeType) => {
+        setIsLoading(true);
         const dataRaw = retrieveRawInitData();
         const postData = {
-            id: id
+            id: id,
+            challengeType: challengeType
         };
         axios.post('/api/freetonadmin/delete/challenge', postData, {
             headers: {
@@ -96,10 +105,38 @@ export default function AdminAdRequests({ adminAds, setAdminAds, adPackages, cha
             .then(response => {
                 setChallenges(response.data);
                 showNotification("Успешно выполнено")
+                setIsLoading(false);
             })
             .catch(error => {
                 showError("Не удалось выполнить")
                 console.error('Post delete challenge error: ', error);
+                setIsLoading(false);
+            })
+    }
+
+
+    const handleDecisionChallenge = (id, decision, challengeType) => {
+        setIsLoading(true);
+        const dataRaw = retrieveRawInitData();
+        const postData = {
+            id: id,
+            decision: decision,
+            challengeType: challengeType
+        };
+        axios.post('/api/freetonadmin/challenge', postData, {
+            headers: {
+                'Authorization': 'tma ' + dataRaw
+            }
+        })
+            .then(response => {
+                setChallenges(response.data);
+                showNotification("Успешно выполнено")
+                setIsLoading(false);
+            })
+            .catch(error => {
+                showError("Не удалось выполнить")
+                console.error('Post challenge decision error: ', error);
+                setIsLoading(false);
             })
     }
 
@@ -120,8 +157,8 @@ export default function AdminAdRequests({ adminAds, setAdminAds, adPackages, cha
         return mergedChallenges.map((challenge, index) => {
             if (challenge.timeOfExecution !== undefined) {
                 return (
-                    <div className="challenge-moderation-container">
-                        <div className="challenge-row sub" key={challenge.id || index}>
+                    <div className="challenge-moderation-container" key={challenge.id || index}>
+                        <div className="challenge-row sub">
                             <div className="challenge-row-sub start">
                                 <div className="challenge-item-text challenge-name">{challenge.name}</div>
                                 <div className="challenge-item-text challenge-description">{challenge.description}</div>
@@ -147,12 +184,12 @@ export default function AdminAdRequests({ adminAds, setAdminAds, adPackages, cha
                         </div>
                         {challenge.status === "moderation" ? (
                             <div className='withdrawal-request-buttons'>
-                                <button className='withdrawal-button yes' onClick={() => handleDecisionChallenge(challenge.id, 'done')}>ОДОБРИТЬ</button>
-                                <button className='withdrawal-button no' onClick={() => handleDecisionChallenge(challenge.id, 'deny')}>ОТКЛОНИТЬ</button>
+                                <button className='withdrawal-button yes' onClick={() => handleDecisionChallenge(challenge.id, 'active', 'surfing')} disabled={isLoading}>ОДОБРИТЬ</button>
+                                <button className='withdrawal-button no' onClick={() => handleDecisionChallenge(challenge.id, 'deny', 'surfing')} disabled={isLoading}>ОТКЛОНИТЬ</button>
                             </div>
                         ) : challenge.status === "active" ? (
                             <>
-                                <button className='withdrawal-button delete' onClick={() => handleDeleteChallenge(challenge.id)}>УДАЛИТЬ</button>
+                                <button className='withdrawal-button delete' onClick={() => handleDeleteChallenge(challenge.id, 'surfing')} disabled={isLoading}>УДАЛИТЬ</button>
                             </>
                         ) : challenge.status === "deprecated" ? (
                             <div className="withdrawal-status">ЗАВЕРШЕНО</div>
@@ -215,15 +252,15 @@ export default function AdminAdRequests({ adminAds, setAdminAds, adPackages, cha
                 <div className='admin-ad-manage-container'>
                     {ad.status === 'moderation' ? (
                         <div className='withdrawal-request-buttons'>
-                            <button className='withdrawal-button yes' onClick={() => handleDecisionAd(ad.id, 'active')}>ОДОБРИТЬ</button>
-                            <button className='withdrawal-button no' onClick={() => handleDecisionAd(ad.id, 'deny')}>ОТКЛОНИТЬ</button>
+                            <button className='withdrawal-button yes' onClick={() => handleDecisionAd(ad.id, 'active')} disabled={isLoading}>ОДОБРИТЬ</button>
+                            <button className='withdrawal-button no' onClick={() => handleDecisionAd(ad.id, 'deny')} disabled={isLoading}>ОТКЛОНИТЬ</button>
                         </div>
                     ) : ad.status === 'deny' ? (
                         <div className="withdrawal-status">ОТКЛОНЕНО</div>
                     ) : ad.status === 'active' ? (
                         <div className='active-ad-container'>
                             <div className="withdrawal-status">ОДОБРЕНО</div>
-                            <button className='withdrawal-button delete' onClick={() => handleDeleteAd(ad.id)}>УДАЛИТЬ</button>
+                            <button className='withdrawal-button delete' onClick={() => handleDeleteAd(ad.id)} disabled={isLoading}>УДАЛИТЬ</button>
                         </div>
                     ) : (
                         <div className='withdrawal-status'>ПОКАЗ ЗАКОНЧЕН</div>
