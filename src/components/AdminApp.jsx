@@ -10,7 +10,7 @@ import { retrieveRawInitData } from '@telegram-apps/sdk'
 import axios from 'axios'
 
 
-export default function AdminApp({ setCurrentContent, adPackages, setAdPackages, initialNumbers, setInitialNumbers, challengesConfig, setChallengesConfig }) {
+export default function AdminApp({ setCurrentContent, adPackages, setAdPackages, initialNumbers, setInitialNumbers, challengesConfig, setChallengesConfig, keyboardVisible }) {
     const [adminCurrentContent, setAdminCurrentContent] = useState('adminstatistic')
     const [adminTransactions, setAdminTransactions] = useState([]);
     const [adminAds, setAdminAds] = useState([]);
@@ -132,7 +132,7 @@ export default function AdminApp({ setCurrentContent, adPackages, setAdPackages,
             <main>
                 {renderAdminContent()}
             </main>
-            <footer className="admin">
+            <footer className={`admin ${keyboardVisible ? 'hidden' : ''}`}>
                 <AdminFootMenu setAdminCurrentContent={setAdminCurrentContent} adminCurrentContent={adminCurrentContent} />
             </footer>
         </>

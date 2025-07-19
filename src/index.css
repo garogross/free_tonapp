@@ -111,3 +111,11 @@ footer.admin {
   flex-direction: column-reverse;
   max-height: 60px;
 }
+
+footer.hidden {
+  display: none !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}

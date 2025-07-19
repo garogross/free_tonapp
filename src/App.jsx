@@ -45,6 +45,8 @@ function App() {
   const [blockedSlots, setBlockedSlots] = useState(0);
   const [challenges, setChallenges] = useState(null);
 
+  const [keyboardVisible, setKeyboardVisible] = useState(false);
+
   const [activeAds, setActiveAds] = useState([]);
   const [transactions, setTransactions] = useState([]);
   const [advertisements, setAdvertisements] = useState([]);
@@ -78,6 +80,34 @@ function App() {
     }
   }
   lockOrientation();
+
+  const isMobileDevice = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
+
+  useEffect(() => {
+    if (!isMobileDevice) return;
+
+    const onFocusIn = (event) => {
+      const tagName = event.target.tagName.toLowerCase();
+      if (tagName === 'input' || tagName === 'textarea') {
+        setKeyboardVisible(true);
+      }
+    };
+
+    const onFocusOut = (event) => {
+      const tagName = event.target.tagName.toLowerCase();
+      if (tagName === 'input' || tagName === 'textarea') {
+        setKeyboardVisible(false);
+      }
+    };
+
+    window.addEventListener('focusin', onFocusIn);
+    window.addEventListener('focusout', onFocusOut);
+
+    return () => {
+      window.removeEventListener('focusin', onFocusIn);
+      window.removeEventListener('focusout', onFocusOut);
+    };
+  }, []);
 
   async function getInitialNumbers(dataRaw) {
     axios.get('/api/prizestable', {
@@ -483,7 +513,7 @@ function App() {
             <main>
               {renderContent()}
             </main>
-            <footer>
+            <footer className={keyboardVisible ? 'hidden' : ''}>
               <Add setCurrentContent={setCurrentContent} setProfileSubMenu={setProfileSubMenu} activeAds={activeAds} />
               <FootMenu setCurrentContent={setCurrentContent} currentContent={currentContent} />
             </footer>
@@ -491,7 +521,7 @@ function App() {
         } />
         <Route path="/freetonadmin" element={
           <ProtectedRoute user={user} loadingUser={loadingUser} allowedRoles={['admin']}>
-            <AdminApp setCurrentContent={setCurrentContent} adPackages={adPackages} setAdPackages={setAdPackages} initialNumbers={initialNumbers} setInitialNumbers={setInitialNumbers} challengesConfig={challengesConfigs} setChallengesConfig={setChallengesConfigs}/>
+            <AdminApp setCurrentContent={setCurrentContent} adPackages={adPackages} setAdPackages={setAdPackages} initialNumbers={initialNumbers} setInitialNumbers={setInitialNumbers} challengesConfig={challengesConfigs} setChallengesConfig={setChallengesConfigs} keyboardVisible={keyboardVisible}/>
           </ProtectedRoute>
         } />
       </Routes>
