@@ -1,8 +1,8 @@
 import './AddTelegramChallengeForm.css'
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useNotification } from './useNotification';
 
-export default function AddTelegramChallengeForm({ tonBalance }) {
+export default function AddTelegramChallengeForm({ tonBalance, challengesConfigs }) {
     const { showError, showNotification } = useNotification();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [selectedType, setSelectedType] = useState("1");
@@ -15,6 +15,7 @@ export default function AddTelegramChallengeForm({ tonBalance }) {
     const [channelId, setChannelId] = useState('');
     const [calculateTotalPrice, setCalculateTotalPrice] = useState(0)
     const [isLoading, setIsLoading] = useState(false);
+    const [activeTelegramChallengesConfig, setActiveTelegramChallengesConfig] = useState(null);
 
     const copyTelegramUsername = (telegramUsername) => {
         navigator.clipboard.writeText(telegramUsername)
@@ -92,6 +93,25 @@ export default function AddTelegramChallengeForm({ tonBalance }) {
     const handleCheckLink = () => {
 
     }
+    
+    const selectedTimesToDtoArgument = (activeTelegramChallegeConfig) => {
+        switch (selectedType) {
+            case "1": return activeTelegramChallegeConfig.followPrice;
+            case "2": return activeTelegramChallegeConfig.viewPrice;
+        }
+    }
+
+    useEffect(() => {
+        setIsLoading(true);
+        if (!challengesConfigs?.telegramChallengesConfig) return;
+        const activeTelegramChallengesConfigRaw = challengesConfigs.telegramChallengesConfig.find(cfg => cfg.status === "active");
+        if (!activeTelegramChallengesConfigRaw) return;
+        setActiveTelegramChallengesConfig(activeTelegramChallengesConfigRaw);
+        const priceBySelectedType = selectedTimesToDtoArgument(activeTelegramChallengesConfigRaw);
+        let doAmount = Number(challengeDoAmount) || 0;
+        setCalculateTotalPrice((priceBySelectedType || 0) * doAmount);
+        setIsLoading(false);
+    }, [challengeDoAmount, challengesConfigs, selectedType]);
 
     const options = [
         { value: "1", label: "Подписка" },
