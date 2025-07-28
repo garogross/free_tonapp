@@ -9,6 +9,8 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
     const [isClient, setIsClient] = useState(false);
     const [surfingChallenges, setSurfingChallenges] = useState([]);
     const [ownedSurfingChallenges, setOwnedSurfingChallenges] = useState([]);
+    const [telegramChallenges, setTelegramChallenges] = useState([]);
+    const [ownedTelegramChallenges, setOwnedTelegramChallenges] = useState([]);
     const { showNotification } = useNotification();
 
     useEffect(() => {
@@ -34,10 +36,10 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
         let table = [];
         switch (isClient) {
             case true:
-                table = ownedSurfingChallenges;
+                table = ownedTelegramChallenges;
                 break;
             case false:
-                table = surfingChallenges;
+                table = telegramChallenges;
                 break;
         }
         if (!table || table.length === 0) {
