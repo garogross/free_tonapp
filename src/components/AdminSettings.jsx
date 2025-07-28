@@ -21,7 +21,7 @@ export default function AdminSettings( {initialNumbers, setInitialNumbers, setAc
             {settingPage === "settingscran" ? (
                 <AdminSettingsCran initialNumbers={initialNumbers} setInitialNumbers={setInitialNumbers}/>
             ) : settingPage === "settingschallenges" ? (
-                <AdminSettingsChallenges surfingConfigs={challengesConfig.surfingConfigs} setSurfingConfigs={setChallengesConfig}/>
+                <AdminSettingsChallenges surfingConfigs={challengesConfig.surfingConfigs} setSurfingConfigs={setChallengesConfig} telegramChallengesConfig={challengesConfig.telegramChallengesConfig} setTelegramChalengesConfig={setChallengesConfig}/>
             ) : (
                 <AdminSettingsAccelerator setAcceleratorsConfig={setAcceleratorsConfig} acceleratorsConfig={acceleratorsConfig}/>
             )}
