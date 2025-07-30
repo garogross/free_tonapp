@@ -13,10 +13,19 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
     const [ownedTelegramChallenges, setOwnedTelegramChallenges] = useState([]);
     const { showNotification } = useNotification();
 
+    const getTypeMeaning = (type) => {
+        switch (type) {
+            case "1": return "ПОДПИСКА";
+            case "2": return "ПРОСМОТР";
+        }
+    }
+
     useEffect(() => {
         if (!challenges) return;
         setSurfingChallenges(challenges.activeSurfingChalleges);
         setOwnedSurfingChallenges(challenges.ownedSurfingChallenges);
+        setTelegramChallenges(challenges.activeTelegramChalleges)
+        setOwnedTelegramChallenges(challenges.ownedTelegramChallenges)
     }, [challenges]);
 
     const handleClientSwitch = () => {
@@ -49,6 +58,26 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
                 </div>
             );
         }
+        return table.map((sc, index) =>
+            <div className="challenge-row" key={sc.id || index}>
+                <div className="challenge-row-sub start">
+                    <div className={`challenge-item-text ${sc.status}`}>{isClient ? statusToMean(sc.status) : ''}</div>
+                    <div className="challenge-item-text challenge-name">{sc.name}</div>
+                    <div className="challenge-item-text challenge-description" onClick={() => showNotification(sc.description)}>{sc.description}</div>
+                </div>
+                <div className="challenge-row-sub end">
+                    <div className="challenge-time-container">
+                        <div className="challenge-item-text">ТИП: </div>
+                        <div className="challenge-item-text challenge-time-of-execution">{getTypeMeaning(sc.selectedType)}</div>
+                    </div>
+                    <span className="challenge-item-payment">
+                        <div className="challenge-item-text challege-price">{sc.price.toFixed(7)}</div>
+                        <img src={smallTonIcon} alt="TON" />
+                    </span>
+                    <button className="challenge-surf-button">ВЫПОЛНИТЬ</button>
+                </div>
+            </div>
+        );
     }
 
     const renderSurfingChallengesTable = () => {
