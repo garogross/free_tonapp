@@ -78,8 +78,25 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
         }
     }
 
-    const handleTelegramChallengeCheck = () => {
-
+    const handleTelegramChallengeCheck = (id) => {
+        const dataRaw = retrieveRawInitData();
+        const postData = {
+            id: id
+        }
+        axios.post('/api/challenge/follow', postData, {
+            headers: {
+                'Authorization': 'tma ' + dataRaw
+            }
+        })
+        .then(response => {
+            setChallenges(response.data);
+            setTonBalance(response.data.tonBalance);
+            showNotification('Задание выполнено');
+        })
+        .catch(error => {
+            console.log("error view telegram challenge: {}", error)
+            showError('Не удалось выполнить');
+        })
     }
 
     const renderTelegramChallengesTable = () => {
@@ -125,7 +142,7 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
                         <>
                             <button className="challenge-surf-button" onClick={(e) => {
                                 e.stopPropagation();
-                                handleTelegramChallengeCheck();
+                                handleTelegramChallengeCheck(sc.id);
                             }}>ПРОВЕРИТЬ</button>
                         </>
                     ) : (
