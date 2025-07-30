@@ -4,7 +4,7 @@ import { useNotification } from './useNotification';
 import { retrieveRawInitData } from '@telegram-apps/sdk'
 import axios from 'axios';
 
-export default function AddTelegramChallengeForm({ tonBalance, challengesConfigs }) {
+export default function AddTelegramChallengeForm({ tonBalance, challengesConfigs, currentChallenge, setTonBalance, setChallenges }) {
     const { showError, showNotification } = useNotification();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [selectedType, setSelectedType] = useState("1");
@@ -194,6 +194,44 @@ export default function AddTelegramChallengeForm({ tonBalance, challengesConfigs
 
     const selectedOption = options.find(opt => opt.value === selectedType);
 
+    const handleCreateChallenge = () => {
+        setIsLoading(true);
+        const dataRaw = retrieveRawInitData();;
+        const postData = {
+            challengeName: challengeName,
+            challengeDescription: challengeDescription,
+            challengeLink: challengeLink,
+            channelId: channelId,
+            selectedType: selectedType,
+            challengeDoAmount: challengeDoAmount,
+            challengeType: currentChallenge,
+            configId: activeTelegramChallengesConfig.id
+        }
+        axios.post('/api/challenges', postData, {
+            headers: {
+                'Authorization': 'tma ' + dataRaw
+            }
+        })
+            .then(response => {
+                setChallenges(response.data);
+                setTonBalance(response.data.tonBalance);
+                setIsLoading(false);
+                setChallengeName('');
+                setChallengeDescription('');
+                setChallengeLink('');
+                setSelectedType('1');
+                setChannelId('');
+                setChallengeDoAmount('');
+                setCheckChannelIdResult(null);
+                showNotification("Задание отправлено на модерацию");
+            })
+            .catch(error => {
+                console.log("Error creating challenge: {}", error)
+                showError("Не удалось создать задание")
+                setIsLoading(false);
+            })
+    }
+
 
     const renderCheckChannleIdResult = () => {
         if (checkChannelIdResult === null) {
@@ -278,7 +316,7 @@ export default function AddTelegramChallengeForm({ tonBalance, challengesConfigs
                 <div className={`total-price-container-price ${tonBalance < calculateTotalPrice ? 'red' : 'green'}`}>{calculateTotalPrice.toFixed(6)}</div>
             </div>
             <div className='add-challenge-form-button-container'>
-                <button className='add-challenge-form-button' disabled={isLoading || tonBalance < calculateTotalPrice || !isFormValid}>ЗАПУСТИТЬ ЗАДАНИЕ</button>
+                <button className='add-challenge-form-button' disabled={isLoading || tonBalance < calculateTotalPrice || !isFormValid} onClick={handleCreateChallenge}>ЗАПУСТИТЬ ЗАДАНИЕ</button>
             </div>
         </div>
     )

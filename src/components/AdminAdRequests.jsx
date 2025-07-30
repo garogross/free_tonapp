@@ -43,6 +43,13 @@ export default function AdminAdRequests({ adminAds, setAdminAds, adPackages, cha
         }
     }
 
+    const getTypeMeaning = (type) => {
+        switch (type) {
+            case "1": return "ПОДПИСКА";
+            case "2": return "ПРОСМОТР"; 
+        }
+    }
+
     const handleDecisionAd = (id, decision) => {
         setIsLoading(true);
         const dataRaw = retrieveRawInitData();
@@ -201,7 +208,48 @@ export default function AdminAdRequests({ adminAds, setAdminAds, adPackages, cha
                 )
             } else {
                 return (
-                    <></>
+                    <div className="challenge-moderation-container" key={challenge.id || index}>
+                        <div className="challenge-row sub">
+                            <div className="challenge-row-sub start">
+                                <div className="challenge-item-text challenge-name">{challenge.name}</div>
+                                <div className="challenge-item-text challenge-description">{challenge.description}</div>
+                            </div>
+                            <div className="challenge-row-sub end">
+                                <div className="challenge-time-container">
+                                    <div className="challenge-item-text">ТИП: </div>
+                                    <div className="challenge-item-text challenge-time-of-execution">{getTypeMeaning(challenge.selectedType)}</div>
+                                </div>
+                                <span className="challenge-item-payment">
+                                    <div className="challenge-item-text challege-price">{challenge.price.toFixed(7)}</div>
+                                    <img src={smallTonIcon} alt="TON" />
+                                </span>
+                                <button className="challenge-surf-button">ВЫПОЛНИТЬ</button>
+                            </div>
+                        </div>
+                        <div className="moderarion-info-block">
+                            <div className="challenge-item-text">ТИП: ТЕЛЕГРАМ</div>
+                            <div className="challenge-item-text">ИМЯ: {challenge.name}</div>    
+                            <div className="challenge-item-text">ОПИСАНИЕ: {challenge.description}</div>
+                            <div className="challenge-item-text" onClick={() => copyLink(challenge.link)}>ССЫЛКА: {challenge.link}</div>
+                            <div className="challenge-item-text">ПОВТОРЕНИЙ: {challenge.numberOfExecution}</div>
+                            <div className="challenge-item-text">ID канала: {challenge.channelId}</div>
+                            <div className="challenge-item-text ">ЦЕНА ЗА ВСЁ: {challenge.price * (5 / 3) * challenge.numberOfExecution} TON</div>
+                        </div>
+                        {challenge.status === "moderation" ? (
+                            <div className='withdrawal-request-buttons'>
+                                <button className='withdrawal-button yes' onClick={() => handleDecisionChallenge(challenge.id, 'active', 'surfing')} disabled={isLoading}>ОДОБРИТЬ</button>
+                                <button className='withdrawal-button no' onClick={() => handleDecisionChallenge(challenge.id, 'deny', 'surfing')} disabled={isLoading}>ОТКЛОНИТЬ</button>
+                            </div>
+                        ) : challenge.status === "active" ? (
+                            <>
+                                <button className='withdrawal-button delete' onClick={() => handleDeleteChallenge(challenge.id, 'surfing')} disabled={isLoading}>УДАЛИТЬ</button>
+                            </>
+                        ) : challenge.status === "deprecated" ? (
+                            <div className="withdrawal-status">ЗАВЕРШЕНО</div>
+                        ) : (
+                            <div className="withdrawal-status">ОТКЛОНЕНО</div>
+                        )}
+                    </div>
                 )
             }
         })

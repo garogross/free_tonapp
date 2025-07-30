@@ -496,7 +496,7 @@ function App() {
       case 'addTelegramChallengeForm':
         return (
           <>
-            <AddTelegramChallengeForm tonBalance={tonBalance} challengesConfigs={challengesConfigs}/>
+            <AddTelegramChallengeForm tonBalance={tonBalance} challengesConfigs={challengesConfigs} currentChallenge={currentChallenge} setTonBalance={setTonBalance} setChallenges={setChallenges}/>
           </>
         )
     }
