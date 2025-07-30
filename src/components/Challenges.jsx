@@ -24,7 +24,7 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
         if (!challenges) return;
         setSurfingChallenges(challenges.activeSurfingChalleges);
         setOwnedSurfingChallenges(challenges.ownedSurfingChallenges);
-        setTelegramChallenges(challenges.activeTelegramChalleges)
+        setTelegramChallenges(challenges.activeTelegramChallenges)
         setOwnedTelegramChallenges(challenges.ownedTelegramChallenges)
     }, [challenges]);
 

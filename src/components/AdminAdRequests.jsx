@@ -237,12 +237,12 @@ export default function AdminAdRequests({ adminAds, setAdminAds, adPackages, cha
                         </div>
                         {challenge.status === "moderation" ? (
                             <div className='withdrawal-request-buttons'>
-                                <button className='withdrawal-button yes' onClick={() => handleDecisionChallenge(challenge.id, 'active', 'surfing')} disabled={isLoading}>ОДОБРИТЬ</button>
-                                <button className='withdrawal-button no' onClick={() => handleDecisionChallenge(challenge.id, 'deny', 'surfing')} disabled={isLoading}>ОТКЛОНИТЬ</button>
+                                <button className='withdrawal-button yes' onClick={() => handleDecisionChallenge(challenge.id, 'active', 'telegram')} disabled={isLoading}>ОДОБРИТЬ</button>
+                                <button className='withdrawal-button no' onClick={() => handleDecisionChallenge(challenge.id, 'deny', 'telegram')} disabled={isLoading}>ОТКЛОНИТЬ</button>
                             </div>
                         ) : challenge.status === "active" ? (
                             <>
-                                <button className='withdrawal-button delete' onClick={() => handleDeleteChallenge(challenge.id, 'surfing')} disabled={isLoading}>УДАЛИТЬ</button>
+                                <button className='withdrawal-button delete' onClick={() => handleDeleteChallenge(challenge.id, 'telegram')} disabled={isLoading}>УДАЛИТЬ</button>
                             </>
                         ) : challenge.status === "deprecated" ? (
                             <div className="withdrawal-status">ЗАВЕРШЕНО</div>
