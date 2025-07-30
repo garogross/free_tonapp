@@ -4,14 +4,16 @@ import { useEffect, useState } from 'react';
 import catImage from '../assets/cat.png';
 import smallTonIcon from '../assets/small_ton.svg';
 import { useNotification } from './useNotification';
+import { openLink, retrieveRawInitData } from '@telegram-apps/sdk';
+import axios from 'axios';
 
-export default function Challenges({ setCurrentContent, tonBalance, currentChallenge, setCurrentChallenge, challenges }) {
+export default function Challenges({ setCurrentContent, tonBalance, currentChallenge, setCurrentChallenge, challenges, setTonBalance, setChallenges }) {
     const [isClient, setIsClient] = useState(false);
     const [surfingChallenges, setSurfingChallenges] = useState([]);
     const [ownedSurfingChallenges, setOwnedSurfingChallenges] = useState([]);
     const [telegramChallenges, setTelegramChallenges] = useState([]);
     const [ownedTelegramChallenges, setOwnedTelegramChallenges] = useState([]);
-    const { showNotification } = useNotification();
+    const { showNotification, showError } = useNotification();
 
     const getTypeMeaning = (type) => {
         switch (type) {
@@ -19,6 +21,41 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
             case "2": return "ПРОСМОТР";
         }
     }
+
+    const getTypeButton = (type) => {
+        switch (type) {
+            case "1": return "ПРОВЕРИТЬ";
+            case "2": return "ПОСМОТРЕТЬ";
+        }
+    }
+
+    const handleTelegramChallengeClick = (challengeLink, type, id) => {
+        if (!challengeLink || challengeLink.length === 0) return;
+
+        if (openLink.isAvailable()) {
+            openLink(challengeLink);
+        }
+        if (type === 'view') {
+            const dataRaw = retrieveRawInitData();
+            const postData = {
+                id: id
+            }
+            axios.post('/api/challenge/view', postData, {
+                headers: {
+                    'Authorization': 'tma ' + dataRaw
+                }
+            })
+            .then(response => {
+                setChallenges(response.data);
+                setTonBalance(response.data.tonBalance);
+                showNotification('Задание выполнено');
+            })
+            .catch(error => {
+                console.log("error view telegram challenge: {}", error)
+                showError('Не удалось выполнить');
+            })
+        }
+    };
 
     useEffect(() => {
         if (!challenges) return;
@@ -41,6 +78,10 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
         }
     }
 
+    const handleTelegramChallengeCheck = () => {
+
+    }
+
     const renderTelegramChallengesTable = () => {
         let table = [];
         switch (isClient) {
@@ -59,7 +100,7 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
             );
         }
         return table.map((sc, index) =>
-            <div className="challenge-row" key={sc.id || index}>
+            <div className="challenge-row" key={sc.id || index} onClick={() => handleTelegramChallengeClick(sc.link)}>
                 <div className="challenge-row-sub start">
                     <div className={`challenge-item-text ${sc.status}`}>{isClient ? statusToMean(sc.status) : ''}</div>
                     <div className="challenge-item-text challenge-name">{sc.name}</div>
@@ -74,9 +115,28 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
                         <div className="challenge-item-text challege-price">{sc.price.toFixed(7)}</div>
                         <img src={smallTonIcon} alt="TON" />
                     </span>
-                    <button className="challenge-surf-button">ВЫПОЛНИТЬ</button>
-                </div>
-            </div>
+                    {isClient ? (
+                        <>
+                            <button className="challenge-surf-button" onClick={(e) => {
+                                e.stopPropagation();
+                            }}>{getTypeButton(sc.selectedType)}</button>
+                        </>
+                    ) : sc.selectedType === "1" ? (
+                        <>
+                            <button className="challenge-surf-button" onClick={(e) => {
+                                e.stopPropagation();
+                                handleTelegramChallengeCheck();
+                            }}>ПРОВЕРИТЬ</button>
+                        </>
+                    ) : (
+                        <>
+                            <button className="challenge-surf-button" onClick={(e) => {
+                                handleTelegramChallengeClick(sc.link, 'view', sc.id);
+                            }}>ПОСМОТРЕТЬ</button>
+                        </>
+                    )}
+                </div >
+            </div >
         );
     }
 

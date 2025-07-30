@@ -46,7 +46,7 @@ export default function AdminAdRequests({ adminAds, setAdminAds, adPackages, cha
     const getTypeMeaning = (type) => {
         switch (type) {
             case "1": return "ПОДПИСКА";
-            case "2": return "ПРОСМОТР"; 
+            case "2": return "ПРОСМОТР";
         }
     }
 
@@ -223,12 +223,20 @@ export default function AdminAdRequests({ adminAds, setAdminAds, adPackages, cha
                                     <div className="challenge-item-text challege-price">{challenge.price.toFixed(7)}</div>
                                     <img src={smallTonIcon} alt="TON" />
                                 </span>
-                                <button className="challenge-surf-button">ВЫПОЛНИТЬ</button>
+                                {challenge.selectedType === "1" ? (
+                                    <>
+                                        <button className="challenge-surf-button">ПРОВЕРИТЬ</button>
+                                    </>
+                                ) : (
+                                    <>
+                                        <button className="challenge-surf-button">ПОСМОТРЕТЬ</button>
+                                    </>
+                                )}
                             </div>
                         </div>
                         <div className="moderarion-info-block">
                             <div className="challenge-item-text">ТИП: ТЕЛЕГРАМ</div>
-                            <div className="challenge-item-text">ИМЯ: {challenge.name}</div>    
+                            <div className="challenge-item-text">ИМЯ: {challenge.name}</div>
                             <div className="challenge-item-text">ОПИСАНИЕ: {challenge.description}</div>
                             <div className="challenge-item-text" onClick={() => copyLink(challenge.link)}>ССЫЛКА: {challenge.link}</div>
                             <div className="challenge-item-text">ПОВТОРЕНИЙ: {challenge.numberOfExecution}</div>
