@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useNotification } from './useNotification';
 import { retrieveRawInitData } from '@telegram-apps/sdk'
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 export default function AddTelegramChallengeForm({ tonBalance, challengesConfigs, currentChallenge, setTonBalance, setChallenges }) {
     const { showError, showNotification } = useNotification();
@@ -19,6 +20,7 @@ export default function AddTelegramChallengeForm({ tonBalance, challengesConfigs
     const [isLoading, setIsLoading] = useState(false);
     const [activeTelegramChallengesConfig, setActiveTelegramChallengesConfig] = useState(null);
     const [checkChannelIdResult, setCheckChannelIdResult] = useState(null);
+    const { t } = useTranslation();
 
     const validateForm = () => {
         if (!challengeName.trim()) return false;
@@ -40,6 +42,7 @@ export default function AddTelegramChallengeForm({ tonBalance, challengesConfigs
         return true;
     }
 
+
     useEffect(() => {
         setIsFormValid(validateForm());
     }, [
@@ -53,56 +56,65 @@ export default function AddTelegramChallengeForm({ tonBalance, challengesConfigs
         channelId
     ]);
 
+
     const copyTelegramUsername = (telegramUsername) => {
         navigator.clipboard.writeText(telegramUsername)
-        showNotification("Юзернейм скопирован", 2000);
+        showNotification(t('addTelegramChallengeForm.usernameCopied'), 2000);
     }
+
 
     const handleChannleIdChange = (e) => {
         let value = e.target.value;
         const maxLength = 20;
         if (value.length > maxLength) {
             value = value.slice(0, maxLength);
-            showError("Максимальная длина ID 20 символов");
+            showError(t('addTelegramChallengeForm.maxIdLength'));
         }
 
+
         if (!value.startsWith('-100')) {
-            showError("ID должен начинаться с -100");
+            showError(t('addTelegramChallengeForm.idMustStart'));
         }
         setChannelId(value);
         setCheckChannelIdResult(null);
     }
+
 
     const handleChallengeDoAmountChange = (e) => {
         let value = e.target.value;
         if (value === '' || (/^\d+$/.test(value) && Number(value) > 0)) {
             setChallengeDoAmount(value);
         } else {
-            showError("Количество выполнений - целое положительное число");
+            showError(t('addChallengeForm.amountPositiveInteger'));
         }
     }
+
 
     const handleChallengeNameChange = (e) => {
         let value = e.target.value;
         const maxLength = 21;
         if (value.length > maxLength) {
             value = value.slice(0, maxLength);
-            showError("Максимальная длина названия 21 символ");
+            showError(t('addChallengeForm.maxNameLength'));
         }
+
 
         setChallengeName(value);
     }
+
 
     const handleChallengeDescriptionChange = (e) => {
         let value = e.target.value;
         const maxLength = 40;
         if (value.length > maxLength) {
             value = value.slice(0, maxLength);
-            showError("Максимальная длина описания 40 символов");
+            showError(t('addChallengeForm.maxDescriptionLength'));
         }
+
 
         setChallengeDescription(value);
     }
+
 
     const handleChallengeLinkChange = (e) => {
         let value = e.target.value;
@@ -110,20 +122,20 @@ export default function AddTelegramChallengeForm({ tonBalance, challengesConfigs
     
         if (value.length > maxLength) {
             value = value.slice(0, maxLength);
-            showError("Максимальная длина ссылки 100 символов");
+            showError(t('addChallengeForm.maxLinkLength'));
         }
         if (value.length > 0) {
             try {
                 const url = new URL(value);
                 if (url.protocol !== "https:") {
-                    showError("Ссылка должна начинаться с https://");
+                    showError(t('addChallengeForm.linkMustStartHttps'));
                 }
                 const hostname = url.hostname.toLowerCase();
                 if (hostname !== 't.me' && hostname !== 'telegram.me' && hostname !== 'www.t.me' && hostname !== 'www.telegram.me') {
-                    showError("Ссылка должна быть телеграмовской (https://t.me/...)");
+                    showError(t('addTelegramChallengeForm.linkMustBeTelegram'));
                 }
             } catch (_) {
-                showError("Введите корректный URL");
+                showError(t('addChallengeForm.enterValidUrl'));
             }
         }
     
@@ -131,27 +143,32 @@ export default function AddTelegramChallengeForm({ tonBalance, challengesConfigs
     };
     
 
+
     const handleCheckLink = () => {
         setIsLoading(true);
         setCheckChannelIdResult(null);
         const maxLength = 20;
         if (channelId.length > maxLength) {
-            showError("Максимальная длина ID 20 символов");
+            showError(t('addTelegramChallengeForm.maxIdLength'));
             setIsLoading(false);
             return;
         }
+
 
         if (!channelId.startsWith('-100')) {
-            showError("ID должен начинаться с -100");
+            showError(t('addTelegramChallengeForm.idMustStart'));
             setIsLoading(false);
             return;
         }
 
+
         const dataRaw = retrieveRawInitData();
+
 
         const postData = {
             channelId: channelId
         }
+
 
         axios.post('/api/checkchannelid', postData, {
             headers: {
@@ -175,6 +192,7 @@ export default function AddTelegramChallengeForm({ tonBalance, challengesConfigs
         }
     }
 
+
     useEffect(() => {
         setIsLoading(true);
         if (!challengesConfigs?.telegramChallengesConfig) return;
@@ -187,12 +205,15 @@ export default function AddTelegramChallengeForm({ tonBalance, challengesConfigs
         setIsLoading(false);
     }, [challengeDoAmount, challengesConfigs, selectedType]);
 
+
     const options = [
-        { value: "1", label: "Подписка" },
-        { value: "2", label: "Просмотр" }
+        { value: "1", label: t('addTelegramChallengeForm.subscription') },
+        { value: "2", label: t('addTelegramChallengeForm.view') }
     ];
 
+
     const selectedOption = options.find(opt => opt.value === selectedType);
+
 
     const handleCreateChallenge = () => {
         setIsLoading(true);
@@ -223,14 +244,15 @@ export default function AddTelegramChallengeForm({ tonBalance, challengesConfigs
                 setChannelId('');
                 setChallengeDoAmount('');
                 setCheckChannelIdResult(null);
-                showNotification("Задание отправлено на модерацию");
+                showNotification(t('addTelegramChallengeForm.challengeSentForModeration'));
             })
             .catch(error => {
                 console.log("Error creating challenge: {}", error)
-                showError("Не удалось создать задание")
+                showError(t('addTelegramChallengeForm.failedToCreate'));
                 setIsLoading(false);
             })
     }
+
 
 
     const renderCheckChannleIdResult = () => {
@@ -238,15 +260,16 @@ export default function AddTelegramChallengeForm({ tonBalance, challengesConfigs
             return;
         }
         return checkChannelIdResult ? (
-            <div className='check-link-result yes'>КАНАЛ ДОСТУПЕН ДЛЯ ВСТРАИВАНИЯ</div>
+            <div className='check-link-result yes'>{t('addTelegramChallengeForm.channelAvailable')}</div>
         ) : (
-            <div className='check-link-result no'>ЭТОТ КАНАЛ НЕЛЬЗЯ ДОБАВИТЬ ДЛЯ ЗАДАНИЯ</div>
+            <div className='check-link-result no'>{t('addTelegramChallengeForm.cantAddThisChannel')}</div>
         )
     }
 
+
     return (
         <div className='add-talegram-challenge-form'>
-            <div className="add-challenge-form-title">Создать задание телеграм</div>
+            <div className="add-challenge-form-title">{t('addTelegramChallengeForm.createChallengeTelegram')}</div>
             <div className="add-telegram-challenge-form-input-container">
                 <div className='selector-container'>
                     <div className={`add-telegram-challenge-form-select-container ${isDropdownOpen ? 'open' : ''}`} ref={dropdownRef}>
@@ -267,56 +290,56 @@ export default function AddTelegramChallengeForm({ tonBalance, challengesConfigs
                 <input
                     className='add-challenge-form-input'
                     type="text"
-                    placeholder="Название..."
+                    placeholder={t('addChallengeForm.namePlaceholder')}
                     onChange={handleChallengeNameChange}
                     value={challengeName}
                 />
                 <textarea
                     className='add-challenge-form-input'
                     type="text"
-                    placeholder="Описание..."
+                    placeholder={t('addChallengeForm.descriptionPlaceholder')}
                     onChange={handleChallengeDescriptionChange}
                     value={challengeDescription}
                 />
                 <input
                     className='add-challenge-form-input'
                     type="text"
-                    placeholder="Введите ссылку..."
+                    placeholder={t('addChallengeForm.linkPlaceholder')}
                     onChange={handleChallengeLinkChange}
                     value={challengeLink}
                 />
-                <div className='input-form-info'>Принимаются только открытые каналы</div>
+                <div className='input-form-info'>{t('addTelegramChallengeForm.onlyPublicChannels')}</div>
                 <input
                     className='add-challenge-form-input'
                     type="text"
-                    placeholder="Введите ID канала..."
+                    placeholder={t('addTelegramChallengeForm.channelIdPlaceholder')}
                     onChange={handleChannleIdChange}
                     value={channelId}
                 />
-                <div className='input-form-info'>Пример ID канала: -1002364121642</div>
+                <div className='input-form-info'>{t('addTelegramChallengeForm.channelIdExample')}</div>
                 <input
                     className='add-challenge-form-input'
                     type="text"
-                    placeholder="Введите количество выполнений..."
+                    placeholder={t('addChallengeForm.doAmountPlaceholder')}
                     onChange={handleChallengeDoAmountChange}
                     value={challengeDoAmount}
                 />
             </div>
             <div className='add-telegram-challenge-info'>
-                <div className='input-description-info'>Добавьте нашего бота в администраторы своего канала и нажмите кнопку проверить. Это необходимо для проверки выполнения заданий!</div>
+                <div className='input-description-info'>{t('addTelegramChallengeForm.botAdminInfo')}</div>
                 <div>
                     <div className='username-text' onClick={() => copyTelegramUsername('@FreeTonTG_bot')}>@FreeTonTG_bot</div>
-                    <div className='input-description-info'>Нажмите чтобы скопировать</div>
+                    <div className='input-description-info'>{t('addTelegramChallengeForm.clickToCopy')}</div>
                 </div>
-                <button className='ping-check-button' onClick={handleCheckLink} disabled={isLoading}>ПРОВЕРИТЬ</button>
+                <button className='ping-check-button' onClick={handleCheckLink} disabled={isLoading}>{t('challengeButtonCheck')}</button>
                 {renderCheckChannleIdResult()}
             </div>
             <div className='total-price-container'>
-                <div className='total-price-container-title'>К оплате:</div>
+                <div className='total-price-container-title'>{t('addChallengeForm.toPay')}:</div>
                 <div className={`total-price-container-price ${tonBalance < calculateTotalPrice ? 'red' : 'green'}`}>{calculateTotalPrice.toFixed(6)}</div>
             </div>
             <div className='add-challenge-form-button-container'>
-                <button className='add-challenge-form-button' disabled={isLoading || tonBalance < calculateTotalPrice || !isFormValid} onClick={handleCreateChallenge}>ЗАПУСТИТЬ ЗАДАНИЕ</button>
+                <button className='add-challenge-form-button' disabled={isLoading || tonBalance < calculateTotalPrice || !isFormValid} onClick={handleCreateChallenge}>{t('addChallengeForm.launchChallenge')}</button>
             </div>
         </div>
     )

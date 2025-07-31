@@ -76,5 +76,23 @@
         "toPay": "To pay",
         "launchChallenge": "START CHALLENGE",
         "enterLink": "Enter a link"
+    },
+    "addTelegramChallengeForm": {
+        "usernameCopied": "Username copied",
+        "maxIdLength": "Maximum ID length is 20 characters",
+        "idMustStart": "ID must start with -100",
+        "linkMustBeTelegram": "Link must be a Telegram link (https://t.me/...)",
+        "onlyPublicChannels": "Only public channels are accepted",
+        "channelIdPlaceholder": "Enter channel ID...",
+        "channelIdExample": "Channel ID example: -1002364121642",
+        "botAdminInfo": "Add our bot as administrator of your channel and press the check button. This is required to verify task completion!",
+        "clickToCopy": "Click to copy",
+        "challengeSentForModeration": "Challenge sent for moderation",
+        "failedToCreate": "Failed to create challenge",
+        "channelAvailable": "CHANNEL IS AVAILABLE FOR EMBEDDING",
+        "cantAddThisChannel": "THIS CHANNEL CANNOT BE ADDED FOR CHALLENGE",
+        "createChallengeTelegram": "Create Telegram challenge",
+        "subscription": "Subscription",
+        "view": "View"
     }
 }

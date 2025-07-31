@@ -76,5 +76,23 @@
         "toPay": "К оплате",
         "launchChallenge": "ЗАПУСТИТЬ ЗАДАНИЕ",
         "enterLink": "Введите ссылку"
+    },
+    "addTelegramChallengeForm": {
+        "usernameCopied": "Юзернейм скопирован",
+        "maxIdLength": "Максимальная длина ID 20 символов",
+        "idMustStart": "ID должен начинаться с -100",
+        "linkMustBeTelegram": "Ссылка должна быть телеграмовской (https://t.me/...)",
+        "onlyPublicChannels": "Принимаются только открытые каналы",
+        "channelIdPlaceholder": "Введите ID канала...",
+        "channelIdExample": "Пример ID канала: -1002364121642",
+        "botAdminInfo": "Добавьте нашего бота в администраторы своего канала и нажмите кнопку проверить. Это необходимо для проверки выполнения заданий!",
+        "clickToCopy": "Нажмите чтобы скопировать",
+        "challengeSentForModeration": "Задание отправлено на модерацию",
+        "failedToCreate": "Не удалось создать задание",
+        "channelAvailable": "КАНАЛ ДОСТУПЕН ДЛЯ ВСТРАИВАНИЯ",
+        "cantAddThisChannel": "ЭТОТ КАНАЛ НЕЛЬЗЯ ДОБАВИТЬ ДЛЯ ЗАДАНИЯ",
+        "createChallengeTelegram": "Создать задание телеграм",
+        "subscription": "Подписка",
+        "view": "Просмотр"
     }
 }
