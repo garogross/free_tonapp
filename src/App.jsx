@@ -505,7 +505,7 @@ function App() {
       case 'secureIframe':
         return (
           <>
-            <SecureIframe currentSurfingChallenge={currentSurfingChallenge} setCurrentContent={setCurrentContent}/>
+            <SecureIframe currentSurfingChallenge={currentSurfingChallenge} setCurrentContent={setCurrentContent} setChallenges={setChallenges} setTonBalance={setTonBalance}/>
           </>
         )
     }

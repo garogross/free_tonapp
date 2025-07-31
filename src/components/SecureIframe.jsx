@@ -25,17 +25,14 @@ const SecureIframe = ({ currentSurfingChallenge, setCurrentContent, setChallenge
 
   useEffect(() => {
     if (timeLeft === 0) {
-      handleEndOfTime(currentSurfingChallenge.id);
+      handleEndOfTime();
     }
   }, [timeLeft]);
 
   const handleEndOfTime = () => {
     setCurrentContent('challenges');
     const dataRaw = retrieveRawInitData();
-    const postData = {
-      id: currentSurfingChallenge.id
-    };
-    axios.post('/api/challenge/iframeend', postData, {
+    axios.get('/api/challenge/iframeend', {
       headers: {
         'Authorization': 'tma ' + dataRaw
       }
