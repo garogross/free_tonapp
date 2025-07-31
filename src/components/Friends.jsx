@@ -42,6 +42,12 @@ export default function Friends( { friends } ) {
 
     const getFriendFullName = (firstName, lastName, index) => {
         if (firstName === "" && lastName === "") return "Друг #" + index;
+        if (!firstName) {
+            firstName = "";
+        }
+        if (!lastName) {
+            lastName = "";
+        }
         return firstName+" "+lastName;
     }
 
