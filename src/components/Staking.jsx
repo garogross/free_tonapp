@@ -7,6 +7,7 @@ import MinerAnimation from './MinerAnimation';
 import axios from 'axios';
 import { useNotification } from './useNotification';
 import tonIcon from '../assets/ton.svg';
+import { useTranslation } from 'react-i18next';
 
 const globalMinerImageCache = window.__minerImageCache || (window.__minerImageCache = { loaded: false, images: [] });
 
@@ -23,6 +24,7 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
     const [acceleratorsList, setAcceleratorsList] = useState([]);
     const imageUrls = [miner, miner2];
     const { showError, showNotification } = useNotification();
+    const { t } = useTranslation();
 
     useEffect(() => {
         if (globalMinerImageCache.loaded) {
@@ -77,12 +79,12 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
                     console.error('Unfund accelerate balance error: ', error);
                 })
         } else {
-            showError("Запросить вывод можно от 0.5 TON");
+            showError(t('stakingForm.requestWithdrawMin'));
         }
     }
 
     const rentMiner = (rentCount, selectedAccelerator, isAcceleratorsLoading, totalRentPrice, amountBuyedAccelerators) => {
-        if (!(isAcceleratorsLoading || totalRentPrice > tonBalance || rentCount == 0)) {
+        if (!(isAcceleratorsLoading || totalRentPrice > tonBalance || rentCount === 0)) {
             setIsAcceleratorsLoading(true);
             const postData = {
                 rentCount: rentCount,
@@ -111,7 +113,7 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
                             .then(response => {
                                 setAccelerateBalance(response.data.accelerateBalance);
                                 setAccelerateSpeed(response.data.accelerateSpeed);
-                                showNotification("Аренда успешна");
+                                showNotification(t('stakingForm.rentSuccess'));
                             })
                             .catch(error => {
                                 console.error('Getting accelerate balance error: ', error);
@@ -125,10 +127,10 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
                     setIsAcceleratorsLoading(false);
                 });
         } else {
-            if (amountBuyedAccelerators == 5) {
-                showError("Максимум 5 ускорителей каждого типа");
+            if (amountBuyedAccelerators === 5) {
+                showError(t('stakingForm.maxFiveAccelerators'));
             } else {
-                showError("Недостаточно средств");
+                showError(t('stakingForm.insufficientFunds'));
             }
         }
     }
@@ -177,12 +179,12 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
         if (counter < 5 - amountsByType[selectedAccelerator]) {
             setCounter(counter + 1);
         } else {
-            showError("Максимум 5 ускорителей каждого типа")
+            showError(t('stakingForm.maxFiveAccelerators'));
         }
     }
 
     const showStakingInfo = () => {
-        showNotification("Для пользователей без подключённых ускорителей оффлайн-майнинг доступен только 12 часов — чтобы он не останавливался, заходите в приложение не реже чем раз в 12 часов.", 10000);
+        showNotification(t('stakingForm.offlineMiningInfo'), 10000);
     }
 
     const spinner = <span className="loading-inline-spinner"></span>;
@@ -191,34 +193,34 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
         if (!acceleratorsList || acceleratorsList.length === 0) {
             return (
                 <div className="empty-wrapper">
-                    <div className="empty-message">НЕТ АКТИВНЫХ УСКОРИТЕЛЕЙ</div>
+                    <div className="empty-message">{t('emptyList')}</div>
                 </div>
             );
         }
-    
+
         const now = new Date();
-    
+
         const activeAccelerators = acceleratorsList.filter(acc => new Date(acc.stopDate) > now);
-    
+
         if (activeAccelerators.length === 0) {
             return (
                 <div className="empty-wrapper">
-                    <div className="empty-message">НЕТ АКТИВНЫХ УСКОРИТЕЛЕЙ</div>
+                    <div className="empty-message">{t('emptyList')}</div>
                 </div>
             );
         }
-    
+
         const acceleratorTypeInfo = [
             { title: 'CORE I-9', iconClass: 'accelerator-image-1', data: acceleratorsConfig[0] },
             { title: 'RTX 4090', iconClass: 'accelerator-image-2', data: acceleratorsConfig[1] },
             { title: 'A100 GPU', iconClass: 'accelerator-image-3', data: acceleratorsConfig[2] },
         ];
-    
+
         const calculateRealtimeIncome = (stopDateStr, periodDays, incomePerDay) => {
             const stopDate = new Date(stopDateStr);
             const startDate = new Date(stopDate);
             startDate.setDate(stopDate.getDate() - periodDays);
-    
+
             const secondsPassed = Math.min(
                 (now - startDate) / 1000,
                 periodDays * 24 * 3600
@@ -226,37 +228,37 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
             const incomePerSecond = incomePerDay / (24 * 3600);
             return incomePerSecond * secondsPassed;
         };
-    
+
         const declOfNum = (number) => {
             const n = Math.abs(number) % 100;
             const n1 = n % 10;
-            if (n > 10 && n < 20) return 'дней';
-            if (n1 > 1 && n1 < 5) return 'дня';
-            if (n1 === 1) return 'день';
-            return 'дней';
+            if (n > 10 && n < 20) return t('stakingForm.daysPlural');
+            if (n1 > 1 && n1 < 5) return t('stakingForm.daysGenitiveSingular');
+            if (n1 === 1) return t('stakingForm.daySingular');
+            return t('stakingForm.daysPlural');
         };
-    
+
         return (
             <div className="staking-accelerate-active-list">
                 {activeAccelerators.map((acc) => {
                     const stopDateObj = new Date(acc.stopDate);
                     const daysLeft = Math.ceil((stopDateObj - now) / (1000 * 60 * 60 * 24));
-    
-                    const typeInfo = acceleratorTypeInfo[acc.type] || { title: 'Неизвестный тип', iconClass: '', data: {} };
+
+                    const typeInfo = acceleratorTypeInfo[acc.type] || { title: t('stakingForm.unknownType'), iconClass: '', data: {} };
                     const { rentPeriod, profitPerDay } = typeInfo.data || { rentPeriod: 30, profitPerDay: 0 };
-    
+
                     const realtimeIncome = calculateRealtimeIncome(acc.stopDate, +rentPeriod, +profitPerDay);
-    
+
                     return (
                         <div key={acc.id} className="staking-accelerate-active-item">
                             <div className={`accelerator-icon ${typeInfo.iconClass}`}></div>
                             <div className="accelerator-details">
                                 <div className="accelerator-title">{typeInfo.title}</div>
                                 <div className="accelerator-stop-date">
-                                    Осталось: {daysLeft} {declOfNum(daysLeft)}
+                                    {t('stakingForm.daysLeft')}: {daysLeft} {declOfNum(daysLeft)}
                                 </div>
                                 <div className="accelerator-income">
-                                    Добыто всего: {realtimeIncome.toFixed(6)} TON
+                                    {t('stakingForm.totalMined')}: {realtimeIncome.toFixed(6)} TON
                                 </div>
                             </div>
                         </div>
@@ -264,14 +266,13 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
                 })}
             </div>
         );
-    }    
+    }
 
     const renderAccelerateModal = () => {
-        if (!showAccelerateModal 
+        if (!showAccelerateModal
             || !Array.isArray(acceleratorsConfig)
             || !acceleratorsConfig[selectedAccelerator]
         ) return null;
-        
 
         const rentCount = 5 - amountsByType[selectedAccelerator];
         const totalRentPrice = acceleratorsConfig[selectedAccelerator].rentPrice * counter;
@@ -282,8 +283,8 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
             <div className="staking-accelerate-overlay" onClick={closeAccelerateModal}>
                 <div className="staking-accelerate-container" onClick={(e) => e.stopPropagation()}>
                     <div className='staking-accelerate-menu-buttons'>
-                        <button className={`staking-accelerate-menu-button ${modalPage === 'accelerators' ? 'btn-active' : ''}`} onClick={() => setModalPage('accelerators')}>УСКОРИТЕЛИ</button>
-                        <button className={`staking-accelerate-menu-button ${modalPage === 'store' ? 'btn-active' : ''}`} onClick={() => setModalPage('store')}>КУПИТЬ</button>
+                        <button className={`staking-accelerate-menu-button ${modalPage === 'accelerators' ? 'btn-active' : ''}`} onClick={() => setModalPage('accelerators')}>{t('stakingForm.accelerators')}</button>
+                        <button className={`staking-accelerate-menu-button ${modalPage === 'store' ? 'btn-active' : ''}`} onClick={() => setModalPage('store')}>{t('stakingForm.buy')}</button>
                     </div>
                     <button className="staking-accelerate-close" onClick={closeAccelerateModal}>×</button>
                     {modalPage === 'store' ? (
@@ -292,51 +293,54 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
                                 <div className={`stacking-accelerate-accelerators-item ${selectedAccelerator === 0 ? 'active' : ''}`} onClick={() => handleSetSelectedAccelerator(0)}>
                                     <div className="stacking-accelerate-accelerators-item-title">CORE I-9</div>
                                     <div className="accelerator-image-1"></div>
-                                    <div className="stacking-accelerate-accelerators-item-description">{(acceleratorsConfig[0].profitPerDay/0.0864).toFixed(1)} mkT/s</div>
+                                    <div className="stacking-accelerate-accelerators-item-description">{(acceleratorsConfig[0].profitPerDay / 0.0864).toFixed(1)} mkT/s</div>
                                 </div>
                                 <div className={`stacking-accelerate-accelerators-item ${selectedAccelerator === 1 ? 'active' : ''}`} onClick={() => handleSetSelectedAccelerator(1)}>
                                     <div className="stacking-accelerate-accelerators-item-title">RTX 4090</div>
                                     <div className="accelerator-image-2"></div>
-                                    <div className="stacking-accelerate-accelerators-item-description">{(acceleratorsConfig[1].profitPerDay/0.0864).toFixed(1)} mkT/s</div>
+                                    <div className="stacking-accelerate-accelerators-item-description">{(acceleratorsConfig[1].profitPerDay / 0.0864).toFixed(1)} mkT/s</div>
                                 </div>
                                 <div className={`stacking-accelerate-accelerators-item ${selectedAccelerator === 2 ? 'active' : ''}`} onClick={() => handleSetSelectedAccelerator(2)}>
                                     <div className="stacking-accelerate-accelerators-item-title">A100 GPU</div>
                                     <div className="accelerator-image-3"></div>
-                                    <div className="stacking-accelerate-accelerators-item-description">{(acceleratorsConfig[2].profitPerDay/0.0864).toFixed(1)} mkT/s</div>
+                                    <div className="stacking-accelerate-accelerators-item-description">{(acceleratorsConfig[2].profitPerDay / 0.0864).toFixed(1)} mkT/s</div>
                                 </div>
                             </div>
                             <div className="rent-period-container">
-                                <div className="rent-period-title">Период аренды</div>
+                                <div className="rent-period-title">{t('stakingForm.rentPeriod')}</div>
                                 <div className="rent-period-description">
-                                    {isAcceleratorsLoading ? spinner : acceleratorsConfig[selectedAccelerator].rentPeriod} дней
+                                    {isAcceleratorsLoading ? spinner : `${acceleratorsConfig[selectedAccelerator].rentPeriod} ${t('stakingForm.daysPlural')}`}
                                 </div>
                             </div>
                             <div className="per-day-container">
-                                <div className="per-day-title">Прибыль/день</div>
+                                <div className="per-day-title">{t('stakingForm.profitPerDay')}</div>
                                 <div className="per-day-description">
-                                    {isAcceleratorsLoading ? spinner : totalPerDay} TON
+                                    {isAcceleratorsLoading ? spinner : `${totalPerDay} TON`}
                                 </div>
                             </div>
                             <div className="total-profit-container">
-                                <div className="total-profit-title">Общая прибыль</div>
+                                <div className="total-profit-title">{t('stakingForm.totalProfit')}</div>
                                 <div className="total-profit-description">
-                                    {isAcceleratorsLoading ? spinner : totalProfit} TON
+                                    {isAcceleratorsLoading ? spinner : `${totalProfit} TON`}
                                 </div>
                             </div>
-                            <div className="counter-title">Общее количество</div>
+                            <div className="counter-title">{t('stakingForm.totalCount')}</div>
                             <div className="counter-container">
                                 <div className="counter-button-minus" onClick={handleDecrement}>-</div>
                                 <div className="counter-value">{isAcceleratorsLoading ? spinner : counter}</div>
                                 <div className="counter-button-plus" onClick={handleIncrement}>+</div>
                             </div>
                             <div className="total-rent-price-container">
-                                <div className="total-rent-price-title">Цена аренды</div>
+                                <div className="total-rent-price-title">{t('stakingForm.rentPrice')}</div>
                                 <div className="total-rent-price-description">
-                                    {isAcceleratorsLoading ? spinner : totalRentPrice} TON
+                                    {isAcceleratorsLoading ? spinner : `${totalRentPrice} TON`}
                                 </div>
                             </div>
-                            <button className={`staking-rent-accelerate-button ${(isAcceleratorsLoading || totalRentPrice > tonBalance || rentCount == 0) ? 'disabled-rent-button' : ''}`} onClick={() => rentMiner(rentCount, selectedAccelerator, isAcceleratorsLoading, totalRentPrice, amountsByType[selectedAccelerator])}>
-                                АРЕНДОВАТЬ МАЙНЕР
+                            <button
+                                className={`staking-rent-accelerate-button ${(isAcceleratorsLoading || totalRentPrice > tonBalance || rentCount === 0) ? 'disabled-rent-button' : ''}`}
+                                onClick={() => rentMiner(rentCount, selectedAccelerator, isAcceleratorsLoading, totalRentPrice, amountsByType[selectedAccelerator])}
+                            >
+                                {t('stakingForm.rentMiner')}
                             </button>
                         </>
                     ) : (
@@ -354,7 +358,7 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
             <div className="staking-container">
                 <div className="loading-container">
                     <div className="loading-spinner"></div>
-                    <div className="loading-text">Загрузка...</div>
+                    <div className="loading-text">{t('stakingForm.loading')}</div>
                 </div>
             </div>
         );
@@ -366,12 +370,12 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
                 <MinerAnimation images={cachedImages} />
                 <div className="staking-total-mined">{accelerateBalance.toFixed(8)} TON</div>
                 <div className="accelearate-speed-info-container">
-                    <div className="staking-hashrate">СКОРОСТЬ: {accelerateSpeed.toFixed(8)} T/s</div>
+                    <div className="staking-hashrate">{t('stakingForm.speed')}: {accelerateSpeed.toFixed(8)} T/s</div>
                     <button className="staking-info-button" onClick={showStakingInfo}>i</button>
                 </div>
                 <div className="staling-button-wrapper">
-                    <button className={`staking-get-button ${accelerateBalance < 0.5 ? 'disabled-view' : ''}`} onClick={() => getUnfund()}>ЗАПРОСИТЬ</button>
-                    <button className="staking-accelerate-button" onClick={handleAccelerate}>УСКОРИТЕЛЬ</button>
+                    <button className={`staking-get-button ${accelerateBalance < 0.5 ? 'disabled-view' : ''}`} onClick={getUnfund}>{t('stakingForm.request')}</button>
+                    <button className="staking-accelerate-button" onClick={handleAccelerate}>{t('stakingForm.accelerate')}</button>
                 </div>
                 {renderAccelerateModal()}
             </div>

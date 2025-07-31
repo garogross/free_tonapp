@@ -192,5 +192,31 @@
         "submitRequest": "SUBMIT REQUEST",
         "cashOutAll": "CASH OUT ALL",
         "alertDescription": "All requests are processed manually and may take up to 72 hours. We only withdraw in TON. Make sure you entered the correct wallet address!"
+    },
+    "stakingForm": {
+        "requestWithdrawMin": "Minimum withdrawal request is 0.5 TON",
+        "rentSuccess": "Rent successful",
+        "maxFiveAccelerators": "Maximum 5 accelerators of each type",
+        "insufficientFunds": "Insufficient funds",
+        "emptyList": "NO ACTIVE ACCELERATORS",
+        "daysPlural": "days",
+        "daysGenitiveSingular": "days",
+        "daySingular": "day",
+        "unknownType": "Unknown type",
+        "daysLeft": "Left",
+        "totalMined": "Total mined",
+        "accelerators": "ACCELERATORS",
+        "buy": "BUY",
+        "rentPeriod": "Rent period",
+        "profitPerDay": "Profit/day",
+        "totalProfit": "Total profit",
+        "totalCount": "Total count",
+        "rentPrice": "Rent price",
+        "rentMiner": "RENT MINER",
+        "loading": "Loading...",
+        "speed": "SPEED",
+        "request": "REQUEST",
+        "accelerate": "ACCELERATE",
+        "offlineMiningInfo": "For users without connected accelerators, offline mining is only available for 12 hours - to keep it running, log into the application at least once every 12 hours."
     }
 }
