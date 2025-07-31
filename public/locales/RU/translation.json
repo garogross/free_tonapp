@@ -94,5 +94,17 @@
         "createChallengeTelegram": "Создать задание телеграм",
         "subscription": "Подписка",
         "view": "Просмотр"
+    },
+    "friends": {
+        "openAppViaStart": "Откройте приложение через команду /start",
+        "linkCopied": "Ссылка скопирована",
+        "friendNumber": "Друг №{{number}}",
+        "income": "Доход",
+        "referralSystem": "Реферальная система",
+        "inviteDescription": "Приглашайте друзей и получайте 50% от их заработка на кране и 15% от заданий",
+        "invite": "ПРИГЛАСИТЬ",
+        "copyLink": "СКОПИРОВАТЬ ССЫЛКУ",
+        "listOfFriends": "Список ваших друзей",
+        "totalIncome": "Общий доход"
     }
 }

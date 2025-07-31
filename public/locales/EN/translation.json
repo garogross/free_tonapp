@@ -1,7 +1,7 @@
 {
     "footMenu": {
         "cran": "Crane",
-        "challenges": "Challenges",
+        "challenges": "Tasks",
         "staking": "Staking",
         "friends": "Friends",
         "profile": "Profile"
@@ -94,5 +94,17 @@
         "createChallengeTelegram": "Create Telegram challenge",
         "subscription": "Subscription",
         "view": "View"
+    },
+    "friends": {
+        "openAppViaStart": "Open the app via the /start command",
+        "linkCopied": "Link copied",
+        "friendNumber": "Friend #{{number}}",
+        "income": "Income",
+        "referralSystem": "Referral system",
+        "inviteDescription": "Invite friends and receive 50% of their earnings on the faucet and 15% from tasks",
+        "invite": "INVITE",
+        "copyLink": "COPY LINK",
+        "listOfFriends": "Your friends list",
+        "totalIncome": "Total income"
     }
 }
