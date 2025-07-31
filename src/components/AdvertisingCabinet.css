@@ -114,3 +114,19 @@
     font-size: 16px;
     font-weight: 500;
 }
+
+.demo-add-info.active {
+    color: #78AA28;
+}
+
+.demo-add-info.moderation {
+    color: #d4a017;
+}
+
+.demo-add-info.deprecated {
+    color: #AA2828;
+}
+
+.demo-add-info.deny {
+    color: #AA2828;
+}

@@ -51,7 +51,7 @@ export default function AdvertisingCabinet({ setCurrentContent, tonBalance, adve
                     <div className='demo-add-info'>
                         Дата создания: {new Date(ad.createdAt).toLocaleString('ru-RU', { hour12: false })}
                     </div>
-                    <div className='demo-add-info'>
+                    <div className={`demo-add-info ${ad.status}`}>
                         Статус: {getStatusMeaning(ad.status)}
                     </div>
                     {ad.status === 'active' && (

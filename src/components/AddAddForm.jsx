@@ -16,6 +16,7 @@ export default function AddAddForm({ selectedPackage, setAdvertisements, setTonB
     const [bannerFile, setBannerFile] = useState(null);
     const [bannerPreviewUrl, setBannerPreviewUrl] = useState(null);
     const [bannerLink, setBannerLink] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         if (!bannerFile) {
@@ -198,7 +199,7 @@ export default function AddAddForm({ selectedPackage, setAdvertisements, setTonB
             formData.append("bannerLink", bannerLink);
             formData.append("adType", selectedType);
         }
-
+        setIsLoading(true);
         const dataRaw = retrieveRawInitData();
         axios.post('/api/advertisement ', formData, {
             headers: {
@@ -211,10 +212,12 @@ export default function AddAddForm({ selectedPackage, setAdvertisements, setTonB
                 setTonBalance(response.data.tonBalance);
                 setCurrentContent('profile');
                 setProfileSubMenu('advertising');
+                setIsLoading(false)
                 showNotification("Заявка отправлена на модерацию")
             })
             .catch(error => {
                 showError("Не удалось выполнить")
+                setIsLoading(false)
                 console.error('Post ad error: ', error);
             })
     }
@@ -299,7 +302,7 @@ export default function AddAddForm({ selectedPackage, setAdvertisements, setTonB
                 )}
             </div>
             <div className='add-add-form-add-button-container'>
-                <button className="add-add-form-add-button" onClick={() => startAdvertisement(selectedPackage.adPackageName, adText, adLink, adButtonText)}>Запустить рекламу</button>
+                <button className="add-add-form-add-button" onClick={() => startAdvertisement(selectedPackage.adPackageName, adText, adLink, adButtonText)} disabled={isLoading}>Запустить рекламу</button>
             </div>
         </div>
     )
