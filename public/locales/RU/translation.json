@@ -51,5 +51,30 @@
     "feedbackTitle": "Отзывы",
     "adOfAd": "ТУТ МОЖЕТ БЫТЬ ВАША РЕКЛАМА",
     "adDefaultButton": "ПЕРЕЙТИ",
-    "adButtonText": "Реклама"
+    "adButtonText": "Реклама",
+    "addChallengeForm": {
+        "maxNameLength": "Максимальная длина названия 21 символ",
+        "maxDescriptionLength": "Максимальная длина описания 40 символов",
+        "maxLinkLength": "Максимальная длина ссылки 100 символов",
+        "linkMustStartHttps": "Ссылка должна начинаться с https://",
+        "enterValidUrl": "Введите корректный URL",
+        "amountPositiveInteger": "Количество выполнений - целое положительное число",
+        "surfing": "серфинг",
+        "telegram": "телеграм",
+        "challengeSentForModeration": "Задание отправлено на модерацию",
+        "failedToCreate": "Не удалось создать задание",
+        "linkAvailableForEmbedding": "ССЫЛКА ДОСТУПНА ДЛЯ ВСТРАИВАНИЯ",
+        "cantAddThisLink": "ЭТУ ССЫЛКУ НЕЛЬЗЯ ДОБАВИТЬ ДЛЯ СЕРФИНГА",
+        "createChallenge": "Создать задание",
+        "namePlaceholder": "Название...",
+        "descriptionPlaceholder": "Описание...",
+        "linkPlaceholder": "Введите ссылку...",
+        "checkWebsiteStep": "Проверьте сайт на доступность (обязательный шаг)",
+        "checkSite": "ПРОВЕРИТЬ САЙТ",
+        "timeOnSiteTitle": "Время на сайте (в секундах)",
+        "doAmountPlaceholder": "Введите количество выполнений...",
+        "toPay": "К оплате",
+        "launchChallenge": "ЗАПУСТИТЬ ЗАДАНИЕ",
+        "enterLink": "Введите ссылку"
+    }
 }

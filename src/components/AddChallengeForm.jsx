@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { useNotification } from './useNotification';
 import { retrieveRawInitData } from '@telegram-apps/sdk'
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
+
 
 export default function AddChallengeForm({ currentChallenge, challengesConfigs, tonBalance, setChallenges, setTonBalance }) {
     const { showError, showNotification } = useNotification();
@@ -16,6 +18,7 @@ export default function AddChallengeForm({ currentChallenge, challengesConfigs, 
     const [isFormValid, setIsFormValid] = useState(false);
     const [checkLinkResult, setCheckLinkResult] = useState(null);
     const [activeSurfingConfig, setActiveSurfingConfig] = useState(null);
+    const { t } = useTranslation();
 
     const validateForm = () => {
         if (!challengeName.trim()) return false;
@@ -34,6 +37,7 @@ export default function AddChallengeForm({ currentChallenge, challengesConfigs, 
         return true;
     }
 
+
     useEffect(() => {
         setIsFormValid(validateForm());
     }, [
@@ -46,54 +50,63 @@ export default function AddChallengeForm({ currentChallenge, challengesConfigs, 
         calculateTotalPrice
     ]);
 
+
     const handleTimesClick = (time) => {
         setSelectedTimes(time);
     }
+
 
     const handleChallengeNameChange = (e) => {
         let value = e.target.value;
         const maxLength = 21;
         if (value.length > maxLength) {
             value = value.slice(0, maxLength);
-            showError("Максимальная длина названия 21 символ");
+            showError(t('addChallengeForm.maxNameLength'));
         }
+
 
         setChallengeName(value);
     }
+
 
     const handleChallengeDescriptionChange = (e) => {
         let value = e.target.value;
         const maxLength = 40;
         if (value.length > maxLength) {
             value = value.slice(0, maxLength);
-            showError("Максимальная длина описания 40 символов");
+            showError(t('addChallengeForm.maxDescriptionLength'));
         }
+
 
         setChallengeDescription(value);
     }
 
+
     const handleChallengeLinkChange = (e) => {
         let value = e.target.value;
         const maxLength = 100;
+        setIsLoading(false);
 
         if (value.length > maxLength) {
             value = value.slice(0, maxLength);
-            showError("Максимальная длина ссылки 100 символов");
+            showError(t('addChallengeForm.maxLinkLength'));
         }
         if (value.length > 0) {
             try {
                 const url = new URL(value);
                 if (url.protocol !== "https:") {
-                    showError("Ссылка должна начинаться с https://");
+                    showError(t('addChallengeForm.linkMustStartHttps'));
                     return;
                 }
             } catch (_) {
-                showError("Введите корректный URL");
+                showError(t('addChallengeForm.enterValidUrl'));
             }
         }
 
+
         setChallengeLink(value);
     };
+
 
 
     const handleChallengeDoAmountChange = (e) => {
@@ -101,17 +114,19 @@ export default function AddChallengeForm({ currentChallenge, challengesConfigs, 
         if (value === '' || (/^\d+$/.test(value) && Number(value) > 0)) {
             setChallengeDoAmount(value);
         } else {
-            showError("Количество выполнений - целое положительное число");
+            showError(t('addChallengeForm.amountPositiveInteger'));
         }
     }
 
+
     const titleCurrentChalengeToName = (currentChallenge) => {
         switch (currentChallenge) {
-            case 'surfing': return "серфинг";
-            case 'telegram': return "телеграм";
-            default: return 'surfing';
+            case 'surfing': return t('addChallengeForm.surfing');
+            case 'telegram': return t('addChallengeForm.telegram');
+            default: return t('addChallengeForm.surfing');
         }
     }
+
 
     const selectedTimesToDtoArgumen = (activeSurfingConfig) => {
         if (!activeSurfingConfig) return 9999;
@@ -125,6 +140,7 @@ export default function AddChallengeForm({ currentChallenge, challengesConfigs, 
         }
     }
 
+
     useEffect(() => {
         setIsLoading(true);
         if (!challengesConfigs?.surfingConfigs) return;
@@ -137,27 +153,29 @@ export default function AddChallengeForm({ currentChallenge, challengesConfigs, 
         setIsLoading(false);
     }, [selectedTimes, challengeDoAmount, challengesConfigs]);
 
+
     const handleCheckLink = () => {
         const maxLength = 100;
         if (challengeLink.length > maxLength) {
-            showError("Максимальная длина ссылки 100 символов");
+            showError(t('addChallengeForm.maxLinkLength'));
             return;
         }
         if (challengeLink.length > 0) {
             try {
                 const url = new URL(challengeLink);
                 if (url.protocol !== "https:") {
-                    showError("Ссылка должна начинаться с https://");
+                    showError(t('addChallengeForm.linkMustStartHttps'));
                     return;
                 }
             } catch (_) {
-                showError("Введите корректный URL");
+                showError(t('addChallengeForm.enterValidUrl'));
                 return;
             }
         } else {
-            showError("Введите ссылку");
+            showError(t('addChallengeForm.enterLink'));
             return;
         }
+
 
         const dataRaw = retrieveRawInitData();
         setCheckLinkResult(null);
@@ -179,6 +197,7 @@ export default function AddChallengeForm({ currentChallenge, challengesConfigs, 
                 setIsLoading(false);
             })
     }
+
 
     const handleCreateChallenge = () => {
         setIsLoading(true);
@@ -207,55 +226,57 @@ export default function AddChallengeForm({ currentChallenge, challengesConfigs, 
                 setSelectedTimes('10');
                 setChallengeDoAmount('');
                 setCheckLinkResult(null);
-                showNotification("Задание отправлено на модерацию");
+                showNotification(t('addChallengeForm.challengeSentForModeration'));
             })
             .catch(error => {
                 console.log("Error creating challenge: {}", error)
-                showError("Не удалось создать задание")
+                showError(t('addChallengeForm.failedToCreate'));
                 setIsLoading(false);
             })
     }
+
 
     const renderCheckLinkResult = () => {
         if (checkLinkResult === null) {
             return;
         }
         return checkLinkResult ? (
-            <div className='check-link-result yes'>ССЫЛКА ДОСТУПНА ДЛЯ ВСТРАИВАНИЯ</div>
+            <div className='check-link-result yes'>{t('addChallengeForm.linkAvailableForEmbedding')}</div>
         ) : (
-            <div className='check-link-result no'>ЭТУ ССЫЛКУ НЕЛЬЗЯ ДОБАВИТЬ ДЛЯ СЕРФИНГА</div>
+            <div className='check-link-result no'>{t('addChallengeForm.cantAddThisLink')}</div>
         )
     }
 
+
     return (
         <div className="add-challenge-form">
-            <div className="add-challenge-form-title">Создать задание {titleCurrentChalengeToName(currentChallenge)}</div>
+            <div className="add-challenge-form-title">{t('addChallengeForm.createChallenge')} {titleCurrentChalengeToName(currentChallenge)}</div>
             <div className="add-challenge-form-input-container">
                 <input
                     className='add-challenge-form-input'
                     type="text"
-                    placeholder="Название..."
+                    placeholder={t('addChallengeForm.namePlaceholder')}
                     onChange={handleChallengeNameChange}
                     value={challengeName}
                 />
                 <textarea
                     className='add-challenge-form-input'
                     type="text"
-                    placeholder="Описание..."
+                    placeholder={t('addChallengeForm.descriptionPlaceholder')}
                     onChange={handleChallengeDescriptionChange}
                     value={challengeDescription}
                 />
                 <input
                     className='add-challenge-form-input'
                     type="text"
-                    placeholder="Введите ссылку..."
+                    placeholder={t('addChallengeForm.linkPlaceholder')}
                     onChange={handleChallengeLinkChange}
                     value={challengeLink}
                 />
-                <div className='link-ping-check'>Проверьте сайт на доступность (обязательный шаг)</div>
-                <button className='ping-check-button' onClick={handleCheckLink} disabled={isLoading}>ПРОВЕРИТЬ САЙТ</button>
+                <div className='link-ping-check'>{t('addChallengeForm.checkWebsiteStep')}</div>
+                <button className='ping-check-button' onClick={handleCheckLink} disabled={isLoading}>{t('addChallengeForm.checkSite')}</button>
                 {renderCheckLinkResult()}
-                <div className='times-container-title'>Время на сайте (в секундах)</div>
+                <div className='times-container-title'>{t('addChallengeForm.timeOnSiteTitle')}</div>
                 <div className='times-container'>
                     <div className={`times-container-item ${selectedTimes === "10" ? "active" : ""}`} onClick={() => handleTimesClick("10")}>10</div>
                     <div className={`times-container-item ${selectedTimes === "20" ? "active" : ""}`} onClick={() => handleTimesClick("20")}>20</div>
@@ -267,17 +288,17 @@ export default function AddChallengeForm({ currentChallenge, challengesConfigs, 
                 <input
                     className='add-challenge-form-input'
                     type="text"
-                    placeholder="Введите количество выполнений..."
+                    placeholder={t('addChallengeForm.doAmountPlaceholder')}
                     onChange={handleChallengeDoAmountChange}
                     value={challengeDoAmount}
                 />
             </div>
             <div className='total-price-container'>
-                <div className='total-price-container-title'>К оплате:</div>
+                <div className='total-price-container-title'>{t('addChallengeForm.toPay')}:</div>
                 <div className={`total-price-container-price ${tonBalance < calculateTotalPrice ? 'red' : 'green'}`}>{calculateTotalPrice.toFixed(6)}</div>
             </div>
             <div className='add-challenge-form-button-container'>
-                <button className='add-challenge-form-button' disabled={isLoading || tonBalance < calculateTotalPrice || !isFormValid} onClick={handleCreateChallenge}>ЗАПУСТИТЬ ЗАДАНИЕ</button>
+                <button className='add-challenge-form-button' disabled={isLoading || tonBalance < calculateTotalPrice || !isFormValid} onClick={handleCreateChallenge}>{t('addChallengeForm.launchChallenge')}</button>
             </div>
         </div>
     )

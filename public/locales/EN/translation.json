@@ -51,5 +51,30 @@
     "feedbackTitle": "Feedback",
     "adOfAd": "YOUR AD COULD BE HERE",
     "adDefaultButton": "GO TO",
-    "adButtonText": "Advertisement"
+    "adButtonText": "Advertisement",
+    "addChallengeForm": {
+        "maxNameLength": "Maximum name length is 21 characters",
+        "maxDescriptionLength": "Maximum description length is 40 characters",
+        "maxLinkLength": "Maximum link length is 100 characters",
+        "linkMustStartHttps": "Link must start with https://",
+        "enterValidUrl": "Enter a valid URL",
+        "amountPositiveInteger": "Number of completions must be a positive integer",
+        "surfing": "surfing",
+        "telegram": "telegram",
+        "challengeSentForModeration": "Challenge sent for moderation",
+        "failedToCreate": "Failed to create challenge",
+        "linkAvailableForEmbedding": "LINK IS AVAILABLE FOR EMBEDDING",
+        "cantAddThisLink": "THIS LINK CANNOT BE ADDED FOR SURFING",
+        "createChallenge": "Create challenge",
+        "namePlaceholder": "Name...",
+        "descriptionPlaceholder": "Description...",
+        "linkPlaceholder": "Enter link...",
+        "checkWebsiteStep": "Check website availability (required step)",
+        "checkSite": "CHECK SITE",
+        "timeOnSiteTitle": "Time on site (seconds)",
+        "doAmountPlaceholder": "Enter completion count...",
+        "toPay": "To pay",
+        "launchChallenge": "START CHALLENGE",
+        "enterLink": "Enter a link"
+    }
 }
