@@ -6,6 +6,7 @@ import { retrieveRawInitData } from '@telegram-apps/sdk';
 import { useNotification } from './useNotification';
 import React from 'react';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 export default function Rullet(props) {
     const {
@@ -21,6 +22,7 @@ export default function Rullet(props) {
         tonBalance,
         lastRollNumber,
     } = props;
+    const { t } = useTranslation();
 
     const [showTimer, setShowTimer] = useState(true);
     const [timeLeft, setTimeLeft] = useState(0);
@@ -99,7 +101,7 @@ export default function Rullet(props) {
                         <span className="timer-digit">{m[0]}</span>
                         <span className="timer-digit">{m[1]}</span>
                     </div>
-                    <span className="timer-label">Минуты</span>
+                    <span className="timer-label">{t('rulletMinuts')}</span>
                 </div>
                 <span className="timer-separator">:</span>
                 <div className="timer-block">
@@ -107,7 +109,7 @@ export default function Rullet(props) {
                         <span className="timer-digit">{s[0]}</span>
                         <span className="timer-digit">{s[1]}</span>
                     </div>
-                    <span className="timer-label">Секунды</span>
+                    <span className="timer-label">{t('rulletSeconds')}</span>
                 </div>
             </div>
         );
@@ -182,7 +184,7 @@ export default function Rullet(props) {
 
     return (
         <div className="rullet" grid-row={gridRow}>
-            <div className="rullet-title">Ваш баланс</div>
+            <div className="rullet-title">{t('yourBalanceTitle')}</div>
             <div className="rullet-balance">
                 <div className="rullet-balance-value">{tonBalance.toFixed(6)}</div>
                 <div className="rullet-balance-icon">
@@ -192,7 +194,7 @@ export default function Rullet(props) {
 
             {currentContent === 'cran' && (
                 <>
-                    <div className="rullet-subtitle">{isPushed ? 'Время сбора' : 'Выпавшее число'}</div>
+                    <div className="rullet-subtitle">{isPushed ? t('rulletTimerTitle') : t('droppedNumber')}</div>
                     <div className={`rullet-result-container ${isPushed && !rollStarted ? 'pushed' : ''}`}>
                         {showTimer ? (
                             <div className="rullet-timer">{PrettyTimer(timeLeft)}</div>
@@ -206,7 +208,7 @@ export default function Rullet(props) {
                             </div>
                         )}
                     </div>
-                    {showTimer && <div className="rullet-last-roll-number">Выпало: {lastRollNumber}</div>}
+                    {showTimer && <div className="rullet-last-roll-number">{t('dropped')} {lastRollNumber}</div>}
                 </>
             )}
 
@@ -216,7 +218,7 @@ export default function Rullet(props) {
                         {walletButton}
                     </button>
                     <button className="cash-out" onClick={() => setCurrentContent('cashOut')}>
-                        ВЫВЕСТИ
+                        {t("cashOut")}
                     </button>
                 </div>
             )}

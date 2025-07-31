@@ -1,19 +1,29 @@
 {
     "footMenu": {
-        "cran": "Crane",
-        "challenges": "Challenges",
-        "staking": "Staking",
-        "friends": "Friends",
-        "profile": "Profile"
+      "cran": "Crane",
+      "challenges": "Challenges",
+      "staking": "Staking",
+      "friends": "Friends",
+      "profile": "Profile"
     },
     "adminFootMenu": {
-        "statistics": "Statistics",
-        "operations": "Operations",
-        "advertisement": "Advertisement",
-        "settings": "Settings"
+      "statistics": "Statistics",
+      "operations": "Operations",
+      "advertisement": "Advertisement",
+      "settings": "Settings"
     },
     "languages": {
-        "russian": "Russian",
-        "english": "English"
-    }
-}
+      "russian": "Russian",
+      "english": "English"
+    },
+    "dropped": "Dropped:",
+    "cashOut": "Cash Out",
+    "rulletMinuts": "Minutes",
+    "rulletSeconds": "Seconds",
+    "rulletTimerTitle": "Collection Time",
+    "yourBalanceTitle": "Your Balance",
+    "rulletTableNumberTitle": "Number",
+    "rulletTablePrizeTitle": "Prize",
+    "droppedNumber": "Dropped Number"
+  }
+  

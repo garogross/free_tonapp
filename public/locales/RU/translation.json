@@ -15,5 +15,14 @@
     "languages": {
         "russian": "Русский",
         "english": "English"
-    }
+    },
+    "dropped": "Выпало:",
+    "cashOut": "ВЫВЕСТИ",
+    "rulletMinuts": "Минуты",
+    "rulletSeconds": "Секунды",
+    "rulletTimerTitle": "Время сбора",
+    "yourBalanceTitle": "Ваш баланс",
+    "rulletTableNumberTitle": "Число",
+    "rulletTablePrizeTitle": "Выплата",
+    "droppedNumber": "Выпавшее число"
 }

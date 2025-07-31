@@ -1,5 +1,6 @@
 import './RollTable.css';
 import tonIcon from '../assets/small_ton.svg';
+import { useTranslation } from 'react-i18next';
 
 const ranges = [
   "0 - 9885",
@@ -11,11 +12,13 @@ const ranges = [
 ];
 
 export default function RollTable({ initialNumbers }) {
+  const { t } = useTranslation();
+
   return (
     <>
       <div className="titles">
-        <span className="title">Число</span>
-        <span className="title">Выплата</span>
+        <span className="title">{t('rulletTableNumberTitle')}</span>
+        <span className="title">{t('rulletTablePrizeTitle')}</span>
       </div>
       <div className="roll-table">
         {ranges.map((range, index) => (
