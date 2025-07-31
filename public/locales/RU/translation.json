@@ -106,5 +106,17 @@
         "copyLink": "СКОПИРОВАТЬ ССЫЛКУ",
         "listOfFriends": "Список ваших друзей",
         "totalIncome": "Общий доход"
+    },
+    "rulletConnect": "ПОДКЛЮЧИТЬ",
+    "rulletTopUp": "ПОПОЛНИТЬ",
+    "rulletAddressCheckError": "Ошибка проверки адреса",
+    "profileTitle": "Профиль",
+    "advertisementCabinet": "Рекламный кабинет",
+    "transactionTable": {
+        "lastTransactions": "Последние транзакции",
+        "date": "Дата",
+        "type": "Тип",
+        "amount": "Сумма",
+        "status": "Статус"
     }
 }

@@ -24,13 +24,15 @@ export default function Rullet(props) {
     } = props;
     const { t } = useTranslation();
 
+
     const [showTimer, setShowTimer] = useState(true);
     const [timeLeft, setTimeLeft] = useState(0);
-    const [walletButton, setWalletButton] = useState('ПОДКЛЮЧИТЬ');
+    const [walletButton, setWalletButton] = useState(t('rulletConnect'));
     const [payload, setPayload] = useState(null);
     const [proof, setProof] = useState(null);
     const [walletAccount, setWalletAccount] = useState(null);
     const { showError } = useNotification();
+
 
     const getLuckyDigits = (number) => {
         if (number === null) return Array(5).fill('--');
@@ -38,10 +40,13 @@ export default function Rullet(props) {
     };
     const digits = getLuckyDigits(luckyNumber);
 
+
     const [tonConnectUI] = useTonConnectUI();
     const userFriendlyAddress = useTonAddress();
 
+
     const dataRaw = retrieveRawInitData();
+
 
     useEffect(() => {
         if (isPushed) {
@@ -60,8 +65,10 @@ export default function Rullet(props) {
         }
     }, [rollStarted, isPushed, setRollStarted]);
 
+
     useEffect(() => {
         if (!showTimer) return;
+
 
         function updateTimeLeft() {
             const now = new Date();
@@ -76,9 +83,11 @@ export default function Rullet(props) {
         }
         updateTimeLeft();
 
+
         const intervalId = setInterval(updateTimeLeft, 1000);
         return () => clearInterval(intervalId);
     }, [showTimer, endTime, setIsPushed]);
+
 
     useEffect(() =>
         tonConnectUI.onStatusChange(wallet => {
@@ -88,11 +97,13 @@ export default function Rullet(props) {
             }
         }), []);
 
+
     const PrettyTimer = (secondsLeft) => {
         const m = Math.floor((secondsLeft % 3600) / 60)
             .toString()
             .padStart(2, '0');
         const s = (secondsLeft % 60).toString().padStart(2, '0');
+
 
         return (
             <div className="pretty-timer">
@@ -116,8 +127,10 @@ export default function Rullet(props) {
     }
 
 
+
     useEffect(() => {
         if (!proof || !payload || !userFriendlyAddress) return;
+
 
         const sendProof = async () => {
             try {
@@ -134,20 +147,23 @@ export default function Rullet(props) {
                     }
                 );
 
+
                 if (response.status === 200) {
-                    setWalletButton('ПОПОЛНИТЬ');
+                    setWalletButton(t('rulletTopUp'));
                     setCurrentContent('cashInRequest');
                 } else {
                     throw new Error('Proof verification failed');
                 }
             } catch (error) {
-                showError('Ошибка проверки адреса: ' + (error.response?.data?.error || error.message));
-                setWalletButton('ПОДКЛЮЧИТЬ');
+                showError(t('rulletAddressCheckError') + ': ' + (error.response?.data?.error || error.message));
+                setWalletButton(t('rulletConnect'));
             }
         };
 
+
         sendProof();
     }, [proof, payload, userFriendlyAddress, dataRaw, setCurrentContent, walletAccount]);
+
 
     const handleTonConnectClick = async () => {
         try {
@@ -158,29 +174,34 @@ export default function Rullet(props) {
                     },
                 });
 
+
                 setPayload(payload);
+
 
                 tonConnectUI.setConnectRequestParameters({
                     state: 'ready',
                     value: { tonProof: payload.payloadToken },
                 });
 
+
                 await tonConnectUI.openModal();
-            } else if (walletButton === "ПОПОЛНИТЬ") {
+            } else if (walletButton === t('rulletTopUp')) {
                 setCurrentContent("cashInRequest");
             }
         } catch (error) {
-            console.error('Ошибка проверки адреса:', error);
+            console.error(t('rulletAddressCheckError'), error);
             showError(error.message || error);
-            setWalletButton('ПОДКЛЮЧИТЬ');
+            setWalletButton(t('rulletConnect'));
         }
     };
 
+
     useEffect(() => {
-        if (userFriendlyAddress && walletButton === 'ПОДКЛЮЧИТЬ') {
-            setWalletButton('ПОПОЛНИТЬ')
+        if (userFriendlyAddress && walletButton === t('rulletConnect')) {
+            setWalletButton(t('rulletTopUp'))
         }
-    });
+    }, [userFriendlyAddress, walletButton]);
+
 
     return (
         <div className="rullet" grid-row={gridRow}>
@@ -191,6 +212,7 @@ export default function Rullet(props) {
                     <img src={tonIcon} alt="TON" />
                 </div>
             </div>
+
 
             {currentContent === 'cran' && (
                 <>
@@ -211,6 +233,7 @@ export default function Rullet(props) {
                     {showTimer && <div className="rullet-last-roll-number">{t('dropped')} {lastRollNumber}</div>}
                 </>
             )}
+
 
             {currentContent === 'profile' && (
                 <div className='profile-buttons'>

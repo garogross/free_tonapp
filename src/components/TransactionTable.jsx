@@ -1,7 +1,9 @@
 import React from 'react';
 import './TransactionTable.css';
+import { useTranslation } from 'react-i18next';
 
 export default function TransactionTable({ transactions }) {
+    const { t } = useTranslation();
 
     const moderationStatusToEmoji = (status) => {
         switch(status) {
@@ -16,7 +18,7 @@ export default function TransactionTable({ transactions }) {
         if (!transactions || transactions.length === 0) {
             return (
                 <div className="empty-wrapper">
-                    <div className="empty-message">Список пуст</div>
+                    <div className="empty-message">{t('emptyList')}</div>
                 </div>
             );
         }
@@ -35,12 +37,12 @@ export default function TransactionTable({ transactions }) {
 
     return (
         <div className="transaction-history-wrapper">
-            <div className="last-transactions">Последние транзакции</div>
+            <div className="last-transactions">{t('transactionTable.lastTransactions')}</div>
             <div className="transaction-column-names">
-                <div className="transaction-column-name">Дата</div>
-                <div className="transaction-column-name">Тип</div>
-                <div className="transaction-column-name">Сумма</div>
-                <div className="transaction-column-name">Статус</div>
+                <div className="transaction-column-name">{t('transactionTable.date')}</div>
+                <div className="transaction-column-name">{t('transactionTable.type')}</div>
+                <div className="transaction-column-name">{t('transactionTable.amount')}</div>
+                <div className="transaction-column-name">{t('transactionTable.status')}</div>
             </div>
             <div className="transactions-table">
                 {renderTransactionTable()}

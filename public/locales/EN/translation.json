@@ -106,5 +106,17 @@
         "copyLink": "COPY LINK",
         "listOfFriends": "Your friends list",
         "totalIncome": "Total income"
+    },
+    "rulletConnect": "CONNECT",
+    "rulletTopUp": "TOP UP",
+    "rulletAddressCheckError": "Address verification error",
+    "profileTitle": "Profile",
+    "advertisementCabinet": "Advertisement cabinet",
+    "transactionTable": {
+        "lastTransactions": "Last transactions",
+        "date": "Date",
+        "type": "Type",
+        "amount": "Amount",
+        "status": "Status"
     }
 }
