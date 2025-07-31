@@ -70,7 +70,7 @@
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     max-width: fit-content;
-    border: 2px rgb(120, 170, 40) dashed;
+    background-color: #343434;
     border-left: none;
 }
 

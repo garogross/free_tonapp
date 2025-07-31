@@ -333,15 +333,13 @@ export default function AdminAdRequests({ adminAds, setAdminAds, adPackages, cha
                 <button className={`ad-menu-button ${adPage === 'ads' ? 'btn-active' : ''}`} onClick={() => handleMenuButtonClick("ads")}>РЕКЛАМА</button>
                 <button className={`ad-menu-button ${adPage === 'challenges' ? 'btn-active' : ''}`} onClick={() => handleMenuButtonClick("challenges")}>ЗАДАНИЯ</button>
             </div>
-            {adPage === "ads" ? (
-                <div className="admin-ads-list">
-                    {renderAdminAds()}
-                </div>
-            ) : (
-                <div className="admin-ads-list">
-                    {renderAdminChallenges()}
-                </div>
-            )}
+            <div className="admin-ads-list" style={{ display: adPage === 'ads' ? 'block' : 'none' }}>
+                {renderAdminAds()}
+            </div>
+            <div className="admin-ads-list" style={{ display: adPage === 'challenges' ? 'block' : 'none' }}>
+                {renderAdminChallenges()}
+            </div>
+
         </div>
     )
 }
