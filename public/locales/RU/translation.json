@@ -1,0 +1,19 @@
+{
+    "footMenu": {
+        "cran": "Кран",
+        "challenges": "Задания",
+        "staking": "Стейкинг",
+        "friends": "Друзья",
+        "profile": "Профиль"
+    },
+    "adminFootMenu": {
+        "statistics": "Статистика",
+        "operations": "Операции",
+        "advertisement": "Реклама",
+        "settings": "Настройки"
+    },
+    "languages": {
+        "russian": "Русский",
+        "english": "English"
+    }
+}

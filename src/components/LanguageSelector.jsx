@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { languages } from '../data';
 import './LanguageSelector.css';
 
 const LanguageSelector = () => {
+    const { i18n } = useTranslation();
 
     const [isOpen, setIsOpen] = useState(false);
     const [selectedLanguage, setSelectedLanguage] = useState(languages[0]);
@@ -14,6 +16,7 @@ const LanguageSelector = () => {
 
     const selectLanguage = (language) => {
         setSelectedLanguage(language);
+        i18n.changeLanguage(language.text)
         setIsOpen(false);
     };
 

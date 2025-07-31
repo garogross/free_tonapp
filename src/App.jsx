@@ -34,6 +34,7 @@ import {
   data
 } from "react-router-dom";
 import SecureIframe from './components/SecureIframe'
+import './i18n';
 
 function App() {
   const [user, setUser] = useState(null);

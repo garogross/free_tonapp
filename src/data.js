@@ -1,52 +1,16 @@
 export const footMenuItems = [
-    {
-        image: 'src/images/crane.svg',
-        alt: 'Кран',
-        text: 'Кран',
-    },
-    {
-        image: 'src/images/challenges.svg',
-        alt: 'Задания',
-        text: 'Задания',
-    },
-    {
-        image: 'src/images/staking.svg',
-        alt: 'Стейкинг',
-        text: 'Стейкинг',
-    },
-    {
-        image: 'src/images/friends.svg',
-        alt: 'Друзья',
-        text: 'Друзья',
-    },
-    {
-        image: 'src/images/profile.svg',
-        alt: 'Профиль',
-        text: 'Профиль',
-    },
+    { image: 'src/images/crane.svg', alt: 'Кран', textKey: 'footMenu.cran' },
+    { image: 'src/images/challenges.svg', alt: 'Задания', textKey: 'footMenu.challenges' },
+    { image: 'src/images/staking.svg', alt: 'Стейкинг', textKey: 'footMenu.staking' },
+    { image: 'src/images/friends.svg', alt: 'Друзья', textKey: 'footMenu.friends' },
+    { image: 'src/images/profile.svg', alt: 'Профиль', textKey: 'footMenu.profile' },
 ]
 
 export const adminFootMenuItems = [
-    {
-        image: 'src/images/staking.svg',
-        alt: 'Статистика',
-        text: 'Статистика',  
-    },
-    {
-        image: 'src/images/staking.svg',
-        alt: 'Операции',
-        text: 'Операции',  
-    },
-    {
-        image: 'src/images/staking.svg',
-        alt: 'Реклама',
-        text: 'Реклама',  
-    },
-    {
-        image: 'src/images/staking.svg',
-        alt: 'Настройки',
-        text: 'Настройки',  
-    }
+    { image: 'src/images/staking.svg', alt: 'Статистика', textKey: 'adminFootMenu.statistics' },
+    { image: 'src/images/staking.svg', alt: 'Операции', textKey: 'adminFootMenu.operations' },
+    { image: 'src/images/staking.svg', alt: 'Реклама', textKey: 'adminFootMenu.advertisement' },
+    { image: 'src/images/staking.svg', alt: 'Настройки', textKey: 'adminFootMenu.settings' },
 ]
 
 export const languages = [
