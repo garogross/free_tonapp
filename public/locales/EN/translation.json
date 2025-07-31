@@ -176,5 +176,21 @@
         "amountPlaceholder": "Enter top-up amount in TON...",
         "topUp": "TOP UP",
         "unlink": "UNLINK"
+    },
+    "cashOutForm": {
+        "requestSent": "Request successfully sent for moderation",
+        "failedToCreateRequest": "Failed to create cash out request",
+        "minimumSumError": "Minimum withdrawal amount not met",
+        "enterValidAmount": "Enter a valid amount",
+        "insufficientFunds": "Insufficient funds for withdrawal",
+        "invalidTonAddress": "Invalid TON address",
+        "title": "Cash Out Request",
+        "description": "Please fill out the form to withdraw funds. Enter your TON address",
+        "amountPlaceholder": "Enter withdrawal amount...",
+        "addressPlaceholder": "Enter wallet address...",
+        "minAmount": "Minimum withdrawal amount: 1 TON",
+        "submitRequest": "SUBMIT REQUEST",
+        "cashOutAll": "CASH OUT ALL",
+        "alertDescription": "All requests are processed manually and may take up to 72 hours. We only withdraw in TON. Make sure you entered the correct wallet address!"
     }
 }

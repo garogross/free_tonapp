@@ -1,15 +1,17 @@
-import './CashOutForm.css'
+import './CashOutForm.css';
 import { useState, useEffect } from 'react';
 import { useTonAddress } from '@tonconnect/ui-react';
 import { retrieveRawInitData } from '@telegram-apps/sdk'
 import { useNotification } from './useNotification';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 export default function CashOutForm({ tonBalance, setTonBalance, setTransactions }) {
     const [amount, setAmount] = useState('');
     const [walletAddress, setWalletAddress] = useState('');
     const { showError, showNotification } = useNotification();
     const userFriendlyAddress = useTonAddress();
+    const { t } = useTranslation();
 
     useEffect(() => {
         setWalletAddress(userFriendlyAddress);
@@ -25,7 +27,7 @@ export default function CashOutForm({ tonBalance, setTonBalance, setTransactions
             cashOutAddress: walletAddress,
             amount: amount
         }
-        axios.post('/api/transactions', postData,{
+        axios.post('/api/transactions', postData, {
             headers: {
                 'Authorization': 'tma ' + dataRaw
             }
@@ -33,12 +35,11 @@ export default function CashOutForm({ tonBalance, setTonBalance, setTransactions
             .then(response => {
                 setTransactions(response.data.transactions);
                 setTonBalance(response.data.tonBalance);
-                showNotification("Заявка успешно отправлена на модерацию")
-            }
-            )
+                showNotification(t('cashOutForm.requestSent'));
+            })
             .catch(error => {
                 console.error('Create transaction error: ', error);
-                showError("Не удалось создать заявку на вывод");
+                showError(t('cashOutForm.failedToCreateRequest'));
             })
     }
 
@@ -62,26 +63,27 @@ export default function CashOutForm({ tonBalance, setTonBalance, setTransactions
     function toFixedDown(number, digits) {
         const factor = Math.pow(10, digits);
         return Math.floor(number * factor) / factor;
-      }
+    }
 
     const handleCashOutAll = () => {
         if (tonBalance < 1) {
-            showError("Нет минимальной суммы для вывода")
+            showError(t('cashOutForm.minimumSumError'))
+            return;
         }
         setAmount(toFixedDown(tonBalance, 2).toString());
     }
 
     const handleCashOut = () => {
         if (!amount || isNaN(amount) || Number(amount) <= 0 || amount < 1) {
-            showError('Введите корректную сумму');
+            showError(t('cashOutForm.enterValidAmount'));
             return;
         }
         if (tonBalance < 1 || amount > tonBalance) {
-            showError("Недостаточно средств для вывода")
+            showError(t('cashOutForm.insufficientFunds'));
             return;
         }
         if (!isPotentialTonAddress(walletAddress)) {
-            showError("Некорректный TON адрес")
+            showError(t('cashOutForm.invalidTonAddress'));
             return;
         }
 
@@ -91,29 +93,39 @@ export default function CashOutForm({ tonBalance, setTonBalance, setTransactions
 
     return (
         <div className="cash-out-form">
-            <div className="cash-out-form-title">Заявка на вывод</div>
-            <div className="cash-out-form-description">Пожалуйста, заполните анкету для вывода средств. Укажите ваш TON-адрес</div>
+            <div className="cash-out-form-title">{t('cashOutForm.title')}</div>
+            <div className="cash-out-form-description">{t('cashOutForm.description')}</div>
             <div className="cash-out-form-input-container">
                 <input
                     className="cash-out-form-input"
                     type="text"
-                    placeholder="Введите сумму вывода..."
+                    placeholder={t('cashOutForm.amountPlaceholder')}
                     value={amount}
                     onChange={handleAmountChange}
                 />
                 <textarea
                     className="cash-out-form-textarea"
-                    placeholder="Введите адрес кошелька..."
+                    placeholder={t('cashOutForm.addressPlaceholder')}
                     rows="3"
                     value={walletAddress}
                     onChange={e => setWalletAddress(e.target.value)}
                 />
             </div>
-            <div className="min-amount">Минимальная сумма вывода: 1 TON</div>
+            <div className="min-amount">{t('cashOutForm.minAmount')}</div>
             <div className="cash-out-button-wrapper">
-                <button className={`cash-out-form-button ${tonBalance < 1 ? "disable-view" : ""}`} onClick={handleCashOut}>ОТПРАВИТЬ ЗАЯВКУ</button>
-                <button className="cash-out-form-all-button" onClick={handleCashOutAll}>ВЫВЕСТИ ВСЁ</button>
-                <div className="alert-description">Все заявки обрабатываются вручную, что может занять до 72 часов. Выводим средства только в TON. Убедитесь, что указали корректный адрес кошелька!</div>
+                <button
+                    className={`cash-out-form-button ${tonBalance < 1 ? "disable-view" : ""}`}
+                    onClick={handleCashOut}
+                >
+                    {t('cashOutForm.submitRequest')}
+                </button>
+                <button
+                    className="cash-out-form-all-button"
+                    onClick={handleCashOutAll}
+                >
+                    {t('cashOutForm.cashOutAll')}
+                </button>
+                <div className="alert-description">{t('cashOutForm.alertDescription')}</div>
             </div>
         </div>
     )
