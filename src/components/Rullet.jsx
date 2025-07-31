@@ -195,6 +195,10 @@ export default function Rullet(props) {
         }
     };
 
+    useEffect(() => {
+        setWalletButton(t('rulletConnect'))
+    }, [t('rulletConnect')])
+
 
     useEffect(() => {
         if (userFriendlyAddress && walletButton === t('rulletConnect')) {

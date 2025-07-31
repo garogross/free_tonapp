@@ -167,5 +167,14 @@
         "bannerSizeDescription": "Banner size: 480x75, PNG/JPEG, duration: 7 sec.",
         "bannerLinkPlaceholder": "Enter link",
         "launchAd": "Launch advertisement"
+    },
+    "cashInRequestForm": {
+        "enterValidAmount": "Enter a valid amount",
+        "transactionSent": "Transaction sent",
+        "title": "Top-up request",
+        "description": "Fill in the amount in TON and send for top-up",
+        "amountPlaceholder": "Enter top-up amount in TON...",
+        "topUp": "TOP UP",
+        "unlink": "UNLINK"
     }
 }

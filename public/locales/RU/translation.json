@@ -167,5 +167,14 @@
         "bannerSizeDescription": "Размер баннера: 480x75, PNG/JPEG, длительность: 7 сек.",
         "bannerLinkPlaceholder": "Введите ссылку",
         "launchAd": "Запустить рекламу"
+    },
+    "cashInRequestForm": {
+        "enterValidAmount": "Введите корректную сумму",
+        "transactionSent": "Транзакция отправлена",
+        "title": "Заявка на пополнение",
+        "description": "Заполните сумму в TON и отправьте на пополнение",
+        "amountPlaceholder": "Введите сумму пополнения в TON...",
+        "topUp": "ПОПОЛНИТЬ",
+        "unlink": "ОТВЯЗАТЬ"
     }
 }
