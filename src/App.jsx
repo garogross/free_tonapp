@@ -33,6 +33,7 @@ import {
   Route,
   data
 } from "react-router-dom";
+import SecureIframe from './components/SecureIframe'
 
 function App() {
   const [user, setUser] = useState(null);
@@ -70,6 +71,7 @@ function App() {
   const [accelerateSpeed, setAccelerateSpeed] = useState(0.00000033);
   const [accelerateBalance, setAccelerateBalance] = useState(0.00000000);
   const stompClient = useRef(null);
+  const [currentSurfingChallenge, setCurrentSurfingChallenge] = useState(null);
 
   const { showNotification } = useNotification();
   function lockOrientation() {
@@ -400,6 +402,7 @@ function App() {
         setBackPath('profile')
         break;
       case 'addTelegramChallengeForm':
+      case 'secureIframe':
       case 'addChallengeForm':
         setBackPath('challenges')
         break;
@@ -424,7 +427,7 @@ function App() {
       case 'challenges':
         return (
           <>
-            <Challenges setCurrentContent={setCurrentContent} tonBalance={tonBalance} currentChallenge={currentChallenge} setCurrentChallenge={setCurrentChallenge} challenges={challenges} setTonBalance={setTonBalance} setChallenges={setChallenges}/>
+            <Challenges setCurrentContent={setCurrentContent} tonBalance={tonBalance} currentChallenge={currentChallenge} setCurrentChallenge={setCurrentChallenge} challenges={challenges} setTonBalance={setTonBalance} setChallenges={setChallenges} setCurrentSurfingChallenge={setCurrentSurfingChallenge}/>
           </>
         );
       case 'staking':
@@ -478,7 +481,7 @@ function App() {
       case 'addChallengeForm':
         return (
           <>
-            <AddChallengeForm currentChallenge={currentChallenge} challengesConfigs={challengesConfigs} tonBalance={tonBalance} setChallenges={setChallenges} setTonBalance={setTonBalance}/>
+            <AddChallengeForm currentChallenge={currentChallenge} challengesConfigs={challengesConfigs} tonBalance={tonBalance} setChallenges={setChallenges} setTonBalance={setTonBalance} />
           </>
         );
       case 'addPackagesForm':
@@ -496,7 +499,13 @@ function App() {
       case 'addTelegramChallengeForm':
         return (
           <>
-            <AddTelegramChallengeForm tonBalance={tonBalance} challengesConfigs={challengesConfigs} currentChallenge={currentChallenge} setTonBalance={setTonBalance} setChallenges={setChallenges}/>
+            <AddTelegramChallengeForm tonBalance={tonBalance} challengesConfigs={challengesConfigs} currentChallenge={currentChallenge} setTonBalance={setTonBalance} setChallenges={setChallenges} />
+          </>
+        )
+      case 'secureIframe':
+        return (
+          <>
+            <SecureIframe currentSurfingChallenge={currentSurfingChallenge} setCurrentContent={setCurrentContent}/>
           </>
         )
     }
@@ -521,7 +530,7 @@ function App() {
         } />
         <Route path="/freetonadmin" element={
           <ProtectedRoute user={user} loadingUser={loadingUser} allowedRoles={['admin']}>
-            <AdminApp setCurrentContent={setCurrentContent} adPackages={adPackages} setAdPackages={setAdPackages} initialNumbers={initialNumbers} setInitialNumbers={setInitialNumbers} challengesConfig={challengesConfigs} setChallengesConfig={setChallengesConfigs} keyboardVisible={keyboardVisible}/>
+            <AdminApp setCurrentContent={setCurrentContent} adPackages={adPackages} setAdPackages={setAdPackages} initialNumbers={initialNumbers} setInitialNumbers={setInitialNumbers} challengesConfig={challengesConfigs} setChallengesConfig={setChallengesConfigs} keyboardVisible={keyboardVisible} />
           </ProtectedRoute>
         } />
       </Routes>

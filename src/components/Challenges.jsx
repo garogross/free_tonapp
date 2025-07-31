@@ -7,7 +7,7 @@ import { useNotification } from './useNotification';
 import { openLink, retrieveRawInitData } from '@telegram-apps/sdk';
 import axios from 'axios';
 
-export default function Challenges({ setCurrentContent, tonBalance, currentChallenge, setCurrentChallenge, challenges, setTonBalance, setChallenges }) {
+export default function Challenges({ setCurrentContent, tonBalance, currentChallenge, setCurrentChallenge, challenges, setTonBalance, setChallenges, setCurrentSurfingChallenge }) {
     const [isClient, setIsClient] = useState(false);
     const [surfingChallenges, setSurfingChallenges] = useState([]);
     const [ownedSurfingChallenges, setOwnedSurfingChallenges] = useState([]);
@@ -45,15 +45,15 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
                     'Authorization': 'tma ' + dataRaw
                 }
             })
-            .then(response => {
-                setChallenges(response.data);
-                setTonBalance(response.data.tonBalance);
-                showNotification('Задание выполнено');
-            })
-            .catch(error => {
-                console.log("error view telegram challenge: {}", error)
-                showError('Не удалось выполнить');
-            })
+                .then(response => {
+                    setChallenges(response.data);
+                    setTonBalance(response.data.tonBalance);
+                    showNotification('Задание выполнено');
+                })
+                .catch(error => {
+                    console.log("error view telegram challenge: {}", error)
+                    showError('Не удалось выполнить');
+                })
         }
     };
 
@@ -88,15 +88,20 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
                 'Authorization': 'tma ' + dataRaw
             }
         })
-        .then(response => {
-            setChallenges(response.data);
-            setTonBalance(response.data.tonBalance);
-            showNotification('Задание выполнено');
-        })
-        .catch(error => {
-            console.log("error view telegram challenge: {}", error)
-            showError('Не удалось выполнить');
-        })
+            .then(response => {
+                setChallenges(response.data);
+                setTonBalance(response.data.tonBalance);
+                showNotification('Задание выполнено');
+            })
+            .catch(error => {
+                console.log("error view telegram challenge: {}", error)
+                showError('Не удалось выполнить');
+            })
+    }
+
+    const handleSurfingChallengeClick = (sc) => {
+        setCurrentSurfingChallenge(sc);
+        setCurrentContent('secureIframe');
     }
 
     const renderTelegramChallengesTable = () => {
@@ -190,7 +195,15 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
                         <div className="challenge-item-text challege-price">{sc.price.toFixed(7)}</div>
                         <img src={smallTonIcon} alt="TON" />
                     </span>
-                    <button className="challenge-surf-button">ПОСЕТИТЬ</button>
+                    {isClient ? (
+                        <>
+                            <button className="challenge-surf-button" onClick={() =>handleTelegramChallengeClick(sc.link)}>ПОСЕТИТЬ</button>
+                        </>
+                    ) : (
+                        <>
+                            <button className="challenge-surf-button" onClick={() => handleSurfingChallengeClick(sc)}>ПОСЕТИТЬ</button>
+                        </>
+                    )}
                 </div>
             </div>
         );
