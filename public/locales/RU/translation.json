@@ -48,5 +48,8 @@
     "clientTitle": "Я заказчик",
     "surfingTitle": "Серфинг",
     "telegramTitle": "Телеграм",
-    "feedbackTitle": "Отзывы"    
+    "feedbackTitle": "Отзывы",
+    "adOfAd": "ТУТ МОЖЕТ БЫТЬ ВАША РЕКЛАМА",
+    "adDefaultButton": "ПЕРЕЙТИ",
+    "adButtonText": "Реклама"
 }

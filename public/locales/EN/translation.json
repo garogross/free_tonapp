@@ -48,5 +48,8 @@
     "clientTitle": "I am a client",
     "surfingTitle": "Surfing",
     "telegramTitle": "Telegram",
-    "feedbackTitle": "Feedback"
+    "feedbackTitle": "Feedback",
+    "adOfAd": "YOUR AD COULD BE HERE",
+    "adDefaultButton": "GO TO",
+    "adButtonText": "Advertisement"
 }

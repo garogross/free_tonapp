@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './Add.css';
 import { openLink } from '@telegram-apps/sdk';
+import { useTranslation } from 'react-i18next';
 
 export default function Add({ setCurrentContent, setProfileSubMenu, activeAds }) {
+    const { t } = useTranslation();
     const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {
@@ -32,7 +34,7 @@ export default function Add({ setCurrentContent, setProfileSubMenu, activeAds })
     if (!activeAds || activeAds.length === 0) {
         return (
             <div className="add-container no-add" onClick={followToAdCabinet}>
-                <div className="add-text no-add">ТУТ МОЖЕТ БЫТЬ ВАША РЕКЛАМА</div>
+                <div className="add-text no-add">{t('adOfAd')}</div>
             </div>
         );
     }
@@ -52,12 +54,12 @@ export default function Add({ setCurrentContent, setProfileSubMenu, activeAds })
                         followToAdCabinet();
                     }}
                 >
-                    Реклама
+                    {t('adButtonText')}
                 </button>
                 <button
                     className="add-button"
                 >
-                    {currentAd.adButtonText || 'ПЕРЕЙТИ'}
+                    {currentAd.adButtonText || t('adDefaultButton')}
                 </button>
             </div>
         </div>
