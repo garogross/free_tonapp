@@ -1,8 +1,10 @@
 import './AdvertisingCabinet.css';
 import tonIcon from '../assets/ton.svg';
 import { openLink } from '@telegram-apps/sdk';
+import { useTranslation } from 'react-i18next';
 
 export default function AdvertisingCabinet({ setCurrentContent, tonBalance, advertisements, adPackages }) {
+    const { t } = useTranslation();
 
     const handleDemoAdClick = (adLink) => {
         if (openLink.isAvailable()) {
@@ -20,16 +22,16 @@ export default function AdvertisingCabinet({ setCurrentContent, tonBalance, adve
 
     const getStatusMeaning = (status) => {
         if (status === "moderation") {
-            return "на модерации";
+            return t('status.moderation').toLowerCase();
         }
         if (status === "active") {
-            return "активен";
+            return t('status.active').toLowerCase();
         }
         if (status === "deprecated") {
-            return "показ закончен";
+            return t('status.deprecated').toLowerCase();
         }
         if (status === "deny") {
-            return "отклонён";
+            return t('status.deny').toLowerCase();
         }
     }
 
@@ -37,7 +39,7 @@ export default function AdvertisingCabinet({ setCurrentContent, tonBalance, adve
         if (!advertisements || advertisements.length === 0) {
             return (
                 <div className="empty-wrapper">
-                    <div className="empty-message">Список пуст</div>
+                    <div className="empty-message">{t('emptyList')}</div>
                 </div>
             );
         }
@@ -46,17 +48,17 @@ export default function AdvertisingCabinet({ setCurrentContent, tonBalance, adve
             <div className='demo-ad-container' key={ad.id || index}>
                 <div className='demo-ad-info-container'>
                     <div className='demo-add-info'>
-                        Пакет: {ad.adPackageName}
+                        {t('advertisingCabinet.package')}: {ad.adPackageName}
                     </div>
                     <div className='demo-add-info'>
-                        Дата создания: {new Date(ad.createdAt).toLocaleString('ru-RU', { hour12: false })}
+                        {t('advertisingCabinet.creationDate')}: {new Date(ad.createdAt).toLocaleString('ru-RU', { hour12: false })}
                     </div>
                     <div className={`demo-add-info ${ad.status}`}>
-                        Статус: {getStatusMeaning(ad.status)}
+                        {t('advertisingCabinet.status')}: {getStatusMeaning(ad.status)}
                     </div>
                     {ad.status === 'active' && (
                         <div className='demo-add-info'>
-                            Показ закончится: {calculateDeadline(ad.adPackageName, ad.moderatedAt, adPackages)}
+                            {t('advertisingCabinet.showEnds')}: {calculateDeadline(ad.adPackageName, ad.moderatedAt, adPackages)}
                         </div>
                     )}
                 </div>
@@ -66,7 +68,7 @@ export default function AdvertisingCabinet({ setCurrentContent, tonBalance, adve
                             {ad.adText}
                         </div>
                         <div className="add-actions">
-                            <button className="add-ad">Реклама</button>
+                            <button className="add-ad">{t('adButtonText')}</button>
                             <button className="add-button">{ad.adButtonText}</button>
                         </div>
                     </div>
@@ -77,18 +79,20 @@ export default function AdvertisingCabinet({ setCurrentContent, tonBalance, adve
 
     return (
         <div className="advertising-cabinet">
-            <div className="advertising-cabinet-balance-title">Ваш баланс</div>
+            <div className="advertising-cabinet-balance-title">{t('yourBalanceTitle')}</div>
             <div className="advertising-cabinet-balance-container">
                 <div className="advertising-cabinet-balance-value">{tonBalance.toFixed(6)}</div>
                 <div className="balance-icon">
                     <img src={tonIcon} alt="TON" />
                 </div>
             </div>
-            <div className="adds-list-title">Список рекламы</div>
+            <div className="adds-list-title">{t('advertisingCabinet.adsList')}</div>
             <div className="adds-list">
                 {renderAdvertisementsTable()}
             </div>
-            <button className="buy-add-button" onClick={() => setCurrentContent('addPackagesForm')}>Купить рекламу</button>
+            <button className="buy-add-button" onClick={() => setCurrentContent('addPackagesForm')}>
+                {t('advertisingCabinet.buyAd')}
+            </button>
         </div>
     );
 };
