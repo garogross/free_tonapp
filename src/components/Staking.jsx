@@ -362,7 +362,7 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
 
     return (
         <>
-            <div className="staking-balance-container">
+            {/* <div className="staking-balance-container">
                 <div className="staking-balance-title">Баланс</div>
                 <div className="staking-value-container">
                     <div className="staking-balance-value">{tonBalance.toFixed(6)}</div>
@@ -370,7 +370,7 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
                         <img src={tonIcon} alt="TON" />
                     </div>
                 </div>
-            </div>
+            </div> */}
             <div className="staking-container">
                 <MinerAnimation images={cachedImages} />
                 <div className="staking-total-mined">{accelerateBalance.toFixed(8)} TON</div>

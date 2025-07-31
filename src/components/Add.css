@@ -12,7 +12,9 @@
     font-family: 'Montserrat', Arial, sans-serif;
     height: 76px;
     min-height: fit-content;
-    border: #78AA28 1px solid;
+    border: #78AA28 2px dashed;
+    border-radius: 10px;
+    /* border-top-left-radius: 10px; */
 }
 
 .add-container.no-add {
