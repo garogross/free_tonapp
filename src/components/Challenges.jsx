@@ -6,6 +6,7 @@ import smallTonIcon from '../assets/small_ton.svg';
 import { useNotification } from './useNotification';
 import { openLink, retrieveRawInitData } from '@telegram-apps/sdk';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 export default function Challenges({ setCurrentContent, tonBalance, currentChallenge, setCurrentChallenge, challenges, setTonBalance, setChallenges, setCurrentSurfingChallenge }) {
     const [isClient, setIsClient] = useState(false);
@@ -14,18 +15,19 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
     const [telegramChallenges, setTelegramChallenges] = useState([]);
     const [ownedTelegramChallenges, setOwnedTelegramChallenges] = useState([]);
     const { showNotification, showError } = useNotification();
+    const { t } = useTranslation();
 
     const getTypeMeaning = (type) => {
         switch (type) {
-            case "1": return "ПОДПИСКА";
-            case "2": return "ПРОСМОТР";
+            case "1": return t('challengeButtonFollow');
+            case "2": return t('challengeButtonView');
         }
     }
 
     const getTypeButton = (type) => {
         switch (type) {
-            case "1": return "ПРОВЕРИТЬ";
-            case "2": return "ПОСМОТРЕТЬ";
+            case "1": return t('challengeButtonCheck');
+            case "2": return t('challengeButtonIframe');
         }
     }
 
@@ -48,11 +50,11 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
                 .then(response => {
                     setChallenges(response.data);
                     setTonBalance(response.data.tonBalance);
-                    showNotification('Задание выполнено');
+                    showNotification(t('notification.successfullChallenge'));
                 })
                 .catch(error => {
                     console.log("error view telegram challenge: {}", error)
-                    showError('Не удалось выполнить');
+                    showError(t('notification.failed'));
                 })
         }
     };
@@ -71,10 +73,10 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
 
     const statusToMean = (status) => {
         switch (status) {
-            case "moderation": return "МОДЕРИРУЕТСЯ";
-            case "active": return "ЗАПУЩЕНО";
-            case "deprecated": return "ЗАКОНЧЕНО";
-            case "deny": return "ОТКЛОНЕНО";
+            case "moderation": return t('status.moderation');
+            case "active": return t('status.active');
+            case "deprecated": return t('status.deprecated');
+            case "deny": return t('status.deny');
         }
     }
 
@@ -91,11 +93,11 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
             .then(response => {
                 setChallenges(response.data);
                 setTonBalance(response.data.tonBalance);
-                showNotification('Задание выполнено');
+                showNotification(t('notification.successfullChallenge'));
             })
             .catch(error => {
                 console.log("error view telegram challenge: {}", error)
-                showError('Не удалось выполнить');
+                showError(t('notification.failed'));
             })
     }
 
@@ -117,7 +119,7 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
         if (!table || table.length === 0) {
             return (
                 <div className="empty-wrapper">
-                    <div className="empty-message">Список заданий пуст</div>
+                    <div className="empty-message">{t('emptyList')}</div>
                 </div>
             );
         }
@@ -130,7 +132,7 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
                 </div>
                 <div className="challenge-row-sub end">
                     <div className="challenge-time-container">
-                        <div className="challenge-item-text">ТИП: </div>
+                        <div className="challenge-item-text">{t('typeTitle')} </div>
                         <div className="challenge-item-text challenge-time-of-execution">{getTypeMeaning(sc.selectedType)}</div>
                     </div>
                     <span className="challenge-item-payment">
@@ -148,13 +150,13 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
                             <button className="challenge-surf-button" onClick={(e) => {
                                 e.stopPropagation();
                                 handleTelegramChallengeCheck(sc.id);
-                            }}>ПРОВЕРИТЬ</button>
+                            }}>{t('challengeButtonCheck')}</button>
                         </>
                     ) : (
                         <>
                             <button className="challenge-surf-button" onClick={(e) => {
                                 handleTelegramChallengeClick(sc.link, 'view', sc.id);
-                            }}>ПОСМОТРЕТЬ</button>
+                            }}>{t('challengeButtonIframe')}</button>
                         </>
                     )}
                 </div >
@@ -175,7 +177,7 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
         if (!table || table.length === 0) {
             return (
                 <div className="empty-wrapper">
-                    <div className="empty-message">Список заданий пуст</div>
+                    <div className="empty-message">{t('emptyList')}</div>
                 </div>
             );
         }
@@ -188,7 +190,7 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
                 </div>
                 <div className="challenge-row-sub end">
                     <div className="challenge-time-container">
-                        <div className="challenge-item-text">ВРЕМЯ: </div>
+                        <div className="challenge-item-text">{t('timeTitle')}</div>
                         <div className="challenge-item-text challenge-time-of-execution">{sc.timeOfExecution} сек</div>
                     </div>
                     <span className="challenge-item-payment">
@@ -197,11 +199,11 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
                     </span>
                     {isClient ? (
                         <>
-                            <button className="challenge-surf-button" onClick={() =>handleTelegramChallengeClick(sc.link)}>ПОСЕТИТЬ</button>
+                            <button className="challenge-surf-button" onClick={() =>handleTelegramChallengeClick(sc.link)}>{t('challengeButtonGoIn')}</button>
                         </>
                     ) : (
                         <>
-                            <button className="challenge-surf-button" onClick={() => handleSurfingChallengeClick(sc)}>ПОСЕТИТЬ</button>
+                            <button className="challenge-surf-button" onClick={() => handleSurfingChallengeClick(sc)}>{t('challengeButtonGoIn')}</button>
                         </>
                     )}
                 </div>
@@ -219,7 +221,7 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
                         <>
                             <div className="no-clients-challenges-title">{renderSurfingChallengesTable()}</div>
                             <div className="add-challenges-button-container">
-                                <button className="add-challenges-button" onClick={() => setCurrentContent('addChallengeForm')}>Добавить задание</button>
+                                <button className="add-challenges-button" onClick={() => setCurrentContent('addChallengeForm')}>{t('addChallengeButton')}</button>
                             </div>
                         </>
                     );
@@ -227,7 +229,7 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
                         <>
                             <div className="no-clients-challenges-title">{renderTelegramChallengesTable()}</div>
                             <div className="add-challenges-button-container">
-                                <button className="add-challenges-button" onClick={() => setCurrentContent('addTelegramChallengeForm')}>Добавить задание</button>
+                                <button className="add-challenges-button" onClick={() => setCurrentContent('addTelegramChallengeForm')}>{t('addChallengeButton')}</button>
                             </div>
                         </>
                     );
@@ -250,7 +252,7 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
         <div className="challenges-container">
             <div className="challenges-top">
                 <div className="balance-container">
-                    <div className="balance-title">Баланс</div>
+                    <div className="balance-title">{t('balanceTitle')}</div>
                     <div className="value-container">
                         <div className="balance-value">{tonBalance.toFixed(6)}</div>
                         <div className="balance-icon">
@@ -259,15 +261,15 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
                     </div>
                 </div>
                 <div className="client-switch-container">
-                    <div className="client-switch-title">Я заказчик</div>
+                    <div className="client-switch-title">{t('clientTitle')}</div>
                     <div className={`client-switch ${isClient ? 'active' : ''}`} onClick={handleClientSwitch}></div>
                 </div>
             </div>
             <div className="challenges-menu-container">
-                <button className={`challenges-menu-button ${currentChallenge === 'surfing' ? 'active' : ''}`} onClick={() => setCurrentChallenge('surfing')}>Серфинг</button>
-                <button className={`challenges-menu-button ${currentChallenge === 'telegram' ? 'active' : ''}`} onClick={() => setCurrentChallenge('telegram')}>Телеграм</button>
+                <button className={`challenges-menu-button ${currentChallenge === 'surfing' ? 'active' : ''}`} onClick={() => setCurrentChallenge('surfing')}>{t('surfingTitle')}</button>
+                <button className={`challenges-menu-button ${currentChallenge === 'telegram' ? 'active' : ''}`} onClick={() => setCurrentChallenge('telegram')}>{t('telegramTitle')}</button>
                 <button className={`challenges-menu-button ${currentChallenge === 'youtube' ? 'active' : ''}`} onClick={() => setCurrentChallenge('youtube')}>YouTube</button>
-                <button className={`challenges-menu-button ${currentChallenge === 'reviews' ? 'active' : ''}`} onClick={() => setCurrentChallenge('reviews')}>Отзывы</button>
+                <button className={`challenges-menu-button ${currentChallenge === 'reviews' ? 'active' : ''}`} onClick={() => setCurrentChallenge('reviews')}>{t('feedbackTitle')}</button>
             </div>
             {renderChallenges()}
         </div>

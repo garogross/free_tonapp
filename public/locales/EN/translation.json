@@ -1,29 +1,52 @@
 {
     "footMenu": {
-      "cran": "Crane",
-      "challenges": "Challenges",
-      "staking": "Staking",
-      "friends": "Friends",
-      "profile": "Profile"
+        "cran": "Crane",
+        "challenges": "Challenges",
+        "staking": "Staking",
+        "friends": "Friends",
+        "profile": "Profile"
     },
     "adminFootMenu": {
-      "statistics": "Statistics",
-      "operations": "Operations",
-      "advertisement": "Advertisement",
-      "settings": "Settings"
+        "statistics": "Statistics",
+        "operations": "Operations",
+        "advertisement": "Advertisement",
+        "settings": "Settings"
     },
     "languages": {
-      "russian": "Russian",
-      "english": "English"
+        "russian": "Russian",
+        "english": "English"
     },
+    "notification": {
+        "successfullChallenge": "Challenge completed",
+        "failed": "Failed to complete"
+    },
+    "status": {
+        "moderation": "MODERATION",
+        "active": "ACTIVE",
+        "deprecated": "FINISHED",
+        "deny": "DENIED"
+    },
+    "timeTitle": "TIME:",
+    "typeTitle": "TYPE:",
+    "addChallengeButton": "Add challenge",
+    "emptyList": "Empty list",
     "dropped": "Dropped:",
-    "cashOut": "Cash Out",
+    "cashOut": "CASH OUT",
     "rulletMinuts": "Minutes",
     "rulletSeconds": "Seconds",
-    "rulletTimerTitle": "Collection Time",
-    "yourBalanceTitle": "Your Balance",
+    "rulletTimerTitle": "Collection time",
+    "yourBalanceTitle": "Your balance",
     "rulletTableNumberTitle": "Number",
     "rulletTablePrizeTitle": "Prize",
-    "droppedNumber": "Dropped Number"
-  }
-  
+    "droppedNumber": "Dropped number",
+    "challengeButtonFollow": "SUBSCRIBE",
+    "challengeButtonView": "VIEW",
+    "challengeButtonCheck": "CHECK",
+    "challengeButtonIframe": "WATCH",
+    "challengeButtonGoIn": "VISIT",
+    "balanceTitle": "Balance",
+    "clientTitle": "I am a client",
+    "surfingTitle": "Surfing",
+    "telegramTitle": "Telegram",
+    "feedbackTitle": "Feedback"
+}

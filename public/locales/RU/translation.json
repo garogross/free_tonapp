@@ -16,6 +16,20 @@
         "russian": "Русский",
         "english": "English"
     },
+    "notification": {
+        "successfullChallenge": "Задание выполнено",
+        "failed": "Не удалось выполнить"
+    },
+    "status": {
+        "moderation": "МОДЕРИРУЕТСЯ",
+        "active": "ЗАПУЩЕНО",
+        "deprecated": "ЗАКОНЧЕНО",
+        "deny": "ОТКЛОНЕНО"
+    },
+    "timeTitle": "ВРЕМЯ:",
+    "typeTitle": "ТИП:",
+    "addChallengeButton": "Добавить задание",
+    "emptyList": "Список пуст",
     "dropped": "Выпало:",
     "cashOut": "ВЫВЕСТИ",
     "rulletMinuts": "Минуты",
@@ -24,5 +38,15 @@
     "yourBalanceTitle": "Ваш баланс",
     "rulletTableNumberTitle": "Число",
     "rulletTablePrizeTitle": "Выплата",
-    "droppedNumber": "Выпавшее число"
+    "droppedNumber": "Выпавшее число",
+    "challengeButtonFollow": "ПОДПИСКА",
+    "challengeButtonView": "ПРОСМОТР",
+    "challengeButtonCheck": "ПРОВЕРИТЬ",
+    "challengeButtonIframe": "ПОСМОТРЕТЬ",
+    "challengeButtonGoIn": "ПОСЕТИТЬ",
+    "balanceTitle": "Баланс",
+    "clientTitle": "Я заказчик",
+    "surfingTitle": "Серфинг",
+    "telegramTitle": "Телеграм",
+    "feedbackTitle": "Отзывы"    
 }
