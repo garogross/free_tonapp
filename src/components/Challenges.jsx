@@ -238,9 +238,9 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
                     case 'telegram':
                         return <div className="no-clients-challenges-title">{renderTelegramChallengesTable()}</div>;
                     case 'youtube':
-                        return <div><img className="content-not-found" src="/assets/cat.svg" alt="YouTube" /></div>;
+                        return <div><img className="content-not-found" src="/assets/cat.png" alt="YouTube" /></div>;
                     case 'reviews':
-                        return <div><img className="content-not-found" src="/assets/cat.svg" alt="Telegram" /></div>;
+                        return <div><img className="content-not-found" src="/assets/cat.png" alt="Telegram" /></div>;
                 }
         }
     }
