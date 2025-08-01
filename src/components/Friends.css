@@ -71,6 +71,12 @@
     transform: scale(0.95);
 }
 
+.accelerators-blocked {
+    margin-top: 60px;
+    background-color: #78AA28;
+    text-wrap: nowrap;
+}
+
 .friends-list-title {
     font-family: 'Montserrat';
     font-size: 24px;

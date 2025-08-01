@@ -2,11 +2,10 @@ import { useState, useEffect } from 'react';
 import './Staking.css'
 import miner from '../assets/miner.png'
 import miner2 from '../assets/miner2.png'
-import { retrieveRawInitData } from '@telegram-apps/sdk'
+import { retrieveRawInitData, retrieveLaunchParams } from '@telegram-apps/sdk'
 import MinerAnimation from './MinerAnimation';
 import axios from 'axios';
 import { useNotification } from './useNotification';
-import tonIcon from '../assets/ton.svg';
 import { useTranslation } from 'react-i18next';
 
 const globalMinerImageCache = window.__minerImageCache || (window.__minerImageCache = { loaded: false, images: [] });
@@ -22,9 +21,17 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
     const [modalPage, setModalPage] = useState('accelerators');
     const [acceleratorsConfig, setAcceleratorsConfig] = useState([]);
     const [acceleratorsList, setAcceleratorsList] = useState([]);
+    const [acceleratorsStatus, setAcceleratorsStatus] = useState(false);
     const imageUrls = [miner, miner2];
     const { showError, showNotification } = useNotification();
+    const initData = retrieveLaunchParams();
+    const userId = initData.tgWebAppData.user.id;
     const { t } = useTranslation();
+
+    const writeLinkInClipboard = () => {
+        navigator.clipboard.writeText("https://t.me/parserGigaChatbot_bot?start=" + userId);
+        showNotification(t('friends.linkCopied'), 1000);
+    };
 
     useEffect(() => {
         if (globalMinerImageCache.loaded) {
@@ -146,8 +153,11 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
             }
         })
             .then(response => {
-                setAmountsByType(response.data.amountsByType);
-                setAcceleratorsList(response.data.accelerators);
+                if (response.data.acceleratorsConfig[0].acceleratorsStatus) {
+                    setAmountsByType(response.data.amountsByType);
+                    setAcceleratorsList(response.data.accelerators);
+                }
+                setAcceleratorsStatus(response.data.acceleratorsConfig[0].acceleratorsStatus)
                 setAcceleratorsConfig(response.data.acceleratorsConfig);
                 setIsAcceleratorsLoading(false);
             })
@@ -284,10 +294,36 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
                 <div className="staking-accelerate-container" onClick={(e) => e.stopPropagation()}>
                     <div className='staking-accelerate-menu-buttons'>
                         <button className={`staking-accelerate-menu-button ${modalPage === 'accelerators' ? 'btn-active' : ''}`} onClick={() => setModalPage('accelerators')}>{t('stakingForm.accelerators')}</button>
-                        <button className={`staking-accelerate-menu-button ${modalPage === 'store' ? 'btn-active' : ''}`} onClick={() => setModalPage('store')}>{t('stakingForm.buy')}</button>
+                        {acceleratorsStatus && (
+                            <button className={`staking-accelerate-menu-button ${modalPage === 'store' ? 'btn-active' : ''}`} onClick={() => setModalPage('store')}>{t('stakingForm.buy')}</button>
+                        )}
                     </div>
                     <button className="staking-accelerate-close" onClick={closeAccelerateModal}>×</button>
-                    {modalPage === 'store' ? (
+                    {!acceleratorsStatus ? (
+                        <>
+                            <div className='friends-info'>{t('acceleratorsBlocked.friendsInfo')}</div>
+                            <div className='sub-friends-info'>{t('acceleratorsBlocked.subFriendsInfo')}</div>
+                            <div className="per-day-container">
+                                <div className="per-day-title">{t('acceleratorsBlocked.profitPerSecond')}</div>
+                                <div className="per-day-description perSecond">
+                                    {isAcceleratorsLoading ? spinner : `${accelerateSpeed.toFixed(8)} TON`}
+                                </div>
+                            </div>
+                            <div className="per-day-container">
+                                <div className="per-day-title">{t('stakingForm.profitPerDay')}</div>
+                                <div className="per-day-description perSecond">
+                                    {isAcceleratorsLoading ? spinner : `${totalPerDay} TON`}
+                                </div>
+                            </div>
+                            <div className="per-day-container">
+                                <div className="per-day-title">{t('friends.friendAmount')}</div>
+                                <div className="per-day-description perSecond">
+                                    {isAcceleratorsLoading ? spinner : `${totalPerDay}`}
+                                </div>
+                            </div>
+                            <button className="friends-button-copy accelerators-blocked" onClick={writeLinkInClipboard}>{t('friends.copyLink')}</button>
+                        </>
+                    ) : modalPage === 'store' ? (
                         <>
                             <div className="stacking-accelerate-accelerators-container">
                                 <div className={`stacking-accelerate-accelerators-item ${selectedAccelerator === 0 ? 'active' : ''}`} onClick={() => handleSetSelectedAccelerator(0)}>

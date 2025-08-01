@@ -35,6 +35,8 @@ export default function AdminSettingsAccelerator({ acceleratorsConfig, setAccele
             }));
             setInputs(prepared);
             setOriginalConfig(prepared);
+            setOriginalStatus(acceleratorsConfig[0].acceleratorsStatus)
+            setAcceleratorsStatus(acceleratorsConfig[0].acceleratorsStatus);
         }
     }, [acceleratorsConfig]);
 

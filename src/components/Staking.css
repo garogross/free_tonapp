@@ -352,6 +352,10 @@
     justify-content: flex-end;
 }
 
+.per-day-description.perSecond {
+    font-size: 13px;
+}
+
 .total-profit-container {
     display: flex;
     flex-direction: row;
@@ -519,6 +523,18 @@
     border: 2px rgb(120, 170, 40) dashed;
 }
 
+.friends-info,
+.sub-friends-info {
+    color: #000000;
+    margin-top: 10px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.sub-friends-info {
+    font-size: 11px;
+    margin-bottom: 50px;
+}
 
 .staking-balance-title {
     font-family: 'Montserrat';
