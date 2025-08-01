@@ -328,7 +328,7 @@ export default function AddTelegramChallengeForm({ tonBalance, challengesConfigs
             <div className='add-telegram-challenge-info'>
                 <div className='input-description-info'>{t('addTelegramChallengeForm.botAdminInfo')}</div>
                 <div>
-                    <div className='username-text' onClick={() => copyTelegramUsername('@FreeTonTG_bot')}>@FreeTonTG_bot</div>
+                    <div className='username-text' onClick={() => copyTelegramUsername('@Freetoon_bot')}>@Freetoon_bot</div>
                     <div className='input-description-info'>{t('addTelegramChallengeForm.clickToCopy')}</div>
                 </div>
                 <button className='ping-check-button' onClick={handleCheckLink} disabled={isLoading}>{t('challengeButtonCheck')}</button>

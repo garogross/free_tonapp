@@ -10,9 +10,9 @@ export default function CashInForm({ setCurrentContent }) {
                 <img src={qrCode} alt="QR-код" />
             </div>
             <div className="address-title">или скопируйте адрес</div>
-            <div className="address">UQBY4Gwwp7FwQeMkrZiEV4Hx69AGgJj5ENSijJ5jofo7Q7s</div>
-            <button className="address-copy" onClick={() => navigator.clipboard.writeText('UQBY4Gwwp7FwQeMkrZiEV4Hx69AGgJj5ENSijJ5jofo7Q7s')}>СКОПИРОВАТЬ</button>
-            <button className="address-pay" onClick={() => setCurrentContent('cashInRequest')}>Я ОПЛАТИЛ</button>
+            <div className="address"></div>
+            <button className="address-copy" onClick={() => navigator.clipboard.writeText('k')}>СКОПИРОВАТЬ</button>
+            <button className="address-pay" onClick={() => setCurrentContent('cran')}>Я ОПЛАТИЛ</button>
         </div>
     );
 }

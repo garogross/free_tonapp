@@ -22,7 +22,7 @@ export default function CashInRequestForm({ setCurrentContent, addTransaction })
             validUntil: Date.now() + 5 * 60 * 1000,
             messages: [
                 {
-                    address: "UQCQ84P_-bW15oozG-_GDlNaj96s780Kxofd6RfBa_LPOYUd",
+                    address: "UQAKWDA4PO2M-0pzlod3BsYufxC99OOzUnGeQT2dm4ruw3fU",
                     amount: amountNano,
                 },
             ],
