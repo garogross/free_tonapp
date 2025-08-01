@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import './Staking.css'
-import miner from '../assets/miner.png'
-import miner2 from '../assets/miner2.png'
+import miner from '/assets/miner.png'
+import miner2 from '/assets/miner2.png'
 import { retrieveRawInitData, retrieveLaunchParams } from '@telegram-apps/sdk'
 import MinerAnimation from './MinerAnimation';
 import axios from 'axios';

@@ -1,5 +1,4 @@
 import './Rullet.css';
-import tonIcon from '../assets/ton.svg';
 import { useState, useEffect } from 'react';
 import { useTonConnectUI, useTonAddress } from '@tonconnect/ui-react';
 import { retrieveRawInitData } from '@telegram-apps/sdk';
@@ -213,7 +212,7 @@ export default function Rullet(props) {
             <div className="rullet-balance">
                 <div className="rullet-balance-value">{tonBalance.toFixed(6)}</div>
                 <div className="rullet-balance-icon">
-                    <img src={tonIcon} alt="TON" />
+                    <img src="/assets/ton.svg" alt="TON" />
                 </div>
             </div>
 

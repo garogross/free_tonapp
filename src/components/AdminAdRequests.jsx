@@ -3,7 +3,7 @@ import axios from 'axios';
 import { retrieveRawInitData } from '@telegram-apps/sdk';
 import { useNotification } from './useNotification';
 import { useEffect, useState } from "react";
-import smallTonIcon from '../assets/small_ton.svg';
+import smallTonIcon from '/assets/small_ton.svg';
 
 export default function AdminAdRequests({ adminAds, setAdminAds, adPackages, challenges, setChallenges }) {
     const { showError, showNotification } = useNotification();

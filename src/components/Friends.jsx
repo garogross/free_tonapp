@@ -1,5 +1,4 @@
 import './Friends.css'
-import tonIcon from '../assets/ton.svg'
 import { useState, useEffect } from 'react';
 import { shareMessage, ShareMessageError, retrieveLaunchParams } from '@telegram-apps/sdk';
 import { useNotification } from './useNotification'
@@ -88,7 +87,7 @@ export default function Friends({ friends }) {
                 <div className="friends-balance-title">{t('friends.totalIncome')}:</div>
                 <div className="friends-balance-value">{totalPrize.toFixed(6)}</div>
                 <div className="friends-balance-icon">
-                    <img src={tonIcon} alt="TON" />
+                    <img src="/assets/ton.svg" alt="TON" />
                 </div>
             </div>
             <div className="friends-list">

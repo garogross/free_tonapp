@@ -1,5 +1,4 @@
 import './AddAddForm.css'
-import tonIcon from '../assets/ton.svg'
 import { useState, useEffect, useRef } from 'react';
 import { useNotification } from './useNotification'
 import { retrieveRawInitData } from '@telegram-apps/sdk'
@@ -242,7 +241,7 @@ export default function AddAddForm({ selectedPackage, setAdvertisements, setTonB
                 <div className="add-add-form-package-info-item-price-container">
                     <div className="add-add-form-package-info-item-price">{t('addAddForm.price')}: {selectedPackage.price}</div>
                     <div className="add-add-form-package-info-item-price-icon">
-                        <img src={tonIcon} alt="TON" />
+                        <img src="/assets/ton.svg" alt="TON" />
                     </div>
                 </div>
             </div>

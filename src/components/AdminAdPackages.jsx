@@ -1,5 +1,5 @@
 import './AdminAdPackages.css';
-import tonIcon from '../assets/ton.svg';
+import tonIcon from '/assets/ton.svg';
 import axios from 'axios';
 import { retrieveRawInitData } from '@telegram-apps/sdk';
 import { useNotification } from './useNotification';

@@ -1,5 +1,4 @@
 import './AdvertisingCabinet.css';
-import tonIcon from '../assets/ton.svg';
 import { openLink } from '@telegram-apps/sdk';
 import { useTranslation } from 'react-i18next';
 
@@ -83,7 +82,7 @@ export default function AdvertisingCabinet({ setCurrentContent, tonBalance, adve
             <div className="advertising-cabinet-balance-container">
                 <div className="advertising-cabinet-balance-value">{tonBalance.toFixed(6)}</div>
                 <div className="balance-icon">
-                    <img src={tonIcon} alt="TON" />
+                    <img src="/assets/ton.svg" alt="TON" />
                 </div>
             </div>
             <div className="adds-list-title">{t('advertisingCabinet.adsList')}</div>

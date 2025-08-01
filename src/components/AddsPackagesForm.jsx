@@ -1,5 +1,4 @@
 import './AddsPackagesForm.css'
-import tonIcon from '../assets/ton.svg'
 import { useNotification } from './useNotification'
 import { useTranslation } from 'react-i18next'
 
@@ -38,7 +37,7 @@ export default function AddsPackagesForm({ setCurrentContent, setSelectedPackage
                             <div className="add-packages-form-item-price-container">
                                 <div className="add-packages-form-item-price">{pkg.price}</div>
                                 <div className="add-packages-form-item-price-icon">
-                                    <img src={tonIcon} alt="TON" />
+                                    <img src="/assets/ton.svg" alt="TON" />
                                 </div>
                             </div>
                         </div>

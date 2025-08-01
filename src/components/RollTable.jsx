@@ -1,5 +1,4 @@
 import './RollTable.css';
-import tonIcon from '../assets/small_ton.svg';
 import { useTranslation } from 'react-i18next';
 
 const ranges = [
@@ -26,7 +25,7 @@ export default function RollTable({ initialNumbers }) {
             <span className="roll-table-item-number">{range}</span>
             <span className="roll-table-item-payment">
               {initialNumbers && initialNumbers[index] !== undefined ? initialNumbers[index] : '-'}
-              <img src={tonIcon} alt="TON" className="payment-icon" />
+              <img src="/assets/small_ton.svg" alt="TON" className="payment-icon" />
             </span>
           </div>
         ))}

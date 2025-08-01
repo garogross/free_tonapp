@@ -1,8 +1,5 @@
 import './Challenges.css';
-import tonIcon from '../assets/ton.svg';
 import { useEffect, useState } from 'react';
-import catImage from '../assets/cat.png';
-import smallTonIcon from '../assets/small_ton.svg';
 import { useNotification } from './useNotification';
 import { openLink, retrieveRawInitData } from '@telegram-apps/sdk';
 import axios from 'axios';
@@ -137,7 +134,7 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
                     </div>
                     <span className="challenge-item-payment">
                         <div className="challenge-item-text challege-price">{sc.price.toFixed(7)}</div>
-                        <img src={smallTonIcon} alt="TON" />
+                        <img src="/assets/small_ton.svg" alt="TON" />
                     </span>
                     {isClient ? (
                         <>
@@ -195,7 +192,7 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
                     </div>
                     <span className="challenge-item-payment">
                         <div className="challenge-item-text challege-price">{sc.price.toFixed(7)}</div>
-                        <img src={smallTonIcon} alt="TON" />
+                        <img src="/assets/small_ton.svg" alt="TON" />
                     </span>
                     {isClient ? (
                         <>
@@ -215,8 +212,8 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
         switch (isClient) {
             case true:
                 switch (currentChallenge) {
-                    case 'youtube': return <div><img className="content-not-found" src={catImage} alt="Telegram" /></div>;
-                    case 'reviews': return <div><img className="content-not-found" src={catImage} alt="Telegram" /></div>;
+                    case 'youtube': return <div><img className="content-not-found" src="/assets/cat.svg" alt="Telegram" /></div>;
+                    case 'reviews': return <div><img className="content-not-found" src="/assets/cat.svg" alt="Telegram" /></div>;
                     case 'surfing': return (
                         <>
                             <div className="no-clients-challenges-title">{renderSurfingChallengesTable()}</div>
@@ -241,9 +238,9 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
                     case 'telegram':
                         return <div className="no-clients-challenges-title">{renderTelegramChallengesTable()}</div>;
                     case 'youtube':
-                        return <div><img className="content-not-found" src={catImage} alt="YouTube" /></div>;
+                        return <div><img className="content-not-found" src="/assets/cat.svg" alt="YouTube" /></div>;
                     case 'reviews':
-                        return <div><img className="content-not-found" src={catImage} alt="Telegram" /></div>;
+                        return <div><img className="content-not-found" src="/assets/cat.svg" alt="Telegram" /></div>;
                 }
         }
     }
@@ -256,7 +253,7 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
                     <div className="value-container">
                         <div className="balance-value">{tonBalance.toFixed(6)}</div>
                         <div className="balance-icon">
-                            <img src={tonIcon} alt="TON" />
+                            <img src="/assets/ton.svg" alt="TON" />
                         </div>
                     </div>
                 </div>
