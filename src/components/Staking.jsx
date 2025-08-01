@@ -28,7 +28,7 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
     const { t } = useTranslation();
 
     const writeLinkInClipboard = () => {
-        navigator.clipboard.writeText("https://t.me/parserGigaChatbot_bot?start=" + userId);
+        navigator.clipboard.writeText("https://t.me/Freetoon_bot?start=" + userId);
         showNotification(t('friends.linkCopied'), 1000);
     };
 
