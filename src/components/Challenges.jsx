@@ -212,8 +212,8 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
         switch (isClient) {
             case true:
                 switch (currentChallenge) {
-                    case 'youtube': return <div><img className="content-not-found" src="/assets/cat.svg" alt="Telegram" /></div>;
-                    case 'reviews': return <div><img className="content-not-found" src="/assets/cat.svg" alt="Telegram" /></div>;
+                    case 'youtube': return <div><img className="content-not-found" src="/assets/cat.png" alt="Telegram" /></div>;
+                    case 'reviews': return <div><img className="content-not-found" src="/assets/cat.png" alt="Telegram" /></div>;
                     case 'surfing': return (
                         <>
                             <div className="no-clients-challenges-title">{renderSurfingChallengesTable()}</div>
