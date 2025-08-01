@@ -69,7 +69,7 @@ function App() {
 
   const intervalRef = useRef(null);
 
-  const [accelerateSpeed, setAccelerateSpeed] = useState(0.00000033);
+  const [accelerateSpeed, setAccelerateSpeed] = useState(0.00000013);
   const [accelerateBalance, setAccelerateBalance] = useState(0.00000000);
   const stompClient = useRef(null);
   const [currentSurfingChallenge, setCurrentSurfingChallenge] = useState(null);

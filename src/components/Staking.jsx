@@ -306,19 +306,21 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
                             <div className="per-day-container">
                                 <div className="per-day-title">{t('acceleratorsBlocked.profitPerSecond')}</div>
                                 <div className="per-day-description perSecond">
-                                    {isAcceleratorsLoading ? spinner : `${accelerateSpeed.toFixed(8)} TON`}
+                                    {isAcceleratorsLoading ? spinner : `${(accelerateSpeed * friends.filter(friend => friend.status === 'active').length).toFixed(8)} TON`}
                                 </div>
                             </div>
                             <div className="per-day-container">
                                 <div className="per-day-title">{t('stakingForm.profitPerDay')}</div>
                                 <div className="per-day-description perSecond">
-                                    {isAcceleratorsLoading ? spinner : `${(accelerateSpeed * 86400).toFixed(4)} TON`}
+                                    {isAcceleratorsLoading ? spinner : `${(accelerateSpeed * friends.filter(friend => friend.status === 'active').length * 86400).toFixed(4)} TON`}
                                 </div>
                             </div>
                             <div className="per-day-container">
                                 <div className="per-day-title">{t('friends.friendAmount')}</div>
                                 <div className="per-day-description perSecond">
-                                    {isAcceleratorsLoading ? spinner : `${friends.length}`}
+                                    {isAcceleratorsLoading
+                                        ? spinner
+                                        : `${friends.filter(friend => friend.status === 'active').length}`}
                                 </div>
                             </div>
                             <button className="friends-button-copy accelerators-blocked" onClick={writeLinkInClipboard}>{t('friends.copyLink')}</button>
