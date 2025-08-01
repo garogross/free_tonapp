@@ -193,7 +193,11 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
     }
 
     const showStakingInfo = () => {
-        showNotification(t('stakingForm.offlineMiningInfo'), 10000);
+        if (acceleratorsStatus) {
+            showNotification(t('stakingForm.offlineMiningInfo'), 10000);
+        } else {
+            showNotification(t('stakingForm.offlineMiningInfoAcBlocked'), 10000);
+        }
     }
 
     const spinner = <span className="loading-inline-spinner"></span>;
@@ -429,9 +433,7 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
                 <div className="staking-total-mined">{accelerateBalance.toFixed(8)} TON</div>
                 <div className="accelearate-speed-info-container">
                     <div className="staking-hashrate">{t('stakingForm.speed')}: {accelerateSpeed.toFixed(8)} T/s</div>
-                    {acceleratorsStatus && (
-                        <button className="staking-info-button" onClick={showStakingInfo}>i</button>
-                    )}
+                    <button className="staking-info-button" onClick={showStakingInfo}>i</button>
                 </div>
                 <div className="staling-button-wrapper">
                     <button className={`staking-get-button ${accelerateBalance < 0.5 ? 'disabled-view' : ''}`} onClick={getUnfund}>{t('stakingForm.request')}</button>

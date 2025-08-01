@@ -223,6 +223,7 @@
         "speed": "SPEED",
         "request": "REQUEST",
         "accelerate": "ACCELERATE",
-        "offlineMiningInfo": "For users without connected accelerators, offline mining is only available for 12 hours - to keep it running, log into the application at least once every 12 hours."
+        "offlineMiningInfo": "For users without connected accelerators, offline mining is only available for 12 hours - to keep it running, log into the application at least once every 12 hours.",
+        "offlineMiningInfoAcBlocked": "Offline mining is only available for 12 hours - to keep it running, log into the application at least once every 12 hours."
     }
 }
