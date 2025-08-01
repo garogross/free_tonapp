@@ -64,6 +64,7 @@ function App() {
   const [rollStarted, setRollStarted] = useState(false)
   const [lastRollNumber, setLastRollNumber] = useState(0)
   const [challengesConfigs, setChallengesConfigs] = useState(null);
+  const [acceleratorsStatus, setAcceleratorsStatus] = useState(false);
 
   const [tonBalance, setTonBalance] = useState(0)
 
@@ -232,6 +233,20 @@ function App() {
       })
   }
 
+  async function getAcceleratorsStatus(dataRaw) {
+    axios.get('/api/accelerators', {
+        headers: {
+            'Authorization': 'tma ' + dataRaw
+        }
+    })
+        .then(response => {
+            setAcceleratorsStatus(response.data.acceleratorsConfig[0].acceleratorsStatus)
+        })
+        .catch(error => {
+            console.error('Get accelerators error: ', error);
+        });
+}
+
   useEffect(() => {
     const dataRaw = retrieveRawInitData();
     async function fetchUser() {
@@ -363,6 +378,7 @@ function App() {
     }
     getChalleges(dataRaw);
     getChallegesConfigs(dataRaw);
+    getAcceleratorsStatus(dataRaw);
     getInitialNumbers(dataRaw);
     getActiveAds(dataRaw);
     getAdPackages(dataRaw);
@@ -434,7 +450,7 @@ function App() {
       case 'staking':
         return (
           <>
-            <Staking setTonBalance={setTonBalance} tonBalance={tonBalance} accelerateBalance={accelerateBalance} accelerateSpeed={accelerateSpeed} setAccelerateBalance={setAccelerateBalance} setAccelerateSpeed={setAccelerateSpeed} friends={friends}/>
+            <Staking setTonBalance={setTonBalance} tonBalance={tonBalance} accelerateBalance={accelerateBalance} accelerateSpeed={accelerateSpeed} setAccelerateBalance={setAccelerateBalance} setAccelerateSpeed={setAccelerateSpeed} friends={friends} acceleratorsStatus={acceleratorsStatus} setAcceleratorsStatus={setAcceleratorsStatus}/>
           </>
         );
       case 'friends':

@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 
 const globalMinerImageCache = window.__minerImageCache || (window.__minerImageCache = { loaded: false, images: [] });
 
-export default function Staking({ setTonBalance, tonBalance, accelerateBalance, accelerateSpeed, setAccelerateBalance, setAccelerateSpeed, friends }) {
+export default function Staking({ setTonBalance, tonBalance, accelerateBalance, accelerateSpeed, setAccelerateBalance, setAccelerateSpeed, friends, acceleratorsStatus, setAcceleratorsStatus }) {
     const [counter, setCounter] = useState(1);
     const [imagesLoaded, setImagesLoaded] = useState(globalMinerImageCache.loaded);
     const [cachedImages, setCachedImages] = useState(globalMinerImageCache.images);
@@ -21,7 +21,6 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
     const [modalPage, setModalPage] = useState('accelerators');
     const [acceleratorsConfig, setAcceleratorsConfig] = useState([]);
     const [acceleratorsList, setAcceleratorsList] = useState([]);
-    const [acceleratorsStatus, setAcceleratorsStatus] = useState(false);
     const imageUrls = [miner, miner2];
     const { showError, showNotification } = useNotification();
     const initData = retrieveLaunchParams();
@@ -293,38 +292,59 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
             <div className="staking-accelerate-overlay" onClick={closeAccelerateModal}>
                 <div className="staking-accelerate-container" onClick={(e) => e.stopPropagation()}>
                     <div className='staking-accelerate-menu-buttons'>
-                        <button className={`staking-accelerate-menu-button ${modalPage === 'accelerators' ? 'btn-active' : ''}`} onClick={() => setModalPage('accelerators')}>{t('stakingForm.accelerators')}</button>
                         {acceleratorsStatus && (
-                            <button className={`staking-accelerate-menu-button ${modalPage === 'store' ? 'btn-active' : ''}`} onClick={() => setModalPage('store')}>{t('stakingForm.buy')}</button>
+                            <>
+                                <button className={`staking-accelerate-menu-button ${modalPage === 'accelerators' ? 'btn-active' : ''}`} onClick={() => setModalPage('accelerators')}>{t('stakingForm.accelerators')}</button>
+                                <button className={`staking-accelerate-menu-button ${modalPage === 'store' ? 'btn-active' : ''}`} onClick={() => setModalPage('store')}>{t('stakingForm.buy')}</button>
+                            </>
                         )}
                     </div>
                     <button className="staking-accelerate-close" onClick={closeAccelerateModal}>×</button>
                     {!acceleratorsStatus ? (
-                        <>
-                            <div className='friends-info'>{t('acceleratorsBlocked.friendsInfo')}</div>
-                            <div className='sub-friends-info'>{t('acceleratorsBlocked.subFriendsInfo')}</div>
-                            <div className="per-day-container">
-                                <div className="per-day-title">{t('acceleratorsBlocked.profitPerSecond')}</div>
-                                <div className="per-day-description perSecond">
-                                    {isAcceleratorsLoading ? spinner : `${(accelerateSpeed * friends.filter(friend => friend.status === 'active').length).toFixed(8)} TON`}
+                        <div className='acblocked-container'>
+                            <div className='acbloccked-title'>{t('stakingForm.accelerators')}</div>
+                            <div className='text-info-shadow'>
+                                <div className="info-block friends-info-text">
+                                    {t('acceleratorsBlocked.friendsInfo')}
+                                </div>
+                                <div className="info-block friends-subinfo-text">
+                                    {t('acceleratorsBlocked.subFriendsInfo')}
                                 </div>
                             </div>
-                            <div className="per-day-container">
-                                <div className="per-day-title">{t('stakingForm.profitPerDay')}</div>
-                                <div className="per-day-description perSecond">
-                                    {isAcceleratorsLoading ? spinner : `${(accelerateSpeed * friends.filter(friend => friend.status === 'active').length * 86400).toFixed(4)} TON`}
+                            <div className="stat-container">
+                                <div className="stat-title">{t('acceleratorsBlocked.profitPerSecond')}</div>
+                                <div className="stat-value">
+                                    {isAcceleratorsLoading
+                                        ? spinner
+                                        : `${(accelerateSpeed).toFixed(8)} TON`}
                                 </div>
                             </div>
-                            <div className="per-day-container">
-                                <div className="per-day-title">{t('friends.friendAmount')}</div>
-                                <div className="per-day-description perSecond">
+
+                            <div className="stat-container">
+                                <div className="stat-title">{t('stakingForm.profitPerDay')}</div>
+                                <div className="stat-value">
+                                    {isAcceleratorsLoading
+                                        ? spinner
+                                        : `${(accelerateSpeed * 86400).toFixed(4)} TON`}
+                                </div>
+                            </div>
+
+                            <div className="stat-container">
+                                <div className="stat-title">{t('friends.friendAmount')}</div>
+                                <div className="stat-value">
                                     {isAcceleratorsLoading
                                         ? spinner
                                         : `${friends.filter(friend => friend.status === 'active').length}`}
                                 </div>
                             </div>
-                            <button className="friends-button-copy accelerators-blocked" onClick={writeLinkInClipboard}>{t('friends.copyLink')}</button>
-                        </>
+
+                            <button
+                                className="btn-copy-link btn-copy-link--accelerators-blocked"
+                                onClick={writeLinkInClipboard}
+                            >
+                                {t('friends.copyLink')}
+                            </button>
+                        </div>
                     ) : modalPage === 'store' ? (
                         <>
                             <div className="stacking-accelerate-accelerators-container">
@@ -409,7 +429,9 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
                 <div className="staking-total-mined">{accelerateBalance.toFixed(8)} TON</div>
                 <div className="accelearate-speed-info-container">
                     <div className="staking-hashrate">{t('stakingForm.speed')}: {accelerateSpeed.toFixed(8)} T/s</div>
-                    <button className="staking-info-button" onClick={showStakingInfo}>i</button>
+                    {acceleratorsStatus && (
+                        <button className="staking-info-button" onClick={showStakingInfo}>i</button>
+                    )}
                 </div>
                 <div className="staling-button-wrapper">
                     <button className={`staking-get-button ${accelerateBalance < 0.5 ? 'disabled-view' : ''}`} onClick={getUnfund}>{t('stakingForm.request')}</button>

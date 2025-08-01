@@ -137,7 +137,7 @@
         "selectPackage": "Choose the required package"
     },
     "acceleratorsBlocked": {
-        "friendsInfo": "For each invited friend*, your mining speed will increase by 0.00000013",
+        "friendsInfo": "For each invited friend*, your mining speed will increase by 0.00000013 T/s",
         "subFriendsInfo": "*Only referrals who have collected income from the \"Crane\" at least 3 times are counted",
         "profitPerSecond": "Profit/second"
     },
