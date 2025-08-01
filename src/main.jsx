@@ -21,9 +21,7 @@ const initializeTelegramSDK = async () => {
 initializeTelegramSDK();
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
     <NotificationProvider>
       <App />
-    </NotificationProvider>
-  </StrictMode>,
+    </NotificationProvider>,
 )
