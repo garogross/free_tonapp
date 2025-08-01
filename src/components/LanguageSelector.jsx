@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { retrieveLaunchParams } from '@telegram-apps/sdk'
 import { useTranslation } from 'react-i18next';
 import { languages } from '../data';
 import './LanguageSelector.css';
@@ -26,6 +27,18 @@ const LanguageSelector = () => {
     blobUrlCache[url] = blobUrl;
     return blobUrl;
   };
+
+  useEffect(() => {
+    const data = retrieveLaunchParams();
+    if (data.tgWebAppData.user.language_code === 'ru') {
+      setSelectedLanguage(languages[0]);
+      i18n.changeLanguage(languages[0].text);
+
+    } else {
+      setSelectedLanguage(languages[1]);
+      i18n.changeLanguage(languages[1].text);
+    }
+  }, [])
 
   useEffect(() => {
     let cancelled = false;
