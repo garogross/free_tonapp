@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 
 const globalMinerImageCache = window.__minerImageCache || (window.__minerImageCache = { loaded: false, images: [] });
 
-export default function Staking({ setTonBalance, tonBalance, accelerateBalance, accelerateSpeed, setAccelerateBalance, setAccelerateSpeed }) {
+export default function Staking({ setTonBalance, tonBalance, accelerateBalance, accelerateSpeed, setAccelerateBalance, setAccelerateSpeed, friends }) {
     const [counter, setCounter] = useState(1);
     const [imagesLoaded, setImagesLoaded] = useState(globalMinerImageCache.loaded);
     const [cachedImages, setCachedImages] = useState(globalMinerImageCache.images);
@@ -312,13 +312,13 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
                             <div className="per-day-container">
                                 <div className="per-day-title">{t('stakingForm.profitPerDay')}</div>
                                 <div className="per-day-description perSecond">
-                                    {isAcceleratorsLoading ? spinner : `${totalPerDay} TON`}
+                                    {isAcceleratorsLoading ? spinner : `${(accelerateSpeed * 86400).toFixed(4)} TON`}
                                 </div>
                             </div>
                             <div className="per-day-container">
                                 <div className="per-day-title">{t('friends.friendAmount')}</div>
                                 <div className="per-day-description perSecond">
-                                    {isAcceleratorsLoading ? spinner : `${totalPerDay}`}
+                                    {isAcceleratorsLoading ? spinner : `${friends.length}`}
                                 </div>
                             </div>
                             <button className="friends-button-copy accelerators-blocked" onClick={writeLinkInClipboard}>{t('friends.copyLink')}</button>

@@ -105,7 +105,8 @@
         "invite": "INVITE",
         "copyLink": "COPY LINK",
         "listOfFriends": "Your friends list",
-        "totalIncome": "Total income"
+        "totalIncome": "Total income",
+        "friendAmount": "Number of friends"
     },
     "rulletConnect": "CONNECT",
     "rulletTopUp": "TOP UP",
@@ -134,6 +135,11 @@
         "days": "Days",
         "price": "Price",
         "selectPackage": "Choose the required package"
+    },
+    "acceleratorsBlocked": {
+        "friendsInfo": "For each invited friend*, your mining speed will increase by 0.00000013",
+        "subFriendsInfo": "*Only referrals who have collected income from the \"Crane\" at least 3 times are counted",
+        "profitPerSecond": "Profit/second"
     },
     "addAddForm": {
         "onlyPngJpeg": "Only PNG or JPEG images are allowed",
