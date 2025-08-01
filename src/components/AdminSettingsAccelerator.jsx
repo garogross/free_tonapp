@@ -9,6 +9,15 @@ export default function AdminSettingsAccelerator({ acceleratorsConfig, setAccele
     const [inputs, setInputs] = useState([]);
     const [originalConfig, setOriginalConfig] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [acceleratorsStatus, setAcceleratorsStatus] = useState(false);
+    const [originalStatus, setOriginalStatus] = useState(false);
+
+    const handleStatusSwitch = () => {
+        setAcceleratorsStatus(!acceleratorsStatus);
+        if (acceleratorsStatus != originalStatus) {
+            setIsLoading(false);
+        }
+    }
 
     const acceleratorNames = {
         1: 'CORE I-9',
@@ -51,7 +60,8 @@ export default function AdminSettingsAccelerator({ acceleratorsConfig, setAccele
             return !orig ||
                 acc.rentPeriod !== orig.rentPeriod ||
                 acc.profitPerDay !== orig.profitPerDay ||
-                acc.rentPrice !== orig.rentPrice;
+                acc.rentPrice !== orig.rentPrice ||
+                acceleratorsStatus != originalStatus;
         });
 
     async function handleSave() {
@@ -62,6 +72,7 @@ export default function AdminSettingsAccelerator({ acceleratorsConfig, setAccele
                 rentPeriod: Number(acc.rentPeriod),
                 profitPerDay: Number(acc.profitPerDay),
                 rentPrice: Number(acc.rentPrice),
+                acceleratorsStatus: acceleratorsStatus
             }));
 
             const dataRaw = retrieveRawInitData();
@@ -72,6 +83,8 @@ export default function AdminSettingsAccelerator({ acceleratorsConfig, setAccele
 
             if (response.data && Array.isArray(response.data)) {
                 setAcceleratorsConfig(response.data.acceleratorsConfig);
+                setAcceleratorsStatus(response.data.acceleratorsConfig[0].acceleratorsStatus)
+                setOriginalStatus(response.data.acceleratorsConfig[0].acceleratorsStatus);
                 showNotification("Настройки ускорителей сохранены");
             } else {
                 setAcceleratorsConfig(payload);
@@ -135,6 +148,10 @@ export default function AdminSettingsAccelerator({ acceleratorsConfig, setAccele
                             </div>
                         </div>
                     ))}
+                </div>
+                <div className="accelerator-switch-container">
+                    <div className="accelerator-switch-title">Покупка ускорителей</div>
+                    <div className={`accelerator-switch ${acceleratorsStatus ? 'active' : ''}`} onClick={handleStatusSwitch}></div>
                 </div>
                 <button
                     className='withdrawal-button create-ad-package'

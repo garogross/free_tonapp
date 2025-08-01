@@ -23,3 +23,50 @@
     justify-content: center;
     align-items: center;
 }
+
+.accelerator-switch {
+    position: relative;
+    width: 40px;
+    height: 22px;
+    background-color: #AA2828;
+    border-radius: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.accelerator-switch-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    position: relative;
+    user-select: none;
+}
+
+.accelerator-switch-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: #FFFFFF;
+}
+
+.accelerator-switch::before {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.3);
+    transition: transform 0.3s ease;
+}
+
+.accelerator-switch.active {
+    background-color: #78AA28;
+}
+
+.accelerator-switch.active::before {
+    transform: translateX(18px);
+    background-color: #fff;
+}
