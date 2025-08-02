@@ -8,19 +8,19 @@ export default function AdminStatistic({ statistic }) {
                 <div className='statistic-text'>
                     ПРИБЫЛЬ:
                 </div>
-                <div className='statistic-value'>{statistic.totalProfit.toFixed(6)} TON</div>
+                <div className='statistic-value'>{(statistic.totalProfit ?? 0).toFixed(6)} TON</div>
             </div>
             <div className='statistic-row'>
                 <div className='statistic-text'>
                     УБЫТОК:
                 </div>
-                <div className='statistic-value'>{statistic.totalLoss.toFixed(6)} TON</div>
+                <div className='statistic-value'>{(statistic.totalLoss ?? 0).toFixed(6)} TON</div>
             </div>
             <div className='statistic-row'>
                 <div className='statistic-text'>
                     ИТОГО:
                 </div>
-                <div className={`statistic-value ${statistic.totalProfit - statistic.totalLoss > 0 ? 'green' : 'red'}`}>{(statistic.totalProfit - statistic.totalLoss).toFixed(6)} TON</div>
+                <div className={`statistic-value ${(statistic.totalProfit ?? 0) - (statistic.totalLoss ?? 0) > 0 ? 'green' : 'red'}`}>{((statistic.totalProfit ?? 0) - (statistic.totalLoss ?? 0)).toFixed(6)} TON</div>
             </div>
 
             <div className='admin-statistic-subcontainer'>
@@ -36,7 +36,7 @@ export default function AdminStatistic({ statistic }) {
                         <div className='statistic-text black'>
                             ВСЕГО МОНЕТ:
                         </div>
-                        <div className='statistic-value green'>{statistic.totalTonBalance.toFixed(6)}</div>
+                        <div className='statistic-value green'>{(statistic.totalTonBalance ?? 0).toFixed(6)}</div>
                     </div>
                     <div className='statistic-row'>
                         <div className='statistic-text black'>
@@ -186,7 +186,7 @@ export default function AdminStatistic({ statistic }) {
                         <div className='statistic-text black'>
                             ОБЩАЯ СТОИМОСТЬ:
                         </div>
-                        <div className='statistic-value green'>{statistic.totalAdCost.toFixed(3)} TON</div>
+                        <div className='statistic-value green'>{(statistic.totalAdCost ?? 0).toFixed(3)} TON</div>
                     </div>
                 </div>
             </div>
@@ -204,7 +204,7 @@ export default function AdminStatistic({ statistic }) {
                         <div className='statistic-text black'>
                             ОБЩАЯ СТОИМОСТЬ:
                         </div>
-                        <div className='statistic-value green'>{statistic.totalChallengesCost.toFixed(3)} TON</div>
+                        <div className='statistic-value green'>{(statistic.totalChallengesCost ?? 0).toFixed(3)} TON</div>
                     </div>
                 </div>
             </div>
@@ -227,7 +227,7 @@ export default function AdminStatistic({ statistic }) {
                         <div className='statistic-text black'>
                             ОБЩАЯ СУММА:
                         </div>
-                        <div className='statistic-value green'>{statistic.totalPrizesAmountPerDay.toFixed(6)} TON</div>
+                        <div className='statistic-value green'>{(statistic.totalPrizesAmountPerDay ?? 0).toFixed(6)} TON</div>
                     </div>
                 </div>
                 <div className='statistic-row'>
@@ -246,7 +246,7 @@ export default function AdminStatistic({ statistic }) {
                         <div className='statistic-text black'>
                             ОБЩАЯ СУММА:
                         </div>
-                        <div className='statistic-value green'>{statistic.totalPrizesAmountPerWeek.toFixed(6)} TON</div>
+                        <div className='statistic-value green'>{(statistic.totalPrizesAmountPerWeek ?? 0).toFixed(6)} TON</div>
                     </div>
                 </div>
                 <div className='statistic-row'>
@@ -265,7 +265,7 @@ export default function AdminStatistic({ statistic }) {
                         <div className='statistic-text black'>
                             ОБЩАЯ СУММА:
                         </div>
-                        <div className='statistic-value green'>{statistic.totalPrizesAmountPerMonth.toFixed(6)} TON</div>
+                        <div className='statistic-value green'>{(statistic.totalPrizesAmountPerMonth ?? 0).toFixed(6)} TON</div>
                     </div>
                 </div>
                 <div className='statistic-row'>
@@ -284,7 +284,7 @@ export default function AdminStatistic({ statistic }) {
                         <div className='statistic-text black'>
                             ОБЩАЯ СУММА:
                         </div>
-                        <div className='statistic-value green'>{statistic.totalPrizesAmountForAllTime.toFixed(6)} TON</div>
+                        <div className='statistic-value green'>{(statistic.totalPrizesAmountForAllTime ?? 0).toFixed(6)} TON</div>
                     </div>
                 </div>
             </div>

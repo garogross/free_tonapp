@@ -36,14 +36,12 @@ import {
 import SecureIframe from './components/SecureIframe'
 import './i18n';
 
-function App() {
-  const [user, setUser] = useState(null);
+function App({ user, loadingUser }) {
   const [currentContent, setCurrentContent] = useState('cran')
   const [profileSubMenu, setProfileSubMenu] = useState('profile')
   const [currentChallenge, setCurrentChallenge] = useState('surfing');
   const [selectedPackage, setSelectedPackage] = useState(null)
   const [backPath, setBackPath] = useState(null)
-  const [loadingUser, setLoadingUser] = useState(true);
   const [blockedSlots, setBlockedSlots] = useState(0);
   const [challenges, setChallenges] = useState(null);
 
@@ -235,34 +233,17 @@ function App() {
 
   async function getAcceleratorsStatus(dataRaw) {
     axios.get('/api/accelerators', {
-        headers: {
-            'Authorization': 'tma ' + dataRaw
-        }
-    })
-        .then(response => {
-            setAcceleratorsStatus(response.data.acceleratorsConfig[0].acceleratorsStatus)
-        })
-        .catch(error => {
-            console.error('Get accelerators error: ', error);
-        });
-}
-
-  useEffect(() => {
-    const dataRaw = retrieveRawInitData();
-    async function fetchUser() {
-      try {
-        const response = await axios.get('/api/login', {
-          headers: { 'Authorization': 'tma ' + dataRaw }
-        });
-        setUser(response.data.user);
-      } catch {
-        setUser(null);
-      } finally {
-        setLoadingUser(false);
+      headers: {
+        'Authorization': 'tma ' + dataRaw
       }
-    }
-    fetchUser();
-  }, []);
+    })
+      .then(response => {
+        setAcceleratorsStatus(response.data.acceleratorsConfig[0].acceleratorsStatus)
+      })
+      .catch(error => {
+        console.error('Get accelerators error: ', error);
+      });
+  }
 
   useEffect(() => {
     const dataRaw = retrieveRawInitData();
@@ -444,13 +425,13 @@ function App() {
       case 'challenges':
         return (
           <>
-            <Challenges setCurrentContent={setCurrentContent} tonBalance={tonBalance} currentChallenge={currentChallenge} setCurrentChallenge={setCurrentChallenge} challenges={challenges} setTonBalance={setTonBalance} setChallenges={setChallenges} setCurrentSurfingChallenge={setCurrentSurfingChallenge}/>
+            <Challenges setCurrentContent={setCurrentContent} tonBalance={tonBalance} currentChallenge={currentChallenge} setCurrentChallenge={setCurrentChallenge} challenges={challenges} setTonBalance={setTonBalance} setChallenges={setChallenges} setCurrentSurfingChallenge={setCurrentSurfingChallenge} />
           </>
         );
       case 'staking':
         return (
           <>
-            <Staking setTonBalance={setTonBalance} tonBalance={tonBalance} accelerateBalance={accelerateBalance} accelerateSpeed={accelerateSpeed} setAccelerateBalance={setAccelerateBalance} setAccelerateSpeed={setAccelerateSpeed} friends={friends} acceleratorsStatus={acceleratorsStatus} setAcceleratorsStatus={setAcceleratorsStatus}/>
+            <Staking setTonBalance={setTonBalance} tonBalance={tonBalance} accelerateBalance={accelerateBalance} accelerateSpeed={accelerateSpeed} setAccelerateBalance={setAccelerateBalance} setAccelerateSpeed={setAccelerateSpeed} friends={friends} acceleratorsStatus={acceleratorsStatus} setAcceleratorsStatus={setAcceleratorsStatus} />
           </>
         );
       case 'friends':
@@ -522,7 +503,7 @@ function App() {
       case 'secureIframe':
         return (
           <>
-            <SecureIframe currentSurfingChallenge={currentSurfingChallenge} setCurrentContent={setCurrentContent} setChallenges={setChallenges} setTonBalance={setTonBalance}/>
+            <SecureIframe currentSurfingChallenge={currentSurfingChallenge} setCurrentContent={setCurrentContent} setChallenges={setChallenges} setTonBalance={setTonBalance} />
           </>
         )
     }
