@@ -59,6 +59,7 @@ function App({ user, loadingUser }) {
   const [displayNumber, setDisplayNumber] = useState(null)
   const [isAnimating, setIsAnimating] = useState(false)
   const [endTime, setEndTime] = useState(0)
+  const timeoutRef = useRef(null);
   const [rollStarted, setRollStarted] = useState(false)
   const [lastRollNumber, setLastRollNumber] = useState(0)
   const [challengesConfigs, setChallengesConfigs] = useState(null);
@@ -283,22 +284,28 @@ function App({ user, loadingUser }) {
       if (stompClient.current) {
         stompClient.current.deactivate();
       }
-    };
+    };const timeoutRef = useRef(null);
   }, []);
 
   useEffect(() => {
-    if (isAnimating) {
+    if (rollStarted) {
+      setIsAnimating(true);
       intervalRef.current = setInterval(() => {
         const randomNum = Math.floor(10000 + Math.random() * 90000);
         setDisplayNumber(randomNum);
       }, 100);
-    } else {
-      clearInterval(intervalRef.current);
-      setDisplayNumber(luckyNumber);
-    }
 
-    return () => clearInterval(intervalRef.current);
-  }, [isAnimating, luckyNumber]);
+      timeoutRef.current = setTimeout(() => {
+        clearInterval(intervalRef.current);
+        setDisplayNumber(luckyNumber);
+        setIsAnimating(false);
+      }, 3000);
+      return () => {
+        clearInterval(intervalRef.current);
+        clearTimeout(timeoutRef.current);
+      };
+    }
+  }, [rollStarted, luckyNumber]);
 
   useEffect(() => {
     const interval = setInterval(() => {

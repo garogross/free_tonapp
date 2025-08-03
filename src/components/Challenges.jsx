@@ -196,7 +196,7 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
                     </span>
                     {isClient ? (
                         <>
-                            <button className="challenge-surf-button" onClick={() =>handleTelegramChallengeClick(sc.link)}>{t('challengeButtonGoIn')}</button>
+                            <button className="challenge-surf-button" onClick={() => handleTelegramChallengeClick(sc.link)}>{t('challengeButtonGoIn')}</button>
                         </>
                     ) : (
                         <>
@@ -212,8 +212,14 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
         switch (isClient) {
             case true:
                 switch (currentChallenge) {
-                    case 'youtube': return <div><img className="content-not-found" src="/assets/cat.png" alt="Telegram" /></div>;
-                    case 'reviews': return <div><img className="content-not-found" src="/assets/cat.png" alt="Telegram" /></div>;
+                    case 'youtube': return <div>
+                        <img className="content-not-found" src="/assets/cat.png" alt="youtube" />
+                        <div className='friends-list-title'>{t('soonTitle')}</div>
+                    </div>;
+                    case 'reviews': return <div>
+                        <img className="content-not-found" src="/assets/cat.png" alt="reviews" />
+                        <div className='friends-list-title'>{t('soonTitle')}</div>
+                    </div>;
                     case 'surfing': return (
                         <>
                             <div className="no-clients-challenges-title">{renderSurfingChallengesTable()}</div>
@@ -238,9 +244,15 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
                     case 'telegram':
                         return <div className="no-clients-challenges-title">{renderTelegramChallengesTable()}</div>;
                     case 'youtube':
-                        return <div><img className="content-not-found" src="/assets/cat.png" alt="YouTube" /></div>;
+                        return <div>
+                            <img className="content-not-found" src="/assets/cat.png" alt="YouTube" />
+                            <div className='friends-list-title'>{t('soonTitle')}</div>
+                        </div>;
                     case 'reviews':
-                        return <div><img className="content-not-found" src="/assets/cat.png" alt="Telegram" /></div>;
+                        return <div>
+                            <img className="content-not-found" src="/assets/cat.png" alt="reviews" />
+                            <div className='friends-list-title'>{t('soonTitle')}</div>
+                        </div>;
                 }
         }
     }
