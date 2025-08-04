@@ -2,9 +2,21 @@ import './RollButton.css';
 import axios from 'axios';
 import { retrieveRawInitData } from '@telegram-apps/sdk';
 import { useNotification } from './useNotification';
+import { useEffect, useState } from 'react';
 
 export default function RollButton( props ) {
   const { showError } = useNotification();
+  const [rollSuccesfullResponse, setRollSuccessfullResponse] = useState(null);
+
+  useEffect(() => {
+    if (!props.isAnimating && rollSuccesfullResponse != null) {
+      props.setLuckyNumber(rollSuccesfullResponse.luckyNumber);
+      props.setTonBalance(rollSuccesfullResponse.tonBalance);
+      props.setLastRollNumber(rollSuccesfullResponse.luckyNumber);
+      props.setIsPushed(true);
+    }
+  }, [props.isAnimating])
+
   const getRoll = () => {
     props.setIsPushed(true);
     props.setIsAnimating(true);
@@ -17,13 +29,10 @@ export default function RollButton( props ) {
       }
     })
       .then(response => {
-        props.setLuckyNumber(response.data.luckyNumber);
-        props.setIsAnimating(false);
+        setRollSuccessfullResponse(response.data);
         const now = new Date();
         const oneHourLater = new Date(now.getTime() + 60 * 60 * 1000);
         props.setEndTime(oneHourLater);
-        props.setTonBalance(response.data.tonBalance);
-        props.setLastRollNumber(response.data.luckyNumber);
       })
       .catch(error => {
         if (error.response && error.response.status === 429) {

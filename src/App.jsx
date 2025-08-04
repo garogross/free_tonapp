@@ -60,6 +60,7 @@ function App({ user, loadingUser }) {
   const [isAnimating, setIsAnimating] = useState(false)
   const [endTime, setEndTime] = useState(0)
   const timeoutRef = useRef(null);
+  const luckyNumberRef = useRef(null);
   const [rollStarted, setRollStarted] = useState(false)
   const [lastRollNumber, setLastRollNumber] = useState(0)
   const [challengesConfigs, setChallengesConfigs] = useState(null);
@@ -284,7 +285,7 @@ function App({ user, loadingUser }) {
       if (stompClient.current) {
         stompClient.current.deactivate();
       }
-    };const timeoutRef = useRef(null);
+    };
   }, []);
 
   useEffect(() => {
@@ -296,16 +297,20 @@ function App({ user, loadingUser }) {
       }, 100);
 
       timeoutRef.current = setTimeout(() => {
+        setIsAnimating(false);
         clearInterval(intervalRef.current);
         setDisplayNumber(luckyNumber);
-        setIsAnimating(false);
+        luckyNumberRef.current = setTimeout(() => {
+          setRollStarted(false);
+        }, 3000);
       }, 3000);
       return () => {
         clearInterval(intervalRef.current);
         clearTimeout(timeoutRef.current);
+        clearTimeout(luckyNumberRef.current);
       };
     }
-  }, [rollStarted, luckyNumber]);
+  }, [rollStarted]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -426,7 +431,7 @@ function App({ user, loadingUser }) {
           <div className="cran-wrapper">
             <Rullet currentContent={currentContent} gridRow="1" luckyNumber={isAnimating ? displayNumber : luckyNumber} isPushed={isPushed} endTime={endTime} setIsPushed={setIsPushed} rollStarted={rollStarted} setRollStarted={setRollStarted} tonBalance={tonBalance} lastRollNumber={lastRollNumber} />
             <RollTable initialNumbers={initialNumbers} />
-            <RollButton isPushed={isPushed} setIsPushed={setIsPushed} setLuckyNumber={setLuckyNumber} setIsAnimating={setIsAnimating} setEndTime={setEndTime} setRollStarted={setRollStarted} setTonBalance={setTonBalance} setLastRollNumber={setLastRollNumber} />
+            <RollButton isPushed={isPushed} setIsPushed={setIsPushed} setLuckyNumber={setLuckyNumber} setIsAnimating={setIsAnimating} setEndTime={setEndTime} setRollStarted={setRollStarted} setTonBalance={setTonBalance} setLastRollNumber={setLastRollNumber} isAnimating={isAnimating} />
           </div>
         );
       case 'challenges':

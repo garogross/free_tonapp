@@ -57,12 +57,12 @@ export default function Rullet(props) {
             const timeoutId = setTimeout(() => {
                 setShowTimer(true);
                 setRollStarted(false);
-            }, 3000);
+            }, 6000);
             return () => clearTimeout(timeoutId);
         } else {
             setShowTimer(false);
         }
-    }, [rollStarted, isPushed, setRollStarted]);
+    }, [rollStarted, isPushed]);
 
 
     useEffect(() => {
