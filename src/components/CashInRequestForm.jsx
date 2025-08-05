@@ -15,9 +15,16 @@ export default function CashInRequestForm({ setCurrentContent, addTransaction })
             showError(t('cashInRequestForm.enterValidAmount'));
             return;
         }
-
-        const amountNano = (Number(amount) * 1_000_000_000).toFixed(0);
-
+    
+        const amountNumber = Number(amount);
+        
+        if (amountNumber < 1) {
+            showError(t('cashInRequestForm.minAmountError', { min: 1 }));
+            return;
+        }
+    
+        const amountNano = (amountNumber * 1_000_000_000).toFixed(0);
+    
         const transaction = {
             validUntil: Date.now() + 5 * 60 * 1000,
             messages: [
@@ -27,7 +34,7 @@ export default function CashInRequestForm({ setCurrentContent, addTransaction })
                 },
             ],
         };
-
+    
         try {
             await tonConnectUI.sendTransaction(transaction);
             addTransaction({
@@ -42,7 +49,7 @@ export default function CashInRequestForm({ setCurrentContent, addTransaction })
             showError(message);
             console.error('Ошибка при отправке транзакции:', error);
         }
-    };
+    };    
 
     const unlinkWallet = () => {
         tonConnectUI.disconnect();

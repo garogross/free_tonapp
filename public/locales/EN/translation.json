@@ -182,7 +182,8 @@
         "description": "Fill in the amount in TON and send for top-up",
         "amountPlaceholder": "Enter top-up amount in TON...",
         "topUp": "TOP UP",
-        "unlink": "UNLINK"
+        "unlink": "UNLINK",
+        "minAmountError": "The minimum deposit amount is {{min}} TON"
     },
     "cashOutForm": {
         "requestSent": "Request successfully sent for moderation",
