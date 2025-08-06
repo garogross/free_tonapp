@@ -4,8 +4,9 @@ import { useNotification } from './useNotification';
 import { openLink, retrieveRawInitData } from '@telegram-apps/sdk';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
+import ChannelFollow from './ChannelFollow';
 
-export default function Challenges({ setCurrentContent, tonBalance, currentChallenge, setCurrentChallenge, challenges, setTonBalance, setChallenges, setCurrentSurfingChallenge }) {
+export default function Challenges({ setCurrentContent, tonBalance, currentChallenge, setCurrentChallenge, challenges, setTonBalance, setChallenges, setCurrentSurfingChallenge, setIsSubscriber, isSubscriber }) {
     const [isClient, setIsClient] = useState(false);
     const [surfingChallenges, setSurfingChallenges] = useState([]);
     const [ownedSurfingChallenges, setOwnedSurfingChallenges] = useState([]);
@@ -259,28 +260,36 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
 
     return (
         <div className="challenges-container">
-            <div className="challenges-top">
-                <div className="balance-container">
-                    <div className="balance-title">{t('balanceTitle')}</div>
-                    <div className="value-container">
-                        <div className="balance-value">{tonBalance.toFixed(6)}</div>
-                        <div className="balance-icon">
-                            <img src="/assets/ton.svg" alt="TON" />
+            <div className={`content-wrapper ${!isSubscriber ? 'blurred' : ''}`}>
+                <div className="challenges-top">
+                    <div className="balance-container">
+                        <div className="balance-title">{t('balanceTitle')}</div>
+                        <div className="value-container">
+                            <div className="balance-value">{tonBalance.toFixed(6)}</div>
+                            <div className="balance-icon">
+                                <img src="/assets/ton.svg" alt="TON" />
+                            </div>
                         </div>
                     </div>
+                    <div className="client-switch-container">
+                        <div className="client-switch-title">{t('clientTitle')}</div>
+                        <div className={`client-switch ${isClient ? 'active' : ''}`} onClick={handleClientSwitch}></div>
+                    </div>
                 </div>
-                <div className="client-switch-container">
-                    <div className="client-switch-title">{t('clientTitle')}</div>
-                    <div className={`client-switch ${isClient ? 'active' : ''}`} onClick={handleClientSwitch}></div>
+                <div className="challenges-menu-container">
+                    <button className={`challenges-menu-button ${currentChallenge === 'surfing' ? 'active' : ''}`} onClick={() => setCurrentChallenge('surfing')}>{t('surfingTitle')}</button>
+                    <button className={`challenges-menu-button ${currentChallenge === 'telegram' ? 'active' : ''}`} onClick={() => setCurrentChallenge('telegram')}>{t('telegramTitle')}</button>
+                    <button className={`challenges-menu-button ${currentChallenge === 'youtube' ? 'active' : ''}`} onClick={() => setCurrentChallenge('youtube')}>YouTube</button>
+                    <button className={`challenges-menu-button ${currentChallenge === 'reviews' ? 'active' : ''}`} onClick={() => setCurrentChallenge('reviews')}>{t('feedbackTitle')}</button>
                 </div>
+                {renderChallenges()}
             </div>
-            <div className="challenges-menu-container">
-                <button className={`challenges-menu-button ${currentChallenge === 'surfing' ? 'active' : ''}`} onClick={() => setCurrentChallenge('surfing')}>{t('surfingTitle')}</button>
-                <button className={`challenges-menu-button ${currentChallenge === 'telegram' ? 'active' : ''}`} onClick={() => setCurrentChallenge('telegram')}>{t('telegramTitle')}</button>
-                <button className={`challenges-menu-button ${currentChallenge === 'youtube' ? 'active' : ''}`} onClick={() => setCurrentChallenge('youtube')}>YouTube</button>
-                <button className={`challenges-menu-button ${currentChallenge === 'reviews' ? 'active' : ''}`} onClick={() => setCurrentChallenge('reviews')}>{t('feedbackTitle')}</button>
-            </div>
-            {renderChallenges()}
+            {!isSubscriber && (
+                <>
+                    <div className="blur-overlay"></div>
+                    <ChannelFollow setIsSubscriber={setIsSubscriber}/>
+                </>
+            )}
         </div>
     )
 }

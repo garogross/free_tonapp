@@ -69,6 +69,7 @@ function App({ user, loadingUser }) {
   const [tonBalance, setTonBalance] = useState(0)
 
   const intervalRef = useRef(null);
+  const [isSubscriber, setIsSubscriber] = useState(false);
 
   const [accelerateSpeed, setAccelerateSpeed] = useState(0.00000013);
   const [accelerateBalance, setAccelerateBalance] = useState(0.00000000);
@@ -127,6 +128,20 @@ function App({ user, loadingUser }) {
         console.error('Get prizes table error: ', error);
       })
   }
+
+  async function checkSub(dataRaw) {
+    axios.get('/api/check/subscription', {
+        headers: {
+            'Authorization': 'tma ' + dataRaw
+        }
+    })
+    .then(response => {
+        setIsSubscriber(response.data);
+    })
+    .catch(error => {
+        console.log("error check subscription: {}", error);
+    })
+}
 
   async function getChallegesConfigs(dataRaw) {
     axios.get('/api/challengesconfigs', {
@@ -375,6 +390,7 @@ function App({ user, loadingUser }) {
     getInitialNumbers(dataRaw);
     getActiveAds(dataRaw);
     getAdPackages(dataRaw);
+    checkSub(dataRaw);
     getAdvertisements(dataRaw);
     getAccelerateBalance(dataRaw);
     getFriends(dataRaw);
@@ -437,13 +453,13 @@ function App({ user, loadingUser }) {
       case 'challenges':
         return (
           <>
-            <Challenges setCurrentContent={setCurrentContent} tonBalance={tonBalance} currentChallenge={currentChallenge} setCurrentChallenge={setCurrentChallenge} challenges={challenges} setTonBalance={setTonBalance} setChallenges={setChallenges} setCurrentSurfingChallenge={setCurrentSurfingChallenge} />
+            <Challenges setCurrentContent={setCurrentContent} tonBalance={tonBalance} currentChallenge={currentChallenge} setCurrentChallenge={setCurrentChallenge} challenges={challenges} setTonBalance={setTonBalance} setChallenges={setChallenges} setCurrentSurfingChallenge={setCurrentSurfingChallenge} setIsSubscriber={setIsSubscriber} isSubscriber={isSubscriber} />
           </>
         );
       case 'staking':
         return (
           <>
-            <Staking setTonBalance={setTonBalance} tonBalance={tonBalance} accelerateBalance={accelerateBalance} accelerateSpeed={accelerateSpeed} setAccelerateBalance={setAccelerateBalance} setAccelerateSpeed={setAccelerateSpeed} friends={friends} acceleratorsStatus={acceleratorsStatus} setAcceleratorsStatus={setAcceleratorsStatus} />
+            <Staking setTonBalance={setTonBalance} tonBalance={tonBalance} accelerateBalance={accelerateBalance} accelerateSpeed={accelerateSpeed} setAccelerateBalance={setAccelerateBalance} setAccelerateSpeed={setAccelerateSpeed} friends={friends} acceleratorsStatus={acceleratorsStatus} setAcceleratorsStatus={setAcceleratorsStatus} setIsSubscriber={setIsSubscriber} isSubscriber={isSubscriber}/>
           </>
         );
       case 'friends':

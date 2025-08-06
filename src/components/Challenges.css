@@ -280,3 +280,26 @@
 .challenge-item-text.deny {
     color: #AA2828;
 }
+
+.blur-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(2px);
+    z-index: 1000;
+}
+
+.content-wrapper-miner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.content-wrapper-miner.blurred,
+.content-wrapper.blurred {
+    filter: blur(3px);
+    pointer-events: none;
+}

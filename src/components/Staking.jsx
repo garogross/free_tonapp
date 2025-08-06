@@ -7,10 +7,11 @@ import MinerAnimation from './MinerAnimation';
 import axios from 'axios';
 import { useNotification } from './useNotification';
 import { useTranslation } from 'react-i18next';
+import ChannelFollow from './ChannelFollow';
 
 const globalMinerImageCache = window.__minerImageCache || (window.__minerImageCache = { loaded: false, images: [] });
 
-export default function Staking({ setTonBalance, tonBalance, accelerateBalance, accelerateSpeed, setAccelerateBalance, setAccelerateSpeed, friends, acceleratorsStatus, setAcceleratorsStatus }) {
+export default function Staking({ setTonBalance, tonBalance, accelerateBalance, accelerateSpeed, setAccelerateBalance, setAccelerateSpeed, friends, acceleratorsStatus, setAcceleratorsStatus, setIsSubscriber, isSubscriber }) {
     const [counter, setCounter] = useState(1);
     const [imagesLoaded, setImagesLoaded] = useState(globalMinerImageCache.loaded);
     const [cachedImages, setCachedImages] = useState(globalMinerImageCache.images);
@@ -23,6 +24,7 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
     const [acceleratorsList, setAcceleratorsList] = useState([]);
     const imageUrls = [miner, miner2];
     const { showError, showNotification } = useNotification();
+
     const initData = retrieveLaunchParams();
     const userId = initData.tgWebAppData.user.id;
     const { t } = useTranslation();
@@ -429,17 +431,25 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
     return (
         <>
             <div className="staking-container">
-                <MinerAnimation images={cachedImages} />
-                <div className="staking-total-mined">{accelerateBalance.toFixed(8)} TON</div>
-                <div className="accelearate-speed-info-container">
-                    <div className="staking-hashrate">{t('stakingForm.speed')}: {accelerateSpeed.toFixed(8)} T/s</div>
-                    <button className="staking-info-button" onClick={showStakingInfo}>i</button>
+                <div className={`content-wrapper-miner ${!isSubscriber ? 'blurred' : ''}`}>
+                    <MinerAnimation images={cachedImages} />
+                    <div className="staking-total-mined">{accelerateBalance.toFixed(8)} TON</div>
+                    <div className="accelearate-speed-info-container">
+                        <div className="staking-hashrate">{t('stakingForm.speed')}: {accelerateSpeed.toFixed(8)} T/s</div>
+                        <button className="staking-info-button" onClick={showStakingInfo}>i</button>
+                    </div>
+                    <div className="staling-button-wrapper">
+                        <button className={`staking-get-button ${accelerateBalance < 0.5 ? 'disabled-view' : ''}`} onClick={getUnfund}>{t('stakingForm.request')}</button>
+                        <button className="staking-accelerate-button" onClick={handleAccelerate}>{t('stakingForm.accelerate')}</button>
+                    </div>
+                    {renderAccelerateModal()}
                 </div>
-                <div className="staling-button-wrapper">
-                    <button className={`staking-get-button ${accelerateBalance < 0.5 ? 'disabled-view' : ''}`} onClick={getUnfund}>{t('stakingForm.request')}</button>
-                    <button className="staking-accelerate-button" onClick={handleAccelerate}>{t('stakingForm.accelerate')}</button>
-                </div>
-                {renderAccelerateModal()}
+                {!isSubscriber && (
+                    <>
+                        <div className="blur-overlay"></div>
+                        <ChannelFollow setIsSubscriber={setIsSubscriber}/>
+                    </>
+                )}
             </div>
         </>
     )

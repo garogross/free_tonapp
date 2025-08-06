@@ -227,5 +227,12 @@
         "accelerate": "ACCELERATE",
         "offlineMiningInfo": "For users without connected accelerators, offline mining is only available for 4 hours - to keep it running, log into the application at least once every 4 hours.",
         "offlineMiningInfoAcBlocked": "Offline mining is only available for 4 hours - to keep it running, log into the application at least once every 4 hours."
+    },
+    "subscribtionWindow": {
+        "title": "Access denied!",
+        "subTitle": "Subscribe to the official Community FreeTon channel to access tasks and mining",
+        "buttonText": "SUBSCRIBE",
+        "checkText": "CHECK",
+        "failedCheck": "Unable to verify subscription"
     }
 }
