@@ -161,7 +161,14 @@ export default function AdminAdRequests({ adminAds, setAdminAds, adPackages, cha
                 </div>
             );
         }
-        return mergedChallenges.map((challenge, index) => {
+
+        const sortedChallenges = [...mergedChallenges].sort((a, b) => {
+            if (a.status === 'moderation' && b.status !== 'moderation') return -1;
+            if (a.status !== 'moderation' && b.status === 'moderation') return 1;
+            return 0;
+        });
+
+        return sortedChallenges.map((challenge, index) => {
             if (challenge.timeOfExecution !== undefined) {
                 return (
                     <div className="challenge-moderation-container" key={challenge.id || index}>
