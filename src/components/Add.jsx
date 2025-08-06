@@ -6,31 +6,6 @@ import { useTranslation } from 'react-i18next';
 export default function Add({ setCurrentContent, setProfileSubMenu, activeAds }) {
     const { t } = useTranslation();
     const [currentIndex, setCurrentIndex] = useState(0);
-    const AD_SCRIPT_ID = "ad_script_1234";
-
-    useEffect(() => {
-        if (!document.getElementById(AD_SCRIPT_ID)) {
-            const script = document.createElement('script');
-            script.id = AD_SCRIPT_ID;
-            script.src = 'https://vemtoutcheeg.com/400/9673680';
-            script.async = true;
-            script.onload = () => console.log('Ad script loaded');
-            script.onerror = () => console.error('Ad script error');
-            (document.body || document.documentElement).appendChild(script);
-        }
-    }, []);
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-          const iframe = document.querySelector('iframe');
-          if (iframe) {
-            iframe.style.setProperty('inset', '68vh auto auto auto', 'important');
-          }
-        }, 300);
-      
-        return () => clearInterval(interval);
-      }, []);
-      
 
     useEffect(() => {
         if (!activeAds || activeAds.length === 0) return;
