@@ -139,7 +139,7 @@
     },
     "acceleratorsBlocked": {
         "friendsInfo": "For each invited friend*, your mining speed will increase by 0.000000013 T/s",
-        "subFriendsInfo": "*Only referrals who have collected income from the \"Crane\" at least 3 times are counted",
+        "subFriendsInfo": "*Only referrals who have collected income from the \"Crane\" at least 3 times are counted. Referrals who do not visit their account for more than 20 days are deducted",
         "profitPerSecond": "Profit/second"
     },
     "addAddForm": {
