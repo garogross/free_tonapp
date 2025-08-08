@@ -23,6 +23,11 @@ export default function WithdrawalRequests({ adminTransactions, setAdminTransact
     showNotification("Адрес кошелька скопирован", 2000)
   }
 
+  const copyMemoPhrase = (senderAdress) => {
+    navigator.clipboard.writeText(senderAdress)
+    showNotification("Memo фраза скопирована", 2000)
+  }
+
   const handleDecision = (id, decision) => {
     const dataRaw = retrieveRawInitData();
     const postData = {
@@ -66,6 +71,9 @@ export default function WithdrawalRequests({ adminTransactions, setAdminTransact
           <div className="transaction-cell" onClick={() => copyTelegramUsername(tx.telegramUsername)}>{tx.telegramUsername === 'username_not_found' ? '--------' : tx.telegramUsername}</div>
           <div className="transaction-cell" onClick={() => copyTelegramId(tx.telegramId)}>{tx.telegramId}</div>
         </div>
+        {tx.transaction.memoPhrase != '' && tx.transaction.memoPhrase != null && (
+          <div className="transaction-cell memo" onClick={() => copyMemoPhrase(tx.transaction.memoPhrase)}>MEMO: {tx.transaction.memoPhrase}</div>
+        )}
         {tx.transaction.status === 'load' ? (
           <div className='withdrawal-request-buttons'>
             <button className='withdrawal-button yes' onClick={() => handleDecision(tx.id, 'done')}>ОДОБРИТЬ</button>

@@ -199,7 +199,9 @@
         "minAmount": "Minimum withdrawal amount: 1 TON",
         "submitRequest": "SUBMIT REQUEST",
         "cashOutAll": "CASH OUT ALL",
-        "alertDescription": "All requests are processed manually and may take up to 72 hours. We only withdraw in TON. Make sure you entered the correct wallet address!"
+        "alertDescription": "All requests are processed manually and may take up to 72 hours. We only withdraw in TON. Make sure you entered the correct wallet address!",
+        "memoPhrasePlaceholder": "Enter memo-phrase (optional)...",
+        "maxMemoLength": "Maximum memo-phrase length is 21 characters"
     },
     "stakingForm": {
         "requestWithdrawMin": "Minimum withdrawal request is 0.5 TON",

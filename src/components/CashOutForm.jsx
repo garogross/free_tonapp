@@ -9,7 +9,9 @@ import { useTranslation } from 'react-i18next';
 export default function CashOutForm({ tonBalance, setTonBalance, setTransactions }) {
     const [amount, setAmount] = useState('');
     const [walletAddress, setWalletAddress] = useState('');
+    const [memoPhrase, setMemoPhrase] = useState(''); 
     const { showError, showNotification } = useNotification();
+    const [isLoading, setIsLoading] = useState(false);
     const userFriendlyAddress = useTonAddress();
     const { t } = useTranslation();
 
@@ -23,9 +25,11 @@ export default function CashOutForm({ tonBalance, setTonBalance, setTransactions
     }
 
     async function cashOutTransaction(dataRaw) {
+        setIsLoading(true);
         const postData = {
             cashOutAddress: walletAddress,
-            amount: amount
+            amount: amount,
+            memoPhrase: memoPhrase
         }
         axios.post('/api/transactions', postData, {
             headers: {
@@ -35,11 +39,15 @@ export default function CashOutForm({ tonBalance, setTonBalance, setTransactions
             .then(response => {
                 setTransactions(response.data.transactions);
                 setTonBalance(response.data.tonBalance);
+                setAmount('');
+                setMemoPhrase('');
                 showNotification(t('cashOutForm.requestSent'));
+                setIsLoading(false);
             })
             .catch(error => {
                 console.error('Create transaction error: ', error);
                 showError(t('cashOutForm.failedToCreateRequest'));
+                setIsLoading(false);
             })
     }
 
@@ -59,6 +67,19 @@ export default function CashOutForm({ tonBalance, setTonBalance, setTransactions
 
         setAmount(value);
     };
+
+    const handleMemoPhraseChange = (e) => {
+        let value = e.target.value;
+        const maxLength = 20;
+        value = value.replace(/[^a-zA-Z0-9]/g, '');
+    
+        if (value.length > maxLength) {
+            value = value.slice(0, maxLength);
+            showError(t('cashOutForm.maxMemoLength'));
+        }
+    
+        setMemoPhrase(value);
+    }
 
     function toFixedDown(number, digits) {
         const factor = Math.pow(10, digits);
@@ -110,12 +131,20 @@ export default function CashOutForm({ tonBalance, setTonBalance, setTransactions
                     value={walletAddress}
                     onChange={e => setWalletAddress(e.target.value)}
                 />
+                <input
+                    className="cash-out-form-input memo"
+                    type="text"
+                    placeholder={t('cashOutForm.memoPhrasePlaceholder')}
+                    value={memoPhrase}
+                    onChange={handleMemoPhraseChange}
+                />
             </div>
             <div className="min-amount">{t('cashOutForm.minAmount')}</div>
             <div className="cash-out-button-wrapper">
                 <button
-                    className={`cash-out-form-button ${tonBalance < 1 ? "disable-view" : ""}`}
+                    className={`cash-out-form-button ${tonBalance < 1 || isLoading ? "disable-view" : ""}`}
                     onClick={handleCashOut}
+                    disabled={isLoading}
                 >
                     {t('cashOutForm.submitRequest')}
                 </button>

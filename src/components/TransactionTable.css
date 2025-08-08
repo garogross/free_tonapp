@@ -94,6 +94,10 @@
   text-overflow: ellipsis;
 }
 
+.transaction-cell.memo {
+  margin-bottom: 10px;
+}
+
 .empty-wrapper {
   width: 100%;
   height: 100%;

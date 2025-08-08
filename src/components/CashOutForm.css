@@ -85,6 +85,10 @@
     opacity: 0.8;
 }
 
+.cash-out-form-input.memo {
+    margin-top: 10px;
+}
+
 .min-amount {
     font-family: 'Montserrat';
     font-size: 14px;
