@@ -6,7 +6,7 @@ import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 
 
-export default function AddChallengeForm({ currentChallenge, challengesConfigs, tonBalance, setChallenges, setTonBalance }) {
+export default function AddChallengeForm({ currentChallenge, challengesConfigs, tonBalance, setChallenges, setTonBalance, challengeForRelaunch, setChallengeForRelaunch }) {
     const { showError, showNotification } = useNotification();
     const [selectedTimes, setSelectedTimes] = useState("10");
     const [challengeName, setChallengeName] = useState('');
@@ -55,6 +55,15 @@ export default function AddChallengeForm({ currentChallenge, challengesConfigs, 
         setSelectedTimes(time);
     }
 
+    useEffect(() => {
+        if (challengeForRelaunch && currentChallenge === 'surfing') {
+            setChallengeName(challengeForRelaunch.name);
+            setChallengeDescription(challengeForRelaunch.description);
+            setChallengeLink(challengeForRelaunch.link);
+            setSelectedTimes(challengeForRelaunch.timeOfExecution.toString());
+            setChallengeForRelaunch(null);
+        }
+    }, [challengeForRelaunch]);
 
     const handleChallengeNameChange = (e) => {
         let value = e.target.value;

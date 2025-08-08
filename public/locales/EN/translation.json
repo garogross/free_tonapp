@@ -53,6 +53,7 @@
     "adDefaultButton": "GO TO",
     "adButtonText": "Advertisement",
     "soonTitle": "Soon...",
+    "restartChallengeButtonText": "RELAUNCH",
     "addChallengeForm": {
         "maxNameLength": "Maximum name length is 21 characters",
         "maxDescriptionLength": "Maximum description length is 40 characters",

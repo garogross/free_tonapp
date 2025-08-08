@@ -6,7 +6,7 @@ import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import ChannelFollow from './ChannelFollow';
 
-export default function Challenges({ setCurrentContent, tonBalance, currentChallenge, setCurrentChallenge, challenges, setTonBalance, setChallenges, setCurrentSurfingChallenge, setIsSubscriber, isSubscriber }) {
+export default function Challenges({ setCurrentContent, tonBalance, currentChallenge, setCurrentChallenge, challenges, setTonBalance, setChallenges, setCurrentSurfingChallenge, setIsSubscriber, isSubscriber, setChallengeForRelaunch }) {
     const [isClient, setIsClient] = useState(false);
     const [surfingChallenges, setSurfingChallenges] = useState([]);
     const [ownedSurfingChallenges, setOwnedSurfingChallenges] = useState([]);
@@ -104,6 +104,15 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
         setCurrentContent('secureIframe');
     }
 
+    const handleRelaunch = (sc) => {
+        setChallengeForRelaunch(sc);
+        if (currentChallenge === 'surfing') {
+            setCurrentContent('addChallengeForm');
+        } else if (currentChallenge === 'telegram') {
+            setCurrentContent('addTelegramChallengeForm');
+        }   
+    }
+
     const renderTelegramChallengesTable = () => {
         let table = [];
         switch (isClient) {
@@ -122,43 +131,48 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
             );
         }
         return table.map((sc, index) =>
-            <div className="challenge-row" key={sc.id || index} onClick={() => handleTelegramChallengeClick(sc.link)}>
-                <div className="challenge-row-sub start">
-                    <div className={`challenge-item-text ${sc.status}`}>{isClient ? statusToMean(sc.status) : ''}</div>
-                    <div className="challenge-item-text challenge-name">{sc.name}</div>
-                    <div className="challenge-item-text challenge-description" onClick={() => showNotification(sc.description)}>{sc.description}</div>
-                </div>
-                <div className="challenge-row-sub end">
-                    <div className="challenge-time-container">
-                        <div className="challenge-item-text">{t('typeTitle')} </div>
-                        <div className="challenge-item-text challenge-time-of-execution">{getTypeMeaning(sc.selectedType)}</div>
+            <div className={`challenge-surf-container ${sc.status}`} key={sc.id || index}>
+                <div className={`challenge-row ${sc.status === "deprecated" ? 'sub' : ''}`} onClick={() => handleTelegramChallengeClick(sc.link)}>
+                    <div className="challenge-row-sub start">
+                        <div className={`challenge-item-text ${sc.status}`}>{isClient ? statusToMean(sc.status) : ''}</div>
+                        <div className="challenge-item-text challenge-name">{sc.name}</div>
+                        <div className="challenge-item-text challenge-description" onClick={() => showNotification(sc.description)}>{sc.description}</div>
                     </div>
-                    <span className="challenge-item-payment">
-                        <div className="challenge-item-text challege-price">{sc.price.toFixed(7)}</div>
-                        <img src="/assets/small_ton.svg" alt="TON" />
-                    </span>
-                    {isClient ? (
-                        <>
-                            <button className="challenge-surf-button" onClick={(e) => {
-                                e.stopPropagation();
-                            }}>{getTypeButton(sc.selectedType)}</button>
-                        </>
-                    ) : sc.selectedType === "1" ? (
-                        <>
-                            <button className="challenge-surf-button" onClick={(e) => {
-                                e.stopPropagation();
-                                handleTelegramChallengeCheck(sc.id);
-                            }}>{t('challengeButtonCheck')}</button>
-                        </>
-                    ) : (
-                        <>
-                            <button className="challenge-surf-button" onClick={(e) => {
-                                handleTelegramChallengeClick(sc.link, 'view', sc.id);
-                            }}>{t('challengeButtonIframe')}</button>
-                        </>
-                    )}
-                </div >
-            </div >
+                    <div className="challenge-row-sub end">
+                        <div className="challenge-time-container">
+                            <div className="challenge-item-text">{t('typeTitle')} </div>
+                            <div className="challenge-item-text challenge-time-of-execution">{getTypeMeaning(sc.selectedType)}</div>
+                        </div>
+                        <span className="challenge-item-payment">
+                            <div className="challenge-item-text challege-price">{sc.price.toFixed(7)}</div>
+                            <img src="/assets/small_ton.svg" alt="TON" />
+                        </span>
+                        {isClient ? (
+                            <>
+                                <button className="challenge-surf-button" onClick={(e) => {
+                                    e.stopPropagation();
+                                }}>{getTypeButton(sc.selectedType)}</button>
+                            </>
+                        ) : sc.selectedType === "1" ? (
+                            <>
+                                <button className="challenge-surf-button" onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleTelegramChallengeCheck(sc.id);
+                                }}>{t('challengeButtonCheck')}</button>
+                            </>
+                        ) : (
+                            <>
+                                <button className="challenge-surf-button" onClick={(e) => {
+                                    handleTelegramChallengeClick(sc.link, 'view', sc.id);
+                                }}>{t('challengeButtonIframe')}</button>
+                            </>
+                        )}
+                    </div>
+                </div>
+                {isClient && sc.status === "deprecated" && (
+                    <button className="challenge-surf-button" onClick={() => handleRelaunch(sc)}>{t('restartChallengeButtonText')}</button>
+                )}
+            </div>
         );
     }
 
@@ -180,31 +194,36 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
             );
         }
         return table.map((sc, index) =>
-            <div className="challenge-row" key={sc.id || index}>
-                <div className="challenge-row-sub start">
-                    <div className={`challenge-item-text ${sc.status}`}>{isClient ? statusToMean(sc.status) : ''}</div>
-                    <div className="challenge-item-text challenge-name">{sc.name}</div>
-                    <div className="challenge-item-text challenge-description" onClick={() => showNotification(sc.description)}>{sc.description}</div>
-                </div>
-                <div className="challenge-row-sub end">
-                    <div className="challenge-time-container">
-                        <div className="challenge-item-text">{t('timeTitle')}</div>
-                        <div className="challenge-item-text challenge-time-of-execution">{sc.timeOfExecution} сек</div>
+            <div className={`challenge-surf-container ${sc.status}`} key={sc.id || index}>
+                <div className={`challenge-row ${sc.status === "deprecated" ? 'sub' : ''}`}>
+                    <div className="challenge-row-sub start">
+                        <div className={`challenge-item-text ${sc.status}`}>{isClient ? statusToMean(sc.status) : ''}</div>
+                        <div className="challenge-item-text challenge-name">{sc.name}</div>
+                        <div className="challenge-item-text challenge-description" onClick={() => showNotification(sc.description)}>{sc.description}</div>
                     </div>
-                    <span className="challenge-item-payment">
-                        <div className="challenge-item-text challege-price">{sc.price.toFixed(7)}</div>
-                        <img src="/assets/small_ton.svg" alt="TON" />
-                    </span>
-                    {isClient ? (
-                        <>
-                            <button className="challenge-surf-button" onClick={() => handleTelegramChallengeClick(sc.link)}>{t('challengeButtonGoIn')}</button>
-                        </>
-                    ) : (
-                        <>
-                            <button className="challenge-surf-button" onClick={() => handleSurfingChallengeClick(sc)}>{t('challengeButtonGoIn')}</button>
-                        </>
-                    )}
+                    <div className="challenge-row-sub end">
+                        <div className="challenge-time-container">
+                            <div className="challenge-item-text">{t('timeTitle')}</div>
+                            <div className="challenge-item-text challenge-time-of-execution">{sc.timeOfExecution} сек</div>
+                        </div>
+                        <span className="challenge-item-payment">
+                            <div className="challenge-item-text challege-price">{sc.price.toFixed(7)}</div>
+                            <img src="/assets/small_ton.svg" alt="TON" />
+                        </span>
+                        {isClient ? (
+                            <>
+                                <button className="challenge-surf-button" onClick={() => handleTelegramChallengeClick(sc.link)}>{t('challengeButtonGoIn')}</button>
+                            </>
+                        ) : (
+                            <>
+                                <button className="challenge-surf-button" onClick={() => handleSurfingChallengeClick(sc)}>{t('challengeButtonGoIn')}</button>
+                            </>
+                        )}
+                    </div>
                 </div>
+                {isClient && sc.status === "deprecated" && (
+                    <button className="challenge-surf-button" onClick={() => handleRelaunch(sc)}>{t('restartChallengeButtonText')}</button>
+                )}
             </div>
         );
     }
@@ -287,7 +306,7 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
             {!isSubscriber && (
                 <>
                     <div className="blur-overlay"></div>
-                    <ChannelFollow setIsSubscriber={setIsSubscriber}/>
+                    <ChannelFollow setIsSubscriber={setIsSubscriber} />
                 </>
             )}
         </div>

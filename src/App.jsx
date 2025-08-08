@@ -65,6 +65,7 @@ function App({ user, loadingUser }) {
   const [lastRollNumber, setLastRollNumber] = useState(0)
   const [challengesConfigs, setChallengesConfigs] = useState(null);
   const [acceleratorsStatus, setAcceleratorsStatus] = useState(false);
+  const [challengeForRelaunch, setChallengeForRelaunch] = useState(null);
 
   const [tonBalance, setTonBalance] = useState(0)
 
@@ -453,7 +454,7 @@ function App({ user, loadingUser }) {
       case 'challenges':
         return (
           <>
-            <Challenges setCurrentContent={setCurrentContent} tonBalance={tonBalance} currentChallenge={currentChallenge} setCurrentChallenge={setCurrentChallenge} challenges={challenges} setTonBalance={setTonBalance} setChallenges={setChallenges} setCurrentSurfingChallenge={setCurrentSurfingChallenge} setIsSubscriber={setIsSubscriber} isSubscriber={isSubscriber} />
+            <Challenges setCurrentContent={setCurrentContent} tonBalance={tonBalance} currentChallenge={currentChallenge} setCurrentChallenge={setCurrentChallenge} challenges={challenges} setTonBalance={setTonBalance} setChallenges={setChallenges} setCurrentSurfingChallenge={setCurrentSurfingChallenge} setIsSubscriber={setIsSubscriber} isSubscriber={isSubscriber} setChallengeForRelaunch={setChallengeForRelaunch}/>
           </>
         );
       case 'staking':
@@ -507,7 +508,7 @@ function App({ user, loadingUser }) {
       case 'addChallengeForm':
         return (
           <>
-            <AddChallengeForm currentChallenge={currentChallenge} challengesConfigs={challengesConfigs} tonBalance={tonBalance} setChallenges={setChallenges} setTonBalance={setTonBalance} />
+            <AddChallengeForm currentChallenge={currentChallenge} challengesConfigs={challengesConfigs} tonBalance={tonBalance} setChallenges={setChallenges} setTonBalance={setTonBalance} challengeForRelaunch={challengeForRelaunch} setChallengeForRelaunch={setChallengeForRelaunch}/>
           </>
         );
       case 'addPackagesForm':
@@ -525,7 +526,7 @@ function App({ user, loadingUser }) {
       case 'addTelegramChallengeForm':
         return (
           <>
-            <AddTelegramChallengeForm tonBalance={tonBalance} challengesConfigs={challengesConfigs} currentChallenge={currentChallenge} setTonBalance={setTonBalance} setChallenges={setChallenges} />
+            <AddTelegramChallengeForm tonBalance={tonBalance} challengesConfigs={challengesConfigs} currentChallenge={currentChallenge} setTonBalance={setTonBalance} setChallenges={setChallenges} challengeForRelaunch={challengeForRelaunch} setChallengeForRelaunch={setChallengeForRelaunch}/>
           </>
         )
       case 'secureIframe':
