@@ -53,6 +53,7 @@
     "adDefaultButton": "ПЕРЕЙТИ",
     "adButtonText": "Реклама",
     "soonTitle": "Скоро...",
+    "restartChallengeButtonText": "ПЕРЕЗАПУСТИТЬ",
     "addChallengeForm": {
         "maxNameLength": "Максимальная длина названия 21 символ",
         "maxDescriptionLength": "Максимальная длина описания 40 символов",

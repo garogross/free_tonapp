@@ -5,7 +5,7 @@ import { retrieveRawInitData } from '@telegram-apps/sdk'
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 
-export default function AddTelegramChallengeForm({ tonBalance, challengesConfigs, currentChallenge, setTonBalance, setChallenges }) {
+export default function AddTelegramChallengeForm({ tonBalance, challengesConfigs, currentChallenge, setTonBalance, setChallenges, challengeForRelaunch, setChallengeForRelaunch }) {
     const { showError, showNotification } = useNotification();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [selectedType, setSelectedType] = useState("1");
@@ -42,6 +42,16 @@ export default function AddTelegramChallengeForm({ tonBalance, challengesConfigs
         return true;
     }
 
+    useEffect(() => {
+        if (challengeForRelaunch && currentChallenge === 'telegram') {
+            setSelectedType(challengeForRelaunch.selectedType);
+            setChallengeName(challengeForRelaunch.name);
+            setChallengeDescription(challengeForRelaunch.description);
+            setChallengeLink(challengeForRelaunch.link);
+            setChannelId(challengeForRelaunch.channelId);
+            setChallengeForRelaunch(null);
+        }
+    }, [challengeForRelaunch]);
 
     useEffect(() => {
         setIsFormValid(validateForm());
