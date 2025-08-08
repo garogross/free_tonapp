@@ -1,7 +1,7 @@
 import './Challenges.css';
 import { useEffect, useState } from 'react';
 import { useNotification } from './useNotification';
-import { openLink, retrieveRawInitData } from '@telegram-apps/sdk';
+import { openTelegramLink, retrieveRawInitData } from '@telegram-apps/sdk';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import ChannelFollow from './ChannelFollow';
@@ -32,8 +32,8 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
     const handleTelegramChallengeClick = (challengeLink, type, id) => {
         if (!challengeLink || challengeLink.length === 0) return;
 
-        if (openLink.isAvailable()) {
-            openLink(challengeLink);
+        if (openTelegramLink.isAvailable()) {
+            openTelegramLink(challengeLink);
         }
         if (type === 'view') {
             const dataRaw = retrieveRawInitData();
