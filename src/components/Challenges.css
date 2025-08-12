@@ -188,6 +188,11 @@
     align-items: center;
     width: 95%;
     margin-bottom: 10px;
+    transition: transform 0.3s ease;
+}
+
+.challenge-surf-container.clickable:active {
+    transform: scale(0.95);
 }
 
 .challenge-surf-container.deprecated {

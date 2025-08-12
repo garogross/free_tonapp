@@ -15,6 +15,15 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
     const { showNotification, showError } = useNotification();
     const { t } = useTranslation();
 
+    const handleAdShow = () => {
+        window.TelegramAdsController.triggerNativeNotification(true).then((result) => {
+            console.log(result);
+        }).catch((error) => {
+            showError(error);
+            console.log(error);
+        })
+    }
+
     const getTypeMeaning = (type) => {
         switch (type) {
             case "1": return t('challengeButtonFollow');
@@ -110,7 +119,28 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
             setCurrentContent('addChallengeForm');
         } else if (currentChallenge === 'telegram') {
             setCurrentContent('addTelegramChallengeForm');
-        }   
+        }
+    }
+
+    const renderShowAdChallenge = () => {
+        return <div className='challenge-surf-container clickable' onClick={() => handleAdShow()}>
+            <div className='challenge-row'>
+                <div className="challenge-row-sub start">
+                    <div className="challenge-item-text challenge-name">CLAIM</div>
+                    <div className="challenge-item-text challenge-description" onClick={() => showNotification("Bonus")}>BONUS</div>
+                </div>
+                <div className="challenge-row-sub end">
+                    <div className="challenge-time-container">
+                        <div className="challenge-item-text">{t('typeTitle')} </div>
+                        <div className="challenge-item-text challenge-time-of-execution">ПРОСМОТР</div>
+                    </div>
+                    <span className="challenge-item-payment">
+                        <div className="challenge-item-text challege-price">CLICK ME</div>
+                    </span>
+                    <button className="challenge-surf-button">{t('challengeButtonGoIn')}</button>
+                </div>
+            </div>
+        </div>
     }
 
     const renderTelegramChallengesTable = () => {
@@ -261,9 +291,19 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
             case false:
                 switch (currentChallenge) {
                     case 'surfing':
-                        return <div className="no-clients-challenges-title">{renderSurfingChallengesTable()}</div>;
+                        return <>
+                            <div className="no-clients-challenges-title">
+                                {renderShowAdChallenge()}
+                            </div>
+                            <div className="no-clients-challenges-title">{renderSurfingChallengesTable()}</div>
+                        </>
                     case 'telegram':
-                        return <div className="no-clients-challenges-title">{renderTelegramChallengesTable()}</div>;
+                        return <>
+                            <div className="no-clients-challenges-title">
+                                {renderShowAdChallenge()}
+                            </div>
+                            <div className="no-clients-challenges-title">{renderTelegramChallengesTable()}</div>
+                        </>
                     case 'youtube':
                         return <div>
                             <img className="content-not-found" src="/assets/cat.png" alt="YouTube" />
