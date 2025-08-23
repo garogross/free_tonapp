@@ -53,6 +53,8 @@ function App({ user, loadingUser }) {
   const [adPackages, setAdPackages] = useState([]);
   const [friends, setFriends] = useState([]);
   const [initialNumbers, setInitialNumbers] = useState([]);
+  const [isSkipAvailable, setIsSkipAvailable] = useState(true);
+  const [skipEndTime, setSkipEndTime] = useState(0)
 
   const [isPushed, setIsPushed] = useState(true)
   const [luckyNumber, setLuckyNumber] = useState(null)
@@ -347,7 +349,10 @@ function App({ user, loadingUser }) {
         .then(response => {
           setIsPushed(!response.data.isAvailable);
           const endDateTime = new Date(response.data.endTime);
+          const skipEndDateTime = new Date(response.data.skipEndTime);
           setEndTime(endDateTime);
+          setSkipEndTime(skipEndDateTime);
+          setIsSkipAvailable(response.data.isSkipAvailable);
           setLastRollNumber(response.data.lastRollNumber);
         })
         .catch(error => {
@@ -448,7 +453,7 @@ function App({ user, loadingUser }) {
           <div className="cran-wrapper">
             <Rullet currentContent={currentContent} gridRow="1" luckyNumber={isAnimating ? displayNumber : luckyNumber} isPushed={isPushed} endTime={endTime} setIsPushed={setIsPushed} rollStarted={rollStarted} setRollStarted={setRollStarted} tonBalance={tonBalance} lastRollNumber={lastRollNumber} />
             <RollTable initialNumbers={initialNumbers} />
-            <RollButton isPushed={isPushed} setIsPushed={setIsPushed} setLuckyNumber={setLuckyNumber} setIsAnimating={setIsAnimating} setEndTime={setEndTime} setRollStarted={setRollStarted} setTonBalance={setTonBalance} setLastRollNumber={setLastRollNumber} isAnimating={isAnimating} />
+            <RollButton setSkipEndTime={setSkipEndTime} isSkipAvailable={isSkipAvailable} setIsSkipAvailable={setIsSkipAvailable} isPushed={isPushed} setIsPushed={setIsPushed} setLuckyNumber={setLuckyNumber} setIsAnimating={setIsAnimating} setEndTime={setEndTime} setRollStarted={setRollStarted} setTonBalance={setTonBalance} setLastRollNumber={setLastRollNumber} isAnimating={isAnimating} />
           </div>
         );
       case 'challenges':

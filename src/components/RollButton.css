@@ -5,6 +5,10 @@
   justify-content: center;
 }
 
+.roller-buttons-container {
+  display: flex;
+}
+
 .roll-button {
   background-color: #4D6B1E;
   border: none;
@@ -25,7 +29,40 @@
 }
 
 .roll-button.pushed {
-  background-color: #343434;
+  background-color: rgb(52, 52, 52);
+}
+
+.roll-button-skip {
+  background-color: #78AA28;
+  color: white;
+  font-family: 'montserrat';
+  font-weight: 800;
+  font-size: 24px;
+  border-radius: 44px;
+  padding: 10px 10px;
+  transition: transform 0.1s ease;
+  box-shadow: 0px 7px 0px rgba(52, 52, 52, 1);
+  height: fit-content;
+  margin-top: 20px;
+  position: absolute;
+  right: 7%;
+}
+
+@media (max-width: 600px) {
+  .roll-button-skip {
+    right: 7%;
+  }
+}
+
+@media (max-width: 400px) {
+  .roll-button-skip {
+    right: 1%;
+  }
+}
+
+
+.roll-button-skip:active {
+  transform: scale(0.95);
 }
 
 .roll-button-text {
@@ -57,4 +94,14 @@
 
 .roll-button-shadow:active {
   transform: scale(0.95);
+}
+
+.rollskip-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rollskip-image {
+  pointer-events: none;
 }
