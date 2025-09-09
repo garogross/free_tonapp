@@ -78,6 +78,7 @@ function App({ user, loadingUser }) {
   const [accelerateBalance, setAccelerateBalance] = useState(0.00000000);
   const stompClient = useRef(null);
   const [currentSurfingChallenge, setCurrentSurfingChallenge] = useState(null);
+  const [skipTimeLeft, setSkipTimeLeft] = useState(0);
 
   const { showNotification } = useNotification();
   function lockOrientation() {
@@ -117,6 +118,26 @@ function App({ user, loadingUser }) {
     };
   }, []);
 
+  useEffect(() => {
+    if (isSkipAvailable) return;
+
+    function updateTimeLeft() {
+      const now = new Date();
+      const diff = Math.floor((new Date(skipEndTime) - now) / 1000);
+      console.log(diff);
+      if (diff <= 0 && isPushed == true) {
+        setSkipTimeLeft(0);
+        setIsSkipAvailable(true);
+      } else {
+        setSkipTimeLeft(diff);
+      }
+    }
+    updateTimeLeft();
+
+    const intervalId = setInterval(updateTimeLeft, 1000);
+    return () => clearInterval(intervalId);
+  }, [skipEndTime, isSkipAvailable]);
+
   async function getInitialNumbers(dataRaw) {
     axios.get('/api/prizestable', {
       headers: {
@@ -134,17 +155,17 @@ function App({ user, loadingUser }) {
 
   async function checkSub(dataRaw) {
     axios.get('/api/check/subscription', {
-        headers: {
-            'Authorization': 'tma ' + dataRaw
-        }
+      headers: {
+        'Authorization': 'tma ' + dataRaw
+      }
     })
-    .then(response => {
+      .then(response => {
         setIsSubscriber(response.data);
-    })
-    .catch(error => {
+      })
+      .catch(error => {
         console.log("error check subscription: {}", error);
-    })
-}
+      })
+  }
 
   async function getChallegesConfigs(dataRaw) {
     axios.get('/api/challengesconfigs', {
@@ -459,13 +480,13 @@ function App({ user, loadingUser }) {
       case 'challenges':
         return (
           <>
-            <Challenges setCurrentContent={setCurrentContent} tonBalance={tonBalance} currentChallenge={currentChallenge} setCurrentChallenge={setCurrentChallenge} challenges={challenges} setTonBalance={setTonBalance} setChallenges={setChallenges} setCurrentSurfingChallenge={setCurrentSurfingChallenge} setIsSubscriber={setIsSubscriber} isSubscriber={isSubscriber} setChallengeForRelaunch={setChallengeForRelaunch}/>
+            <Challenges setCurrentContent={setCurrentContent} tonBalance={tonBalance} currentChallenge={currentChallenge} setCurrentChallenge={setCurrentChallenge} challenges={challenges} setTonBalance={setTonBalance} setChallenges={setChallenges} setCurrentSurfingChallenge={setCurrentSurfingChallenge} setIsSubscriber={setIsSubscriber} isSubscriber={isSubscriber} setChallengeForRelaunch={setChallengeForRelaunch} />
           </>
         );
       case 'staking':
         return (
           <>
-            <Staking setTonBalance={setTonBalance} tonBalance={tonBalance} accelerateBalance={accelerateBalance} accelerateSpeed={accelerateSpeed} setAccelerateBalance={setAccelerateBalance} setAccelerateSpeed={setAccelerateSpeed} friends={friends} acceleratorsStatus={acceleratorsStatus} setAcceleratorsStatus={setAcceleratorsStatus} setIsSubscriber={setIsSubscriber} isSubscriber={isSubscriber}/>
+            <Staking setTonBalance={setTonBalance} tonBalance={tonBalance} accelerateBalance={accelerateBalance} accelerateSpeed={accelerateSpeed} setAccelerateBalance={setAccelerateBalance} setAccelerateSpeed={setAccelerateSpeed} friends={friends} acceleratorsStatus={acceleratorsStatus} setAcceleratorsStatus={setAcceleratorsStatus} setIsSubscriber={setIsSubscriber} isSubscriber={isSubscriber} />
           </>
         );
       case 'friends':
@@ -513,7 +534,7 @@ function App({ user, loadingUser }) {
       case 'addChallengeForm':
         return (
           <>
-            <AddChallengeForm currentChallenge={currentChallenge} challengesConfigs={challengesConfigs} tonBalance={tonBalance} setChallenges={setChallenges} setTonBalance={setTonBalance} challengeForRelaunch={challengeForRelaunch} setChallengeForRelaunch={setChallengeForRelaunch}/>
+            <AddChallengeForm currentChallenge={currentChallenge} challengesConfigs={challengesConfigs} tonBalance={tonBalance} setChallenges={setChallenges} setTonBalance={setTonBalance} challengeForRelaunch={challengeForRelaunch} setChallengeForRelaunch={setChallengeForRelaunch} />
           </>
         );
       case 'addPackagesForm':
@@ -531,7 +552,7 @@ function App({ user, loadingUser }) {
       case 'addTelegramChallengeForm':
         return (
           <>
-            <AddTelegramChallengeForm tonBalance={tonBalance} challengesConfigs={challengesConfigs} currentChallenge={currentChallenge} setTonBalance={setTonBalance} setChallenges={setChallenges} challengeForRelaunch={challengeForRelaunch} setChallengeForRelaunch={setChallengeForRelaunch}/>
+            <AddTelegramChallengeForm tonBalance={tonBalance} challengesConfigs={challengesConfigs} currentChallenge={currentChallenge} setTonBalance={setTonBalance} setChallenges={setChallenges} challengeForRelaunch={challengeForRelaunch} setChallengeForRelaunch={setChallengeForRelaunch} />
           </>
         )
       case 'secureIframe':
