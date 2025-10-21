@@ -107,7 +107,7 @@ export default function CashOutForm({ tonBalance, setTonBalance, setTransactions
             return;
         }
         if (starsMode) {
-            if (tonBalance * course < 1 || amount > tonBalance * course) {
+            if (tonBalance < 1 || amount > tonBalance * course || amount < course) {
                 showError(t('cashOutForm.insufficientFunds'));
                 return;
             }
