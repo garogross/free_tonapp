@@ -194,10 +194,17 @@
         "insufficientFunds": "Insufficient funds for withdrawal",
         "invalidTonAddress": "Invalid TON address",
         "title": "Cash Out Request",
-        "description": "Please fill out the form to withdraw funds. Enter your TON address",
+        "description": {
+            "ton": "Please fill out the form to withdraw funds. Enter your TON address",
+            "stars": "Please fill out the form to receive your results. Please enter your account username for withdrawal"
+        },
         "amountPlaceholder": "Enter withdrawal amount...",
         "addressPlaceholder": "Enter wallet address...",
-        "minAmount": "Minimum withdrawal amount: 1 TON",
+        "usernamePlaceholder": "Enter username...",
+        "minAmount": {
+            "ton": "Minimum withdrawal amount: 1 TON",
+            "stars": "Minimum withdrawal amount: {{min}} STARS"
+        },
         "submitRequest": "SUBMIT REQUEST",
         "cashOutAll": "CASH OUT ALL",
         "alertDescription": "All requests are processed manually and may take up to 72 hours. We only withdraw in TON. Make sure you entered the correct wallet address!",

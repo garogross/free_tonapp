@@ -55,6 +55,8 @@ function App({ user, loadingUser }) {
   const [initialNumbers, setInitialNumbers] = useState([]);
   const [isSkipAvailable, setIsSkipAvailable] = useState(true);
   const [skipEndTime, setSkipEndTime] = useState(0)
+  const [starsMode, setStarsMode] = useState(true);
+  const [course, setCourse] = useState(0);
 
   const [isPushed, setIsPushed] = useState(true)
   const [luckyNumber, setLuckyNumber] = useState(null)
@@ -178,6 +180,20 @@ function App({ user, loadingUser }) {
       })
       .catch(error => {
         console.error('Get challeges configs error: ', error);
+      })
+  }
+
+  async function getCourse(dataRaw) {
+    axios.get('/api/course', {
+      headers: {
+        'Authorization': 'tma ' + dataRaw
+      }
+    })
+      .then(response => {
+        setCourse(response.data.starsPerTon)
+      })
+      .catch(error => {
+        console.error('Get stars course error: ', error)
       })
   }
 
@@ -417,6 +433,7 @@ function App({ user, loadingUser }) {
     getInitialNumbers(dataRaw);
     getActiveAds(dataRaw);
     getAdPackages(dataRaw);
+    getCourse(dataRaw);
     checkSub(dataRaw);
     getAdvertisements(dataRaw);
     getAccelerateBalance(dataRaw);
@@ -472,27 +489,27 @@ function App({ user, loadingUser }) {
       case 'cran':
         return (
           <div className="cran-wrapper">
-            <Rullet currentContent={currentContent} gridRow="1" luckyNumber={isAnimating ? displayNumber : luckyNumber} isPushed={isPushed} endTime={endTime} setIsPushed={setIsPushed} rollStarted={rollStarted} setRollStarted={setRollStarted} tonBalance={tonBalance} lastRollNumber={lastRollNumber} />
-            <RollTable initialNumbers={initialNumbers} />
+            <Rullet currentContent={currentContent} gridRow="1" luckyNumber={isAnimating ? displayNumber : luckyNumber} isPushed={isPushed} endTime={endTime} setIsPushed={setIsPushed} rollStarted={rollStarted} setRollStarted={setRollStarted} tonBalance={tonBalance} lastRollNumber={lastRollNumber} starsMode={starsMode} course={course}/>
+            <RollTable initialNumbers={initialNumbers} starsMode={starsMode} course={course}/>
             <RollButton setSkipEndTime={setSkipEndTime} isSkipAvailable={isSkipAvailable} setIsSkipAvailable={setIsSkipAvailable} isPushed={isPushed} setIsPushed={setIsPushed} setLuckyNumber={setLuckyNumber} setIsAnimating={setIsAnimating} setEndTime={setEndTime} setRollStarted={setRollStarted} setTonBalance={setTonBalance} setLastRollNumber={setLastRollNumber} isAnimating={isAnimating} />
           </div>
         );
       case 'challenges':
         return (
           <>
-            <Challenges setCurrentContent={setCurrentContent} tonBalance={tonBalance} currentChallenge={currentChallenge} setCurrentChallenge={setCurrentChallenge} challenges={challenges} setTonBalance={setTonBalance} setChallenges={setChallenges} setCurrentSurfingChallenge={setCurrentSurfingChallenge} setIsSubscriber={setIsSubscriber} isSubscriber={isSubscriber} setChallengeForRelaunch={setChallengeForRelaunch} />
+            <Challenges setCurrentContent={setCurrentContent} tonBalance={tonBalance} currentChallenge={currentChallenge} setCurrentChallenge={setCurrentChallenge} challenges={challenges} setTonBalance={setTonBalance} setChallenges={setChallenges} setCurrentSurfingChallenge={setCurrentSurfingChallenge} setIsSubscriber={setIsSubscriber} isSubscriber={isSubscriber} setChallengeForRelaunch={setChallengeForRelaunch} starsMode={starsMode} course={course}/>
           </>
         );
       case 'staking':
         return (
           <>
-            <Staking setTonBalance={setTonBalance} tonBalance={tonBalance} accelerateBalance={accelerateBalance} accelerateSpeed={accelerateSpeed} setAccelerateBalance={setAccelerateBalance} setAccelerateSpeed={setAccelerateSpeed} friends={friends} acceleratorsStatus={acceleratorsStatus} setAcceleratorsStatus={setAcceleratorsStatus} setIsSubscriber={setIsSubscriber} isSubscriber={isSubscriber} />
+            <Staking setTonBalance={setTonBalance} tonBalance={tonBalance} accelerateBalance={accelerateBalance} accelerateSpeed={accelerateSpeed} setAccelerateBalance={setAccelerateBalance} setAccelerateSpeed={setAccelerateSpeed} friends={friends} acceleratorsStatus={acceleratorsStatus} setAcceleratorsStatus={setAcceleratorsStatus} setIsSubscriber={setIsSubscriber} isSubscriber={isSubscriber} starsMode={starsMode} course={course}/>
           </>
         );
       case 'friends':
         return (
           <>
-            <Friends friends={friends} />
+            <Friends friends={friends} starsMode={starsMode} course={course}/>
           </>
         );
       case 'profile':
@@ -501,7 +518,7 @@ function App({ user, loadingUser }) {
             return (
               <>
                 <ProfileMenu profileSubMenu={profileSubMenu} setProfileSubMenu={setProfileSubMenu} />
-                <Rullet currentContent={currentContent} gridRow="2" setCurrentContent={setCurrentContent} luckyNumber={null} isPushed={true} endTime={endTime} setIsPushed={setIsPushed} rollStarted={rollStarted} setRollStarted={setRollStarted} tonBalance={tonBalance} lastRollNumber={lastRollNumber} />
+                <Rullet currentContent={currentContent} gridRow="2" setCurrentContent={setCurrentContent} luckyNumber={null} isPushed={true} endTime={endTime} setIsPushed={setIsPushed} rollStarted={rollStarted} setRollStarted={setRollStarted} tonBalance={tonBalance} lastRollNumber={lastRollNumber} course={course} starsMode={starsMode}/>
                 <TransactionTable transactions={transactions} />
               </>
             );
@@ -509,7 +526,7 @@ function App({ user, loadingUser }) {
             return (
               <>
                 <ProfileMenu profileSubMenu={profileSubMenu} setProfileSubMenu={setProfileSubMenu} />
-                <AdvertisingCabinet setCurrentContent={setCurrentContent} tonBalance={tonBalance} advertisements={advertisements} adPackages={adPackages} />
+                <AdvertisingCabinet setCurrentContent={setCurrentContent} tonBalance={tonBalance} advertisements={advertisements} adPackages={adPackages} course={course} starsMode={starsMode}/>
               </>
             );
         }
@@ -528,7 +545,7 @@ function App({ user, loadingUser }) {
       case 'cashOut':
         return (
           <>
-            <CashOutForm tonBalance={tonBalance} setTonBalance={setTonBalance} setTransactions={setTransactions} />
+            <CashOutForm tonBalance={tonBalance} setTonBalance={setTonBalance} setTransactions={setTransactions} starsMode={starsMode} course={course}/>
           </>
         );
       case 'addChallengeForm':
@@ -570,7 +587,7 @@ function App({ user, loadingUser }) {
         <Route path="/" element={
           <TonConnectUIProvider manifestUrl="https://freeton-back.ru.tuna.am/tonconnect-manifest.json">
             <header>
-              <Header setCurrentContent={setCurrentContent} path={backPath} />
+              <Header setCurrentContent={setCurrentContent} path={backPath} setStarsMode={setStarsMode} starsMode={starsMode}/>
             </header>
             <main>
               {renderContent()}
@@ -583,7 +600,7 @@ function App({ user, loadingUser }) {
         } />
         <Route path="/freetonadmin" element={
           <ProtectedRoute user={user} loadingUser={loadingUser} allowedRoles={['admin']}>
-            <AdminApp setCurrentContent={setCurrentContent} adPackages={adPackages} setAdPackages={setAdPackages} initialNumbers={initialNumbers} setInitialNumbers={setInitialNumbers} challengesConfig={challengesConfigs} setChallengesConfig={setChallengesConfigs} keyboardVisible={keyboardVisible} />
+            <AdminApp setCurrentContent={setCurrentContent} adPackages={adPackages} setAdPackages={setAdPackages} initialNumbers={initialNumbers} setInitialNumbers={setInitialNumbers} challengesConfig={challengesConfigs} setChallengesConfig={setChallengesConfigs} keyboardVisible={keyboardVisible} course={course} setCourse={setCourse}/>
           </ProtectedRoute>
         } />
       </Routes>

@@ -4,7 +4,7 @@ import { shareMessage, ShareMessageError, retrieveLaunchParams } from '@telegram
 import { useNotification } from './useNotification'
 import { useTranslation } from 'react-i18next';
 
-export default function Friends({ friends }) {
+export default function Friends({ friends, starsMode, course }) {
     const { showError, showNotification } = useNotification();
     const [totalPrize, setTotalPrize] = useState(0);
     const initData = retrieveLaunchParams();
@@ -32,7 +32,6 @@ export default function Friends({ friends }) {
             }
         }
     };
-
 
     const writeLinkInClipboard = () => {
         navigator.clipboard.writeText("https://t.me/Freetoon_bot?start=" + userId);
@@ -70,11 +69,10 @@ export default function Friends({ friends }) {
         return friends.map((friend, index) => (
             <div className="transaction-row" key={friend.id || index}>
                 <div className="transaction-cell">{getFriendFullName(friend.firstName, friend.lastName, index)}</div>
-                <div className="transaction-cell">{t('friends.income')}: {friend.prize.toFixed(6)}</div>
+                <div className="transaction-cell">{t('friends.income')}: {starsMode ? (friend.prize * course).toFixed(6) : friend.prize.toFixed(6)}</div>
             </div>
         ));
     }
-
 
     return (
         <div className="friends-container">
@@ -85,9 +83,13 @@ export default function Friends({ friends }) {
             <div className="friends-list-title">{t('friends.listOfFriends')}</div>
             <div className="friends-balance-container">
                 <div className="friends-balance-title">{t('friends.totalIncome')}:</div>
-                <div className="friends-balance-value">{totalPrize.toFixed(6)}</div>
+                <div className="friends-balance-value">{starsMode ? (totalPrize * course).toFixed(6) : totalPrize.toFixed(6)}</div>
                 <div className="friends-balance-icon">
-                    <img src="/assets/ton.svg" alt="TON" />
+                    {starsMode ? (
+                        <img src="/assets/star.svg" alt="stars" className='star-switch-icon'/>
+                    ): (
+                        <img src = "/assets/ton.svg" alt = "TON" />
+                    )}
                 </div>
             </div>
             <div className="friends-list">

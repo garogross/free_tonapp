@@ -6,7 +6,7 @@ import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import ChannelFollow from './ChannelFollow';
 
-export default function Challenges({ setCurrentContent, tonBalance, currentChallenge, setCurrentChallenge, challenges, setTonBalance, setChallenges, setCurrentSurfingChallenge, setIsSubscriber, isSubscriber, setChallengeForRelaunch }) {
+export default function Challenges({ setCurrentContent, tonBalance, currentChallenge, setCurrentChallenge, challenges, setTonBalance, setChallenges, setCurrentSurfingChallenge, setIsSubscriber, isSubscriber, setChallengeForRelaunch, starsMode, course }) {
     const [isClient, setIsClient] = useState(false);
     const [surfingChallenges, setSurfingChallenges] = useState([]);
     const [ownedSurfingChallenges, setOwnedSurfingChallenges] = useState([]);
@@ -174,8 +174,12 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
                             <div className="challenge-item-text challenge-time-of-execution">{getTypeMeaning(sc.selectedType)}</div>
                         </div>
                         <span className="challenge-item-payment">
-                            <div className="challenge-item-text challege-price">{sc.price.toFixed(7)}</div>
-                            <img src="/assets/small_ton.svg" alt="TON" />
+                            <div className="challenge-item-text challege-price">{starsMode ? (sc.price * course).toFixed(7) : sc.price.toFixed(7)}</div>
+                            {starsMode ? (
+                                <img src="/assets/star.svg" alt="stars" className="star-small-icon" />
+                            ) : (
+                                <img src="/assets/small_ton.svg" alt="TON" />
+                            )}
                         </span>
                         {isClient ? (
                             <>
@@ -238,8 +242,12 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
                             <div className="challenge-item-text challenge-time-of-execution">{sc.timeOfExecution} сек</div>
                         </div>
                         <span className="challenge-item-payment">
-                            <div className="challenge-item-text challege-price">{sc.price.toFixed(7)}</div>
-                            <img src="/assets/small_ton.svg" alt="TON" />
+                            <div className="challenge-item-text challege-price">{starsMode ? (sc.price * course).toFixed(7) : sc.price.toFixed(7)}</div>
+                            {starsMode ? (
+                                <img src="/assets/star.svg" alt="stars" className="star-small-icon" />
+                            ) : (
+                                <img src="/assets/small_ton.svg" alt="TON" />
+                            )}
                         </span>
                         {isClient ? (
                             <>
@@ -325,9 +333,13 @@ export default function Challenges({ setCurrentContent, tonBalance, currentChall
                     <div className="balance-container">
                         <div className="balance-title">{t('balanceTitle')}</div>
                         <div className="value-container">
-                            <div className="balance-value">{tonBalance.toFixed(6)}</div>
+                            <div className="balance-value">{starsMode ? (tonBalance * course).toFixed(6) : tonBalance.toFixed(6)}</div>
                             <div className="balance-icon">
-                                <img src="/assets/ton.svg" alt="TON" />
+                                {starsMode ? (
+                                    <img src="/assets/tg-star.svg" alt="stars" className="star-switch-icon" />
+                                ) : (
+                                    <img src="/assets/ton.svg" alt="TON" />
+                                )}
                             </div>
                         </div>
                     </div>

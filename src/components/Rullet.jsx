@@ -210,9 +210,15 @@ export default function Rullet(props) {
         <div className="rullet" grid-row={gridRow}>
             <div className="rullet-title">{t('yourBalanceTitle')}</div>
             <div className="rullet-balance">
-                <div className="rullet-balance-value">{tonBalance.toFixed(6)}</div>
+                <div className="rullet-balance-value">
+                    {props.starsMode ? (tonBalance * props.course).toFixed(6) : tonBalance.toFixed(6)}
+                </div>
                 <div className="rullet-balance-icon">
-                    <img src="/assets/ton.svg" alt="TON" />
+                    {props.starsMode ? (
+                        <img src="/assets/tg-star.svg" alt="TON" className="star-switch-icon"/>
+                    ) : (
+                        <img src="/assets/ton.svg" alt="TON" />
+                    )}
                 </div>
             </div>
 

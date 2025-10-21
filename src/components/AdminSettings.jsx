@@ -4,7 +4,7 @@ import AdminSettingsCran from './AdminSettingsCran';
 import AdminSettingsAccelerator from './AdminSettingsAccelerator';
 import AdminSettingsChallenges from './AdminSettingsChallenges';
 
-export default function AdminSettings( {initialNumbers, setInitialNumbers, setAcceleratorsConfig, acceleratorsConfig, challengesConfig, setChallengesConfig } ) {
+export default function AdminSettings( {initialNumbers, setInitialNumbers, setAcceleratorsConfig, acceleratorsConfig, challengesConfig, setChallengesConfig, course, setCourse } ) {
     const [settingPage, setSettingPage] = useState('settingscran');
 
     const handleMenuButtonClick = (settingPage) => {
@@ -19,7 +19,7 @@ export default function AdminSettings( {initialNumbers, setInitialNumbers, setAc
                 <button className={`settings-menu-button ${settingPage === 'settingsstaking' ? 'btn-active' : ''}`} onClick={() => handleMenuButtonClick("settingsstaking")}>УСКОРИТЕЛИ</button>
             </div>
             {settingPage === "settingscran" ? (
-                <AdminSettingsCran initialNumbers={initialNumbers} setInitialNumbers={setInitialNumbers}/>
+                <AdminSettingsCran initialNumbers={initialNumbers} setInitialNumbers={setInitialNumbers} course={course} setCourse={setCourse}/>
             ) : settingPage === "settingschallenges" ? (
                 <AdminSettingsChallenges surfingConfigs={challengesConfig.surfingConfigs} setSurfingConfigs={setChallengesConfig} telegramChallengesConfig={challengesConfig.telegramChallengesConfig} setTelegramChalengesConfig={setChallengesConfig}/>
             ) : (

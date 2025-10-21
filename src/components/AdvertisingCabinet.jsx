@@ -2,7 +2,7 @@ import './AdvertisingCabinet.css';
 import { openLink } from '@telegram-apps/sdk';
 import { useTranslation } from 'react-i18next';
 
-export default function AdvertisingCabinet({ setCurrentContent, tonBalance, advertisements, adPackages }) {
+export default function AdvertisingCabinet({ setCurrentContent, tonBalance, advertisements, adPackages, course, starsMode }) {
     const { t } = useTranslation();
 
     const handleDemoAdClick = (adLink) => {
@@ -80,9 +80,14 @@ export default function AdvertisingCabinet({ setCurrentContent, tonBalance, adve
         <div className="advertising-cabinet">
             <div className="advertising-cabinet-balance-title">{t('yourBalanceTitle')}</div>
             <div className="advertising-cabinet-balance-container">
-                <div className="advertising-cabinet-balance-value">{tonBalance.toFixed(6)}</div>
+                <div className="advertising-cabinet-balance-value">{starsMode ? (tonBalance * course).toFixed(6) : tonBalance.toFixed(6)}</div>
                 <div className="balance-icon">
-                    <img src="/assets/ton.svg" alt="TON" />
+                    {starsMode ? (
+                        <img src="/assets/star.svg" alt="stars" className='star-switch-icon ad'/>
+                    ) : (
+                        <img src="/assets/ton.svg" alt="TON" />
+                    )}
+
                 </div>
             </div>
             <div className="adds-list-title">{t('advertisingCabinet.adsList')}</div>

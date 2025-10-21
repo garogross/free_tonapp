@@ -66,7 +66,7 @@ export default function WithdrawalRequests({ adminTransactions, setAdminTransact
           <div className="transaction-cell-date">
             {new Date(tx.transaction.utime * 1000).toLocaleString('ru-RU', { hour12: false })}
           </div>
-          <div className="transaction-cell">{tx.transaction.amount} TON</div>
+          <div className="transaction-cell">{tx.transaction.amount} {tx.transaction.starsMode ? "STARS" : "TON"}</div>
           <div className='transaction-cell' onClick={() => copySenderAddress(tx.transaction.senderAddress)}>{tx.transaction.senderAddress}</div>
           <div className="transaction-cell" onClick={() => copyTelegramUsername(tx.telegramUsername)}>{tx.telegramUsername === 'username_not_found' ? '--------' : tx.telegramUsername}</div>
           <div className="transaction-cell" onClick={() => copyTelegramId(tx.telegramId)}>{tx.telegramId}</div>

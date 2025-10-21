@@ -10,7 +10,7 @@ const ranges = [
   "10000"
 ];
 
-export default function RollTable({ initialNumbers }) {
+export default function RollTable({ initialNumbers, starsMode, course}) {
   const { t } = useTranslation();
 
   return (
@@ -24,8 +24,12 @@ export default function RollTable({ initialNumbers }) {
           <div className="roll-table-item" key={range}>
             <span className="roll-table-item-number">{range}</span>
             <span className="roll-table-item-payment">
-              {initialNumbers && initialNumbers[index] !== undefined ? initialNumbers[index] : '-'}
-              <img src="/assets/small_ton.svg" alt="TON" className="payment-icon" />
+              {initialNumbers && initialNumbers[index] !== undefined ? (starsMode ? (initialNumbers[index] * course).toFixed(6) : initialNumbers[index].toFixed(6)) : '-'}
+              {starsMode ? (
+                <img src="/assets/star.svg" alt="TON" className="star-small-icon" />
+              ) : (
+                <img src="/assets/small_ton.svg" alt="TON" className="payment-icon" />
+              )}
             </span>
           </div>
         ))}

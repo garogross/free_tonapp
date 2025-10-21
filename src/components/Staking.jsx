@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import './Staking.css'
+import starsminer from '/assets/star-miner.png'
 import miner from '/assets/miner.png'
 import miner2 from '/assets/miner2.png'
 import { retrieveRawInitData, retrieveLaunchParams } from '@telegram-apps/sdk'
@@ -9,12 +10,13 @@ import { useNotification } from './useNotification';
 import { useTranslation } from 'react-i18next';
 import ChannelFollow from './ChannelFollow';
 
-const globalMinerImageCache = window.__minerImageCache || (window.__minerImageCache = { loaded: false, images: [] });
+const globalMinerImageCache = window.__minerImageCache || (window.__minerImageCache = {
+    loadedByMode: { normal: false, stars: false },
+    imagesByMode: { normal: [], stars: [] }
+});
 
-export default function Staking({ setTonBalance, tonBalance, accelerateBalance, accelerateSpeed, setAccelerateBalance, setAccelerateSpeed, friends, acceleratorsStatus, setAcceleratorsStatus, setIsSubscriber, isSubscriber }) {
+export default function Staking({ setTonBalance, tonBalance, accelerateBalance, accelerateSpeed, setAccelerateBalance, setAccelerateSpeed, friends, acceleratorsStatus, setAcceleratorsStatus, setIsSubscriber, isSubscriber, starsMode, course }) {
     const [counter, setCounter] = useState(1);
-    const [imagesLoaded, setImagesLoaded] = useState(globalMinerImageCache.loaded);
-    const [cachedImages, setCachedImages] = useState(globalMinerImageCache.images);
     const [selectedAccelerator, setSelectedAccelerator] = useState(0);
     const [showAccelerateModal, setShowAccelerateModal] = useState(false);
     const [amountsByType, setAmountsByType] = useState([0, 0, 0]);
@@ -22,12 +24,23 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
     const [modalPage, setModalPage] = useState('accelerators');
     const [acceleratorsConfig, setAcceleratorsConfig] = useState([]);
     const [acceleratorsList, setAcceleratorsList] = useState([]);
-    const imageUrls = [miner, miner2];
+    const imageUrls = useMemo(
+        () => (starsMode ? [starsminer, miner2] : [miner, miner2]),
+        [starsMode]
+    );
     const { showError, showNotification } = useNotification();
 
     const initData = retrieveLaunchParams();
     const userId = initData.tgWebAppData.user.id;
     const { t } = useTranslation();
+
+    const cacheKey = starsMode ? 'stars' : 'normal';
+    const [imagesLoaded, setImagesLoaded] = useState(
+        globalMinerImageCache.loadedByMode[cacheKey]
+    );
+    const [cachedImages, setCachedImages] = useState(
+        globalMinerImageCache.imagesByMode[cacheKey]
+    );
 
     const writeLinkInClipboard = () => {
         navigator.clipboard.writeText("https://t.me/Freetoon_bot?start=" + userId);
@@ -35,40 +48,49 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
     };
 
     useEffect(() => {
-        if (globalMinerImageCache.loaded) {
-            setCachedImages(globalMinerImageCache.images);
-            setImagesLoaded(true);
-            return;
+        // если уже есть кэш для текущего режима — используем
+        if (globalMinerImageCache.loadedByMode[cacheKey]) {
+          setCachedImages(globalMinerImageCache.imagesByMode[cacheKey]);
+          setImagesLoaded(true);
+          return;
         }
-
-        const preloadImages = async () => {
-            try {
-                const cachedImagePromises = imageUrls.map(async (src) => {
-                    const response = await fetch(src);
-                    const blob = await response.blob();
-                    return URL.createObjectURL(blob);
-                });
-
-                const cachedImageUrls = await Promise.all(cachedImagePromises);
-                setCachedImages(cachedImageUrls);
-                setImagesLoaded(true);
-
-                globalMinerImageCache.loaded = true;
-                globalMinerImageCache.images = cachedImageUrls;
-            } catch (error) {
-                console.error('Ошибка загрузки изображений:', error);
-                setCachedImages(imageUrls);
-                setImagesLoaded(true);
-
-                globalMinerImageCache.loaded = true;
-                globalMinerImageCache.images = imageUrls;
-            }
+    
+        let isCancelled = false;
+    
+        const preload = async () => {
+          try {
+            // предзагрузка текущего набора
+            const cachedImagePromises = imageUrls.map(async (src) => {
+              const res = await fetch(src);
+              const blob = await res.blob();
+              return URL.createObjectURL(blob);
+            });
+    
+            const urls = await Promise.all(cachedImagePromises);
+            if (isCancelled) return;
+    
+            setCachedImages(urls);
+            setImagesLoaded(true);
+    
+            globalMinerImageCache.loadedByMode[cacheKey] = true;
+            globalMinerImageCache.imagesByMode[cacheKey] = urls;
+          } catch (e) {
+            if (isCancelled) return;
+            // в фолбэке всё равно подставляем текущий набор
+            setCachedImages(imageUrls);
+            setImagesLoaded(true);
+    
+            globalMinerImageCache.loadedByMode[cacheKey] = true;
+            globalMinerImageCache.imagesByMode[cacheKey] = imageUrls;
+          }
         };
-
-        preloadImages();
-
-        return () => { };
-    }, []);
+    
+        preload();
+    
+        return () => {
+          isCancelled = true;
+        };
+      }, [cacheKey, imageUrls]);
 
     const getUnfund = () => {
         if (accelerateBalance >= 0.5) {
@@ -322,7 +344,7 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
                                 <div className="stat-value">
                                     {isAcceleratorsLoading
                                         ? spinner
-                                        : `${(accelerateSpeed).toFixed(8)} TON`}
+                                        : `${(starsMode ? (accelerateSpeed * course).toFixed(8) : accelerateSpeed.toFixed(8))} ${starsMode ? "STARS" : "TON"}`}
                                 </div>
                             </div>
 
@@ -331,7 +353,7 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
                                 <div className="stat-value">
                                     {isAcceleratorsLoading
                                         ? spinner
-                                        : `${(accelerateSpeed * 86400).toFixed(4)} TON`}
+                                        : `${starsMode ? (accelerateSpeed * 86400 * course).toFixed(4) : (accelerateSpeed * 86400).toFixed(4)} ${starsMode ? "STARS" : "TON"}`}
                                 </div>
                             </div>
 
@@ -433,9 +455,11 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
             <div className="staking-container">
                 <div className={`content-wrapper-miner ${!isSubscriber ? 'blurred' : ''}`}>
                     <MinerAnimation images={cachedImages} />
-                    <div className="staking-total-mined">{accelerateBalance.toFixed(8)} TON</div>
+                    <div className="staking-total-mined">{starsMode ? (accelerateBalance * course).toFixed(8) : accelerateBalance.toFixed(8)} {starsMode ? (
+                        <img src="/assets/tg-star.svg" alt="STARS" className='star-switch-icon' />
+                    ) : "TON"}</div>
                     <div className="accelearate-speed-info-container">
-                        <div className="staking-hashrate">{t('stakingForm.speed')}: {accelerateSpeed.toFixed(8)} T/s</div>
+                        <div className="staking-hashrate">{t('stakingForm.speed')}: {starsMode ? (accelerateSpeed * course).toFixed(8) : accelerateSpeed.toFixed(8)} {starsMode ? "stars" : "T"}/s</div>
                         <button className="staking-info-button" onClick={showStakingInfo}>i</button>
                     </div>
                     <div className="staling-button-wrapper">
@@ -447,7 +471,7 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
                 {!isSubscriber && (
                     <>
                         <div className="blur-overlay"></div>
-                        <ChannelFollow setIsSubscriber={setIsSubscriber}/>
+                        <ChannelFollow setIsSubscriber={setIsSubscriber} />
                     </>
                 )}
             </div>
