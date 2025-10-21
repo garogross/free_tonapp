@@ -139,7 +139,7 @@
         "selectPackage": "Choose the required package"
     },
     "acceleratorsBlocked": {
-        "friendsInfo": "For each invited friend*, your mining speed will increase by 0.000000013 T/s",
+        "friendsInfo": "For each invited friend*, your mining speed will increase by {{amount}} {{mode}}/s",
         "subFriendsInfo": "*Only referrals who have collected income from the \"Crane\" at least 3 times are counted. Referrals who do not visit their account for more than 20 days are deducted",
         "profitPerSecond": "Profit/second"
     },
@@ -212,7 +212,7 @@
         "maxMemoLength": "Maximum memo-phrase length is 21 characters"
     },
     "stakingForm": {
-        "requestWithdrawMin": "Minimum withdrawal request is 0.5 TON",
+        "requestWithdrawMin": "Minimum withdrawal request is {{amount}} {{mode}}",
         "rentSuccess": "Rent successful",
         "maxFiveAccelerators": "Maximum 5 accelerators of each type",
         "insufficientFunds": "Insufficient funds",

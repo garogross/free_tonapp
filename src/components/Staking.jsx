@@ -48,7 +48,6 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
     };
 
     useEffect(() => {
-        // если уже есть кэш для текущего режима — используем
         if (globalMinerImageCache.loadedByMode[cacheKey]) {
           setCachedImages(globalMinerImageCache.imagesByMode[cacheKey]);
           setImagesLoaded(true);
@@ -59,7 +58,6 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
     
         const preload = async () => {
           try {
-            // предзагрузка текущего набора
             const cachedImagePromises = imageUrls.map(async (src) => {
               const res = await fetch(src);
               const blob = await res.blob();
@@ -76,7 +74,6 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
             globalMinerImageCache.imagesByMode[cacheKey] = urls;
           } catch (e) {
             if (isCancelled) return;
-            // в фолбэке всё равно подставляем текущий набор
             setCachedImages(imageUrls);
             setImagesLoaded(true);
     
@@ -109,7 +106,7 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
                     console.error('Unfund accelerate balance error: ', error);
                 })
         } else {
-            showError(t('stakingForm.requestWithdrawMin'));
+            showError(starsMode ? t('stakingForm.requestWithdrawMin', {amount: 0.5 * course, mode: "stars"}) : t('stakingForm.requestWithdrawMin', {amount: "0.5", mode: "TON"}));
         }
     }
 
@@ -333,7 +330,7 @@ export default function Staking({ setTonBalance, tonBalance, accelerateBalance, 
                             <div className='acbloccked-title'>{t('stakingForm.accelerators')}</div>
                             <div className='text-info-shadow'>
                                 <div className="info-block friends-info-text">
-                                    {t('acceleratorsBlocked.friendsInfo')}
+                                    {starsMode ? t('acceleratorsBlocked.friendsInfo', {amount: 0.000000013 * course, mode: "stars"}) : t('acceleratorsBlocked.friendsInfo', {amount: "0.000000013", mode: "T"})}
                                 </div>
                                 <div className="info-block friends-subinfo-text">
                                     {t('acceleratorsBlocked.subFriendsInfo')}
