@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import React, { useCallback, useState } from "react";
 import { NotificationContext } from "./NotificationContext";
 import "./NotificationStyles.scss";
@@ -28,7 +29,10 @@ export function NotificationProvider({ children }) {
         {notifications.map(({ id, message, type, duration }) => (
           <div
             key={id}
-            className={type === "error" ? "notification-error" : "notification"}
+            className={clsx(
+              "notification",
+              type === "error" && "notification-error",
+            )}
             style={{ animationDuration: `${duration}ms` }}
           >
             {message}
