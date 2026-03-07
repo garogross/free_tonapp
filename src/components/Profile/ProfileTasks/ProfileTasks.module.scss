@@ -1,0 +1,133 @@
+@use "@/styles/style" as *;
+
+.profileTasks {
+  background: linear-gradient(180deg, #432764 0%, #522a77 100%);
+  border: 1px solid #9574c0;
+  border-radius: 30px;
+  width: 100%;
+  overflow: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  min-height: 200px;
+
+  @include smScreenMedia {
+    border-radius: 18px;
+    gap: 10px;
+    padding: 10px;
+    min-height: 120px;
+  }
+
+  &__item {
+    @include flexCol(space-between);
+    gap: 22px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #543981;
+
+    @include smScreenMedia {
+      gap: 10px;
+    }
+  }
+  &__itemMain {
+    flex: 7;
+  }
+  &__mainTopBlock {
+    @include flexCol(flex-start);
+    gap: 10px;
+    margin-bottom: 17px;
+
+    @include smScreenMedia {
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+  }
+  &__taskImg {
+    max-width: 82px;
+    border-radius: 20px;
+
+    @include smScreenMedia {
+      max-width: 52px;
+      border-radius: 12px;
+    }
+  }
+  &__itemNameText {
+    @include setFont(clamp(16px, 5vw, 26px), 500);
+    max-width: 200px;
+  }
+  &__progressBar {
+    position: relative;
+    width: 100%;
+    height: 31px;
+    border: 1px solid #22130e;
+    border-radius: 16px;
+    background: #30214c;
+    @include flexCol();
+
+    @include smScreenMedia {
+      height: 18px;
+      border-radius: 9px;
+    }
+  }
+  &__progressBarInner {
+    position: absolute;
+    left: 0;
+    height: 100%;
+    background: linear-gradient(180deg, #f9dc73 0%, #f9a126 90%);
+    border-radius: 16px;
+    z-index: 0;
+
+    @include smScreenMedia {
+      border-radius: 9px;
+    }
+  }
+  &__progressBarText {
+    @include setFont(22px, 500);
+    z-index: 1;
+    position: relative;
+
+    @include smScreenMedia {
+      font-size: 13px;
+    }
+  }
+  &__rightBlock {
+    display: flex;
+    flex-direction: column;
+    flex: 3;
+    gap: 10px;
+
+    @include smScreenMedia {
+      gap: 5px;
+    }
+  }
+  &__reward {
+    background: #311f4f;
+    border-radius: 20px;
+    width: 100%;
+    padding: 5px 10px;
+    @include flexCol();
+    flex-direction: column;
+    gap: 3px;
+
+    @include smScreenMedia {
+      border-radius: 12px;
+      padding: 3px 6px;
+      gap: 2px;
+    }
+  }
+  &__rewardNameText {
+    @include setFont(22px, 500);
+
+    @include smScreenMedia {
+      font-size: 13px;
+    }
+  }
+  &__rewardValueText {
+    @include setFont(24px, 500, #e7b775);
+
+    @include smScreenMedia {
+      font-size: 17px;
+    }
+  }
+}

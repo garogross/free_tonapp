@@ -25,11 +25,11 @@ import Cran from "./components/Cran";
 import FootMenu from "./components/FootMenu";
 import Friends from "./components/Friends";
 import Header from "./components/Header";
+import Profile from "./components/Profile/Profile";
 import ProfileMenu from "./components/ProfileMenu";
 import ProtectedRoute from "./components/ProtectedRoute";
 import SecureIframe from "./components/SecureIframe";
 import Staking from "./components/Staking";
-import TransactionTable from "./components/TransactionTable";
 import { useNotification } from "./components/useNotification";
 import "./i18n";
 
@@ -522,10 +522,14 @@ function App({ user, loadingUser }) {
           case "profile":
             return (
               <>
-                <ProfileMenu
+                <Profile
+                  setProfileSubMenu={setProfileSubMenu}
+                  setCurrentContent={setCurrentContent}
+                />
+                {/* <ProfileMenu
                   profileSubMenu={profileSubMenu}
                   setProfileSubMenu={setProfileSubMenu}
-                />
+                /> */}
                 {/* <Rullet
                   currentContent={currentContent}
                   gridRow="2"
@@ -541,7 +545,7 @@ function App({ user, loadingUser }) {
                   course={course}
                   starsMode={starsMode}
                 /> */}
-                <TransactionTable transactions={transactions} />
+                {/* <TransactionTable transactions={transactions} /> */}
               </>
             );
           case "advertising":

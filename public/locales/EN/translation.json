@@ -34,7 +34,7 @@
   "addChallengeButton": "Add challenge",
   "emptyList": "Empty list",
   "dropped": "Dropped:",
-  "cashOut": "CASH OUT",
+  "cashOut": "Withdraw",
   "rulletUntilNext": "Until next collection",
   "rulletMinuts": "Minutes",
   "rulletSeconds": "Seconds",
@@ -128,7 +128,7 @@
   "rulletTopUp": "TOP UP",
   "rulletAddressCheckError": "Address verification error",
   "profileTitle": "Profile",
-  "advertisementCabinet": "Advertisement cabinet",
+  "advertisementCabinet": "Advertisement",
   "transactionTable": {
     "lastTransactions": "Last transactions",
     "date": "Date",

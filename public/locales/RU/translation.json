@@ -33,7 +33,7 @@
   "addChallengeButton": "Добавить задание",
   "emptyList": "Список пуст",
   "dropped": "Выпало:",
-  "cashOut": "ВЫВЕСТИ",
+  "cashOut": "Вывод",
   "rulletUntilNext": "До следущего сбора",
   "rulletMinuts": "Минуты",
   "rulletSeconds": "Секунды",
@@ -127,7 +127,7 @@
   "rulletTopUp": "ПОПОЛНИТЬ",
   "rulletAddressCheckError": "Ошибка проверки адреса",
   "profileTitle": "Профиль",
-  "advertisementCabinet": "Рекламный кабинет",
+  "advertisementCabinet": "Реклама",
   "transactionTable": {
     "lastTransactions": "Последние транзакции",
     "date": "Дата",

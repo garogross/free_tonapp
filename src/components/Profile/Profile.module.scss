@@ -1,0 +1,12 @@
+@use "@/styles/style" as *;
+
+.profile {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  height: 100%;
+  padding-bottom: 10px;
+  overflow: auto;
+}
