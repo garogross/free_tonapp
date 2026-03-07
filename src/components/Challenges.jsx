@@ -416,12 +416,8 @@ export default function Challenges({
         case "telegram":
           return (
             <>
-              <div className="no-clients-challenges-title">
-                {renderShowAdChallenge()}
-              </div>
-              <div className="no-clients-challenges-title">
-                {renderTelegramChallengesTable()}
-              </div>
+              {renderShowAdChallenge()}
+              {renderTelegramChallengesTable()}
             </>
           );
         case "youtube":
