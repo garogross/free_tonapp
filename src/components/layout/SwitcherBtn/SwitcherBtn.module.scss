@@ -1,0 +1,47 @@
+@use "@/styles/style" as *;
+
+.switcherBtn {
+  @include button();
+  @include flexCol();
+  gap: 20px;
+  align-self: flex-end;
+  text-decoration: none;
+
+  @include smScreenMedia {
+    gap: 16px;
+  }
+
+  &__nameText {
+    @include setFont(22px, 500);
+
+    @include smScreenMedia {
+      @include setFont(18px, 500);
+    }
+  }
+
+  &__main {
+    background: #372646;
+    border: 1px solid #716b79;
+    border-radius: 25px;
+    width: 80px;
+    aspect-ratio: 80/44;
+    padding: 4px;
+
+    @include smScreenMedia {
+      width: 60px;
+      padding: 2px;
+    }
+  }
+
+  &__inner {
+    display: block;
+    height: 100%;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    background: #454075;
+
+    &_right {
+      margin-left: auto;
+    }
+  }
+}

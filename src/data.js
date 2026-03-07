@@ -1,10 +1,16 @@
+import CraneIcon from './assets/icons/crane.svg?react';
+import ChallengesIcon from './assets/icons/challenges.svg?react';
+import MiningIcon from './assets/icons/mining.svg?react';
+import FriendsIcon from './assets/icons/friends.svg?react';
+import ProfileIcon from './assets/icons/profile.svg?react';
+
 export const footMenuItems = [
-    { image: '/images/crane.svg', alt: 'Кран', textKey: 'footMenu.cran' },
-    { image: '/images/challenges.svg', alt: 'Задания', textKey: 'footMenu.challenges' },
-    { image: '/images/staking.svg', alt: 'Стейкинг', textKey: 'footMenu.staking' },
-    { image: '/images/friends.svg', alt: 'Друзья', textKey: 'footMenu.friends' },
-    { image: '/images/profile.svg', alt: 'Профиль', textKey: 'footMenu.profile' },
-]
+  { Icon: CraneIcon, alt: 'Кран', textKey: 'footMenu.cran' },
+  { Icon: ChallengesIcon, alt: 'Задания', textKey: 'footMenu.challenges' },
+  { Icon: MiningIcon, alt: 'Майнинг', textKey: 'footMenu.staking' },
+  { Icon: FriendsIcon, alt: 'Друзья', textKey: 'footMenu.friends' },
+  { Icon: ProfileIcon, alt: 'Профиль', textKey: 'footMenu.profile' },
+];
 
 export const adminFootMenuItems = [
     { image: '/images/staking.svg', alt: 'Статистика', textKey: 'adminFootMenu.statistics' },

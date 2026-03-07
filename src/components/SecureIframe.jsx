@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import './SecureIframe.css';
-import { useNotification } from './useNotification';
-import { retrieveRawInitData } from '@telegram-apps/sdk';
-import axios from 'axios';
+import { retrieveRawInitData } from "@telegram-apps/sdk";
+import React, { useEffect, useState } from "react";
+import "./SecureIframe.css";
+import { useNotification } from "./useNotification";
 
-const SecureIframe = ({ currentSurfingChallenge, setCurrentContent, setChallenges, setTonBalance }) => {
+const SecureIframe = ({
+  currentSurfingChallenge,
+  setCurrentContent,
+  setChallenges,
+  setTonBalance,
+}) => {
   const [loading, setLoading] = useState(true);
   const [timeLeft, setTimeLeft] = useState(9999);
   const { showError, showNotification } = useNotification();
@@ -17,7 +21,7 @@ const SecureIframe = ({ currentSurfingChallenge, setCurrentContent, setChallenge
   useEffect(() => {
     if (!loading && timeLeft > 0) {
       const interval = setInterval(() => {
-        setTimeLeft(prev => prev - 1);
+        setTimeLeft((prev) => prev - 1);
       }, 1000);
       return () => clearInterval(interval);
     }
@@ -30,57 +34,61 @@ const SecureIframe = ({ currentSurfingChallenge, setCurrentContent, setChallenge
   }, [timeLeft]);
 
   const handleEndOfTime = () => {
-    setCurrentContent('challenges');
-    const dataRaw = retrieveRawInitData();
-    axios.get('/api/challenge/iframeend', {
-      headers: {
-        'Authorization': 'tma ' + dataRaw
-      }
-    })
-      .then(response => {
+    setCurrentContent("challenges");
+    let dataRaw;
+    try {
+      dataRaw = retrieveRawInitData();
+    } catch (error) {
+      console.error("Error retrieving raw init data:", error);
+      dataRaw = null;
+    }
+    api
+      .get("/api/challenge/iframeend")
+      .then((response) => {
         setChallenges(response.data);
         setTonBalance(response.data.tonBalance);
-        showNotification('Успешно выполнено');
+        showNotification("Успешно выполнено");
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("error view telegram challenge: ", error);
-        showError('Не удалось выполнить');
+        showError("Не удалось выполнить");
       });
   };
 
   const handleStartOfTime = (id) => {
-    const dataRaw = retrieveRawInitData();
+    let dataRaw;
+    try {
+      dataRaw = retrieveRawInitData();
+    } catch (error) {
+      console.error("Error retrieving raw init data:", error);
+      dataRaw = null;
+    }
     const postData = {
-      id: id
+      id: id,
     };
-    axios.post('/api/challenge/iframestart', postData, {
-      headers: {
-        'Authorization': 'tma ' + dataRaw
-      }
-    })
-      .then(response => {
-        showNotification('Оставайтесь на странице');
+    api
+      .post("/api/challenge/iframestart", postData)
+      .then((response) => {
+        showNotification("Оставайтесь на странице");
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("error view telegram challenge: ", error);
-        showError('Не удалось начать');
-        setCurrentContent('challenges');
+        showError("Не удалось начать");
+        setCurrentContent("challenges");
       });
   };
 
   return (
     <div className="iframeContainer">
-      {loading && (
-        <div className="loadingPlaceholder">
-          Загружается...
-        </div>
-      )}
+      {loading && <div className="loadingPlaceholder">Загружается...</div>}
       {!loading && timeLeft > 0 && (
         <div className="pretty-timer-challenge">
           <div className="timer-block-challenge">
             <div className="timer-label-challenge">Оставшееся время</div>
             <div className="timer-digits-challenge">
-              <span className="timer-digit-challenge">{Math.floor(timeLeft / 10)}</span>
+              <span className="timer-digit-challenge">
+                {Math.floor(timeLeft / 10)}
+              </span>
               <span className="timer-digit-challenge">{timeLeft % 10}</span>
             </div>
             <span className="timer-separator-challenge">секунд</span>
@@ -90,7 +98,7 @@ const SecureIframe = ({ currentSurfingChallenge, setCurrentContent, setChallenge
       <iframe
         src={currentSurfingChallenge.link}
         title={currentSurfingChallenge.name}
-        className={`iframeStyle ${loading || timeLeft === 0 ? 'iframeHidden' : ''}`}
+        className={`iframeStyle ${loading || timeLeft === 0 ? "iframeHidden" : ""}`}
         sandbox="allow-scripts allow-forms"
         loading="lazy"
         allow="fullscreen"
@@ -100,7 +108,7 @@ const SecureIframe = ({ currentSurfingChallenge, setCurrentContent, setChallenge
         }}
       />
       {!loading && timeLeft === 0 && (
-        <div style={{ marginTop: 16, color: '#78AA28', fontWeight: '700' }}>
+        <div style={{ marginTop: 16, color: "#78AA28", fontWeight: "700" }}>
           Время просмотра истекло
         </div>
       )}

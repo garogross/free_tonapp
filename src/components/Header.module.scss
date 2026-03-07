@@ -1,0 +1,162 @@
+@use "@/styles/style" as *;
+
+.header {
+  padding: 20px 6px 15px;
+  width: 100%;
+
+  &__container {
+    width: 100%;
+    border-radius: 35px;
+    background: linear-gradient(
+      90deg,
+      rgba(71, 84, 127, 0.8) 0%,
+      rgba(72, 71, 119, 0.8) 34.41%,
+      rgba(84, 57, 129, 0.8) 100%
+    );
+    border: 1px solid #7c7fb2;
+    padding: 12px 16px;
+    @include flexCol(space-between);
+
+    @include smScreenMedia {
+      border-radius: 22px;
+      padding: 8px 8px;
+    }
+  }
+
+  &__balanceBlock {
+    @include flexCol();
+    gap: 9px;
+
+    @include smScreenMedia {
+      gap: 5px;
+    }
+  }
+  &__minerStartImg {
+    @include icon(62px);
+
+    @include smScreenMedia {
+      @include icon(40px);
+    }
+  }
+  &__blanceTextsBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    @include smScreenMedia {
+      gap: 1px;
+    }
+  }
+  &__balanceNameText {
+    @include setFont(17px, 400);
+
+    @include smScreenMedia {
+      @include setFont(12px, 400);
+    }
+  }
+  &__balnaceValueText {
+    @include setFont(24px, 600);
+
+    @include smScreenMedia {
+      @include setFont(16px, 600);
+    }
+  }
+
+  &__langSelect {
+    position: relative;
+  }
+
+  &__langSelectBtn {
+    @include button();
+    @include flexCol();
+    gap: 12px;
+
+    @include smScreenMedia {
+      gap: 6px;
+      min-height: 36px;
+      padding: 6px;
+    }
+  }
+  &__globImg {
+    @include icon(40px);
+    margin-right: 10px;
+
+    @include smScreenMedia {
+      @include icon(26px);
+      margin-right: 4px;
+    }
+  }
+  &__langText {
+    @include setFont(22px, 400);
+
+    @include smScreenMedia {
+      @include setFont(13px, 400);
+    }
+  }
+  &__langarrowIcon {
+    transition: $transition;
+    &_active {
+      transform: rotate(180deg);
+    }
+    @include smScreenMedia {
+      width: 16px;
+      height: 16px;
+    }
+  }
+  &__dropdownContent {
+    position: absolute;
+    bottom: -20px;
+    right: 0;
+    transform: translateY(100%);
+    background: linear-gradient(
+      90deg,
+      rgba(71, 84, 127, 0.8) 0%,
+      rgba(72, 71, 119, 0.8) 34.41%,
+      rgba(84, 57, 129, 0.8) 100%
+    );
+    border: 1px solid #7c7fb2;
+    border-radius: 15px;
+    padding: 6px;
+    box-shadow:
+      0 4px 12px 0 rgba(44, 26, 81, 0.16),
+      0 1.5px 7px 0 rgba(44, 26, 81, 0.12);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    @include smScreenMedia {
+      border-radius: 8px;
+      padding: 3px;
+      gap: 5px;
+      min-width: 80px;
+    }
+  }
+  &__dropdownItem {
+    @include button(rgba(255, 255, 255, 0.07));
+    @include setFont(18px, 500);
+    padding: 4px 14px;
+    border-radius: 10px;
+    width: 100%;
+    text-align: left;
+    transition: $transition;
+    background: rgba(255, 255, 255, 0.07);
+
+    &:hover,
+    &:focus {
+      background: rgba(255, 255, 255, 0.18);
+      color: #d2c8e1;
+      outline: none;
+    }
+    &:active,
+    &_active {
+      background: rgba(255, 255, 255, 0.26);
+      color: #d2c8e1;
+    }
+
+    @include smScreenMedia {
+      @include setFont(12px, 500);
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+  }
+}

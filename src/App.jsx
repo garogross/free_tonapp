@@ -1,47 +1,46 @@
-import { useState, useEffect, useMemo, useRef } from 'react'
-import RollButton from './components/RollButton'
-import FootMenu from './components/FootMenu'
-import Header from './components/Header'
-import Rullet from './components/Rullet'
-import RollTable from './components/RollTable'
-import Add from './components/Add'
-import ProfileMenu from './components/ProfileMenu'
-import TransactionTable from './components/TransactionTable'
-import AdvertisingCabinet from './components/AdvertisingCabinet'
-import Friends from './components/Friends'
-import Staking from './components/Staking'
-import CashInForm from './components/CashInForm'
-import CashInRequestForm from './components/CashInRequestForm'
-import CashOutForm from './components/CashOutForm'
-import Challenges from './components/Challenges'
-import AddChallengeForm from './components/AddChallengeForm'
-import AddsPackagesForm from './components/AddsPackagesForm'
-import AddAddForm from './components/AddAddForm'
-import { retrieveLaunchParams, retrieveRawInitData, postEvent } from '@telegram-apps/sdk'
-import { TonConnectUIProvider } from '@tonconnect/ui-react';
-import SockJS from 'sockjs-client';
-import { Client } from '@stomp/stompjs';
-import './App.css'
-import axios from 'axios'
-import { useNotification } from './components/useNotification'
-import ProtectedRoute from './components/ProtectedRoute'
-import AdminApp from './components/AdminApp'
-import AddTelegramChallengeForm from './components/AddTelegramChallengeForm'
+import { Client } from "@stomp/stompjs";
 import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  data
-} from "react-router-dom";
-import SecureIframe from './components/SecureIframe'
-import './i18n';
+  postEvent,
+  retrieveLaunchParams,
+  retrieveRawInitData,
+} from "@telegram-apps/sdk";
+import { TonConnectUIProvider } from "@tonconnect/ui-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import SockJS from "sockjs-client";
+import { api } from "./api/axios";
+import styles from "./App.module.scss";
+import Add from "./components/Add";
+import AddAddForm from "./components/AddAddForm";
+import AddChallengeForm from "./components/AddChallengeForm";
+import AddsPackagesForm from "./components/AddsPackagesForm";
+import AddTelegramChallengeForm from "./components/AddTelegramChallengeForm";
+import AdminApp from "./components/AdminApp";
+import AdvertisingCabinet from "./components/AdvertisingCabinet";
+import CashInForm from "./components/CashInForm";
+import CashInRequestForm from "./components/CashInRequestForm";
+import CashOutForm from "./components/CashOutForm";
+import Challenges from "./components/Challenges";
+import FootMenu from "./components/FootMenu";
+import Friends from "./components/Friends";
+import Header from "./components/Header";
+import ProfileMenu from "./components/ProfileMenu";
+import ProtectedRoute from "./components/ProtectedRoute";
+import RollButton from "./components/RollButton";
+import RollTable from "./components/RollTable";
+import Rullet from "./components/Rullet";
+import SecureIframe from "./components/SecureIframe";
+import Staking from "./components/Staking";
+import TransactionTable from "./components/TransactionTable";
+import { useNotification } from "./components/useNotification";
+import "./i18n";
 
 function App({ user, loadingUser }) {
-  const [currentContent, setCurrentContent] = useState('cran')
-  const [profileSubMenu, setProfileSubMenu] = useState('profile')
-  const [currentChallenge, setCurrentChallenge] = useState('surfing');
-  const [selectedPackage, setSelectedPackage] = useState(null)
-  const [backPath, setBackPath] = useState(null)
+  const [currentContent, setCurrentContent] = useState("cran");
+  const [profileSubMenu, setProfileSubMenu] = useState("profile");
+  const [currentChallenge, setCurrentChallenge] = useState("surfing");
+  const [selectedPackage, setSelectedPackage] = useState(null);
+  const [backPath, setBackPath] = useState(null);
   const [blockedSlots, setBlockedSlots] = useState(0);
   const [challenges, setChallenges] = useState(null);
 
@@ -54,70 +53,74 @@ function App({ user, loadingUser }) {
   const [friends, setFriends] = useState([]);
   const [initialNumbers, setInitialNumbers] = useState([]);
   const [isSkipAvailable, setIsSkipAvailable] = useState(true);
-  const [skipEndTime, setSkipEndTime] = useState(0)
-  const [starsMode, setStarsMode] = useState(true);
+  const [skipEndTime, setSkipEndTime] = useState(0);
+  const [starsMode] = useState(true);
   const [course, setCourse] = useState(0);
 
-  const [isPushed, setIsPushed] = useState(true)
-  const [luckyNumber, setLuckyNumber] = useState(null)
-  const [displayNumber, setDisplayNumber] = useState(null)
-  const [isAnimating, setIsAnimating] = useState(false)
-  const [endTime, setEndTime] = useState(0)
+  const [isPushed, setIsPushed] = useState(true);
+  const [luckyNumber, setLuckyNumber] = useState(null);
+  const [displayNumber, setDisplayNumber] = useState(null);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [endTime, setEndTime] = useState(0);
   const timeoutRef = useRef(null);
   const luckyNumberRef = useRef(null);
-  const [rollStarted, setRollStarted] = useState(false)
-  const [lastRollNumber, setLastRollNumber] = useState(0)
+  const [rollStarted, setRollStarted] = useState(false);
+  const [lastRollNumber, setLastRollNumber] = useState(0);
   const [challengesConfigs, setChallengesConfigs] = useState(null);
   const [acceleratorsStatus, setAcceleratorsStatus] = useState(false);
   const [challengeForRelaunch, setChallengeForRelaunch] = useState(null);
 
-  const [tonBalance, setTonBalance] = useState(0)
+  const [tonBalance, setTonBalance] = useState(0);
 
   const intervalRef = useRef(null);
   const [isSubscriber, setIsSubscriber] = useState(false);
 
   const [accelerateSpeed, setAccelerateSpeed] = useState(0.00000013);
-  const [accelerateBalance, setAccelerateBalance] = useState(0.00000000);
+  const [accelerateBalance, setAccelerateBalance] = useState(0.0);
   const stompClient = useRef(null);
   const [currentSurfingChallenge, setCurrentSurfingChallenge] = useState(null);
-  const [skipTimeLeft, setSkipTimeLeft] = useState(0);
+  const [_skipTimeLeft, setSkipTimeLeft] = useState(0);
 
   const { showNotification } = useNotification();
   function lockOrientation() {
     try {
-      postEvent('web_app_toggle_orientation_lock', { locked: true });
+      postEvent("web_app_toggle_orientation_lock", { locked: true });
     } catch (error) {
-      console.error('Failed to lock orientation:', error);
+      console.error("Failed to lock orientation:", error);
     }
   }
   lockOrientation();
 
-  const isMobileDevice = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
+  const isMobileDevice =
+    /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(
+      navigator.userAgent,
+    );
 
   useEffect(() => {
     if (!isMobileDevice) return;
 
     const onFocusIn = (event) => {
       const tagName = event.target.tagName.toLowerCase();
-      if (tagName === 'input' || tagName === 'textarea') {
+      if (tagName === "input" || tagName === "textarea") {
         setKeyboardVisible(true);
       }
     };
 
     const onFocusOut = (event) => {
       const tagName = event.target.tagName.toLowerCase();
-      if (tagName === 'input' || tagName === 'textarea') {
+      if (tagName === "input" || tagName === "textarea") {
         setKeyboardVisible(false);
       }
     };
 
-    window.addEventListener('focusin', onFocusIn);
-    window.addEventListener('focusout', onFocusOut);
+    window.addEventListener("focusin", onFocusIn);
+    window.addEventListener("focusout", onFocusOut);
 
     return () => {
-      window.removeEventListener('focusin', onFocusIn);
-      window.removeEventListener('focusout', onFocusOut);
+      window.removeEventListener("focusin", onFocusIn);
+      window.removeEventListener("focusout", onFocusOut);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -138,182 +141,152 @@ function App({ user, loadingUser }) {
 
     const intervalId = setInterval(updateTimeLeft, 1000);
     return () => clearInterval(intervalId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [skipEndTime, isSkipAvailable]);
 
-  async function getInitialNumbers(dataRaw) {
-    axios.get('/api/prizestable', {
-      headers: {
-        'Authorization': 'tma ' + dataRaw
-      }
-    })
-      .then(response => {
+  async function getInitialNumbers() {
+    api
+      .get("/api/prizestable")
+      .then((response) => {
         setInitialNumbers(response.data.prizesTable);
-      }
-      )
-      .catch(error => {
-        console.error('Get prizes table error: ', error);
       })
+      .catch((error) => {
+        console.error("Get prizes table error: ", error);
+      });
   }
 
-  async function checkSub(dataRaw) {
-    axios.get('/api/check/subscription', {
-      headers: {
-        'Authorization': 'tma ' + dataRaw
-      }
-    })
-      .then(response => {
+  async function checkSub() {
+    api
+      .get("/api/check/subscription")
+      .then((response) => {
         setIsSubscriber(response.data);
       })
-      .catch(error => {
+      .catch((error) => {
         console.log("error check subscription: {}", error);
-      })
+      });
   }
 
-  async function getChallegesConfigs(dataRaw) {
-    axios.get('/api/challengesconfigs', {
-      headers: {
-        'Authorization': 'tma ' + dataRaw
-      }
-    })
-      .then(response => {
-        setChallengesConfigs(response.data)
+  async function getChallegesConfigs() {
+    api
+      .get("/api/challengesconfigs")
+      .then((response) => {
+        setChallengesConfigs(response.data);
       })
-      .catch(error => {
-        console.error('Get challeges configs error: ', error);
-      })
+      .catch((error) => {
+        console.error("Get challeges configs error: ", error);
+      });
   }
 
-  async function getCourse(dataRaw) {
-    axios.get('/api/course', {
-      headers: {
-        'Authorization': 'tma ' + dataRaw
-      }
-    })
-      .then(response => {
-        setCourse(response.data.starsPerTon)
+  async function getCourse() {
+    api
+      .get("/api/course")
+      .then((response) => {
+        setCourse(response.data.starsPerTon);
       })
-      .catch(error => {
-        console.error('Get stars course error: ', error)
-      })
+      .catch((error) => {
+        console.error("Get stars course error: ", error);
+      });
   }
 
-  async function getChalleges(dataRaw) {
-    axios.get('/api/challenges', {
-      headers: {
-        'Authorization': 'tma ' + dataRaw
-      }
-    })
-      .then(response => {
-        setChallenges(response.data)
+  async function getChalleges() {
+    api
+      .get("/api/challenges")
+      .then((response) => {
+        setChallenges(response.data);
       })
-      .catch(error => {
-        console.error('Get challenges error: ', error);
-      })
+      .catch((error) => {
+        console.error("Get challenges error: ", error);
+      });
   }
 
-  async function getActiveAds(dataRaw) {
-    axios.get('/api/activeads', {
-      headers: {
-        'Authorization': 'tma ' + dataRaw
-      }
-    })
-      .then(response => {
+  async function getActiveAds() {
+    api
+      .get("/api/activeads")
+      .then((response) => {
         setActiveAds(response.data.advertisements);
         setBlockedSlots(response.data.blockedSlots);
-      }
-      )
-      .catch(error => {
-        console.error('Get active advertisements error: ', error);
       })
+      .catch((error) => {
+        console.error("Get active advertisements error: ", error);
+      });
   }
 
-  async function getTransactions(dataRaw) {
-    axios.get('/api/transactions', {
-      headers: {
-        'Authorization': 'tma ' + dataRaw
-      }
-    })
-      .then(response => {
+  async function getTransactions() {
+    api
+      .get("/api/transactions")
+      .then((response) => {
         setTransactions(response.data.transactions);
-      }
-      )
-      .catch(error => {
-        console.error('Get transactions error: ', error);
       })
+      .catch((error) => {
+        console.error("Get transactions error: ", error);
+      });
   }
 
-  async function getAdPackages(dataRaw) {
-    axios.get('/api/adpackages', {
-      headers: {
-        'Authorization': 'tma ' + dataRaw
-      }
-    })
-      .then(response => {
+  async function getAdPackages() {
+    api
+      .get("/api/adpackages")
+      .then((response) => {
         setAdPackages(response.data.adPackages);
-      }
-      )
-      .catch(error => {
-        console.error('Get adpackages error: ', error);
       })
+      .catch((error) => {
+        console.error("Get adpackages error: ", error);
+      });
   }
 
-  async function getAdvertisements(dataRaw) {
-    axios.get('/api/advertisement', {
-      headers: {
-        'Authorization': 'tma ' + dataRaw
-      }
-    })
-      .then(response => {
+  async function getAdvertisements() {
+    api
+      .get("/api/advertisement")
+      .then((response) => {
         setAdvertisements(response.data.advertisements);
         setTonBalance(response.data.tonBalance);
-      }
-      )
-      .catch(error => {
-        console.error('Get advertisements error: ', error);
       })
+      .catch((error) => {
+        console.error("Get advertisements error: ", error);
+      });
   }
 
-  async function getFriends(dataRaw) {
-    axios.get('/api/friends', {
-      headers: {
-        'Authorization': 'tma ' + dataRaw
-      }
-    })
-      .then(response => {
+  async function getFriends() {
+    api
+      .get("/api/friends")
+      .then((response) => {
         setFriends(response.data.friends);
-      }
-      )
-      .catch(error => {
-        console.error('Get friends error: ', error);
       })
+      .catch((error) => {
+        console.error("Get friends error: ", error);
+      });
   }
 
-  async function getAcceleratorsStatus(dataRaw) {
-    axios.get('/api/accelerators', {
-      headers: {
-        'Authorization': 'tma ' + dataRaw
-      }
-    })
-      .then(response => {
-        setAcceleratorsStatus(response.data.acceleratorsConfig[0].acceleratorsStatus)
+  async function getAcceleratorsStatus() {
+    api
+      .get("/api/accelerators")
+      .then((response) => {
+        setAcceleratorsStatus(
+          response.data.acceleratorsConfig[0].acceleratorsStatus,
+        );
       })
-      .catch(error => {
-        console.error('Get accelerators error: ', error);
+      .catch((error) => {
+        console.error("Get accelerators error: ", error);
       });
   }
 
   useEffect(() => {
-    const dataRaw = retrieveRawInitData();
-    const socket = new SockJS('/ws');
+    let dataRaw;
+    try {
+      dataRaw = retrieveRawInitData();
+    } catch (error) {
+      console.error("Error retrieving raw init data:", error);
+      dataRaw = null;
+    }
+    const socket = new SockJS("/ws");
 
     stompClient.current = new Client({
       webSocketFactory: () => socket,
       connectHeaders: {
-        'X-Authorization': 'tma ' + dataRaw,
+        "X-Authorization": "tma " + dataRaw,
       },
       onConnect: () => {
-        console.log('Connected');
-        stompClient.current.subscribe('/user/queue/balance', (message) => {
+        console.log("Connected");
+        stompClient.current.subscribe("/user/queue/balance", (message) => {
           const body = JSON.parse(message.body);
           setTonBalance(body.tonBalance);
           showNotification("Баланс пополнен");
@@ -321,13 +294,13 @@ function App({ user, loadingUser }) {
         });
       },
       onStompError: (frame) => {
-        console.error('STOMP error:', frame.headers['message']);
+        console.error("STOMP error:", frame.headers["message"]);
       },
       onDisconnect: () => {
-        console.log('Disconnected');
+        console.log("Disconnected");
       },
       onWebSocketClose: () => {
-        console.log('WebSocket closed, trying to reconnect...');
+        console.log("WebSocket closed, trying to reconnect...");
         setTimeout(() => stompClient.current.activate(), 5000);
       },
       heartbeatIncoming: 10000,
@@ -341,6 +314,7 @@ function App({ user, loadingUser }) {
         stompClient.current.deactivate();
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -365,25 +339,22 @@ function App({ user, loadingUser }) {
         clearTimeout(luckyNumberRef.current);
       };
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rollStarted]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setAccelerateBalance(prevBalance => prevBalance + accelerateSpeed);
+      setAccelerateBalance((prevBalance) => prevBalance + accelerateSpeed);
     }, 1000);
 
     return () => clearInterval(interval);
   }, [accelerateSpeed]);
 
   useEffect(() => {
-    const dataRaw = retrieveRawInitData();
-    async function checkIsRollAvailable(dataRaw) {
-      axios.get('/api/checkroll', {
-        headers: {
-          'Authorization': 'tma ' + dataRaw
-        }
-      })
-        .then(response => {
+    async function checkIsRollAvailable() {
+      api
+        .get("/api/checkroll")
+        .then((response) => {
           setIsPushed(!response.data.isAvailable);
           const endDateTime = new Date(response.data.endTime);
           const skipEndDateTime = new Date(response.data.skipEndTime);
@@ -392,220 +363,375 @@ function App({ user, loadingUser }) {
           setIsSkipAvailable(response.data.isSkipAvailable);
           setLastRollNumber(response.data.lastRollNumber);
         })
-        .catch(error => {
-          console.error('Check is roll available error: ', error);
-        })
+        .catch((error) => {
+          console.error("Check is roll available error: ", error);
+        });
     }
-    checkIsRollAvailable(dataRaw);
+    checkIsRollAvailable();
 
-    async function getTonBalance(dataRaw) {
-      axios.get('/api/balance', {
-        headers: {
-          'Authorization': 'tma ' + dataRaw
-        }
-      })
-        .then(response => {
+    async function getTonBalance() {
+      api
+        .get("/api/balance")
+        .then((response) => {
           setTonBalance(response.data.tonBalance);
         })
-        .catch(error => {
-          console.error('Getting ton balance error: ', error);
-        })
+        .catch((error) => {
+          console.error("Getting ton balance error: ", error);
+        });
     }
-    getTonBalance(dataRaw);
+    getTonBalance();
 
-    async function getAccelerateBalance(dataRaw) {
-      axios.get('/api/acceleratebalance', {
-        headers: {
-          'Authorization': 'tma ' + dataRaw
-        }
-      })
-        .then(response => {
+    async function getAccelerateBalance() {
+      api
+        .get("/api/acceleratebalance")
+        .then((response) => {
           setAccelerateBalance(response.data.accelerateBalance);
           setAccelerateSpeed(response.data.accelerateSpeed);
         })
-        .catch(error => {
-          console.error('Getting accelerate balance error: ', error);
-        })
+        .catch((error) => {
+          console.error("Getting accelerate balance error: ", error);
+        });
     }
-    getChalleges(dataRaw);
-    getChallegesConfigs(dataRaw);
-    getAcceleratorsStatus(dataRaw);
-    getInitialNumbers(dataRaw);
-    getActiveAds(dataRaw);
-    getAdPackages(dataRaw);
-    getCourse(dataRaw);
-    checkSub(dataRaw);
-    getAdvertisements(dataRaw);
-    getAccelerateBalance(dataRaw);
-    getFriends(dataRaw);
-    getTransactions(dataRaw);
+    getChalleges();
+    getChallegesConfigs();
+    getAcceleratorsStatus();
+    getInitialNumbers();
+    getActiveAds();
+    getAdPackages();
+    getCourse();
+    checkSub();
+    getAdvertisements();
+    getAccelerateBalance();
+    getFriends();
+    getTransactions();
   }, []);
 
   const addTransaction = (newTx) => {
-    setTransactions(prevTransactions => [newTx, ...prevTransactions]);
+    setTransactions((prevTransactions) => [newTx, ...prevTransactions]);
   };
 
   const initData = useMemo(() => {
-    const data = retrieveLaunchParams();
-    const dataRaw = retrieveRawInitData();
-    console.log('Init data received: ', data);
-    console.log('Init raw data', dataRaw);
+    let data;
+    try {
+      data = retrieveLaunchParams();
+    } catch (error) {
+      console.error("Error retrieving launch params:", error);
+      data = null;
+    }
+
     return data;
   }, []);
 
   useEffect(() => {
-
-    console.log('Component mounted with:', initData);
+    console.log("Component mounted with:", initData);
 
     switch (currentContent) {
-      case 'cran':
-      case 'challenges':
-      case 'staking':
-      case 'friends':
-      case 'profile':
-        setBackPath('None')
+      case "cran":
+      case "challenges":
+      case "staking":
+      case "friends":
+      case "profile":
+        setBackPath("None");
         break;
-      case 'cashIn':
-      case 'addPackagesForm':
-      case 'cashOut':
-      case 'cashInRequest':
-        setBackPath('profile')
+      case "cashIn":
+      case "addPackagesForm":
+      case "cashOut":
+      case "cashInRequest":
+        setBackPath("profile");
         break;
-      case 'addTelegramChallengeForm':
-      case 'secureIframe':
-      case 'addChallengeForm':
-        setBackPath('challenges')
+      case "addTelegramChallengeForm":
+      case "secureIframe":
+      case "addChallengeForm":
+        setBackPath("challenges");
         break;
-      case 'addAddForm':
-        setBackPath('addPackagesForm')
+      case "addAddForm":
+        setBackPath("addPackagesForm");
         break;
       default:
-        setBackPath('None')
+        setBackPath("None");
     }
-  }, [currentContent, initData])
+  }, [currentContent, initData]);
 
   const renderContent = () => {
     switch (currentContent) {
-      case 'cran':
+      case "cran":
         return (
           <div className="cran-wrapper">
-            <Rullet currentContent={currentContent} gridRow="1" luckyNumber={isAnimating ? displayNumber : luckyNumber} isPushed={isPushed} endTime={endTime} setIsPushed={setIsPushed} rollStarted={rollStarted} setRollStarted={setRollStarted} tonBalance={tonBalance} lastRollNumber={lastRollNumber} starsMode={starsMode} course={course}/>
-            <RollTable initialNumbers={initialNumbers} starsMode={starsMode} course={course}/>
-            <RollButton setSkipEndTime={setSkipEndTime} isSkipAvailable={isSkipAvailable} setIsSkipAvailable={setIsSkipAvailable} isPushed={isPushed} setIsPushed={setIsPushed} setLuckyNumber={setLuckyNumber} setIsAnimating={setIsAnimating} setEndTime={setEndTime} setRollStarted={setRollStarted} setTonBalance={setTonBalance} setLastRollNumber={setLastRollNumber} isAnimating={isAnimating} />
+            <Rullet
+              currentContent={currentContent}
+              gridRow="1"
+              luckyNumber={isAnimating ? displayNumber : luckyNumber}
+              isPushed={isPushed}
+              endTime={endTime}
+              setIsPushed={setIsPushed}
+              rollStarted={rollStarted}
+              setRollStarted={setRollStarted}
+              tonBalance={tonBalance}
+              lastRollNumber={lastRollNumber}
+              starsMode={starsMode}
+              course={course}
+            />
+            <RollTable
+              initialNumbers={initialNumbers}
+              starsMode={starsMode}
+              course={course}
+            />
+            <RollButton
+              setSkipEndTime={setSkipEndTime}
+              isSkipAvailable={isSkipAvailable}
+              setIsSkipAvailable={setIsSkipAvailable}
+              isPushed={isPushed}
+              setIsPushed={setIsPushed}
+              setLuckyNumber={setLuckyNumber}
+              setIsAnimating={setIsAnimating}
+              setEndTime={setEndTime}
+              setRollStarted={setRollStarted}
+              setTonBalance={setTonBalance}
+              setLastRollNumber={setLastRollNumber}
+              isAnimating={isAnimating}
+            />
           </div>
         );
-      case 'challenges':
+      case "challenges":
         return (
           <>
-            <Challenges setCurrentContent={setCurrentContent} tonBalance={tonBalance} currentChallenge={currentChallenge} setCurrentChallenge={setCurrentChallenge} challenges={challenges} setTonBalance={setTonBalance} setChallenges={setChallenges} setCurrentSurfingChallenge={setCurrentSurfingChallenge} setIsSubscriber={setIsSubscriber} isSubscriber={isSubscriber} setChallengeForRelaunch={setChallengeForRelaunch} starsMode={starsMode} course={course}/>
+            <Challenges
+              setCurrentContent={setCurrentContent}
+              tonBalance={tonBalance}
+              currentChallenge={currentChallenge}
+              setCurrentChallenge={setCurrentChallenge}
+              challenges={challenges}
+              setTonBalance={setTonBalance}
+              setChallenges={setChallenges}
+              setCurrentSurfingChallenge={setCurrentSurfingChallenge}
+              setIsSubscriber={setIsSubscriber}
+              isSubscriber={isSubscriber}
+              setChallengeForRelaunch={setChallengeForRelaunch}
+              starsMode={starsMode}
+              course={course}
+            />
           </>
         );
-      case 'staking':
+      case "staking":
         return (
           <>
-            <Staking setTonBalance={setTonBalance} tonBalance={tonBalance} accelerateBalance={accelerateBalance} accelerateSpeed={accelerateSpeed} setAccelerateBalance={setAccelerateBalance} setAccelerateSpeed={setAccelerateSpeed} friends={friends} acceleratorsStatus={acceleratorsStatus} setAcceleratorsStatus={setAcceleratorsStatus} setIsSubscriber={setIsSubscriber} isSubscriber={isSubscriber} starsMode={starsMode} course={course}/>
+            <Staking
+              setTonBalance={setTonBalance}
+              tonBalance={tonBalance}
+              accelerateBalance={accelerateBalance}
+              accelerateSpeed={accelerateSpeed}
+              setAccelerateBalance={setAccelerateBalance}
+              setAccelerateSpeed={setAccelerateSpeed}
+              friends={friends}
+              acceleratorsStatus={acceleratorsStatus}
+              setAcceleratorsStatus={setAcceleratorsStatus}
+              setIsSubscriber={setIsSubscriber}
+              isSubscriber={isSubscriber}
+              starsMode={starsMode}
+              course={course}
+            />
           </>
         );
-      case 'friends':
+      case "friends":
         return (
           <>
-            <Friends friends={friends} starsMode={starsMode} course={course}/>
+            <Friends friends={friends} starsMode={starsMode} course={course} />
           </>
         );
-      case 'profile':
+      case "profile":
         switch (profileSubMenu) {
-          case 'profile':
+          case "profile":
             return (
               <>
-                <ProfileMenu profileSubMenu={profileSubMenu} setProfileSubMenu={setProfileSubMenu} />
-                <Rullet currentContent={currentContent} gridRow="2" setCurrentContent={setCurrentContent} luckyNumber={null} isPushed={true} endTime={endTime} setIsPushed={setIsPushed} rollStarted={rollStarted} setRollStarted={setRollStarted} tonBalance={tonBalance} lastRollNumber={lastRollNumber} course={course} starsMode={starsMode}/>
+                <ProfileMenu
+                  profileSubMenu={profileSubMenu}
+                  setProfileSubMenu={setProfileSubMenu}
+                />
+                <Rullet
+                  currentContent={currentContent}
+                  gridRow="2"
+                  setCurrentContent={setCurrentContent}
+                  luckyNumber={null}
+                  isPushed={true}
+                  endTime={endTime}
+                  setIsPushed={setIsPushed}
+                  rollStarted={rollStarted}
+                  setRollStarted={setRollStarted}
+                  tonBalance={tonBalance}
+                  lastRollNumber={lastRollNumber}
+                  course={course}
+                  starsMode={starsMode}
+                />
                 <TransactionTable transactions={transactions} />
               </>
             );
-          case 'advertising':
+          case "advertising":
             return (
               <>
-                <ProfileMenu profileSubMenu={profileSubMenu} setProfileSubMenu={setProfileSubMenu} />
-                <AdvertisingCabinet setCurrentContent={setCurrentContent} tonBalance={tonBalance} advertisements={advertisements} adPackages={adPackages} course={course} starsMode={starsMode}/>
+                <ProfileMenu
+                  profileSubMenu={profileSubMenu}
+                  setProfileSubMenu={setProfileSubMenu}
+                />
+                <AdvertisingCabinet
+                  setCurrentContent={setCurrentContent}
+                  tonBalance={tonBalance}
+                  advertisements={advertisements}
+                  adPackages={adPackages}
+                  course={course}
+                  starsMode={starsMode}
+                />
               </>
             );
         }
-      case 'cashIn':
+      // eslint-disable-next-line no-fallthrough
+      case "cashIn":
         return (
           <>
             <CashInForm setCurrentContent={setCurrentContent} />
           </>
         );
-      case 'cashInRequest':
+      case "cashInRequest":
         return (
           <>
-            <CashInRequestForm setCurrentContent={setCurrentContent} addTransaction={addTransaction} />
+            <CashInRequestForm
+              setCurrentContent={setCurrentContent}
+              addTransaction={addTransaction}
+            />
           </>
         );
-      case 'cashOut':
+      case "cashOut":
         return (
           <>
-            <CashOutForm tonBalance={tonBalance} setTonBalance={setTonBalance} setTransactions={setTransactions} starsMode={starsMode} course={course}/>
+            <CashOutForm
+              tonBalance={tonBalance}
+              setTonBalance={setTonBalance}
+              setTransactions={setTransactions}
+              starsMode={starsMode}
+              course={course}
+            />
           </>
         );
-      case 'addChallengeForm':
+      case "addChallengeForm":
         return (
           <>
-            <AddChallengeForm currentChallenge={currentChallenge} challengesConfigs={challengesConfigs} tonBalance={tonBalance} setChallenges={setChallenges} setTonBalance={setTonBalance} challengeForRelaunch={challengeForRelaunch} setChallengeForRelaunch={setChallengeForRelaunch} />
+            <AddChallengeForm
+              currentChallenge={currentChallenge}
+              challengesConfigs={challengesConfigs}
+              tonBalance={tonBalance}
+              setChallenges={setChallenges}
+              setTonBalance={setTonBalance}
+              challengeForRelaunch={challengeForRelaunch}
+              setChallengeForRelaunch={setChallengeForRelaunch}
+            />
           </>
         );
-      case 'addPackagesForm':
+      case "addPackagesForm":
         return (
           <>
-            <AddsPackagesForm setCurrentContent={setCurrentContent} setSelectedPackage={setSelectedPackage} adPackages={adPackages} tonBalance={tonBalance} />
+            <AddsPackagesForm
+              setCurrentContent={setCurrentContent}
+              setSelectedPackage={setSelectedPackage}
+              adPackages={adPackages}
+              tonBalance={tonBalance}
+            />
           </>
         );
-      case 'addAddForm':
+      case "addAddForm":
         return (
           <>
-            <AddAddForm selectedPackage={selectedPackage} setAdvertisements={setAdvertisements} setTonBalance={setTonBalance} setProfileSubMenu={setProfileSubMenu} setCurrentContent={setCurrentContent} blockedSlots={blockedSlots} />
+            <AddAddForm
+              selectedPackage={selectedPackage}
+              setAdvertisements={setAdvertisements}
+              setTonBalance={setTonBalance}
+              setProfileSubMenu={setProfileSubMenu}
+              setCurrentContent={setCurrentContent}
+              blockedSlots={blockedSlots}
+            />
           </>
         );
-      case 'addTelegramChallengeForm':
+      case "addTelegramChallengeForm":
         return (
           <>
-            <AddTelegramChallengeForm tonBalance={tonBalance} challengesConfigs={challengesConfigs} currentChallenge={currentChallenge} setTonBalance={setTonBalance} setChallenges={setChallenges} challengeForRelaunch={challengeForRelaunch} setChallengeForRelaunch={setChallengeForRelaunch} />
+            <AddTelegramChallengeForm
+              tonBalance={tonBalance}
+              challengesConfigs={challengesConfigs}
+              currentChallenge={currentChallenge}
+              setTonBalance={setTonBalance}
+              setChallenges={setChallenges}
+              challengeForRelaunch={challengeForRelaunch}
+              setChallengeForRelaunch={setChallengeForRelaunch}
+            />
           </>
-        )
-      case 'secureIframe':
+        );
+      case "secureIframe":
         return (
           <>
-            <SecureIframe currentSurfingChallenge={currentSurfingChallenge} setCurrentContent={setCurrentContent} setChallenges={setChallenges} setTonBalance={setTonBalance} />
+            <SecureIframe
+              currentSurfingChallenge={currentSurfingChallenge}
+              setCurrentContent={setCurrentContent}
+              setChallenges={setChallenges}
+              setTonBalance={setTonBalance}
+            />
           </>
-        )
+        );
     }
   };
 
   return (
     <Router>
       <Routes>
-        <Route path="/" element={
-          <TonConnectUIProvider manifestUrl="https://freeton-back.ru.tuna.am/tonconnect-manifest.json">
-            <header>
-              <Header setCurrentContent={setCurrentContent} path={backPath} setStarsMode={setStarsMode} starsMode={starsMode}/>
-            </header>
-            <main>
-              {renderContent()}
-            </main>
-            <footer className={keyboardVisible ? 'hidden' : ''}>
-              <Add setCurrentContent={setCurrentContent} setProfileSubMenu={setProfileSubMenu} activeAds={activeAds} />
-              <FootMenu setCurrentContent={setCurrentContent} currentContent={currentContent} />
-            </footer>
-          </TonConnectUIProvider>
-        } />
-        <Route path="/freetonadmin" element={
-          <ProtectedRoute user={user} loadingUser={loadingUser} allowedRoles={['admin']}>
-            <AdminApp setCurrentContent={setCurrentContent} adPackages={adPackages} setAdPackages={setAdPackages} initialNumbers={initialNumbers} setInitialNumbers={setInitialNumbers} challengesConfig={challengesConfigs} setChallengesConfig={setChallengesConfigs} keyboardVisible={keyboardVisible} course={course} setCourse={setCourse}/>
-          </ProtectedRoute>
-        } />
+        <Route
+          path="/"
+          element={
+            <TonConnectUIProvider manifestUrl="https://freeton-back.ru.tuna.am/tonconnect-manifest.json">
+              <div className={styles.app}>
+                <Header
+                  setCurrentContent={setCurrentContent}
+                  path={backPath}
+                  tonBalance={tonBalance}
+                />
+                <main className={styles.app__main}>{renderContent()}</main>
+                <footer className={keyboardVisible ? "hidden" : ""}>
+                  <Add
+                    setCurrentContent={setCurrentContent}
+                    setProfileSubMenu={setProfileSubMenu}
+                    activeAds={activeAds}
+                  />
+                  <FootMenu
+                    setCurrentContent={setCurrentContent}
+                    currentContent={currentContent}
+                  />
+                </footer>
+              </div>
+            </TonConnectUIProvider>
+          }
+        />
+        <Route
+          path="/freetonadmin"
+          element={
+            <ProtectedRoute
+              user={user}
+              loadingUser={loadingUser}
+              allowedRoles={["admin"]}
+            >
+              <AdminApp
+                setCurrentContent={setCurrentContent}
+                adPackages={adPackages}
+                setAdPackages={setAdPackages}
+                initialNumbers={initialNumbers}
+                setInitialNumbers={setInitialNumbers}
+                challengesConfig={challengesConfigs}
+                setChallengesConfig={setChallengesConfigs}
+                keyboardVisible={keyboardVisible}
+                course={course}
+                setCourse={setCourse}
+              />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </Router>
-  )
+  );
 }
 
 export default App;

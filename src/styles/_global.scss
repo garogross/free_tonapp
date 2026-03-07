@@ -1,0 +1,78 @@
+@use "style" as *;
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+  display: none;
+}
+::-webkit-scrollbar-thumb {
+  background: #000000;
+}
+
+body {
+  background: $color-purple-bg;
+  overflow: hidden;
+  height: 100dvh;
+  margin: 0 auto;
+
+  &[data-scroll-locked] {
+    padding-top: 0 !important;
+  }
+}
+
+#root {
+  height: 100dvh;
+  @supports not (height: 100dvh) {
+    height: 100vh;
+  }
+  padding-top: calc(var(--tg-safe-area-inset-top)) +
+    var(--tg-content-safe-area-inset-top);
+  padding-bottom: var(--tg-safe-area-inset-bottom);
+  overflow: hidden;
+  position: relative;
+  position: fixed;
+  width: 100%;
+  top: 0;
+}
+
+html {
+  background: $color-purple-bg;
+  height: auto;
+  overflow: hidden;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: none;
+}
+
+.container {
+  width: 100%;
+  padding-right: 30px;
+  padding-left: 30px;
+
+  @include smScreenMedia {
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+}
+
+.titleH2 {
+  @include setFont(26px, 500);
+}
+
+.primaryText {
+  color: #ecb96b;
+}
+.primaryLightText {
+  color: #ffd100;
+}

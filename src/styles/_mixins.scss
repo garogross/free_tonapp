@@ -1,0 +1,40 @@
+@use "vars";
+
+@mixin smScreenMedia {
+  @media (max-width: vars.$sm-screen) {
+    @content;
+  }
+}
+
+@mixin icon($width, $height: $width) {
+  width: $width;
+  height: $height;
+  object-fit: contain;
+}
+
+@mixin button($bg: transparent, $border: none) {
+  border: $border;
+  background: $bg;
+  cursor: pointer;
+}
+
+@mixin setFont($size, $weight, $color: vars.$color-white) {
+  font-size: $size;
+  font-weight: $weight;
+  font-family: vars.$font-fam-primary;
+  color: $color;
+}
+
+@mixin flexCol($layout: center, $align: center) {
+  display: flex;
+  justify-content: $layout;
+  align-items: $align;
+}
+
+@mixin bgWebp($src, $srcSet) {
+  background-image: url($src); /* Fallback image */
+
+  @supports (background-image: url($srcSet)) {
+    background-image: url($srcSet);
+  }
+}

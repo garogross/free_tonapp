@@ -5,28 +5,34 @@
     align-items: center;
     gap: 5px;
     height: 60px;
-    opacity: 0.7;
 }
 
 .menu-item-text {
-    font-family: 'Montserrat';
+    font-family: 'Inter';
+    font-style: medium;
     font-weight: 500;
-    font-size: 13px;
-    color: #F2F2F2;
+    font-size: clamp(0.7rem, 2.4vw, 1.125rem);
+    color: #696E72;
     line-height: 1;
 }
 
 .menu-item-icon {
-    height: 24px;
+    height: 2.5rem;
+    width: 2.5rem;
     display: flex;
     align-items: center;
+    color: #696E72;
     justify-content: center;
 }
 
-.menu-item:nth-child(2) .menu-item-icon {
-    transform: scale(1.5);
+.menu-item.active .menu-item-icon {
+    color: #FFD100;
+    filter: drop-shadow(0 0 6px rgba(255, 209, 0, 0.7));
 }
 
-.active {
-    opacity: 1;
-}
+.menu-item.active .menu-item-text {
+    color: #FFD100;
+    text-shadow:
+    0 0 4px rgba(255, 209, 0, 0.9),
+    0 0 8px rgba(255, 209, 0, 0.7);
+  }

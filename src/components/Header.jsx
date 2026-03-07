@@ -1,36 +1,155 @@
-import { useState } from 'react';
-import './Header.css';
-import LanguageSelector from './LanguageSelector';
-import BackButton from './BackButton';
+import { retrieveLaunchParams } from "@telegram-apps/sdk";
+import { clsx } from "clsx";
+import { AnimatePresence, motion as Motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import {
+  headerGlobImg,
+  headerGlobWebpImg,
+  headerStarMinerImg,
+  headerStarMinerWebpImg,
+} from "../assets/images";
+import { languages } from "../data";
+import styles from "./Header.module.scss";
+import ArrowBottomIcon from "./icons/Common/ArrowBottomIcon";
+import ImageWebp from "./layout/ImageWebp/ImageWebp";
 
-export default function Header({ setCurrentContent, path, setStarsMode, starsMode }) {
+const dropdownVariants = {
+  open: {
+    opacity: 1,
+    pointerEvents: "auto",
+  },
+  closed: {
+    opacity: 0,
+    pointerEvents: "none",
+    transition: { duration: 0.15 },
+  },
+};
 
-  function handleStarsSwitch() {
-    setStarsMode((prev) => !prev);
-  }
+const Header = ({ tonBalance }) => {
+  const { t, i18n } = useTranslation();
+  const [langOpen, setLangOpen] = useState(false);
+  const [selectedLang, setSelectedLang] = useState(
+    i18n.language === "ru" ? "RU" : "EN",
+  );
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    let data;
+    try {
+      data = retrieveLaunchParams();
+    } catch (error) {
+      console.error("Error retrieving launch params:", error);
+      data = null;
+    }
+    if (data?.tgWebAppData?.user?.language_code === "ru") {
+      setSelectedLang(languages[0].text);
+      i18n.changeLanguage(languages[0].text);
+    } else {
+      setSelectedLang(languages[0].text);
+      i18n.changeLanguage(languages[1].text);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setLangOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const toggleLangSelect = () => setLangOpen((prev) => !prev);
+
+  const handleLangSwitch = (lang) => {
+    setSelectedLang(lang);
+    i18n.changeLanguage(lang.toLowerCase());
+    setLangOpen(false);
+  };
 
   return (
-    <header className="header">
-      {path !== 'None' && <BackButton setCurrentContent={setCurrentContent} path={path} />}
-
-      <div className="name-switch-wrapper" style={{ gridColumn: 1, textAlign: 'center' }}>
-        <div className="star-switch-container" onClick={handleStarsSwitch}>
-          <div className={`star-switch ${starsMode ? 'active' : ''}`}>
-            <div className="star-switch-thumb">
-              <img
-                src="/assets/tg-star.svg"
-                alt="stars"
-                className="star-switch-icon"
-              />
-            </div>
+    <header className={styles.header}>
+      <div className={styles.header__container}>
+        <div className={styles.header__balanceBlock}>
+          <ImageWebp
+            src={headerStarMinerImg}
+            srcSet={headerStarMinerWebpImg}
+            alt="star miner"
+            className={styles.header__minerStartImg}
+          />
+          <div className={styles.header__blanceTextsBlock}>
+            <span className={styles.header__balanceNameText}>
+              {t("balanceTitle")}
+            </span>
+            <span className={styles.header__balnaceValueText}>
+              {typeof tonBalance === "number" && !isNaN(tonBalance)
+                ? tonBalance.toFixed(6)
+                : "0.000000"}
+            </span>
           </div>
         </div>
+        <div className={styles.header__langSelect} ref={dropdownRef}>
+          <button
+            className={styles.header__langSelectBtn}
+            type="button"
+            aria-haspopup="true"
+            aria-expanded={langOpen}
+            onClick={toggleLangSelect}
+            tabIndex={0}
+          >
+            <ImageWebp
+              src={headerGlobImg}
+              srcSet={headerGlobWebpImg}
+              alt="globus"
+              className={styles.header__globImg}
+            />
+            <span className={styles.header__langText}>{selectedLang}</span>
+            <ArrowBottomIcon
+              className={clsx(
+                styles.header__langarrowIcon,
+                langOpen && styles.header__langarrowIcon_active,
+              )}
+            />
+          </button>
+          <AnimatePresence>
+            {langOpen && (
+              <Motion.div
+                className={styles.header__dropdownContent}
+                initial="closed"
+                animate="open"
+                exit="closed"
+                variants={dropdownVariants}
+                style={{ zIndex: 10 }}
+              >
+                <button
+                  className={styles.header__dropdownItem}
+                  onClick={() => handleLangSwitch("RU")}
+                  disabled={selectedLang === "RU"}
+                  type="button"
+                >
+                  RU
+                </button>
+                <button
+                  className={styles.header__dropdownItem}
+                  onClick={() => handleLangSwitch("EN")}
+                  disabled={selectedLang === "EN"}
+                  type="button"
+                >
+                  EN
+                </button>
+              </Motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
-
-      <div className="logo" style={{ gridColumn: 2 }}>
-        <img src="/assets/logo.svg" alt="FreeTon" />
-      </div>
-      <LanguageSelector />
     </header>
   );
-}
+};
+
+export default Header;

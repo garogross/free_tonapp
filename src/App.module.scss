@@ -1,0 +1,19 @@
+@use "@/styles/style" as *;
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  @include bgWebp(
+    "@/assets/images/common/appBg.jpg",
+    "@/assets/images/common/appBg.webp"
+  );
+  background-size: cover;
+  max-width: 600px;
+  margin-inline: auto;
+
+  &__main {
+    flex: 1;
+    overflow: auto;
+  }
+}

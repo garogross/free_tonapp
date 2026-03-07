@@ -1,168 +1,221 @@
-import "./AdminSettingsAccelerator.css"
-import { useState, useEffect } from 'react';
+import { retrieveRawInitData } from "@telegram-apps/sdk";
+import { useEffect, useState } from "react";
+import { api } from "../api/axios";
+import "./AdminSettingsAccelerator.css";
 import { useNotification } from "./useNotification";
-import { retrieveRawInitData } from '@telegram-apps/sdk';
-import axios from "axios";
 
-export default function AdminSettingsAccelerator({ acceleratorsConfig, setAcceleratorsConfig }) {
-    const { showError, showNotification } = useNotification();
-    const [inputs, setInputs] = useState([]);
-    const [originalConfig, setOriginalConfig] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
-    const [acceleratorsStatus, setAcceleratorsStatus] = useState(false);
-    const [originalStatus, setOriginalStatus] = useState(false);
+export default function AdminSettingsAccelerator({
+  acceleratorsConfig,
+  setAcceleratorsConfig,
+}) {
+  const { showError, showNotification } = useNotification();
+  const [inputs, setInputs] = useState([]);
+  const [originalConfig, setOriginalConfig] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [acceleratorsStatus, setAcceleratorsStatus] = useState(false);
+  const [originalStatus, setOriginalStatus] = useState(false);
 
-    const handleStatusSwitch = () => {
-        setAcceleratorsStatus(!acceleratorsStatus);
-        if (acceleratorsStatus != originalStatus) {
-            setIsLoading(false);
-        }
+  const handleStatusSwitch = () => {
+    setAcceleratorsStatus(!acceleratorsStatus);
+    if (acceleratorsStatus != originalStatus) {
+      setIsLoading(false);
     }
+  };
 
-    const acceleratorNames = {
-        1: 'CORE I-9',
-        2: 'RTX 4090',
-        3: 'A100 GPU'
-    };
+  const acceleratorNames = {
+    1: "CORE I-9",
+    2: "RTX 4090",
+    3: "A100 GPU",
+  };
 
-    useEffect(() => {
-        if (Array.isArray(acceleratorsConfig) && acceleratorsConfig.length > 0) {
-            const prepared = acceleratorsConfig.map(acc => ({
-                id: acc.id,
-                rentPeriod: String(acc.rentPeriod),
-                profitPerDay: String(acc.profitPerDay),
-                rentPrice: String(acc.rentPrice),
-            }));
-            setInputs(prepared);
-            setOriginalConfig(prepared);
-            setOriginalStatus(acceleratorsConfig[0].acceleratorsStatus)
-            setAcceleratorsStatus(acceleratorsConfig[0].acceleratorsStatus);
-        }
-    }, [acceleratorsConfig]);
-
-    function handleInputChange(index, field, value) {
-        if (/^\d*\.?\d*$/.test(value)) {
-            const newInputs = [...inputs];
-            newInputs[index] = { ...newInputs[index], [field]: value };
-            setInputs(newInputs);
-        }
+  useEffect(() => {
+    if (Array.isArray(acceleratorsConfig) && acceleratorsConfig.length > 0) {
+      const prepared = acceleratorsConfig.map((acc) => ({
+        id: acc.id,
+        rentPeriod: String(acc.rentPeriod),
+        profitPerDay: String(acc.profitPerDay),
+        rentPrice: String(acc.rentPrice),
+      }));
+      setInputs(prepared);
+      setOriginalConfig(prepared);
+      setOriginalStatus(acceleratorsConfig[0].acceleratorsStatus);
+      setAcceleratorsStatus(acceleratorsConfig[0].acceleratorsStatus);
     }
+  }, [acceleratorsConfig]);
 
-    const isFormValid = inputs.length > 0 &&
-        inputs.every(acc =>
-            acc.rentPeriod !== '' &&
-            acc.profitPerDay !== '' &&
-            acc.rentPrice !== '' &&
-            !isNaN(Number(acc.rentPeriod)) && Number(acc.rentPeriod) > 0 &&
-            !isNaN(Number(acc.profitPerDay)) && Number(acc.profitPerDay) > 0 &&
-            !isNaN(Number(acc.rentPrice)) && Number(acc.rentPrice) > 0
-        ) &&
-        inputs.some((acc, idx) => {
-            const orig = originalConfig[idx];
-            return !orig ||
-                acc.rentPeriod !== orig.rentPeriod ||
-                acc.profitPerDay !== orig.profitPerDay ||
-                acc.rentPrice !== orig.rentPrice ||
-                acceleratorsStatus != originalStatus;
-        });
-
-    async function handleSave() {
-        setIsLoading(true);
-        try {
-            const payload = inputs.map(acc => ({
-                id: acc.id,
-                rentPeriod: Number(acc.rentPeriod),
-                profitPerDay: Number(acc.profitPerDay),
-                rentPrice: Number(acc.rentPrice),
-                acceleratorsStatus: acceleratorsStatus
-            }));
-
-            const dataRaw = retrieveRawInitData();
-
-            const response = await axios.post('/api/freetonadmin/acceleratorsconfig', payload, {
-                headers: { Authorization: 'tma ' + dataRaw }
-            });
-
-            if (response.data && Array.isArray(response.data)) {
-                setAcceleratorsConfig(response.data.acceleratorsConfig);
-                setAcceleratorsStatus(response.data.acceleratorsConfig[0].acceleratorsStatus)
-                setOriginalStatus(response.data.acceleratorsConfig[0].acceleratorsStatus);
-                showNotification("Настройки ускорителей сохранены");
-            } else {
-                setAcceleratorsConfig(payload);
-                showNotification("Настройки ускорителей сохранены");
-            }
-
-            setIsLoading(false);
-        } catch (error) {
-            console.error('Ошибка сохранения конфигурации:', error);
-            showError("Не удалось сохранить настройки");
-            setIsLoading(false);
-        }
+  function handleInputChange(index, field, value) {
+    if (/^\d*\.?\d*$/.test(value)) {
+      const newInputs = [...inputs];
+      newInputs[index] = { ...newInputs[index], [field]: value };
+      setInputs(newInputs);
     }
+  }
 
-    const acceleratorNameColor = (id) => {
-        switch(id) {
-            case 1: return "#343434";
-            case 2: return "#78AA28";
-            case 3: return "#5C74DE";
-            default: return "#343434";
-        }
+  const isFormValid =
+    inputs.length > 0 &&
+    inputs.every(
+      (acc) =>
+        acc.rentPeriod !== "" &&
+        acc.profitPerDay !== "" &&
+        acc.rentPrice !== "" &&
+        !isNaN(Number(acc.rentPeriod)) &&
+        Number(acc.rentPeriod) > 0 &&
+        !isNaN(Number(acc.profitPerDay)) &&
+        Number(acc.profitPerDay) > 0 &&
+        !isNaN(Number(acc.rentPrice)) &&
+        Number(acc.rentPrice) > 0,
+    ) &&
+    inputs.some((acc, idx) => {
+      const orig = originalConfig[idx];
+      return (
+        !orig ||
+        acc.rentPeriod !== orig.rentPeriod ||
+        acc.profitPerDay !== orig.profitPerDay ||
+        acc.rentPrice !== orig.rentPrice ||
+        acceleratorsStatus != originalStatus
+      );
+    });
+
+  async function handleSave() {
+    setIsLoading(true);
+    try {
+      const payload = inputs.map((acc) => ({
+        id: acc.id,
+        rentPeriod: Number(acc.rentPeriod),
+        profitPerDay: Number(acc.profitPerDay),
+        rentPrice: Number(acc.rentPrice),
+        acceleratorsStatus: acceleratorsStatus,
+      }));
+
+      let dataRaw;
+      try {
+        dataRaw = retrieveRawInitData();
+      } catch (error) {
+        console.error("Error retrieving raw init data:", error);
+        dataRaw = null;
+      }
+
+      const response = await api.post(
+        "/api/freetonadmin/acceleratorsconfig",
+        payload,
+        {
+          headers: { Authorization: "tma " + dataRaw },
+        },
+      );
+
+      if (response.data && Array.isArray(response.data)) {
+        setAcceleratorsConfig(response.data.acceleratorsConfig);
+        setAcceleratorsStatus(
+          response.data.acceleratorsConfig[0].acceleratorsStatus,
+        );
+        setOriginalStatus(
+          response.data.acceleratorsConfig[0].acceleratorsStatus,
+        );
+        showNotification("Настройки ускорителей сохранены");
+      } else {
+        setAcceleratorsConfig(payload);
+        showNotification("Настройки ускорителей сохранены");
+      }
+
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Ошибка сохранения конфигурации:", error);
+      showError("Не удалось сохранить настройки");
+      setIsLoading(false);
     }
+  }
 
-    return (
-        <div className="cran-settings-container">
-            <div className='create-ad-package-container'>
-                <div className='cran-settings-form-title'>
-                    РЕДАКТИРОВАНИЕ УСКОРИТЕЛЕЙ
-                </div>
-                <div className='create-ad-package-inputs-container'>
-                    {inputs.map((acc, index) => (
-                        <div key={acc.id} className="accelerator-edit-row" style={{ marginBottom: 12 }}>
-                            <div className='admin-settings-accelerators-sub'>
-                                <div style={{ marginBottom: 8, fontWeight: 600, color: acceleratorNameColor(acc.id)}}>
-                                    Ускоритель: {acceleratorNames[acc.id]}
-                                </div>
-                            <div className="admin-settings-accelerator-input-header">ПЕРИОД АРЕНДЫ:</div>
-                            <input
-                                type="text"
-                                placeholder="Период аренды (дней)"
-                                className="add-add-form-add-input"
-                                value={acc.rentPeriod}
-                                onChange={e => handleInputChange(index, 'rentPeriod', e.target.value)}
-                            />
-                            <div className="admin-settings-accelerator-input-header">ПРИБЫЛЬ В ДЕНЬ:</div>
-                            <input
-                                type="text"
-                                placeholder="Прибыль в день (TON)"
-                                className="add-add-form-add-input"
-                                value={acc.profitPerDay}
-                                onChange={e => handleInputChange(index, 'profitPerDay', e.target.value)}
-                            />
-                            <div className="admin-settings-accelerator-input-header">ЦЕНА ЗА УСКОРИТЕЛЬ:</div>
-                            <input
-                                type="text"
-                                placeholder="Цена аренды (TON)"
-                                className="add-add-form-add-input"
-                                value={acc.rentPrice}
-                                onChange={e => handleInputChange(index, 'rentPrice', e.target.value)}
-                            />
-                            </div>
-                        </div>
-                    ))}
-                </div>
-                <div className="accelerator-switch-container">
-                    <div className="accelerator-switch-title">Покупка ускорителей</div>
-                    <div className={`accelerator-switch ${acceleratorsStatus ? 'active' : ''}`} onClick={handleStatusSwitch}></div>
-                </div>
-                <button
-                    className='withdrawal-button create-ad-package'
-                    disabled={!isFormValid || isLoading}
-                    onClick={handleSave}
-                >
-                    {isLoading ? "СОХРАНЕНИЕ..." : "СОХРАНИТЬ"}
-                </button>
-            </div>
+  const acceleratorNameColor = (id) => {
+    switch (id) {
+      case 1:
+        return "#343434";
+      case 2:
+        return "#78AA28";
+      case 3:
+        return "#5C74DE";
+      default:
+        return "#343434";
+    }
+  };
+
+  return (
+    <div className="cran-settings-container">
+      <div className="create-ad-package-container">
+        <div className="cran-settings-form-title">
+          РЕДАКТИРОВАНИЕ УСКОРИТЕЛЕЙ
         </div>
-    );
+        <div className="create-ad-package-inputs-container">
+          {inputs.map((acc, index) => (
+            <div
+              key={acc.id}
+              className="accelerator-edit-row"
+              style={{ marginBottom: 12 }}
+            >
+              <div className="admin-settings-accelerators-sub">
+                <div
+                  style={{
+                    marginBottom: 8,
+                    fontWeight: 600,
+                    color: acceleratorNameColor(acc.id),
+                  }}
+                >
+                  Ускоритель: {acceleratorNames[acc.id]}
+                </div>
+                <div className="admin-settings-accelerator-input-header">
+                  ПЕРИОД АРЕНДЫ:
+                </div>
+                <input
+                  type="text"
+                  placeholder="Период аренды (дней)"
+                  className="add-add-form-add-input"
+                  value={acc.rentPeriod}
+                  onChange={(e) =>
+                    handleInputChange(index, "rentPeriod", e.target.value)
+                  }
+                />
+                <div className="admin-settings-accelerator-input-header">
+                  ПРИБЫЛЬ В ДЕНЬ:
+                </div>
+                <input
+                  type="text"
+                  placeholder="Прибыль в день (TON)"
+                  className="add-add-form-add-input"
+                  value={acc.profitPerDay}
+                  onChange={(e) =>
+                    handleInputChange(index, "profitPerDay", e.target.value)
+                  }
+                />
+                <div className="admin-settings-accelerator-input-header">
+                  ЦЕНА ЗА УСКОРИТЕЛЬ:
+                </div>
+                <input
+                  type="text"
+                  placeholder="Цена аренды (TON)"
+                  className="add-add-form-add-input"
+                  value={acc.rentPrice}
+                  onChange={(e) =>
+                    handleInputChange(index, "rentPrice", e.target.value)
+                  }
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="accelerator-switch-container">
+          <div className="accelerator-switch-title">Покупка ускорителей</div>
+          <div
+            className={`accelerator-switch ${acceleratorsStatus ? "active" : ""}`}
+            onClick={handleStatusSwitch}
+          ></div>
+        </div>
+        <button
+          className="withdrawal-button create-ad-package"
+          disabled={!isFormValid || isLoading}
+          onClick={handleSave}
+        >
+          {isLoading ? "СОХРАНЕНИЕ..." : "СОХРАНИТЬ"}
+        </button>
+      </div>
+    </div>
+  );
 }

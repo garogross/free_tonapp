@@ -1,0 +1,79 @@
+@use "@/styles/style" as *;
+
+.mainButton {
+  @include button($color-green-light);
+  border: 1px solid #6e8453;
+  border-radius: 38px;
+  white-space: nowrap;
+  text-align: center;
+  padding: 4px 14px;
+  height: 60px;
+  @include setFont(26px, 500, $color-white);
+  text-decoration: none;
+  @include flexCol();
+  gap: 8px;
+
+  // Primary (default) hover effect
+  &:not(&:disabled) {
+    &:hover,
+    &:active,
+    &:focus-visible {
+      box-shadow: 0 2px 12px 0 #6fb61c;
+      outline: none;
+    }
+  }
+
+  // Secondary hover effect
+  &_secondary:not(&:disabled) {
+    &:hover,
+    &:active,
+    &:focus-visible {
+      box-shadow: 0 2px 12px 0 #eaa586;
+      outline: none;
+    }
+  }
+
+  &:disabled {
+    border-color: transparent;
+    background: #5f5f5f;
+    cursor: default;
+  }
+
+  &_secondary {
+    background: #573977;
+    border-color: #eaa586;
+  }
+
+  &:not(&_sm) {
+    max-width: 185px;
+    width: 100%;
+  }
+
+  &_md {
+    height: 53px;
+  }
+  &_sm {
+    height: 44px;
+    font-size: 20px;
+  }
+
+  // Responsive: smalize everything on small screens
+  @include smScreenMedia {
+    border-radius: 28px;
+    padding: 2px 8px;
+    height: 40px;
+    @include setFont(17px, 500, $color-white);
+    gap: 4px;
+
+    &_md {
+      height: 36px;
+    }
+    &_sm {
+      height: 28px;
+      font-size: 13px;
+    }
+    &:not(&_sm) {
+      max-width: 120px;
+    }
+  }
+}
