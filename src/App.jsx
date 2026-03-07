@@ -514,7 +514,7 @@ function App({ user, loadingUser }) {
       case "friends":
         return (
           <>
-            <Friends friends={friends} starsMode={starsMode} course={course} />
+            <Friends friends={friends} course={course} />
           </>
         );
       case "profile":

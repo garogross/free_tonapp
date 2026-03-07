@@ -1,0 +1,52 @@
+@use "@/styles/style" as *;
+
+.friendsInfoCards {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 10px;
+
+  &__card {
+    flex: 1;
+    border: 2px solid #7a649b;
+    border-radius: 25px;
+    background: #382b47;
+    padding: 18px 10px 15px;
+    @include flexCol(flex-end);
+    flex-direction: column;
+    gap: 15px;
+
+    @include smScreenMedia {
+      border-radius: 20px;
+      padding: 10px 6px 8px;
+      gap: 8px;
+    }
+  }
+
+  &__picture {
+    margin-bottom: auto;
+    max-width: 80%;
+  }
+
+  &__cardTitleText {
+    @include setFont(clamp(14px, 3vw, 18px), 800, #c1c1c1);
+    text-align: center;
+  }
+
+  &__rewardText {
+    @include setFont(clamp(13px, 2.5vw, 16px), 800, #c1c1c1);
+    background: #251b38;
+    border-radius: 12px;
+    padding: 5px;
+    text-align: center;
+
+    @include smScreenMedia {
+      border-radius: 8px;
+      padding: 3px;
+    }
+  }
+
+  @include smScreenMedia {
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+}

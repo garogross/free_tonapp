@@ -1,0 +1,53 @@
+@use "@/styles/style" as *;
+
+.friendsHero {
+  @include flexCol();
+  flex-direction: column;
+
+  &__img {
+    width: 100%;
+  }
+  &__shareBtn {
+    width: 100%;
+    @include button(#382b47, 3px solid #7a649b);
+    box-shadow: 0 100px 100px 0 rgba(40, 0, 48, 0.25);
+    border-radius: 20px;
+    aspect-ratio: 46/11;
+    @include flexCol();
+    &:hover,
+    &:active,
+    &:focus-visible {
+      box-shadow: 0 2px 12px 0 #eaa586;
+      outline: none;
+    }
+  }
+  &__shareBtnText {
+    flex: 8;
+    @include setFont(clamp(18px, 8vw, 40px), 800, #c1c1c1);
+    text-align: center;
+    @include flexCol();
+  }
+  &__shareBtnCopy {
+    @include button(transparent, 3px solid #7a649b);
+    flex: 2;
+    @include flexCol();
+    padding: 10px;
+    height: 100%;
+  }
+
+  &__shareBtnCopyIconWrapper {
+    @include flexCol();
+    max-width: 63px;
+    width: 100%;
+    aspect-ratio: 1/1;
+    background: #544355;
+    border: 1px solid #897898;
+    box-shadow: 0 100px 100px 0 rgba(40, 0, 48, 0.25);
+    border-radius: 50%;
+    padding: 6px;
+  }
+  &__copyImg {
+    max-width: 30px;
+    width: 100%;
+  }
+}

@@ -111,8 +111,18 @@
     "invite": "INVITE",
     "copyLink": "COPY LINK",
     "listOfFriends": "Your friends list",
-    "totalIncome": "Total income",
-    "friendAmount": "Number of friends"
+    "totalIncome": "Доход",
+    "totalReferrals": "Total Referrals",
+    "yourReferrals": "YOUR REFERRALS",
+    "friendAmount": "Number of friends",
+    "rewards": {
+      "level1Title": "1-10 friends",
+      "level1Desc": "Receive 10% of their income",
+      "level2Title": "11-50 friends",
+      "level2Desc": "Receive 15% of their income",
+      "level3Title": "51+ friends",
+      "level3Desc": "Receive 20% of their income"
+    }
   },
   "rulletConnect": "CONNECT",
   "rulletTopUp": "TOP UP",

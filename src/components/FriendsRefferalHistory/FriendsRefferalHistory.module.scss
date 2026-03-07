@@ -1,0 +1,80 @@
+@use "@/styles/style" as *;
+
+.friendsRefferalHistory {
+  width: 100%;
+  border: 2px solid #77649c;
+  border-radius: 25px;
+  background: #392c48;
+  padding: 15px 15px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  flex: 1;
+  overflow: auto;
+
+  &__header {
+    @include flexCol(space-between, flex-start);
+  }
+
+  &__titleText {
+    @include setFont(clamp(16px, 4vw, 22px), 500);
+
+    // @include smScreenMedia {
+    //   font-size: 16px;
+    // }
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+  }
+
+  &__infoText {
+    @include setFont(clamp(16px, 4.5vw, 20px), 400);
+    @include flexCol();
+    gap: 10px;
+
+    & img {
+      width: 23px;
+
+      @include smScreenMedia {
+        width: 14px;
+      }
+    }
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 4px;
+  }
+
+  &__listItem {
+    @include flexCol(space-between);
+    width: 100%;
+    border-radius: 20px;
+    height: 33px;
+    padding: 0 20px;
+
+    &:nth-child(odd) {
+      background: #25173b;
+    }
+  }
+
+  &__listItemText {
+    @include setFont(20px, 500);
+
+    @include smScreenMedia {
+      font-size: 16px;
+    }
+  }
+
+  &__emptyText {
+    @include setFont(24px, 800);
+    text-align: center;
+    padding-block: 20px;
+  }
+}

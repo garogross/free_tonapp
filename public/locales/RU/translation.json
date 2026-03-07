@@ -110,8 +110,18 @@
     "invite": "ПРИГЛАСИТЬ",
     "copyLink": "СКОПИРОВАТЬ ССЫЛКУ",
     "listOfFriends": "Список ваших друзей",
-    "totalIncome": "Общий доход",
-    "friendAmount": "Количество друзей"
+    "totalIncome": "Доход",
+    "totalReferrals": "Всего рефералов",
+    "yourReferrals": "ВАШИ РЕФЕРАЛЫ",
+    "friendAmount": "Количество друзей",
+    "rewards": {
+      "level1Title": "1-10 друзей",
+      "level1Desc": "Получайте 10% от их дохода",
+      "level2Title": "11-50 друзей",
+      "level2Desc": "Получайте 15% от их дохода",
+      "level3Title": "51+ друзей",
+      "level3Desc": "Получайте 20% от их дохода"
+    }
   },
   "rulletConnect": "ПОДКЛЮЧИТЬ",
   "rulletTopUp": "ПОПОЛНИТЬ",
