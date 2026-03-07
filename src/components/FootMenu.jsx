@@ -39,7 +39,7 @@ export default function FootMenu({ setCurrentContent, currentContent }) {
   ];
 
   return (
-    <div className={clsx(styles.footMenu, "container")}>
+    <div className={styles.footMenu}>
       <div className={styles.footMenu__container}>
         {items.map((item) => {
           const Icon = item.icon;

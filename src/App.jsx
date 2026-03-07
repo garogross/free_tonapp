@@ -670,7 +670,7 @@ function App({ user, loadingUser }) {
                   tonBalance={tonBalance}
                 />
                 <main className={styles.app__main}>{renderContent()}</main>
-                <footer className={keyboardVisible ? "hidden" : ""}>
+                <footer className={keyboardVisible ? "hidden" : "container"}>
                   <Add
                     setCurrentContent={setCurrentContent}
                     setProfileSubMenu={setProfileSubMenu}
