@@ -1,0 +1,454 @@
+@use "@/styles/style" as *;
+
+.miningSpeedInfoModal {
+  &__infoFieldsPanel {
+    background: linear-gradient(106deg, #261c36 0 60%, #321c53 100%);
+    border-radius: 18px;
+    padding: 26px 24px 18px 24px;
+    box-shadow: 0 6px 32px 0 rgba(42, 24, 54, 0.18);
+    border: 1.5px solid #32204c;
+    margin-bottom: 18px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    @include smScreenMedia {
+      padding: 18px 8px 14px 8px;
+      gap: 12px;
+    }
+  }
+
+  &__infoRow {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding-left: 8px;
+    border-left: 2px solid transparent;
+    transition: border 0.18s;
+    &.highlight {
+      border-left: 2.5px solid $color-primary-yellow;
+      background: rgba(#3f1c73, 0.14);
+      border-radius: 6px;
+      padding-bottom: 3px;
+    }
+    &.spaced {
+      margin-bottom: 3px;
+      margin-top: 3px;
+    }
+  }
+
+  &__infoKey {
+    @include setFont(15px, 600, #ece1ff);
+    letter-spacing: 0.01em;
+    opacity: 0.92;
+  }
+  &__infoValue {
+    @include setFont(16.5px, 700, $color-primary-yellow);
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+    &.green {
+      color: $color-green-light;
+      font-weight: 600;
+    }
+    &.muted {
+      color: #aca0c9;
+      font-weight: 400;
+    }
+    &.xl {
+      font-size: 18.5px;
+    }
+    &.white {
+      color: $color-white;
+    }
+  }
+
+  &__counterBlock {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0 0 0;
+    gap: 6px;
+    align-items: flex-start;
+  }
+  &__counterTitle {
+    @include setFont(14px, 700, #f5e7ff);
+    margin-bottom: 2px;
+    letter-spacing: 0.01em;
+  }
+  &__counterContainer {
+    display: flex;
+    align-items: center;
+    background: #211335;
+    border-radius: 9px;
+    box-shadow: 0 1px 8px 0 rgba(30, 20, 49, 0.07);
+    gap: 4px;
+    padding: 2px 5px;
+    margin-bottom: 0;
+  }
+  &__counterButtonMinus,
+  &__counterButtonPlus {
+    width: 32px;
+    height: 32px;
+    border-radius: 7px;
+    background: #1b1028;
+    color: $color-white;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    border: 1.5px solid #3d295a;
+    transition:
+      background 0.13s,
+      border 0.13s,
+      color 0.12s,
+      box-shadow 0.18s;
+
+    &:hover,
+    &:focus {
+      background: $color-primary-yellow;
+      border-color: $color-primary-yellow;
+      color: #382b46;
+      box-shadow: 0 1.5px 8px 0 rgba(255, 223, 110, 0.32);
+    }
+    &:active {
+      filter: brightness(0.99);
+      color: #3c2d44;
+    }
+  }
+  &__counterValue {
+    min-width: 38px;
+    text-align: center;
+    background: none;
+    border: none;
+    @include setFont(18.5px, 700, $color-green-light);
+    font-variation-settings: "wght" 650;
+    letter-spacing: 0.03em;
+  }
+
+  &__infoRowIcon {
+    margin-right: 7px;
+    font-size: 18px;
+    color: $color-green-light;
+    vertical-align: middle;
+    opacity: 0.77;
+    position: relative;
+    top: 1px;
+  }
+
+  &__bakcDrop {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+  }
+
+  &__header {
+    @include flexCol();
+    gap: 10px;
+    width: 100%;
+  }
+
+  &__main {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% - 70px);
+    max-height: 90vh;
+    overflow: auto;
+    background: $color-purple-bg;
+    border-radius: 30px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+
+    @include smScreenMedia {
+      border-radius: 24px;
+      padding: 15px;
+      width: calc(100% - 40px);
+    }
+  }
+
+  &__closeBtn {
+    @include button();
+    align-self: flex-end;
+
+    & img {
+      width: 29px;
+    }
+
+    @include smScreenMedia {
+      & img {
+        width: 20px;
+      }
+    }
+  }
+
+  &__title {
+    @include setFont(20px, 500);
+
+    @include smScreenMedia {
+      font-size: 18px;
+    }
+  }
+
+  &__mainText {
+    @include setFont(16px, 500, $color-green-light);
+  }
+
+  &__infoBlock {
+    width: 100%;
+    background: #25173b;
+    padding: 18px 20px;
+    border-radius: 13px;
+    @include flexCol(space-between);
+  }
+  &__infoBlockText {
+    @include setFont(clamp(15px, 4vw, 20px), 500);
+  }
+  &__copyIcon {
+    width: 22px;
+    height: 22px;
+    stroke: $color-white;
+  }
+  &__btn_active {
+    background: $color-primary-yellow;
+    color: $color-white;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.08);
+  }
+  &__acceleratorsContainer {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+    width: 100%;
+
+    @include smScreenMedia {
+      gap: 8px;
+    }
+  }
+  &__acceleratorItem {
+    flex: 1;
+    border: 2px solid #321857;
+    background: #1d112b;
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 14px 6px 10px 6px;
+    cursor: pointer;
+    transition: border 0.2s;
+    & > *:not(:last-child) {
+      margin-bottom: 5px;
+    }
+  }
+  &__acceleratorItem_active {
+    border: 2px solid $color-primary-yellow;
+    background: #3d294d;
+  }
+  &__acceleratorItemTitle {
+    @include setFont(17px, 700, $color-white);
+    margin-bottom: 4px;
+  }
+  &__acceleratorItemDescription {
+    @include setFont(15px, 500, $color-green-light);
+    margin-top: 2px;
+  }
+  &__acceleratorIcon1,
+  &__acceleratorIcon2,
+  &__acceleratorIcon3 {
+    width: 39px;
+    height: 39px;
+    margin: 0 auto 2px;
+    border-radius: 12px;
+    background-size: cover;
+    background-position: center;
+  }
+  &__acceleratorIcon1 {
+    background-image: url("/icons/cpu.svg");
+    background-color: #c7b3fa;
+  }
+  &__acceleratorIcon2 {
+    background-image: url("/icons/gpu-nvidia.svg");
+    background-color: #b3d4fa;
+  }
+  &__acceleratorIcon3 {
+    background-image: url("/icons/gpu-tensor.svg");
+    background-color: #fad4b3;
+  }
+
+  &__rentPeriodContainer {
+    margin-bottom: 10px;
+    @include flexCol();
+    gap: 10px;
+  }
+  &__rentPeriodTitle {
+    @include setFont(20px, 800, $color-white);
+    margin-bottom: 2px;
+  }
+  &__rentPeriodDescription {
+    @include setFont(20px, 600, $color-green-light);
+  }
+
+  &__perDayContainer {
+    margin-bottom: 10px;
+    @include flexCol();
+    gap: 10px;
+  }
+  &__perDayTitle {
+    @include setFont(20px, 800, $color-white);
+    margin-bottom: 2px;
+  }
+  &__perDayDescription {
+    @include setFont(20px, 600, $color-green-light);
+  }
+
+  &__totalProfitContainer {
+    margin-bottom: 10px;
+    @include flexCol();
+    gap: 10px;
+  }
+  &__totalProfitTitle {
+    @include setFont(20px, 800, $color-white);
+    margin-bottom: 2px;
+  }
+  &__totalProfitDescription {
+    @include setFont(20px, 600, $color-green-light);
+  }
+
+  &__counterTitle {
+    @include setFont(20px, 800, $color-white);
+    margin-bottom: 4px;
+  }
+  &__counterContainer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  &__counterButtonMinus,
+  &__counterButtonPlus {
+    width: 40px;
+    height: 40px;
+    border-radius: 7px;
+    background: #2a1836;
+    color: $color-white;
+    font-size: 22px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    border: 1.5px solid #3d295a;
+    transition:
+      background 0.17s,
+      border 0.17s;
+
+    &:active {
+      background: $color-primary-yellow;
+      border-color: $color-primary-yellow;
+      color: #342448;
+    }
+  }
+  &__counterValue {
+    min-width: 26px;
+    text-align: center;
+    @include setFont(18px, 700, $color-green-light);
+  }
+
+  &__totalRentPriceContainer {
+    margin-bottom: 10px;
+    @include flexCol();
+    gap: 10px;
+  }
+  &__totalRentPriceTitle {
+    @include setFont(20px, 800, $color-white);
+    margin-bottom: 2px;
+  }
+  &__totalRentPriceDescription {
+    @include setFont(20px, 600, $color-primary-yellow);
+  }
+
+  &__rentButton {
+    margin-top: 7px;
+    padding: 14px;
+    width: 100%;
+    border-radius: 18px;
+    background: linear-gradient(90deg, #916df8 0%, #2596be 100%);
+    color: $color-white;
+    @include setFont(17px, 700);
+    border: none;
+    cursor: pointer;
+    transition:
+      background 0.18s,
+      color 0.17s,
+      filter 0.18s;
+    filter: none;
+    outline: none;
+
+    &:active,
+    &:hover {
+      background: linear-gradient(90deg, #b68ffe 0%, #0984c9 100%);
+      filter: brightness(0.97);
+    }
+  }
+
+  &__rentButton_disabled {
+    opacity: 0.42;
+    pointer-events: none;
+    filter: grayscale(0.85);
+    color: #cccccc;
+    background: #2e1946 !important;
+  }
+
+  &__emptyWrapper {
+    width: 100%;
+    min-height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #211439;
+    border-radius: 16px;
+    margin-bottom: 10px;
+  }
+
+  &__emptyMessage {
+    @include setFont(16px, 500, #aaa6bb);
+    text-align: center;
+  }
+
+  &__activeList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 18px 0 10px 0;
+  }
+
+  &__activeItem {
+    display: flex;
+    align-items: center;
+    background: #272049;
+    border-radius: 15px;
+    padding: 13px 15px;
+    gap: 17px;
+    border: 1px solid #3d295a;
+  }
+
+  &__activeDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  &__activeTitle {
+    @include setFont(16px, 700, $color-white);
+  }
+  &__activeStopDate {
+    @include setFont(15px, 500, $color-green-light);
+  }
+  &__activeIncome {
+    @include setFont(15px, 700, $color-primary-yellow);
+  }
+}

@@ -1,0 +1,151 @@
+@use "@/styles/style" as *;
+
+.staking {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  min-height: 100%;
+  padding-bottom: 10px;
+
+  &__img {
+    width: 100%;
+    @include smScreenMedia {
+      width: 100%;
+    }
+  }
+
+  &__collectBar {
+    width: 100%;
+    background: linear-gradient(90deg, #1c2439 0%, #304f63 50%, #936d34 100%);
+    border: 2px solid #739eb1;
+    border-radius: 43px;
+    width: 100%;
+    padding: 13px 20px;
+    @include flexCol(space-between);
+    gap: 14px;
+    margin-bottom: 25px;
+    @include smScreenMedia {
+      gap: 6px;
+    }
+  }
+
+  &__collectText {
+    @include setFont(24px, 600);
+    @include flexCol();
+    gap: 5px;
+    @include smScreenMedia {
+      font-size: 18px;
+    }
+  }
+
+  &__collectStarImg {
+    width: 35px;
+    @include smScreenMedia {
+      width: 28px;
+    }
+  }
+
+  &__speedBar {
+    @include button(transparent, 2px solid #6c7fa9);
+    position: relative;
+    border-radius: 43px;
+    width: 100%;
+    padding: 8px 20px 10px 13px;
+    @include flexCol(space-between);
+    gap: 15px;
+    margin-bottom: 37px;
+    @include smScreenMedia {
+      gap: 7px;
+    }
+  }
+
+  &__speedBarBg {
+    position: absolute;
+    left: 0;
+    height: 100%;
+    width: 60%;
+    background: linear-gradient(
+      90deg,
+      rgba(23, 36, 63, 0.8) 0%,
+      rgba(19, 41, 54, 0.8) 100%
+    );
+    border-radius: 43px;
+    @include smScreenMedia {
+      border-radius: 20px;
+    }
+  }
+
+  &__speedIconImg {
+    width: 40px;
+    z-index: 1;
+    @include smScreenMedia {
+      width: 28px;
+    }
+  }
+
+  &__speedText {
+    @include setFont(clamp(15px, 4vw, 24px), 400);
+    z-index: 1;
+  }
+  &__infoBtn {
+    @include button();
+  }
+  &__infoIconImg {
+    width: 28px;
+    z-index: 1;
+    @include smScreenMedia {
+      width: 24px;
+    }
+  }
+
+  &__offlineMining {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 60%);
+    background: #1d3300;
+    border-radius: 30px;
+    padding: 3px 5px;
+    text-shadow: 0 4px 4px 0 rgba(106, 187, 0, 0.25);
+    white-space: nowrap;
+
+    @include smScreenMedia {
+      border-radius: 14px;
+    }
+  }
+
+  &__offlineMiningNameText {
+    @include setFont(24px, 500, #77de00);
+
+    @include smScreenMedia {
+      font-size: 18px;
+    }
+  }
+
+  &__offlineMiningValueText {
+    @include setFont(24px, 500);
+    @include smScreenMedia {
+      font-size: 18px;
+    }
+  }
+
+  &__loader {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid $color-purple-bg;
+    border-top: 2px solid $color-primary-yellow;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+    margin-left: 4px;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
