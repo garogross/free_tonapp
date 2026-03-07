@@ -1,6 +1,6 @@
+import { starImg, starWebpImg } from "@/assets/images";
 import { useTranslation } from "react-i18next";
-import { starImg, starWebpImg } from "../../../assets/images";
-import ImageWebp from "../../layout/ImageWebp/ImageWebp";
+import ImageWebp from "../layout/ImageWebp/ImageWebp";
 
 import styles from "./FriendsRefferalHistory.module.scss";
 
@@ -26,21 +26,21 @@ const FriendsRefferalHistory = (totalPrize, course, friends) => {
         <div className={styles.friendsRefferalHistory__info}>
           <span className={styles.friendsRefferalHistory__infoText}>
             {t("friends.totalReferrals")}:{" "}
-            <span className="primaryText">{friends.length}</span>
+            <span className="primaryText">{friends?.length}</span>
           </span>
           <span className={styles.friendsRefferalHistory__infoText}>
-            {t("friends.totalIncome")}: {(totalPrize * course).toFixed(6)}
+            {t("friends.totalIncome")}: {(totalPrize * course || 0).toFixed(6)}
             <ImageWebp srcSet={starWebpImg} src={starImg} alt={"star"} />
           </span>
         </div>
       </div>
-      {!friends.length ? (
+      {!friends?.length ? (
         <div className={styles.friendsRefferalHistory__emptyText}>
           {t("emptyList")}
         </div>
       ) : (
         <div className={styles.friendsRefferalHistory__list}>
-          {friends.map((friend, index) => (
+          {friends?.map((friend, index) => (
             <div
               key={friend.id || index}
               className={styles.friendsRefferalHistory__listItem}

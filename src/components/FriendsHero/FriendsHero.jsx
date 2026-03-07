@@ -1,11 +1,11 @@
-import { useTranslation } from "react-i18next";
 import {
   friendsCopyIconImg,
   friendsCopyIconWebpImg,
   friendsHeroImg,
   friendsHeroWebpImg,
-} from "../../../assets/images";
-import ImageWebp from "../../layout/ImageWebp/ImageWebp";
+} from "@/assets/images";
+import { useTranslation } from "react-i18next";
+import ImageWebp from "../layout/ImageWebp/ImageWebp";
 
 import { useNotification } from "../useNotification";
 import styles from "./FriendsHero.module.scss";

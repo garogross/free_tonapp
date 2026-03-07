@@ -1,4 +1,3 @@
-import { useTranslation } from "react-i18next";
 import {
   friends2UsersIconImg,
   friends2UsersIconWebpImg,
@@ -6,8 +5,9 @@ import {
   friends3UsersIconWebpImg,
   friendsManyUsersIconImg,
   friendsManyUsersIconWebpImg,
-} from "../../../assets/images";
-import ImageWebp from "../../layout/ImageWebp/ImageWebp";
+} from "@/assets/images";
+import { useTranslation } from "react-i18next";
+import ImageWebp from "../layout/ImageWebp/ImageWebp";
 import styles from "./FriendsInfoCards.module.scss";
 
 const FriendsInfoCards = () => {
