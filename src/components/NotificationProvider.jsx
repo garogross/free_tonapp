@@ -1,13 +1,13 @@
-import React, { useState, useCallback } from 'react';
-import { NotificationContext } from './NotificationContext';
-import './NotificationStyles.css';
+import React, { useCallback, useState } from "react";
+import { NotificationContext } from "./NotificationContext";
+import "./NotificationStyles.scss";
 
 export function NotificationProvider({ children }) {
   const [notifications, setNotifications] = useState([]);
 
   const showNotification = useCallback((message, duration = 3000) => {
     const id = `${Date.now()}-${Math.random()}`;
-    setNotifications([{ id, message, type: 'normal', duration }]);
+    setNotifications([{ id, message, type: "normal", duration }]);
     setTimeout(() => {
       setNotifications((prev) => prev.filter((n) => n.id !== id));
     }, duration);
@@ -15,7 +15,7 @@ export function NotificationProvider({ children }) {
 
   const showError = useCallback((message, duration = 3000) => {
     const id = `${Date.now()}-${Math.random()}`;
-    setNotifications([{ id, message, type: 'error', duration }]);
+    setNotifications([{ id, message, type: "error", duration }]);
     setTimeout(() => {
       setNotifications((prev) => prev.filter((n) => n.id !== id));
     }, duration);
@@ -26,7 +26,11 @@ export function NotificationProvider({ children }) {
       {children}
       <div className="notification-wrapper">
         {notifications.map(({ id, message, type, duration }) => (
-          <div key={id} className={type === 'error' ? 'notification-error' : 'notification'} style={{ animationDuration: `${duration}ms` }}>
+          <div
+            key={id}
+            className={type === "error" ? "notification-error" : "notification"}
+            style={{ animationDuration: `${duration}ms` }}
+          >
             {message}
           </div>
         ))}
