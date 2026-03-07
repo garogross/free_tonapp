@@ -1,0 +1,209 @@
+@use "@/styles/style" as *;
+
+.chalanges {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  height: 100%;
+  padding-bottom: 10px;
+  overflow: auto;
+  align-items: center;
+
+  &__filters {
+    @include flexCol();
+    gap: 12px;
+    width: 100%;
+
+    @include smScreenMedia {
+      gap: 7px;
+    }
+  }
+
+  // double & for make primzry
+  & &__filterBtn {
+    flex: 1;
+    @include button(#372646, 3px solid #756589);
+    border-radius: 15px;
+    @include setFont(clamp(13px, 3vw, 20px), 500, #e9c68a);
+
+    &_active {
+      background: #573977;
+    }
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    flex: 1;
+    overflow: auto;
+  }
+
+  &__listItem {
+    background: #372646;
+    border: 3px solid #756589;
+    width: 100%;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border-radius: 15px;
+
+    @include smScreenMedia {
+      padding: 10px;
+      gap: 10px;
+      border-radius: 10px;
+    }
+  }
+
+  &__listItemMain {
+    flex: 8;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__listItemMainTitleText {
+    @include setFont(clamp(16px, 4.5vw, 24px), 500);
+    margin-bottom: 10px;
+  }
+
+  &__listItemMainDescriptionText {
+    @include setFont(18px, 400, #edcb9b);
+    margin-bottom: 20px;
+
+    @include smScreenMedia {
+      font-size: 16px;
+    }
+  }
+
+  &__listItemMainFooter {
+    @include flexCol(flex-start);
+    gap: 5px 10px;
+    flex-wrap: wrap;
+
+    @include smScreenMedia {
+      gap: 8px;
+    }
+  }
+
+  &__listItemMainTimeNameText {
+    @include setFont(18px, 400, #edcb9b);
+
+    @include smScreenMedia {
+      @include setFont(14px, 400, #edcb9b);
+    }
+  }
+
+  &__listItemMainTimeValueText {
+    @include setFont(20px, 500);
+
+    @include smScreenMedia {
+      @include setFont(16px, 500);
+    }
+  }
+
+  &__listItemPaymentText {
+    @include flexCol();
+    gap: 10px;
+
+    img {
+      width: 25px;
+
+      @include smScreenMedia {
+        width: 20px;
+      }
+    }
+
+    @include smScreenMedia {
+      gap: 4px;
+    }
+  }
+
+  &__listItemPaymentNameText {
+    @include setFont(18px, 400, #edcb9b);
+
+    @include smScreenMedia {
+      @include setFont(14px, 400, #edcb9b);
+    }
+  }
+
+  &__listItemPaymentValueText {
+    @include setFont(20px, 500, #ffd100);
+
+    @include smScreenMedia {
+      @include setFont(16px, 500, #ffd100);
+    }
+  }
+
+  &__listItemActions {
+    flex: 3;
+  }
+
+  &__listItemStatusText {
+    @include setFont(16px, 400);
+    text-align: center;
+
+    &_active {
+      color: $color-green-light;
+    }
+
+    &_moderation {
+      color: #edcb9b;
+    }
+
+    &_deprecated {
+      color: #aa2828;
+    }
+
+    &_deny {
+      color: #aa2828;
+    }
+  }
+
+  &__starsInTelegram {
+    background: #372646;
+    border: 3px solid #756589;
+    border-radius: 15px;
+    width: 100%;
+    padding: 20px 15px;
+    @include flexCol(flex-start);
+    gap: 20px;
+
+    @include smScreenMedia {
+      border-radius: 10px;
+      padding: 10px 8px;
+      gap: 10px;
+    }
+  }
+
+  &__starsInTelegramText {
+    flex: 1;
+    @include flexCol(flex-start);
+    gap: 8px;
+    @include setFont(24px, 500);
+
+    img {
+      width: 30px;
+
+      @include smScreenMedia {
+        width: 16px;
+      }
+    }
+
+    @include smScreenMedia {
+      @include setFont(15px, 500);
+      gap: 4px;
+    }
+  }
+
+  &__messageText {
+    @include setFont(24px, 800);
+    text-align: center;
+    padding-block: 20px;
+  }
+
+  &__addBtn {
+    max-width: 300px !important;
+  }
+}

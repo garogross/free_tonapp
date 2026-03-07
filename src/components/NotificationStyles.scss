@@ -1,3 +1,5 @@
+@use "@/styles/style" as *;
+
 .notification-wrapper {
   position: fixed;
   top: 20px;
@@ -10,20 +12,26 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   pointer-events: none;
   padding: 0 10px;
   box-sizing: border-box;
 }
 
 .notification {
-  background: #78aa28;
-  color: #F4F4F4;
+  background: #1c182d;
+  color: #edcb9b;
   font-size: 16px;
   font-weight: 700;
   padding: 15px 25px;
-  border-radius: 20px;
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 18px;
   letter-spacing: 0.5px;
+
+  border: 3px solid #756589;
+  border-top-color: $color-green-light;
+
+  box-shadow: 0 4px 32px 0 rgba(54, 30, 87, 0.26);
   text-align: center;
   pointer-events: auto;
   animation: fadeInOut ease forwards;
@@ -36,22 +44,7 @@
 }
 
 .notification-error {
-  background-color: #AA2828;
-  color: #F4F4F4;
-  font-size: 16px;
-  font-weight: 700;
-  padding: 15px 25px;
-  border-radius: 20px;
-  letter-spacing: 0.5px;
-  text-align: center;
-  pointer-events: auto;
-  animation: fadeInOut ease forwards;
-  user-select: none;
-  width: 100%;
-  max-width: 100%;
-  white-space: normal;
-  word-wrap: normal;
-  box-sizing: border-box;
+  border-top-color: AA2828;
 }
 
 @keyframes fadeInOut {

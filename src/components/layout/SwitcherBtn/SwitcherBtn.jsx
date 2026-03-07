@@ -1,26 +1,21 @@
 import clsx from "clsx";
-import { Link } from "react-router-dom";
-import { addTaskPagePath, tasksPagePath } from "../../../router/constants";
+import { useTranslation } from "react-i18next";
 import styles from "./SwitcherBtn.module.scss";
 
-const SwitcherBtn = ({ isCustomer }) => {
+const SwitcherBtn = ({ active, onClick }) => {
+  const { t } = useTranslation();
   return (
-    <Link
-      to={isCustomer ? addTaskPagePath : tasksPagePath}
-      className={styles.switcherBtn}
-    >
-      <span className={styles.switcherBtn__nameText}>
-        {isCustomer ? "Я заказчик" : "Я исполнитель"}
-      </span>
+    <button onClick={onClick} className={styles.switcherBtn}>
+      <span className={styles.switcherBtn__nameText}>{t("clientTitle")}</span>
       <div className={styles.switcherBtn__main}>
         <span
           className={clsx(
             styles.switcherBtn__inner,
-            !isCustomer && styles.switcherBtn__inner_right,
+            !active && styles.switcherBtn__inner_active,
           )}
         ></span>
       </div>
-    </Link>
+    </button>
   );
 };
 

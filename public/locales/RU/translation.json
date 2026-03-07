@@ -27,6 +27,8 @@
     "deny": "ОТКЛОНЕНО"
   },
   "timeTitle": "ВРЕМЯ:",
+  "paymentTitle": "Оплата",
+  "seconds": "сек",
   "typeTitle": "ТИП:",
   "addChallengeButton": "Добавить задание",
   "emptyList": "Список пуст",

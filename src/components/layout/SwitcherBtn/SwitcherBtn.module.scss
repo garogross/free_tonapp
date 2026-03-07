@@ -26,6 +26,7 @@
     width: 80px;
     aspect-ratio: 80/44;
     padding: 4px;
+    position: relative;
 
     @include smScreenMedia {
       width: 60px;
@@ -35,13 +36,19 @@
 
   &__inner {
     display: block;
-    height: 100%;
+    height: calc(100% - 8px);
     aspect-ratio: 1/1;
     border-radius: 50%;
-    background: #454075;
-
-    &_right {
-      margin-left: auto;
+    transition: $transition;
+    position: absolute;
+    top: 4px;
+    left: calc(100% - 4px);
+    transform: translateX(-100%);
+    background-color: #716b79;
+    &_active {
+      transform: translateX(0%);
+      left: 4px;
+      background: #454075;
     }
   }
 }

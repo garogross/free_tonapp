@@ -39,10 +39,10 @@ const SecondaryBtn = memo(
       <TagName
         className={clsx(
           styles.secondaryBtn,
-          className,
           size === "sm" && styles.secondaryBtn_sm,
           size === "md" && styles.secondaryBtn_md,
           isSecondaryVariant && styles.secondaryBtn_secondary,
+          className,
         )}
         {...properties}
       >

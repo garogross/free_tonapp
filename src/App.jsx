@@ -481,7 +481,6 @@ function App({ user, loadingUser }) {
           <>
             <Challenges
               setCurrentContent={setCurrentContent}
-              tonBalance={tonBalance}
               currentChallenge={currentChallenge}
               setCurrentChallenge={setCurrentChallenge}
               challenges={challenges}
@@ -491,7 +490,6 @@ function App({ user, loadingUser }) {
               setIsSubscriber={setIsSubscriber}
               isSubscriber={isSubscriber}
               setChallengeForRelaunch={setChallengeForRelaunch}
-              starsMode={starsMode}
               course={course}
             />
           </>

@@ -1,7 +1,8 @@
-import { openTelegramLink, retrieveRawInitData } from "@telegram-apps/sdk";
+import { openTelegramLink } from "@telegram-apps/sdk";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import "./ChannelFollow.css";
+import { api } from "../api/axios";
+import styles from "./ChannelFollow.module.scss";
 import { useNotification } from "./useNotification";
 
 export default function ChannelFollow({ setIsSubscriber }) {
@@ -17,13 +18,7 @@ export default function ChannelFollow({ setIsSubscriber }) {
 
   function checkSub() {
     setIsLoading(true);
-    let dataRaw;
-    try {
-      dataRaw = retrieveRawInitData();
-    } catch (error) {
-      console.error("Error retrieving raw init data:", error);
-      dataRaw = null;
-    }
+
     api
       .get("/api/check/subscription")
       .then((response) => {
@@ -60,25 +55,30 @@ export default function ChannelFollow({ setIsSubscriber }) {
   }, [i18n.language, isClick, t]);
 
   return (
-    <div className="subscribe-container">
-      <div className="subscribe-title">{t("subscribtionWindow.title")}</div>
-      <div className="subscribe-sub-title">
-        {t("subscribtionWindow.subTitle")
-          .split("\n")
-          .map((line, index) => (
-            <span key={index}>
-              {line}
-              <br />
-            </span>
-          ))}
+    <>
+      <div className={styles.shannelFollow__overlay} />
+      <div className={styles.shannelFollow}>
+        <div className={styles.shannelFollow__title}>
+          {t("subscribtionWindow.title")}
+        </div>
+        <div className={styles.shannelFollow__subTitle}>
+          {t("subscribtionWindow.subTitle")
+            .split("\n")
+            .map((line, index) => (
+              <span key={index}>
+                {line}
+                <br />
+              </span>
+            ))}
+        </div>
+        <button
+          className={styles.shannelFollow__button}
+          onClick={handleSubscribe}
+          disabled={isLoading}
+        >
+          {buttonText}
+        </button>
       </div>
-      <button
-        className="subscribe-button"
-        onClick={handleSubscribe}
-        disabled={isLoading}
-      >
-        {buttonText}
-      </button>
-    </div>
+    </>
   );
 }

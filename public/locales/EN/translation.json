@@ -27,6 +27,9 @@
     "deny": "DENIED"
   },
   "timeTitle": "TIME:",
+  "paymentTitle": "Payment",
+  "seconds": "sec",
+
   "typeTitle": "TYPE:",
   "addChallengeButton": "Add challenge",
   "emptyList": "Empty list",
