@@ -28,7 +28,8 @@
     @include flexCol();
   }
   &__shareBtnCopy {
-    @include button(transparent, 3px solid #7a649b);
+    @include button();
+    border-left: 3px solid #7a649b;
     flex: 2;
     @include flexCol();
     padding: 10px;
