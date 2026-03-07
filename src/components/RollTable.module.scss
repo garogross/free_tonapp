@@ -1,0 +1,60 @@
+@use "@/styles/style" as *;
+
+.rollTable {
+  width: 100%;
+  background: #342448;
+  border-radius: 35px;
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow: auto;
+  flex: 1;
+
+  @include smScreenMedia {
+    border-radius: 20px;
+  }
+
+  &__col {
+    @include flexCol(space-between);
+    width: 100%;
+    border-radius: 13px;
+    min-height: 47px;
+    padding: 0 20px;
+
+    &:nth-child(even) {
+      background: #25173b;
+    }
+
+    @include smScreenMedia {
+      border-radius: 6px;
+      height: 30px;
+      padding: 0 8px;
+    }
+  }
+
+  &__headerRow {
+    flex: 1;
+    text-align: center;
+    @include setFont(22px, 500);
+  }
+
+  &__bodyRow {
+    @include setFont(20px, 500);
+    @include flexCol();
+    gap: 5px;
+
+    @include smScreenMedia {
+      @include setFont(16px, 500);
+      gap: 2px;
+    }
+
+    & img {
+      width: 35px;
+
+      @include smScreenMedia {
+        width: 20px;
+      }
+    }
+  }
+}

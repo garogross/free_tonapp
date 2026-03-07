@@ -1,0 +1,16 @@
+@use "@/styles/style" as *;
+
+.rollButton {
+  @include flexCol(space-around);
+  gap: 5px;
+  @include smScreenMedia {
+    gap: 2px;
+  }
+
+  &__adImg {
+    width: 35px;
+    @include smScreenMedia {
+      width: 18px;
+    }
+  }
+}

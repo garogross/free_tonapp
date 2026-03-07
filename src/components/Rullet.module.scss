@@ -1,0 +1,58 @@
+@use "@/styles/style" as *;
+
+.rullet {
+  width: 100%;
+  @include flexCol();
+  aspect-ratio: 464/192;
+  gap: 10px;
+  border: 2px solid #52436c;
+  border-radius: 35px;
+  background: #241735;
+  padding: 12px;
+  position: relative;
+  @include smScreenMedia {
+    aspect-ratio: 334/106;
+    gap: 5px;
+    border-radius: 18px;
+    padding: 5px;
+  }
+  &__item {
+    flex: 1;
+    border-radius: 10px;
+    height: 100%;
+    background: linear-gradient(180deg, #322344 0%, #543e72 50%, #352748 100%);
+    @include flexCol();
+    overflow: hidden;
+    @include smScreenMedia {
+      border-radius: 5px;
+    }
+  }
+
+  &__itemText {
+    @include setFont(min(14vw, 80px), 700);
+    background: linear-gradient(180deg, #e5b94d 0%, #f3e182 50%, #cf9220 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__nextGatheringText {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    @include setFont(24px, 500);
+    text-align: center;
+    width: 100%;
+    @include smScreenMedia {
+      bottom: 7px;
+      @include setFont(13px, 500);
+    }
+  }
+}

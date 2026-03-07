@@ -53,7 +53,7 @@ export default function Staking({
     console.error("Error retrieving launch params:", error);
     initData = null;
   }
-  const userId = initData.tgWebAppData.user.id;
+  const userId = initData?.tgWebAppData.user.id;
   const { t } = useTranslation();
 
   const cacheKey = starsMode ? "stars" : "normal";

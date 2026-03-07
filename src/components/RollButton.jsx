@@ -1,10 +1,26 @@
 import { retrieveRawInitData } from "@telegram-apps/sdk";
 import { useEffect, useState } from "react";
 import { api } from "../api/axios";
-import "./RollButton.css";
+import { adIconImg, adIconWebpImg } from "../assets/images";
+import ImageWebp from "./layout/ImageWebp/ImageWebp";
+import MainButton from "./layout/MainButton/MainButton";
+import styles from "./RollButton.module.scss";
 import { useNotification } from "./useNotification";
 
-export default function RollButton(props) {
+export default function RollButton({
+  setIsSkipAvailable,
+  setIsPushed,
+  setEndTime,
+  setLastRollNumber,
+  setSkipEndTime,
+  isAnimating,
+  setLuckyNumber,
+  setTonBalance,
+  isPushed,
+  setIsAnimating,
+  setRollStarted,
+  isSkipAvailable,
+}) {
   const { showError, showNotification } = useNotification();
   const [rollSuccesfullResponse, setRollSuccessfullResponse] = useState(null);
 
@@ -13,7 +29,7 @@ export default function RollButton(props) {
       .then((result) => {
         console.log(result);
         if (result === "success") {
-          props.setIsSkipAvailable(false);
+          setIsSkipAvailable(false);
           let dataRaw;
           try {
             dataRaw = retrieveRawInitData();
@@ -28,23 +44,23 @@ export default function RollButton(props) {
               },
             })
             .then((res) => {
-              props.setIsPushed(!res.data.isAvailable);
+              setIsPushed(!res.data.isAvailable);
               const endDateTime = new Date(res.data.endTime);
-              props.setEndTime(endDateTime);
-              props.setLastRollNumber(res.data.lastRollNumber);
-
+              setEndTime(endDateTime);
+              setLastRollNumber(res.data.lastRollNumber);
+              const now = new Date();
               const minutesLater = new Date(now.getTime() + 60 * 60 * 1000);
-              props.setSkipEndTime(minutesLater);
-              props.setIsSkipAvailable(false);
+              setSkipEndTime(minutesLater);
+              setIsSkipAvailable(false);
               showNotification("Таймер пропущен", 5000);
             })
             .catch((error) => {
               if (error.response && error.response.status === 429) {
                 showError("Попробуйте позже");
-                props.setIsSkipAvailable(false);
+                setIsSkipAvailable(false);
               } else {
                 showError(error.message || error);
-                props.setIsSkipAvailable(true);
+                setIsSkipAvailable(true);
               }
             });
         }
@@ -56,36 +72,30 @@ export default function RollButton(props) {
   };
 
   useEffect(() => {
-    if (!props.isAnimating && rollSuccesfullResponse != null) {
-      props.setLuckyNumber(rollSuccesfullResponse.luckyNumber);
-      props.setTonBalance(rollSuccesfullResponse.tonBalance);
-      props.setLastRollNumber(rollSuccesfullResponse.luckyNumber);
-      props.setIsPushed(true);
+    if (!isAnimating && rollSuccesfullResponse != null) {
+      setLuckyNumber(rollSuccesfullResponse.luckyNumber);
+      setTonBalance(rollSuccesfullResponse.tonBalance);
+      setLastRollNumber(rollSuccesfullResponse.luckyNumber);
+      setIsPushed(true);
     }
-  }, [props.isAnimating]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAnimating]);
 
   const getRoll = () => {
-    if (!props.isPushed) {
-      props.setIsSkipAvailable(false);
-      props.setIsPushed(true);
-      props.setIsAnimating(true);
-      props.setRollStarted(true);
+    if (!isPushed) {
+      setIsSkipAvailable(false);
+      setIsPushed(true);
+      setIsAnimating(true);
+      setRollStarted(true);
 
-      let dataRaw;
-      try {
-        dataRaw = retrieveRawInitData();
-      } catch (error) {
-        console.error("Error retrieving raw init data:", error);
-        dataRaw = null;
-      }
       api
         .get("/api/roll")
         .then((response) => {
           setRollSuccessfullResponse(response.data);
           const now = new Date();
           const oneHourLater = new Date(now.getTime() + 60 * 60 * 1000);
-          props.setEndTime(oneHourLater);
-          props.setIsSkipAvailable(false);
+          setEndTime(oneHourLater);
+          setIsSkipAvailable(false);
         })
         .catch((error) => {
           if (error.response && error.response.status === 429) {
@@ -93,37 +103,28 @@ export default function RollButton(props) {
           } else {
             showError(error.message || error);
           }
-          props.setRollStarted(false);
-          props.setIsSkipAvailable(false);
-          props.setIsAnimating(false);
+          setRollStarted(false);
+          setIsSkipAvailable(false);
+          setIsAnimating(false);
         });
     }
   };
 
   return (
-    <div className="roller-buttons-container">
-      <div class="roll-button-wrapper">
-        <button
-          className={`roll-button ${props.isPushed ? "pushed" : ""}`}
-          onClick={() => getRoll()}
-        >
-          <span className="roll-button-text">ROLL</span>
-          <div
-            className={`roll-button-shadow ${props.isPushed ? "pushed" : ""}`}
-          ></div>
-        </button>
-      </div>
-      {props.isPushed && props.isSkipAvailable && (
-        <div className="roll-button-skip" onClick={() => handleAdShow()}>
-          <div className="rollskip-image-container">
-            <img
-              src={"/images/rollskip.svg"}
-              alt="skip"
-              className="rollskip-image"
-            />
-          </div>
-        </div>
-      )}
+    <div className={styles.rollButton}>
+      <MainButton isSecondaryVariant disabled={isPushed && isSkipAvailable}>
+        SKIP AD
+        <ImageWebp
+          srcSet={adIconWebpImg}
+          src={adIconImg}
+          alt={"ad"}
+          className={styles.rollButton__adImg}
+          onClick={() => handleAdShow()}
+        />
+      </MainButton>
+      <MainButton disabled={isPushed} onClick={() => getRoll()}>
+        ROLL
+      </MainButton>
     </div>
   );
 }

@@ -21,14 +21,12 @@ import CashInForm from "./components/CashInForm";
 import CashInRequestForm from "./components/CashInRequestForm";
 import CashOutForm from "./components/CashOutForm";
 import Challenges from "./components/Challenges";
+import Cran from "./components/Cran";
 import FootMenu from "./components/FootMenu";
 import Friends from "./components/Friends";
 import Header from "./components/Header";
 import ProfileMenu from "./components/ProfileMenu";
 import ProtectedRoute from "./components/ProtectedRoute";
-import RollButton from "./components/RollButton";
-import RollTable from "./components/RollTable";
-import Rullet from "./components/Rullet";
 import SecureIframe from "./components/SecureIframe";
 import Staking from "./components/Staking";
 import TransactionTable from "./components/TransactionTable";
@@ -456,41 +454,27 @@ function App({ user, loadingUser }) {
     switch (currentContent) {
       case "cran":
         return (
-          <div className="cran-wrapper">
-            <Rullet
-              currentContent={currentContent}
-              gridRow="1"
-              luckyNumber={isAnimating ? displayNumber : luckyNumber}
-              isPushed={isPushed}
-              endTime={endTime}
-              setIsPushed={setIsPushed}
-              rollStarted={rollStarted}
-              setRollStarted={setRollStarted}
-              tonBalance={tonBalance}
-              lastRollNumber={lastRollNumber}
-              starsMode={starsMode}
-              course={course}
-            />
-            <RollTable
-              initialNumbers={initialNumbers}
-              starsMode={starsMode}
-              course={course}
-            />
-            <RollButton
-              setSkipEndTime={setSkipEndTime}
-              isSkipAvailable={isSkipAvailable}
-              setIsSkipAvailable={setIsSkipAvailable}
-              isPushed={isPushed}
-              setIsPushed={setIsPushed}
-              setLuckyNumber={setLuckyNumber}
-              setIsAnimating={setIsAnimating}
-              setEndTime={setEndTime}
-              setRollStarted={setRollStarted}
-              setTonBalance={setTonBalance}
-              setLastRollNumber={setLastRollNumber}
-              isAnimating={isAnimating}
-            />
-          </div>
+          <Cran
+            setSkipEndTime={setSkipEndTime}
+            isSkipAvailable={isSkipAvailable}
+            setIsSkipAvailable={setIsSkipAvailable}
+            isPushed={isPushed}
+            setIsPushed={setIsPushed}
+            setLuckyNumber={setLuckyNumber}
+            setIsAnimating={setIsAnimating}
+            setEndTime={setEndTime}
+            setRollStarted={setRollStarted}
+            setTonBalance={setTonBalance}
+            setLastRollNumber={setLastRollNumber}
+            isAnimating={isAnimating}
+            currentContent={currentContent}
+            displayNumber={displayNumber}
+            luckyNumber={luckyNumber}
+            endTime={endTime}
+            rollStarted={rollStarted}
+            initialNumbers={initialNumbers}
+            course={course}
+          />
         );
       case "challenges":
         return (
@@ -547,7 +531,7 @@ function App({ user, loadingUser }) {
                   profileSubMenu={profileSubMenu}
                   setProfileSubMenu={setProfileSubMenu}
                 />
-                <Rullet
+                {/* <Rullet
                   currentContent={currentContent}
                   gridRow="2"
                   setCurrentContent={setCurrentContent}
@@ -561,7 +545,7 @@ function App({ user, loadingUser }) {
                   lastRollNumber={lastRollNumber}
                   course={course}
                   starsMode={starsMode}
-                />
+                /> */}
                 <TransactionTable transactions={transactions} />
               </>
             );

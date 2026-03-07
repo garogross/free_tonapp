@@ -1,0 +1,84 @@
+@use "@/styles/style" as *;
+
+$color-yellow-light: #ffe066;
+
+.footMenu {
+  padding-bottom: 20px;
+
+  &__container {
+    border-radius: 50px;
+    background: linear-gradient(0deg, #1d242e 0%, #212e37 100%);
+    padding: 8px 23px;
+    @include flexCol(space-around);
+
+    @include smScreenMedia {
+      border-radius: 30px;
+      padding: 4px 10px;
+    }
+  }
+  &__link {
+    @include button();
+    @include flexCol();
+    flex-direction: column;
+    gap: 4px;
+    color: $color-white;
+    fill: $color-white;
+    stroke: $color-white;
+    text-decoration: none;
+    transition: $transition;
+
+    &:hover {
+      background: radial-gradient(
+        closest-side,
+        #ffe06677 0%,
+        // Use lighter yellow with some transparency
+        rgba(255, 224, 102, 0) 100%,
+        transparent 100%
+      );
+      color: $color-yellow-light;
+      fill: $color-yellow-light;
+      stroke: $color-yellow-light;
+    }
+
+    &_active {
+      background: radial-gradient(
+        closest-side,
+        #ffd10047 0%,
+        rgba(255, 208, 0, 0) 100%,
+        transparent 100%
+      );
+      fill: $color-primary-yellow;
+      stroke: $color-primary-yellow;
+      color: $color-primary-yellow;
+    }
+
+    @include smScreenMedia {
+      gap: 2px;
+    }
+  }
+  &__icon {
+    transition: $transition;
+    fill: inherit;
+    stroke: inherit;
+
+    @include smScreenMedia {
+      width: 23px !important;
+      height: 23px !important;
+      min-width: 20px;
+    }
+  }
+  &__link_active &__icon {
+    filter: drop-shadow(0 2px 2px rgba(255, 209, 0, 0.25));
+  }
+  &__linkText {
+    transition: $transition;
+    @include setFont(18px, 500, inherit);
+
+    @include smScreenMedia {
+      @include setFont(12px, 500, inherit);
+    }
+  }
+  &__link_active &__linkText {
+    text-shadow: 0 2px 2px 0 rgba(255, 209, 0, 0.25);
+  }
+}

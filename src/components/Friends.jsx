@@ -18,7 +18,7 @@ export default function Friends({ friends, starsMode, course }) {
     console.error("Error retrieving launch params:", error);
     initData = null;
   }
-  const userId = initData.tgWebAppData.user.id;
+  const userId = initData?.tgWebAppData.user.id;
   const { t } = useTranslation();
 
   function getQueryParam(param) {

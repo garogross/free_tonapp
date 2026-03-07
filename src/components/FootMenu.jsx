@@ -1,15 +1,63 @@
-import './FootMenu.css';
-import MenuItem from './MenuItem';
-import { footMenuItems } from '../data.js';
+import clsx from "clsx";
+import "./FootMenu.css";
+import styles from "./FootMenu.module.scss";
+import {
+  FriendsIcon,
+  HomeIcon,
+  MiningIcon,
+  ProfileIcon,
+  TasksIcon,
+} from "./icons/BottomNavbar";
 
-export default function FootMenu({ setCurrentContent, currentContent}) {
+export default function FootMenu({ setCurrentContent, currentContent }) {
+  const items = [
+    {
+      key: "cran",
+      text: "Кран",
+      icon: HomeIcon,
+    },
+    {
+      key: "staking",
+      text: "Майнинг",
+      icon: MiningIcon,
+    },
+    {
+      key: "challenges",
+      text: "Задания",
+      icon: TasksIcon,
+    },
+    {
+      key: "friends",
+      text: "Друзья",
+      icon: FriendsIcon,
+    },
+    {
+      key: "profile",
+      text: "Профиль",
+      icon: ProfileIcon,
+    },
+  ];
+
   return (
-    <div className="foot-menu">
-        <MenuItem {...footMenuItems[0]} isActive={currentContent === 'cran'} onClick={() => setCurrentContent('cran')}/>
-        <MenuItem {...footMenuItems[2]} isActive={currentContent === 'staking'} onClick={() => setCurrentContent('staking')}/>
-        <MenuItem {...footMenuItems[1]} isActive={currentContent === 'challenges'} onClick={() => setCurrentContent('challenges')}/>
-        <MenuItem {...footMenuItems[3]} isActive={currentContent === 'friends'} onClick={() => setCurrentContent('friends')}/>
-        <MenuItem {...footMenuItems[4]} isActive={currentContent === 'profile'} onClick={() => setCurrentContent('profile')}/>
+    <div className={clsx(styles.footMenu, "container")}>
+      <div className={styles.footMenu__container}>
+        {items.map((item) => {
+          const Icon = item.icon;
+          return (
+            <button
+              key={item.text}
+              to={item.link}
+              onClick={() => setCurrentContent(item.key)}
+              className={clsx(styles.footMenu__link, {
+                [styles.footMenu__link_active]: item.key === currentContent,
+              })}
+            >
+              <Icon className={styles.footMenu__icon} />
+              <span className={styles.footMenu__linkText}>{item.text}</span>
+            </button>
+          );
+        })}
+      </div>
     </div>
-  )
+  );
 }

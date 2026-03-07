@@ -32,7 +32,7 @@ export default function CashOutForm({
       initData = null;
     }
     if (initData?.tgWebAppData?.user?.username) {
-      setTgUsername(initData.tgWebAppData.user.username);
+      setTgUsername(initData?.tgWebAppData.user.username);
     }
   }, [userFriendlyAddress]);
 
