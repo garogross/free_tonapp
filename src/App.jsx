@@ -63,7 +63,6 @@ function App({ user, loadingUser }) {
   const timeoutRef = useRef(null);
   const luckyNumberRef = useRef(null);
   const [rollStarted, setRollStarted] = useState(false);
-  const [lastRollNumber, setLastRollNumber] = useState(0);
   const [challengesConfigs, setChallengesConfigs] = useState(null);
   const [acceleratorsStatus, setAcceleratorsStatus] = useState(false);
   const [challengeForRelaunch, setChallengeForRelaunch] = useState(null);
@@ -359,7 +358,6 @@ function App({ user, loadingUser }) {
           setEndTime(endDateTime);
           setSkipEndTime(skipEndDateTime);
           setIsSkipAvailable(response.data.isSkipAvailable);
-          setLastRollNumber(response.data.lastRollNumber);
         })
         .catch((error) => {
           console.error("Check is roll available error: ", error);
@@ -465,7 +463,6 @@ function App({ user, loadingUser }) {
             setEndTime={setEndTime}
             setRollStarted={setRollStarted}
             setTonBalance={setTonBalance}
-            setLastRollNumber={setLastRollNumber}
             isAnimating={isAnimating}
             currentContent={currentContent}
             displayNumber={displayNumber}
