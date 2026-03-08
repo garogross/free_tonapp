@@ -3,13 +3,16 @@
 .rullet {
   width: 100%;
   @include flexCol();
-  aspect-ratio: 464/192;
+  aspect-ratio: 464/180;
   gap: 10px;
   border: 2px solid #52436c;
   border-radius: 35px;
   background: #241735;
   padding: 12px;
   position: relative;
+  max-width: 70%;
+  margin-inline: auto;
+
   @include smScreenMedia {
     aspect-ratio: 334/106;
     gap: 5px;
@@ -29,7 +32,7 @@
   }
 
   &__itemText {
-    @include setFont(min(14vw, 80px), 700);
+    @include setFont(min(13vw, 80px), 700);
     background: linear-gradient(180deg, #e5b94d 0%, #f3e182 50%, #cf9220 100%);
     background-clip: text;
     -webkit-background-clip: text;
