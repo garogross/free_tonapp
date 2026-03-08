@@ -30,9 +30,14 @@ const Header = ({ tonBalance }) => {
   const { t, i18n } = useTranslation();
   const [langOpen, setLangOpen] = useState(false);
   const [selectedLang, setSelectedLang] = useState(
-    i18n.language === "ru" ? "RU" : "EN",
+    i18n.language.toLowerCase() === "ru" ? "RU" : "EN",
   );
   const dropdownRef = useRef(null);
+  console.log("i18n.language", i18n.language);
+
+  useEffect(() => {
+    setSelectedLang(i18n.language.toUpperCase());
+  }, [i18n.language]);
 
   useEffect(() => {
     let data;
@@ -69,7 +74,11 @@ const Header = ({ tonBalance }) => {
 
   const handleLangSwitch = (lang) => {
     setSelectedLang(lang);
-    i18n.changeLanguage(lang.toLowerCase());
+    try {
+      i18n.changeLanguage(lang);
+    } catch (error) {
+      console.error("i18n error", error);
+    }
     setLangOpen(false);
   };
 
@@ -130,7 +139,6 @@ const Header = ({ tonBalance }) => {
                 <button
                   className={styles.header__dropdownItem}
                   onClick={() => handleLangSwitch("RU")}
-                  disabled={selectedLang === "RU"}
                   type="button"
                 >
                   RU
@@ -138,7 +146,6 @@ const Header = ({ tonBalance }) => {
                 <button
                   className={styles.header__dropdownItem}
                   onClick={() => handleLangSwitch("EN")}
-                  disabled={selectedLang === "EN"}
                   type="button"
                 >
                   EN
