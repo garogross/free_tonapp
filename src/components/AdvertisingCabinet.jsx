@@ -3,11 +3,13 @@ import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 import { starImg, starWebpImg } from "../assets/images";
 import styles from "./AdvertisingCabinet.module.scss";
+import ArrowBottomIcon from "./icons/Common/ArrowBottomIcon";
 import ImageWebp from "./layout/ImageWebp/ImageWebp";
 import SecondaryBtn from "./layout/SecondaryBtn/SecondaryBtn";
 
 export default function AdvertisingCabinet({
   setCurrentContent,
+  setProfileSubMenu,
   tonBalance,
   adPackages,
   course,
@@ -118,9 +120,24 @@ export default function AdvertisingCabinet({
   return (
     <div className={clsx(styles.advertisingCabinet, "container")}>
       <div className={styles.advertisingCabinet__container}>
-        <div className={styles.advertisingCabinet__balanceTitle}>
-          {t("yourBalanceTitle")}
+        <div className={styles.advertisingCabinet__header}>
+          <div className={styles.advertisingCabinet__heraderCol}>
+            <button
+              onClick={() => setProfileSubMenu("profile")}
+              className={styles.advertisingCabinet__backBtn}
+            >
+              <ArrowBottomIcon
+                className={styles.advertisingCabinet__arrowIcon}
+              />
+            </button>
+          </div>
+          <h3 className={styles.advertisingCabinet__title}>
+            {" "}
+            {t("yourBalanceTitle")}
+          </h3>
+          <div className={styles.advertisingCabinet__heraderCol}></div>
         </div>
+
         <div className={styles.advertisingCabinet__balanceContainer}>
           <div className={styles.advertisingCabinet__balanceValue}>
             {starsMode

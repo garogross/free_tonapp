@@ -552,6 +552,7 @@ function App({ user, loadingUser }) {
               <>
                 <AdvertisingCabinet
                   setCurrentContent={setCurrentContent}
+                  setProfileSubMenu={setProfileSubMenu}
                   tonBalance={tonBalance}
                   advertisements={advertisements}
                   adPackages={adPackages}

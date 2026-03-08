@@ -18,15 +18,58 @@
     display: flex;
     padding: 10px;
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
     overflow: hidden;
   }
 
-  // Balance Title
-  &__balanceTitle {
-    @include setFont(clamp(20px, 4vw, 28px), 700);
-    color: $color-white;
+  &__header {
+    width: 100%;
+    @include flexCol(space-between);
+    gap: 10px;
+
+    @include smScreenMedia {
+      gap: 7px;
+    }
+  }
+  &__heraderCol {
+    flex: 1;
+  }
+
+  &__backBtn {
+    @include button(
+      linear-gradient(90deg, #47547f 0%, #484777 34.41%, #543981 100%),
+      1px solid #edcb9b
+    );
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    @include flexCol();
+
+    @include smScreenMedia {
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  &__arrowIcon {
+    width: 16px;
+    transform: rotate(90deg);
+    fill: #ffd100;
+
+    @include smScreenMedia {
+      width: 12px;
+    }
+  }
+
+  &__title {
+    @include setFont(26px, 500);
     text-align: center;
+    flex: 1;
+    white-space: nowrap;
+
+    @include smScreenMedia {
+      @include setFont(19px, 500);
+    }
   }
 
   // Balance Container
