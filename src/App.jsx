@@ -33,7 +33,7 @@ import { useNotification } from "./components/useNotification";
 import "./i18n";
 
 function App({ user, loadingUser }) {
-  const [currentContent, setCurrentContent] = useState("addPackagesForm");
+  const [currentContent, setCurrentContent] = useState("cran");
   const [profileSubMenu, setProfileSubMenu] = useState("profile");
   const [currentChallenge, setCurrentChallenge] = useState("surfing");
   const [selectedPackage, setSelectedPackage] = useState(null);
