@@ -137,14 +137,20 @@ const Header = ({ tonBalance }) => {
                 style={{ zIndex: 10 }}
               >
                 <button
-                  className={styles.header__dropdownItem}
+                  className={clsx(
+                    styles.header__dropdownItem,
+                    selectedLang === "RU" && styles.header__dropdownItem_active,
+                  )}
                   onClick={() => handleLangSwitch("RU")}
                   type="button"
                 >
                   RU
                 </button>
                 <button
-                  className={styles.header__dropdownItem}
+                  className={clsx(
+                    styles.header__dropdownItem,
+                    selectedLang === "EN" && styles.header__dropdownItem_active,
+                  )}
                   onClick={() => handleLangSwitch("EN")}
                   type="button"
                 >

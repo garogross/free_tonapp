@@ -134,10 +134,10 @@
   &__dropdownItem {
     @include button(rgba(255, 255, 255, 0.07));
     @include setFont(18px, 500);
-    padding: 4px 14px;
+    padding: 8px 14px;
     border-radius: 10px;
     width: 100%;
-    text-align: left;
+    text-align: center;
     transition: $transition;
     background: rgba(255, 255, 255, 0.07);
 
@@ -151,12 +151,6 @@
     &_active {
       background: rgba(255, 255, 255, 0.26);
       color: #d2c8e1;
-    }
-
-    @include smScreenMedia {
-      @include setFont(12px, 500);
-      padding: 2px 8px;
-      border-radius: 6px;
     }
   }
 }
