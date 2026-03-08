@@ -261,5 +261,13 @@
     "buttonText": "SUBSCRIBE",
     "checkText": "CHECK",
     "failedCheck": "Unable to verify subscription"
+  },
+  "cashIn": {
+    "title": "Top Up",
+    "description": "You can top up your account in Ton",
+    "scanQr": "Scan the QR code",
+    "copyAddress": "Copy the address",
+    "successCopy": "Address copied to clipboard!",
+    "iPaid": "I paid"
   }
 }

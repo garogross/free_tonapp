@@ -1,0 +1,121 @@
+@use "@/styles/style" as *;
+
+.cashInRequestForm {
+  width: 100%;
+
+  &__container {
+    background: #372646;
+    border: 5px solid #756589;
+    border-radius: 35px;
+    width: 100%;
+    padding: 20px;
+    @include flexCol();
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  @include smScreenMedia {
+    border-radius: 22px;
+    padding: 14px;
+    gap: 13px;
+  }
+
+  &__container {
+    width: 100%;
+    @include flexCol(space-between);
+    flex-direction: column;
+    gap: 10px;
+
+    @include smScreenMedia {
+      gap: 7px;
+    }
+  }
+
+  &__title {
+    @include setFont(26px, 800);
+    text-align: center;
+    flex: 1;
+
+    @include smScreenMedia {
+      @include setFont(19px, 800);
+    }
+  }
+
+  &__description {
+    @include setFont(16px, 500);
+    text-align: center;
+    color: #f4f4f4;
+    margin-top: 10px;
+
+    @include smScreenMedia {
+      @include setFont(13px, 500);
+      margin-top: 5px;
+    }
+  }
+
+  &__inputContainer {
+    width: 100%;
+  }
+
+  &__input {
+    width: 100%;
+    height: 64px;
+    border: 1px solid #7a649b;
+    border-radius: 15px;
+    background: #1f1a35;
+    @include setFont(20px, 500);
+    transition: $transition;
+    padding: 10px 20px;
+
+    &:focus,
+    &:active {
+      border-color: #ffd100;
+    }
+
+    &:hover {
+      border-color: #e7b775;
+    }
+
+    &::placeholder {
+      color: #8e7b7b;
+    }
+
+    @include smScreenMedia {
+      height: 38px;
+      border-radius: 10px;
+      @include setFont(15px, 500);
+      padding: 7px 12px;
+    }
+  }
+
+  &__button {
+    @include button(
+      linear-gradient(90deg, #47547f 0%, #484777 34.41%, #543981 100%),
+      1px solid #edcb9b
+    );
+    width: 100%;
+    height: 48px;
+    border-radius: 18px;
+    @include setFont(18px, 600, #ffd100);
+
+    @include smScreenMedia {
+      height: 38px;
+      border-radius: 12px;
+      @include setFont(14px, 600, #ffd100);
+    }
+  }
+
+  &__unlinkButton {
+    @include button(#3f324d);
+    width: 100%;
+    height: 40px;
+    border-radius: 15px;
+    @include setFont(16px, 600, #e9c68a);
+
+    @include smScreenMedia {
+      height: 32px;
+      border-radius: 10px;
+      @include setFont(12px, 600, #e9c68a);
+    }
+  }
+}
