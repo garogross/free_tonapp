@@ -7,6 +7,8 @@ import closeIconImg from "./images/common/closeIcon.png";
 import closeIconWebpImg from "./images/common/closeIcon.webp";
 import starImg from "./images/common/star.png";
 import starWebpImg from "./images/common/star.webp";
+import tonImg from "./images/common/ton.png";
+import tonWebpImg from "./images/common/ton.webp";
 
 // Header
 import headerGlobImg from "./images/header/headerGlob.png";
@@ -94,4 +96,6 @@ export {
   profileWithdrawIconWebpImg,
   starImg,
   starWebpImg,
+  tonImg,
+  tonWebpImg,
 };
