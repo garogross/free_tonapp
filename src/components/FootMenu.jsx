@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { useTranslation } from "react-i18next";
 import styles from "./FootMenu.module.scss";
 import {
   FriendsIcon,
@@ -7,35 +8,36 @@ import {
   ProfileIcon,
   TasksIcon,
 } from "./icons/BottomNavbar";
+const items = [
+  {
+    key: "cran",
+    text: "cran",
+    icon: HomeIcon,
+  },
+  {
+    key: "staking",
+    text: "challenges",
+    icon: MiningIcon,
+  },
+  {
+    key: "challenges",
+    text: "staking",
+    icon: TasksIcon,
+  },
+  {
+    key: "friends",
+    text: "friends",
+    icon: FriendsIcon,
+  },
+  {
+    key: "profile",
+    text: "profile",
+    icon: ProfileIcon,
+  },
+];
 
 export default function FootMenu({ setCurrentContent, currentContent }) {
-  const items = [
-    {
-      key: "cran",
-      text: "Кран",
-      icon: HomeIcon,
-    },
-    {
-      key: "staking",
-      text: "Майнинг",
-      icon: MiningIcon,
-    },
-    {
-      key: "challenges",
-      text: "Задания",
-      icon: TasksIcon,
-    },
-    {
-      key: "friends",
-      text: "Друзья",
-      icon: FriendsIcon,
-    },
-    {
-      key: "profile",
-      text: "Профиль",
-      icon: ProfileIcon,
-    },
-  ];
+  const { t } = useTranslation();
 
   return (
     <div className={styles.footMenu}>
@@ -52,7 +54,9 @@ export default function FootMenu({ setCurrentContent, currentContent }) {
               })}
             >
               <Icon className={styles.footMenu__icon} />
-              <span className={styles.footMenu__linkText}>{item.text}</span>
+              <span className={styles.footMenu__linkText}>
+                {t("footMenu." + item.text)}
+              </span>
             </button>
           );
         })}
