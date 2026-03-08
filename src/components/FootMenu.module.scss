@@ -21,9 +21,9 @@ $color-yellow-light: #ffe066;
     @include flexCol();
     flex-direction: column;
     gap: 4px;
-    color: $color-white;
-    fill: $color-white;
-    stroke: $color-white;
+    color: #696e72;
+    fill: #696e72;
+    stroke: #696e72;
     text-decoration: none;
     transition: $transition;
 

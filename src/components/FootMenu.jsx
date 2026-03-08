@@ -16,12 +16,12 @@ const items = [
   },
   {
     key: "staking",
-    text: "challenges",
+    text: "staking",
     icon: MiningIcon,
   },
   {
     key: "challenges",
-    text: "staking",
+    text: "challenges",
     icon: TasksIcon,
   },
   {
