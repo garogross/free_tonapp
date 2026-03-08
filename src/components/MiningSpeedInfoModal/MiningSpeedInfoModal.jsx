@@ -334,7 +334,7 @@ const MiningSpeedInfoModal = ({
                           styles.miningSpeedInfoModal__acceleratorItemDescription
                         }
                       >
-                        {(acceleratorsConfig[0].profitPerDay / 0.0864).toFixed(
+                        {(acceleratorsConfig[0]?.profitPerDay / 0.0864).toFixed(
                           1,
                         )}{" "}
                         mkT/s
@@ -365,7 +365,7 @@ const MiningSpeedInfoModal = ({
                           styles.miningSpeedInfoModal__acceleratorItemDescription
                         }
                       >
-                        {(acceleratorsConfig[1].profitPerDay / 0.0864).toFixed(
+                        {(acceleratorsConfig[1]?.profitPerDay / 0.0864).toFixed(
                           1,
                         )}{" "}
                         mkT/s
@@ -396,7 +396,7 @@ const MiningSpeedInfoModal = ({
                           styles.miningSpeedInfoModal__acceleratorItemDescription
                         }
                       >
-                        {(acceleratorsConfig[2].profitPerDay / 0.0864).toFixed(
+                        {(acceleratorsConfig[2]?.profitPerDay / 0.0864).toFixed(
                           1,
                         )}{" "}
                         mkT/s
@@ -418,7 +418,7 @@ const MiningSpeedInfoModal = ({
                     >
                       {isAcceleratorsLoading
                         ? spinner
-                        : `${acceleratorsConfig[selectedAccelerator].rentPeriod} ${t(
+                        : `${acceleratorsConfig[selectedAccelerator]?.rentPeriod} ${t(
                             "stakingForm.daysPlural",
                           )}`}
                     </div>
