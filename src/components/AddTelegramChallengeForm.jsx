@@ -1,7 +1,8 @@
-import { retrieveRawInitData } from "@telegram-apps/sdk";
+import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import "./AddTelegramChallengeForm.css";
+import { api } from "../api/axios";
+import styles from "./AddTelegramChallengeForm.module.scss";
 import { useNotification } from "./useNotification";
 
 export default function AddTelegramChallengeForm({
@@ -66,10 +67,12 @@ export default function AddTelegramChallengeForm({
       setChannelId(challengeForRelaunch.channelId);
       setChallengeForRelaunch(null);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [challengeForRelaunch]);
 
   useEffect(() => {
     setIsFormValid(validateForm());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     challengeName,
     challengeDescription,
@@ -155,6 +158,7 @@ export default function AddTelegramChallengeForm({
         ) {
           showError(t("addTelegramChallengeForm.linkMustBeTelegram"));
         }
+        // eslint-disable-next-line no-unused-vars
       } catch (_) {
         showError(t("addChallengeForm.enterValidUrl"));
       }
@@ -177,14 +181,6 @@ export default function AddTelegramChallengeForm({
       showError(t("addTelegramChallengeForm.idMustStart"));
       setIsLoading(false);
       return;
-    }
-
-    let dataRaw;
-    try {
-      dataRaw = retrieveRawInitData();
-    } catch (error) {
-      console.error("Error retrieving raw init data:", error);
-      dataRaw = null;
     }
 
     const postData = {
@@ -227,6 +223,7 @@ export default function AddTelegramChallengeForm({
     let doAmount = Number(challengeDoAmount) || 0;
     setCalculateTotalPrice((priceBySelectedType || 0) * doAmount);
     setIsLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [challengeDoAmount, challengesConfigs, selectedType]);
 
   const options = [
@@ -238,13 +235,7 @@ export default function AddTelegramChallengeForm({
 
   const handleCreateChallenge = () => {
     setIsLoading(true);
-    let dataRaw;
-    try {
-      dataRaw = retrieveRawInitData();
-    } catch (error) {
-      console.error("Error retrieving raw init data:", error);
-      dataRaw = null;
-    }
+
     const postData = {
       challengeName: challengeName,
       challengeDescription: challengeDescription,
@@ -284,39 +275,39 @@ export default function AddTelegramChallengeForm({
       return;
     }
     return checkChannelIdResult ? (
-      <div className="check-link-result yes">
+      <div className={styles["addTalegramChallengeForm__checkLinkResultYes"]}>
         {t("addTelegramChallengeForm.channelAvailable")}
       </div>
     ) : (
-      <div className="check-link-result no">
+      <div className={styles["addTalegramChallengeForm__checkLinkResultNo"]}>
         {t("addTelegramChallengeForm.cantAddThisChannel")}
       </div>
     );
   };
 
   return (
-    <div className="add-talegram-challenge-form">
-      <div className="add-challenge-form-title">
+    <div className={clsx(styles["addTalegramChallengeForm"], "container")}>
+      <div className={styles["addTalegramChallengeForm__title"]}>
         {t("addTelegramChallengeForm.createChallengeTelegram")}
       </div>
-      <div className="add-telegram-challenge-form-input-container">
-        <div className="selector-container">
+      <div className={styles["addTalegramChallengeForm__inputContainer"]}>
+        <div className={styles["addTalegramChallengeForm__selectorContainer"]}>
           <div
-            className={`add-telegram-challenge-form-select-container ${isDropdownOpen ? "open" : ""}`}
+            className={`${styles["addTalegramChallengeForm__selectContainer"]} ${isDropdownOpen ? styles["addTalegramChallengeForm__selectContainerOpen"] : ""}`}
             ref={dropdownRef}
           >
             <div
-              className="add-telegram-challenge-form-select"
+              className={styles["addTalegramChallengeForm__select"]}
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             >
               <span>{selectedOption?.label}</span>
             </div>
             {isDropdownOpen && (
-              <div className="add-add-form-add-options">
+              <div className={styles["addTalegramChallengeForm__options"]}>
                 {options.map((option) => (
                   <div
                     key={option.value}
-                    className="add-add-form-add-select-option"
+                    className={styles["addTalegramChallengeForm__option"]}
                     onClick={() => {
                       setSelectedType(option.value);
                       setIsDropdownOpen(false);
@@ -330,64 +321,64 @@ export default function AddTelegramChallengeForm({
           </div>
         </div>
         <input
-          className="add-challenge-form-input"
+          className={styles["addTalegramChallengeForm__input"]}
           type="text"
           placeholder={t("addChallengeForm.namePlaceholder")}
           onChange={handleChallengeNameChange}
           value={challengeName}
         />
         <textarea
-          className="add-challenge-form-input"
+          className={styles["addTalegramChallengeForm__input"]}
           type="text"
           placeholder={t("addChallengeForm.descriptionPlaceholder")}
           onChange={handleChallengeDescriptionChange}
           value={challengeDescription}
         />
         <input
-          className="add-challenge-form-input"
+          className={styles["addTalegramChallengeForm__input"]}
           type="text"
           placeholder={t("addChallengeForm.linkPlaceholder")}
           onChange={handleChallengeLinkChange}
           value={challengeLink}
         />
-        <div className="input-form-info">
+        <div className={styles["addTalegramChallengeForm__inputFormInfo"]}>
           {t("addTelegramChallengeForm.onlyPublicChannels")}
         </div>
         <input
-          className="add-challenge-form-input"
+          className={styles["addTalegramChallengeForm__input"]}
           type="text"
           placeholder={t("addTelegramChallengeForm.channelIdPlaceholder")}
           onChange={handleChannleIdChange}
           value={channelId}
         />
-        <div className="input-form-info">
+        <div className={styles["addTalegramChallengeForm__inputFormInfo"]}>
           {t("addTelegramChallengeForm.channelIdExample")}
         </div>
         <input
-          className="add-challenge-form-input"
+          className={styles["addTalegramChallengeForm__input"]}
           type="text"
           placeholder={t("addChallengeForm.doAmountPlaceholder")}
           onChange={handleChallengeDoAmountChange}
           value={challengeDoAmount}
         />
       </div>
-      <div className="add-telegram-challenge-info">
-        <div className="input-description-info">
+      <div className={styles["addTalegramChallengeForm__info"]}>
+        <div className={styles["addTalegramChallengeForm__descInfo"]}>
           {t("addTelegramChallengeForm.botAdminInfo")}
         </div>
         <div>
           <div
-            className="username-text"
+            className={styles["addTalegramChallengeForm__usernameText"]}
             onClick={() => copyTelegramUsername("@Freetoon_bot")}
           >
             @Freetoon_bot
           </div>
-          <div className="input-description-info">
+          <div className={styles["addTalegramChallengeForm__descInfo"]}>
             {t("addTelegramChallengeForm.clickToCopy")}
           </div>
         </div>
         <button
-          className="ping-check-button"
+          className={styles["addTalegramChallengeForm__pingCheckButton"]}
           onClick={handleCheckLink}
           disabled={isLoading}
         >
@@ -395,19 +386,23 @@ export default function AddTelegramChallengeForm({
         </button>
         {renderCheckChannleIdResult()}
       </div>
-      <div className="total-price-container">
-        <div className="total-price-container-title">
+      <div className={styles["addTalegramChallengeForm__totalPriceContainer"]}>
+        <div className={styles["addTalegramChallengeForm__totalPriceTitle"]}>
           {t("addChallengeForm.toPay")}:
         </div>
         <div
-          className={`total-price-container-price ${tonBalance < calculateTotalPrice ? "red" : "green"}`}
+          className={
+            tonBalance < calculateTotalPrice
+              ? styles["addTalegramChallengeForm__totalPriceRed"]
+              : styles["addTalegramChallengeForm__totalPriceGreen"]
+          }
         >
           {calculateTotalPrice.toFixed(6)}
         </div>
       </div>
-      <div className="add-challenge-form-button-container">
+      <div className={styles["addTalegramChallengeForm__buttonContainer"]}>
         <button
-          className="add-challenge-form-button"
+          className={styles["addTalegramChallengeForm__button"]}
           disabled={
             isLoading || tonBalance < calculateTotalPrice || !isFormValid
           }

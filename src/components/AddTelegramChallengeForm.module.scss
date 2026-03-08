@@ -1,0 +1,238 @@
+@use "@/styles/style" as *;
+
+// AddTelegramChallengeForm Styles
+
+.addTalegramChallengeForm {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-height: 100%;
+  padding-bottom: 10px;
+
+  &__title {
+    @include setFont(32px, 600);
+    text-align: center;
+
+    @include smScreenMedia {
+      @include setFont(26px, 600);
+    }
+  }
+
+  &__inputContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    @include smScreenMedia {
+      gap: 8px;
+    }
+  }
+
+  &__selectorContainer {
+    width: 100%;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  &__selectContainer {
+    position: relative;
+    width: 100%;
+
+    &Open {
+      z-index: 5;
+    }
+  }
+
+  &__select {
+    background: #372646;
+    border: 3px solid #756589;
+    border-radius: 10px;
+    padding: 10px 16px;
+    cursor: pointer;
+    @include setFont(20px, 400);
+    width: 100%;
+    transition: $transition;
+    &:hover {
+      border-color: #e7b775;
+    }
+    &:active,
+    &:focus {
+      border-color: #ffd100;
+    }
+  }
+
+  &__options {
+    position: absolute;
+    width: 100%;
+    background: #372646;
+    border: 3px solid #756589;
+    border-radius: 10px;
+    margin-top: 5px;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__option {
+    cursor: pointer;
+    padding: 10px 16px;
+    transition: background 0.2s;
+    @include setFont(18px, 400);
+
+    &:hover {
+      background: #573977;
+    }
+  }
+
+  &__input {
+    background: #372646;
+    border: 3px solid #756589;
+    border-radius: 15px;
+    width: 100%;
+    outline: none;
+    padding: 14px 15px;
+    @include setFont(22px, 300);
+    transition: $transition;
+
+    &:focus,
+    &:active {
+      border-color: #ffd100;
+    }
+
+    &:hover {
+      border-color: #e7b775;
+    }
+
+    @include smScreenMedia {
+      padding: 12px 12px;
+      @include setFont(18px, 300);
+    }
+  }
+
+  textarea#{&}__input {
+    min-height: 120px;
+    resize: none;
+
+    @include smScreenMedia {
+      min-height: 90px;
+    }
+  }
+
+  &__inputFormInfo {
+    @include setFont(16px, 400);
+    color: #b9adc2;
+    margin-bottom: 4px;
+  }
+
+  &__info {
+    margin-top: 16px;
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  &__descInfo {
+    @include setFont(15px, 400);
+    color: #b9adc2;
+  }
+
+  &__usernameText {
+    @include setFont(18px, 600);
+    color: #e7b775;
+    cursor: pointer;
+    background: none;
+    border: none;
+    display: inline;
+    padding: 0;
+    transition: color 0.12s;
+    &:hover {
+      color: #f7e074;
+    }
+  }
+
+  &__pingCheckButton {
+    @include button(#372646, 2px solid #756589);
+    padding: 8px 18px;
+    border-radius: 10px;
+    margin-top: 7px;
+    @include setFont(18px, 500);
+    width: fit-content;
+    transition: background 0.16s;
+    &:disabled {
+      background: #443359;
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+  }
+
+  &__checkLinkResultYes {
+    @include setFont(18px, 700);
+    color: $color-green-light;
+  }
+
+  &__checkLinkResultNo {
+    @include setFont(18px, 700);
+    color: #dc3c30;
+  }
+
+  &__totalPriceContainer {
+    width: 100%;
+    background: #25173b;
+    border: 3px solid #756589;
+    border-radius: 15px;
+    padding: 14px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    margin-top: 12px;
+    margin-bottom: 4px;
+    transition: $transition;
+
+    &_invalid {
+      border-color: #dc3c30;
+    }
+  }
+
+  &__totalPriceTitle {
+    @include setFont(22px, 500);
+  }
+
+  &__totalPriceGreen {
+    @include setFont(20px, 600);
+    color: $color-green-light;
+    transition: color 0.15s;
+  }
+
+  &__totalPriceRed {
+    @include setFont(20px, 600);
+    color: #dc3c30;
+    transition: color 0.15s;
+  }
+
+  &__buttonContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+
+  &__button {
+    @include button(#372646, 3px solid #ffd100);
+    border-radius: 14px;
+    padding: 13px 36px;
+    @include setFont(22px, 700);
+
+    &:disabled {
+      background: #443359;
+      border-color: #a9a5ab;
+      color: #cbc3c3;
+      cursor: not-allowed;
+      opacity: 0.75;
+    }
+  }
+}
