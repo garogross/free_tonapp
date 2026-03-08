@@ -119,26 +119,45 @@ function App({ user, loadingUser }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // --- Rewrite this effect according to instructions ---
+  // fix logic to stop when diff <= 0 && isPushed == true, and restart otherwise
   useEffect(() => {
-    if (isSkipAvailable) return;
+    let intervalId;
 
     function updateTimeLeft() {
       const now = new Date();
       const diff = Math.floor((new Date(skipEndTime) - now) / 1000);
-      console.log(diff);
-      if (diff <= 0 && isPushed == true) {
+      // If the skip time has ended AND isPushed is true, stop and enable skip
+      if (diff <= 0 && isPushed === true) {
         setSkipTimeLeft(0);
         setIsSkipAvailable(true);
+
+        // stop interval if running
+        if (intervalId) {
+          clearInterval(intervalId);
+        }
       } else {
         setSkipTimeLeft(diff);
+        // If we got here and interval is not yet set, set it (handled by setInterval in this effect)
       }
     }
-    updateTimeLeft();
 
-    const intervalId = setInterval(updateTimeLeft, 1000);
-    return () => clearInterval(intervalId);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [skipEndTime, isSkipAvailable]);
+    // Only run if skip is currently unavailable
+    if (!isSkipAvailable) {
+      updateTimeLeft();
+      intervalId = setInterval(() => {
+        updateTimeLeft();
+      }, 1000);
+    }
+
+    // Clean up the interval
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
+  }, [skipEndTime, isPushed, isSkipAvailable]);
+  // --- End rewrite ---
 
   async function getInitialNumbers() {
     api
