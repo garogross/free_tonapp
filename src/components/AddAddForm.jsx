@@ -1,9 +1,10 @@
 import { retrieveRawInitData } from "@telegram-apps/sdk";
+import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import "./AddAddForm.css";
+import { api } from "../api/axios";
+import styles from "./AddAddForm.module.scss";
 import { useNotification } from "./useNotification";
-
 export default function AddAddForm({
   selectedPackage,
   setAdvertisements,
@@ -98,6 +99,7 @@ export default function AddAddForm({
     }
     try {
       if (value.length > 0) new URL(value);
+      // eslint-disable-next-line no-unused-vars
     } catch (_) {
       if (value.length > 0) {
         showError(t("addAddForm.enterValidUrl"));
@@ -115,6 +117,7 @@ export default function AddAddForm({
     }
     try {
       if (value.length > 0) new URL(value);
+      // eslint-disable-next-line no-unused-vars
     } catch (_) {
       if (value.length > 0) {
         showError(t("addAddForm.enterValidUrl"));
@@ -134,7 +137,6 @@ export default function AddAddForm({
   };
 
   const options = [{ value: "1", label: t("addAddForm.text") }];
-
   const selectedOption = options.find((opt) => opt.value === selectedType);
 
   useEffect(() => {
@@ -176,6 +178,7 @@ export default function AddAddForm({
       }
       try {
         new URL(adLink);
+        // eslint-disable-next-line no-unused-vars
       } catch (_) {
         if (adLink.length > 0) {
           showError(t("addAddForm.enterValidUrl"));
@@ -198,6 +201,7 @@ export default function AddAddForm({
       }
       try {
         new URL(bannerLink);
+        // eslint-disable-next-line no-unused-vars
       } catch (_) {
         if (bannerLink.length > 0) {
           showError(t("addAddForm.enterValidUrl"));
@@ -240,51 +244,53 @@ export default function AddAddForm({
   };
 
   return (
-    <div className="add-add-form">
-      <div className="add-add-form-title">{t("addAddForm.adPlacement")}</div>
-      <div className="add-add-form-description">
+    <div className={clsx(styles.addAddForm, "container")}>
+      <div className={styles.addAddForm__title}>
+        {t("addAddForm.adPlacement")}
+      </div>
+      <div className={styles.addAddForm__description}>
         {t("addAddForm.adApplyDescription")}
       </div>
-      <div className="add-add-form-free-slots">
+      <div className={styles.addAddForm__freeSlots}>
         {t("addAddForm.freeSlots", { freeSlots: 10 - blockedSlots })}
       </div>
-      <div className="add-add-form-package-info-title">
+      <div className={styles.addAddForm__packageInfoTitle}>
         {t("addAddForm.packageInfo")}
       </div>
-      <div className="add-add-form-package-info-container">
-        <div className="add-add-form-package-info-item-title">
-          {t("addAddForm.name")}: {selectedPackage.adPackageName}
+      <div className={styles.addAddForm__packageInfoContainer}>
+        <div className={styles.addAddForm__packageInfoItemTitle}>
+          {t("addAddForm.name")}: {selectedPackage?.adPackageName}
         </div>
-        <div className="add-add-form-package-info-item-description">
-          {t("addAddForm.days")}: {selectedPackage.adDays}
+        <div className={styles.addAddForm__packageInfoItemDescription}>
+          {t("addAddForm.days")}: {selectedPackage?.adDays}
         </div>
-        <div className="add-add-form-package-info-item-price-container">
-          <div className="add-add-form-package-info-item-price">
-            {t("addAddForm.price")}: {selectedPackage.price}
+        <div className={styles.addAddForm__packageInfoItemPriceContainer}>
+          <div className={styles.addAddForm__packageInfoItemPrice}>
+            {t("addAddForm.price")}: {selectedPackage?.price}
           </div>
-          <div className="add-add-form-package-info-item-price-icon">
+          <div className={styles.addAddForm__packageInfoItemPriceIcon}>
             <img src="/assets/ton.svg" alt="TON" />
           </div>
         </div>
       </div>
-      <div className="add-add-form-add-title">{t("addAddForm.addAd")}</div>
-      <div className="add-add-form-add-container">
+      <div className={styles.addAddForm__addTitle}>{t("addAddForm.addAd")}</div>
+      <div className={styles.addAddForm__addContainer}>
         <div
-          className={`add-add-form-add-select-container ${isDropdownOpen ? "open" : ""}`}
+          className={`${styles.addAddForm__addSelectContainer} ${isDropdownOpen ? styles.open : ""}`}
           ref={dropdownRef}
         >
           <div
-            className="add-add-form-add-select"
+            className={styles.addAddForm__addSelect}
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
           >
             <span>{selectedOption?.label}</span>
           </div>
           {isDropdownOpen && (
-            <div className="add-add-form-add-options">
+            <div className={styles.addAddForm__addOptions}>
               {options.map((option) => (
                 <div
                   key={option.value}
-                  className="add-add-form-add-select-option"
+                  className={styles.addAddForm__addSelectOption}
                   onClick={() => {
                     setSelectedType(option.value);
                     setIsDropdownOpen(false);
@@ -301,21 +307,21 @@ export default function AddAddForm({
             <input
               type="text"
               placeholder={t("addAddForm.adTextPlaceholder")}
-              className="add-add-form-add-input"
+              className={styles.addAddForm__addInput}
               onChange={handleAdTextChange}
               value={adText}
             />
             <input
               type="text"
               placeholder={t("addAddForm.adLinkPlaceholder")}
-              className="add-add-form-add-input"
+              className={styles.addAddForm__addInput}
               onChange={handleAdLinkChange}
               value={adLink}
             />
             <input
               type="text"
               placeholder={t("addAddForm.adButtonTextPlaceholder")}
-              className="add-add-form-add-input"
+              className={styles.addAddForm__addInput}
               onChange={handleAdButtonTextChange}
               value={adButtonText}
             />
@@ -326,36 +332,36 @@ export default function AddAddForm({
               type="file"
               accept="image/*"
               onChange={handleBannerChange}
-              className="add-add-form-add-input"
+              className={styles.addAddForm__addInput}
             />
             {bannerFile && (
-              <div className="banner-preview-container">
+              <div className={styles.addAddForm__bannerPreviewContainer}>
                 <img
                   src={bannerPreviewUrl}
                   alt={t("addAddForm.bannerPreviewAlt")}
-                  className="banner-preview"
+                  className={styles.addAddForm__bannerPreview}
                 />
               </div>
             )}
-            <div className="add-banner-description">
+            <div className={styles.addAddForm__addBannerDescription}>
               {t("addAddForm.bannerSizeDescription")}
             </div>
             <input
               type="text"
               placeholder={t("addAddForm.bannerLinkPlaceholder")}
-              className="add-add-form-add-input"
+              className={styles.addAddForm__addInput}
               onChange={handleBannerLinkChange}
               value={bannerLink}
             />
           </>
         )}
       </div>
-      <div className="add-add-form-add-button-container">
+      <div className={styles.addAddForm__addButtonContainer}>
         <button
-          className="add-add-form-add-button"
+          className={styles.addAddForm__addButton}
           onClick={() =>
             startAdvertisement(
-              selectedPackage.adPackageName,
+              selectedPackage?.adPackageName,
               adText,
               adLink,
               adButtonText,

@@ -1,0 +1,283 @@
+@use "@/styles/style" as *;
+
+.addAddForm {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  min-height: 100%;
+  padding-bottom: 10px;
+
+  &__title {
+    @include setFont(32px, 600);
+    text-align: center;
+
+    @include smScreenMedia {
+      @include setFont(26px, 600);
+    }
+  }
+
+  &__description {
+    @include setFont(20px, 400);
+    color: #cccccc;
+    text-align: center;
+
+    @include smScreenMedia {
+      @include setFont(16px, 400);
+    }
+  }
+
+  &__freeSlots {
+    @include setFont(16px, 500);
+    color: #ffd100;
+    text-align: center;
+    margin-bottom: 8px;
+
+    @include smScreenMedia {
+      @include setFont(14px, 500);
+    }
+  }
+
+  &__packageInfoTitle {
+    @include setFont(22px, 600);
+    text-align: left;
+    margin-bottom: 6px;
+    color: #fff;
+  }
+
+  &__packageInfoContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: #25173b;
+    border: 3px solid #756589;
+    border-radius: 15px;
+    padding: 12px 15px;
+
+    @include smScreenMedia {
+      padding: 8px 10px;
+    }
+  }
+
+  &__packageInfoItemTitle {
+    @include setFont(20px, 600);
+    color: #fff;
+
+    @include smScreenMedia {
+      @include setFont(16px, 600);
+    }
+  }
+
+  &__packageInfoItemDescription {
+    @include setFont(17px, 400);
+    color: #bbb;
+
+    @include smScreenMedia {
+      @include setFont(14px, 400);
+    }
+  }
+
+  &__packageInfoItemPriceContainer {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  &__packageInfoItemPrice {
+    @include setFont(20px, 600);
+    color: #ffd100;
+
+    @include smScreenMedia {
+      @include setFont(16px, 600);
+    }
+  }
+
+  &__packageInfoItemPriceIcon {
+    width: 22px;
+    height: 22px;
+
+    & img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+  }
+
+  &__addTitle {
+    @include setFont(22px, 600);
+    margin-top: 16px;
+    margin-bottom: 8px;
+    text-align: left;
+    color: #fff;
+  }
+
+  &__addContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    background: #25173b;
+    border: 3px solid #756589;
+    border-radius: 15px;
+    padding: 16px 18px;
+
+    @include smScreenMedia {
+      padding: 10px 8px;
+      gap: 10px;
+    }
+  }
+
+  &__addSelectContainer {
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    &.open .addAddForm__addOptions {
+      display: block;
+    }
+  }
+
+  &__addSelect {
+    @include setFont(18px, 500);
+    background: #372646;
+    border: 2px solid #756589;
+    border-radius: 10px;
+    padding: 12px;
+    cursor: pointer;
+    color: #ffd100;
+    transition: border-color 0.2s;
+
+    &:hover,
+    &:focus {
+      border-color: #ffd100;
+    }
+
+    @include smScreenMedia {
+      padding: 10px;
+      @include setFont(16px, 600);
+    }
+  }
+
+  &__addOptions {
+    display: none;
+    position: absolute;
+    top: 105%;
+    left: 0;
+    width: 100%;
+    background: #372646;
+    border: 2px solid #756589;
+    border-radius: 10px;
+    z-index: 2;
+    margin-top: 2px;
+    transition: $transition;
+    box-shadow: 0 4px 14px #00000018;
+  }
+
+  &__addSelectOption {
+    padding: 10px;
+    cursor: pointer;
+    @include setFont(16px, 400);
+    color: #ffd100;
+    border-bottom: 1px solid #756589;
+
+    &:last-child {
+      border-bottom: none;
+    }
+    &:hover,
+    &:focus {
+      background: #573977;
+    }
+  }
+
+  &__addInput {
+    background: #372646;
+    border: 3px solid #756589;
+    border-radius: 15px;
+    width: 100%;
+    outline: none;
+    padding: 14px 15px;
+    @include setFont(22px, 300);
+    color: #fff;
+    transition: $transition;
+
+    &:focus,
+    &:active {
+      border-color: #ffd100;
+    }
+
+    &:hover {
+      border-color: #e7b775;
+    }
+
+    @include smScreenMedia {
+      padding: 12px 12px;
+      @include setFont(18px, 300);
+    }
+  }
+
+  &__bannerPreviewContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 7px 0;
+
+    @include smScreenMedia {
+      margin: 3px 0;
+    }
+  }
+
+  &__bannerPreview {
+    border-radius: 10px;
+    max-width: 330px;
+    width: 100%;
+    @include smScreenMedia {
+      max-width: 240px;
+    }
+  }
+
+  &__addBannerDescription {
+    @include setFont(15px, 400);
+    color: #8d7ead;
+    margin-bottom: 2px;
+    text-align: center;
+  }
+
+  &__addButtonContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  &__addButton {
+    @include button(#ffd100, 2px solid #ffd100);
+    color: #25173b;
+    border-radius: 35px;
+    padding: 14px 35px;
+    font-weight: 800;
+    @include setFont(22px, 600);
+    transition:
+      background 0.25s,
+      color 0.25s;
+
+    &:disabled {
+      background: #c2a940;
+      color: #958157;
+      cursor: not-allowed;
+    }
+
+    &:hover:not(:disabled),
+    &:focus:not(:disabled) {
+      background: #ffe96a;
+      color: #25173b;
+    }
+
+    @include smScreenMedia {
+      padding: 11px 18px;
+      @include setFont(18px, 700);
+    }
+  }
+}
