@@ -547,6 +547,7 @@ function App({ user, loadingUser }) {
                 {/* <TransactionTable transactions={transactions} /> */}
               </>
             );
+
           case "advertising":
             return (
               <>
@@ -562,7 +563,7 @@ function App({ user, loadingUser }) {
               </>
             );
         }
-      // eslint-disable-next-line no-fallthrough
+        break;
       case "cashIn":
         return (
           <>
@@ -578,6 +579,7 @@ function App({ user, loadingUser }) {
             />
           </>
         );
+
       case "cashOut":
         return (
           <>

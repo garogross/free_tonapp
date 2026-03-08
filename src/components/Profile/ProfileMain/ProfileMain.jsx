@@ -165,7 +165,7 @@ const ProfileMain = ({ setProfileSubMenu, setCurrentContent }) => {
             isSecondaryVariant
             size="md"
             className={styles.profileMain__btn}
-            onClick={() => setProfileSubMenu("cashOut")}
+            onClick={() => setCurrentContent("cashOut")}
           >
             <ImageWebp
               src={profileWithdrawIconImg}
