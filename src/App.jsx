@@ -525,26 +525,6 @@ function App({ user, loadingUser }) {
                   setProfileSubMenu={setProfileSubMenu}
                   setCurrentContent={setCurrentContent}
                 />
-                {/* <ProfileMenu
-                  profileSubMenu={profileSubMenu}
-                  setProfileSubMenu={setProfileSubMenu}
-                /> */}
-                {/* <Rullet
-                  currentContent={currentContent}
-                  gridRow="2"
-                  setCurrentContent={setCurrentContent}
-                  luckyNumber={null}
-                  isPushed={true}
-                  endTime={endTime}
-                  setIsPushed={setIsPushed}
-                  rollStarted={rollStarted}
-                  setRollStarted={setRollStarted}
-                  tonBalance={tonBalance}
-                  lastRollNumber={lastRollNumber}
-                  course={course}
-                  starsMode={starsMode}
-                /> */}
-                {/* <TransactionTable transactions={transactions} /> */}
               </>
             );
 
