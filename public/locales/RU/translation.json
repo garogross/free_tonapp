@@ -123,8 +123,8 @@
       "level3Desc": "Получайте 20% от их дохода"
     }
   },
-  "rulletConnect": "ПОДКЛЮЧИТЬ",
-  "rulletTopUp": "ПОПОЛНИТЬ",
+  "rulletConnect": "Подключить",
+  "rulletTopUp": "Пополнить",
   "rulletAddressCheckError": "Ошибка проверки адреса",
   "profileTitle": "Профиль",
   "advertisementCabinet": "Реклама",

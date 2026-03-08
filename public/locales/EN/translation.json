@@ -124,8 +124,8 @@
       "level3Desc": "Receive 20% of their income"
     }
   },
-  "rulletConnect": "CONNECT",
-  "rulletTopUp": "TOP UP",
+  "rulletConnect": "Connect",
+  "rulletTopUp": "Top up",
   "rulletAddressCheckError": "Address verification error",
   "profileTitle": "Profile",
   "advertisementCabinet": "Advertisement",
