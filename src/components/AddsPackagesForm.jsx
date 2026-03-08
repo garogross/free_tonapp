@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 import { tonImg, tonWebpImg } from "../assets/images";
 import styles from "./AddsPackagesForm.module.scss";
@@ -23,7 +24,7 @@ export default function AddsPackagesForm({
   };
 
   return (
-    <div className={styles.addPackagesForm}>
+    <div className={clsx(styles.addPackagesForm, "container")}>
       <div className={styles.addPackagesForm__title}>
         {t("addsPackagesForm.title")}
       </div>
