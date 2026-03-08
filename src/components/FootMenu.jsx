@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import "./FootMenu.css";
 import styles from "./FootMenu.module.scss";
 import {
   FriendsIcon,
