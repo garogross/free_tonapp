@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { api } from "../api/axios";
 import styles from "./AddChallengeForm.module.scss";
+import ArrowBottomIcon from "./icons/Common/ArrowBottomIcon";
 import MainButton from "./layout/MainButton/MainButton";
 import SecondaryBtn from "./layout/SecondaryBtn/SecondaryBtn";
 import { useNotification } from "./useNotification";
@@ -17,6 +18,7 @@ export default function AddChallengeForm({
   setTonBalance,
   challengeForRelaunch,
   setChallengeForRelaunch,
+  goBack,
 }) {
   const { showError, showNotification } = useNotification();
   const [selectedTimes, setSelectedTimes] = useState("10");
@@ -279,11 +281,20 @@ export default function AddChallengeForm({
 
   return (
     <section className={clsx(styles.addChallengeForm, "container")}>
-      <h2 className={styles.addChallengeForm__titleText}>
-        {" "}
-        {t("addChallengeForm.createChallenge")}{" "}
-        {titleCurrentChalengeToName(currentChallenge)}
-      </h2>
+      <div className={styles.addChallengeForm__header}>
+        <div className={styles.addChallengeForm__heraderCol}>
+          <button onClick={goBack} className={styles.addChallengeForm__backBtn}>
+            <ArrowBottomIcon className={styles.addChallengeForm__arrowIcon} />
+          </button>
+        </div>
+        <h2 className={styles.addChallengeForm__titleText}>
+          {" "}
+          {t("addChallengeForm.createChallenge")}{" "}
+          {titleCurrentChalengeToName(currentChallenge)}
+        </h2>
+        <div className={styles.addChallengeForm__heraderCol}></div>
+      </div>
+
       <form
         onSubmit={handleCreateChallenge}
         className={styles.addChallengeForm__form}

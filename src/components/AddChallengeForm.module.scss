@@ -9,6 +9,45 @@
   min-height: 100%;
   padding-bottom: 10px;
 
+  &__header {
+    width: 100%;
+    @include flexCol(space-between);
+    gap: 10px;
+
+    @include smScreenMedia {
+      gap: 7px;
+    }
+  }
+  &__heraderCol {
+    flex: 1;
+  }
+
+  &__backBtn {
+    @include button(
+      linear-gradient(90deg, #47547f 0%, #484777 34.41%, #543981 100%),
+      1px solid #edcb9b
+    );
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    @include flexCol();
+
+    @include smScreenMedia {
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  &__arrowIcon {
+    width: 16px;
+    transform: rotate(90deg);
+    fill: #ffd100;
+
+    @include smScreenMedia {
+      width: 12px;
+    }
+  }
+
   &__titleText {
     @include setFont(32px, 600);
     text-align: center;

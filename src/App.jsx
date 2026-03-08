@@ -585,6 +585,7 @@ function App({ user, loadingUser }) {
               setTonBalance={setTonBalance}
               challengeForRelaunch={challengeForRelaunch}
               setChallengeForRelaunch={setChallengeForRelaunch}
+              goBack={() => setCurrentContent("challenges")}
             />
           </>
         );
