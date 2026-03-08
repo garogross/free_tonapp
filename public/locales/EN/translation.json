@@ -111,8 +111,8 @@
     "invite": "INVITE",
     "copyLink": "COPY LINK",
     "listOfFriends": "Your friends list",
-    "totalIncome": "Total income",
-    "totalReferrals": "Total Referrals",
+    "totalIncome": "Income",
+    "totalReferrals": "Total",
     "yourReferrals": "YOUR REFERRALS",
     "friendAmount": "Number of friends",
     "rewards": {

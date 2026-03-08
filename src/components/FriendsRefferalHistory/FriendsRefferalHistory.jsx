@@ -20,19 +20,19 @@ const FriendsRefferalHistory = (totalPrize, course, friends) => {
   return (
     <div className={styles.friendsRefferalHistory}>
       <div className={styles.friendsRefferalHistory__header}>
-        <h3 className={styles.friendsRefferalHistory__titleText}>
-          {t("friends.yourReferrals")}
-        </h3>
         <div className={styles.friendsRefferalHistory__info}>
           <span className={styles.friendsRefferalHistory__infoText}>
             {t("friends.totalReferrals")}:{" "}
-            <span className="primaryText">{friends?.length}</span>
+            <span className="primaryText">{friends?.length || 0}</span>
           </span>
           <span className={styles.friendsRefferalHistory__infoText}>
             {t("friends.totalIncome")}: {(totalPrize * course || 0).toFixed(6)}
             <ImageWebp srcSet={starWebpImg} src={starImg} alt={"star"} />
           </span>
         </div>
+        <h3 className={styles.friendsRefferalHistory__titleText}>
+          {t("friends.yourReferrals")}
+        </h3>
       </div>
       {!friends?.length ? (
         <div className={styles.friendsRefferalHistory__emptyText}>
