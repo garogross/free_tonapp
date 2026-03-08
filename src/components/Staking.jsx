@@ -193,9 +193,9 @@ export default function Staking({
 
     e.stopPropagation();
     if (acceleratorsStatus) {
-      showNotification(t("stakingForm.offlineMiningInfo"), 10000);
+      showNotification(t("stakingForm.offlineMiningInfo"));
     } else {
-      showNotification(t("stakingForm.offlineMiningInfoAcBlocked"), 10000);
+      showNotification(t("stakingForm.offlineMiningInfoAcBlocked"));
     }
   };
 
