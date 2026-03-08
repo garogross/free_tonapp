@@ -1,6 +1,7 @@
-import { retrieveRawInitData } from "@telegram-apps/sdk";
+import clsx from "clsx";
 import React, { useEffect, useState } from "react";
-import "./SecureIframe.css";
+import { api } from "../api/axios";
+import styles from "./SecureIframe.module.scss";
 import { useNotification } from "./useNotification";
 
 const SecureIframe = ({
@@ -15,7 +16,7 @@ const SecureIframe = ({
 
   useEffect(() => {
     setLoading(true);
-    setTimeLeft(currentSurfingChallenge.timeOfExecution);
+    setTimeLeft(currentSurfingChallenge?.timeOfExecution);
   }, [currentSurfingChallenge]);
 
   useEffect(() => {
@@ -31,17 +32,12 @@ const SecureIframe = ({
     if (timeLeft === 0) {
       handleEndOfTime();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeLeft]);
 
   const handleEndOfTime = () => {
     setCurrentContent("challenges");
-    let dataRaw;
-    try {
-      dataRaw = retrieveRawInitData();
-    } catch (error) {
-      console.error("Error retrieving raw init data:", error);
-      dataRaw = null;
-    }
+
     api
       .get("/api/challenge/iframeend")
       .then((response) => {
@@ -56,19 +52,12 @@ const SecureIframe = ({
   };
 
   const handleStartOfTime = (id) => {
-    let dataRaw;
-    try {
-      dataRaw = retrieveRawInitData();
-    } catch (error) {
-      console.error("Error retrieving raw init data:", error);
-      dataRaw = null;
-    }
     const postData = {
       id: id,
     };
     api
       .post("/api/challenge/iframestart", postData)
-      .then((response) => {
+      .then(() => {
         showNotification("Оставайтесь на странице");
       })
       .catch((error) => {
@@ -79,36 +68,42 @@ const SecureIframe = ({
   };
 
   return (
-    <div className="iframeContainer">
-      {loading && <div className="loadingPlaceholder">Загружается...</div>}
+    <div className={clsx(styles.secureIframe__container, "container")}>
+      {loading && (
+        <div className={styles.secureIframe__loading}>Загружается...</div>
+      )}
       {!loading && timeLeft > 0 && (
-        <div className="pretty-timer-challenge">
-          <div className="timer-block-challenge">
-            <div className="timer-label-challenge">Оставшееся время</div>
-            <div className="timer-digits-challenge">
-              <span className="timer-digit-challenge">
+        <div className={styles.secureIframe__timerWrapper}>
+          <div className={styles.secureIframe__timerBlock}>
+            <div className={styles.secureIframe__timerLabel}>
+              Оставшееся время
+            </div>
+            <div className={styles.secureIframe__timerDigits}>
+              <span className={styles.secureIframe__timerDigit}>
                 {Math.floor(timeLeft / 10)}
               </span>
-              <span className="timer-digit-challenge">{timeLeft % 10}</span>
+              <span className={styles.secureIframe__timerDigit}>
+                {timeLeft % 10}
+              </span>
             </div>
-            <span className="timer-separator-challenge">секунд</span>
+            <span className={styles.secureIframe__timerSeparator}>секунд</span>
           </div>
         </div>
       )}
       <iframe
-        src={currentSurfingChallenge.link}
-        title={currentSurfingChallenge.name}
-        className={`iframeStyle ${loading || timeLeft === 0 ? "iframeHidden" : ""}`}
+        src={currentSurfingChallenge?.link}
+        title={currentSurfingChallenge?.name}
+        className={`${styles.secureIframe__iframe} ${loading || timeLeft === 0 ? styles.secureIframe__iframeHidden : ""}`}
         sandbox="allow-scripts allow-forms"
         loading="lazy"
         allow="fullscreen"
         onLoad={() => {
           setLoading(false);
-          handleStartOfTime(currentSurfingChallenge.id);
+          handleStartOfTime(currentSurfingChallenge?.id);
         }}
       />
       {!loading && timeLeft === 0 && (
-        <div style={{ marginTop: 16, color: "#78AA28", fontWeight: "700" }}>
+        <div className={styles.secureIframe__timeEnded}>
           Время просмотра истекло
         </div>
       )}
