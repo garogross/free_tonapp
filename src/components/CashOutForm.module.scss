@@ -1,0 +1,12 @@
+@use "@/styles/style" as *;
+
+.cashOutForm {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+
+  height: 100%;
+  padding-bottom: 10px;
+  overflow: auto;
+}

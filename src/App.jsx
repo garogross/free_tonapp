@@ -589,6 +589,8 @@ function App({ user, loadingUser }) {
               setTransactions={setTransactions}
               starsMode={starsMode}
               course={course}
+              transactions={transactions}
+              goBack={() => setCurrentContent("profile")}
             />
           </>
         );

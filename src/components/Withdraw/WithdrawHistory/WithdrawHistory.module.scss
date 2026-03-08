@@ -1,0 +1,92 @@
+@use "@/styles/style" as *;
+
+.withdrawHistory {
+  flex: 1;
+  overflow: hidden;
+  @include flexCol();
+  flex-direction: column;
+  width: 100%;
+  gap: 20px;
+  min-height: 200px;
+
+  background: #372646;
+  border: 5px solid #756589;
+  border-radius: 35px;
+  padding: 20px;
+
+  @include smScreenMedia {
+    border-radius: 22px;
+    padding: 14px;
+    gap: 13px;
+  }
+
+  &__titleText {
+    @include setFont(26px, 500);
+    text-align: center;
+
+    @include smScreenMedia {
+      font-size: 20px;
+    }
+  }
+
+  &__list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+    overflow: auto;
+
+    @include smScreenMedia {
+      gap: 2px;
+    }
+  }
+
+  &__listItem {
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 2fr;
+    gap: 5px;
+    align-items: center;
+    width: 100%;
+    border-radius: 20px;
+    min-height: 33px;
+    padding: 0 20px;
+
+    &:nth-child(odd) {
+      background: #25173b;
+    }
+
+    @include smScreenMedia {
+      padding: 0 10px;
+      gap: 3px;
+    }
+  }
+
+  &__listItemText {
+    @include setFont(clamp(15px, 3vw, 20px), listItemText500);
+
+    &:last-child {
+      margin-left: auto;
+    }
+
+    &_stars {
+      color: #edcb9b;
+    }
+
+    &_load {
+      color: #edcb9b;
+    }
+
+    &_done {
+      color: $color-green-light;
+    }
+    &_deny {
+      color: #dc3c30;
+    }
+  }
+  &__messageText {
+    @include setFont(24px, 800);
+    text-align: center;
+    padding-block: 20px;
+  }
+}

@@ -129,11 +129,14 @@
   "profileTitle": "Профиль",
   "advertisementCabinet": "Реклама",
   "transactionTable": {
-    "lastTransactions": "Последние транзакции",
+    "lastTransactions": "История выводов",
     "date": "Дата",
     "type": "Тип",
     "amount": "Сумма",
-    "status": "Статус"
+    "status": "Статус",
+    "completed": "Выполнено",
+    "pending": "В ожидании",
+    "rejected": "Отклонено"
   },
   "advertisingCabinet": {
     "package": "Пакет",
@@ -211,7 +214,7 @@
     "usernamePlaceholder": "Введите username...",
     "minAmount": {
       "ton": "Минимальная сумма вывода: 1 TON",
-      "stars": "Минимальная сумма вывода: {{min}} STARS"
+      "stars": "Минимальная сумма вывода"
     },
     "submitRequest": "ОТПРАВИТЬ ЗАЯВКУ",
     "cashOutAll": "ВЫВЕСТИ ВСЁ",

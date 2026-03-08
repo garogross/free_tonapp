@@ -130,11 +130,14 @@
   "profileTitle": "Profile",
   "advertisementCabinet": "Advertisement",
   "transactionTable": {
-    "lastTransactions": "Last transactions",
+    "lastTransactions": "Withdrawal History",
     "date": "Date",
     "type": "Type",
     "amount": "Amount",
-    "status": "Status"
+    "status": "Status",
+    "completed": "Completed",
+    "pending": "Pending",
+    "rejected": "Rejected"
   },
   "advertisingCabinet": {
     "package": "Package",
@@ -217,7 +220,7 @@
     "usernamePlaceholder": "Enter username...",
     "minAmount": {
       "ton": "Minimum withdrawal amount: 1 TON",
-      "stars": "Minimum withdrawal amount: {{min}} STARS"
+      "stars": "Minimum withdrawal amount"
     },
     "submitRequest": "SUBMIT REQUEST",
     "cashOutAll": "CASH OUT ALL",
