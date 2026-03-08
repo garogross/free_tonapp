@@ -36,21 +36,25 @@
   }
 
   &__wrapper {
-    @include flexCol();
-    flex-direction: column;
+    @include flexCol(flex-start);
     z-index: 1;
     position: relative;
+    gap: 20px;
+  }
+
+  &__wrapperMain {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
 
   &__avatarImg {
-    max-width: 88px;
+    max-width: clamp(40px, 13vw, 88px);
     margin-bottom: 10px;
   }
 
   &__nameText {
     @include setFont(24px, 600);
-    text-align: center;
-    margin-bottom: 16px;
 
     @include smScreenMedia {
       font-size: 22px;
@@ -70,6 +74,14 @@
   &__btn {
     color: #facc26;
     width: calc(50% - 10px);
+
+    @include smScreenMedia {
+      width: calc(50% - 5px);
+    }
+
+    &:last-child {
+      width: 100%;
+    }
 
     & img {
       max-width: 20px;

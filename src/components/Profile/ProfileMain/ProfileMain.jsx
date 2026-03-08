@@ -146,47 +146,49 @@ const ProfileMain = ({ setProfileSubMenu, setCurrentContent }) => {
           alt="avatar"
           className={styles.profileMain__avatarImg}
         />
-        <h3 className={styles.profileMain__nameText}>{userNameText}</h3>
-        <div className={styles.profileMain__buttons}>
-          <SecondaryBtn
-            isSecondaryVariant
-            size="md"
-            className={styles.profileMain__btn}
-            onClick={handleTonConnectClick}
-          >
-            <ImageWebp
-              src={profiledepositIconImg}
-              srcSet={profiledepositIconWebpImg}
-              alt="deposit"
-            />
-            <span>{walletButton}</span>
-          </SecondaryBtn>
-          <SecondaryBtn
-            isSecondaryVariant
-            size="md"
-            className={styles.profileMain__btn}
-            onClick={() => setCurrentContent("cashOut")}
-          >
-            <ImageWebp
-              src={profileWithdrawIconImg}
-              srcSet={profileWithdrawIconWebpImg}
-              alt="withdraw"
-            />
-            <span>{t("cashOut")}</span>
-          </SecondaryBtn>
-          <SecondaryBtn
-            onClick={() => setProfileSubMenu("advertising")}
-            isSecondaryVariant
-            size="md"
-            className={styles.profileMain__btn}
-          >
-            <ImageWebp
-              src={profileNotificationsiconImg}
-              srcSet={profileNotificationsiconWebpImg}
-              alt="notifications"
-            />
-            <span>{t("advertisementCabinet")}</span>
-          </SecondaryBtn>
+        <div className={styles.profileMain__wrapperMain}>
+          <h3 className={styles.profileMain__nameText}>{userNameText}</h3>
+          <div className={styles.profileMain__buttons}>
+            <SecondaryBtn
+              isSecondaryVariant
+              size="sm"
+              className={styles.profileMain__btn}
+              onClick={handleTonConnectClick}
+            >
+              <ImageWebp
+                src={profiledepositIconImg}
+                srcSet={profiledepositIconWebpImg}
+                alt="deposit"
+              />
+              <span>{walletButton}</span>
+            </SecondaryBtn>
+            <SecondaryBtn
+              isSecondaryVariant
+              size="sm"
+              className={styles.profileMain__btn}
+              onClick={() => setCurrentContent("cashOut")}
+            >
+              <ImageWebp
+                src={profileWithdrawIconImg}
+                srcSet={profileWithdrawIconWebpImg}
+                alt="withdraw"
+              />
+              <span>{t("cashOut")}</span>
+            </SecondaryBtn>
+            <SecondaryBtn
+              onClick={() => setProfileSubMenu("advertising")}
+              isSecondaryVariant
+              size="sm"
+              className={styles.profileMain__btn}
+            >
+              <ImageWebp
+                src={profileNotificationsiconImg}
+                srcSet={profileNotificationsiconWebpImg}
+                alt="notifications"
+              />
+              <span>{t("advertisementCabinet")}</span>
+            </SecondaryBtn>
+          </div>
         </div>
       </div>
     </div>
