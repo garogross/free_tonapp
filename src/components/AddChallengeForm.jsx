@@ -1,8 +1,13 @@
-import { retrieveRawInitData } from "@telegram-apps/sdk";
+import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import "./AddChallengeForm.css";
+import { api } from "../api/axios";
+import styles from "./AddChallengeForm.module.scss";
+import MainButton from "./layout/MainButton/MainButton";
+import SecondaryBtn from "./layout/SecondaryBtn/SecondaryBtn";
 import { useNotification } from "./useNotification";
+
+const timeOptions = ["10", "20", "30", "40", "50", "60"];
 
 export default function AddChallengeForm({
   currentChallenge,
@@ -46,6 +51,7 @@ export default function AddChallengeForm({
 
   useEffect(() => {
     setIsFormValid(validateForm());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     challengeName,
     challengeDescription,
@@ -68,6 +74,7 @@ export default function AddChallengeForm({
       setSelectedTimes(challengeForRelaunch.timeOfExecution.toString());
       setChallengeForRelaunch(null);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [challengeForRelaunch]);
 
   const handleChallengeNameChange = (e) => {
@@ -108,7 +115,8 @@ export default function AddChallengeForm({
           showError(t("addChallengeForm.linkMustStartHttps"));
           return;
         }
-      } catch (_) {
+      } catch (err) {
+        console.info("check lick failed", err);
         showError(t("addChallengeForm.enterValidUrl"));
       }
     }
@@ -168,6 +176,7 @@ export default function AddChallengeForm({
     let doAmount = Number(challengeDoAmount) || 0;
     setCalculateTotalPrice((priceBySelectedTimes || 0) * doAmount);
     setIsLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedTimes, challengeDoAmount, challengesConfigs]);
 
   const handleCheckLink = () => {
@@ -183,7 +192,8 @@ export default function AddChallengeForm({
           showError(t("addChallengeForm.linkMustStartHttps"));
           return;
         }
-      } catch (_) {
+      } catch (err) {
+        console.log("check failed", err);
         showError(t("addChallengeForm.enterValidUrl"));
         return;
       }
@@ -192,13 +202,6 @@ export default function AddChallengeForm({
       return;
     }
 
-    let dataRaw;
-    try {
-      dataRaw = retrieveRawInitData();
-    } catch (error) {
-      console.error("Error retrieving raw init data:", error);
-      dataRaw = null;
-    }
     setCheckLinkResult(null);
     setIsLoading(true);
     const postData = {
@@ -218,13 +221,7 @@ export default function AddChallengeForm({
 
   const handleCreateChallenge = () => {
     setIsLoading(true);
-    let dataRaw;
-    try {
-      dataRaw = retrieveRawInitData();
-    } catch (error) {
-      console.error("Error retrieving raw init data:", error);
-      dataRaw = null;
-    }
+
     const postData = {
       challengeName: challengeName,
       challengeDescription: challengeDescription,
@@ -260,125 +257,152 @@ export default function AddChallengeForm({
       return;
     }
     return checkLinkResult ? (
-      <div className="check-link-result yes">
+      <div
+        className={clsx(
+          styles.addChallengeForm__checkLickResult,
+          styles.addChallengeForm__checkLickResult_success,
+        )}
+      >
         {t("addChallengeForm.linkAvailableForEmbedding")}
       </div>
     ) : (
-      <div className="check-link-result no">
+      <div
+        className={clsx(
+          styles.addChallengeForm__checkLickResult,
+          styles.addChallengeForm__checkLickResult_fail,
+        )}
+      >
         {t("addChallengeForm.cantAddThisLink")}
       </div>
     );
   };
 
   return (
-    <div className="add-challenge-form">
-      <div className="add-challenge-form-title">
+    <section className={clsx(styles.addChallengeForm, "container")}>
+      <h2 className={styles.addChallengeForm__titleText}>
+        {" "}
         {t("addChallengeForm.createChallenge")}{" "}
         {titleCurrentChalengeToName(currentChallenge)}
-      </div>
-      <div className="add-challenge-form-input-container">
-        <input
-          className="add-challenge-form-input"
-          type="text"
-          placeholder={t("addChallengeForm.namePlaceholder")}
-          onChange={handleChallengeNameChange}
-          value={challengeName}
-        />
-        <textarea
-          className="add-challenge-form-input"
-          type="text"
-          placeholder={t("addChallengeForm.descriptionPlaceholder")}
-          onChange={handleChallengeDescriptionChange}
-          value={challengeDescription}
-        />
-        <input
-          className="add-challenge-form-input"
-          type="text"
-          placeholder={t("addChallengeForm.linkPlaceholder")}
-          onChange={handleChallengeLinkChange}
-          value={challengeLink}
-        />
-        <div className="link-ping-check">
-          {t("addChallengeForm.checkWebsiteStep")}
+      </h2>
+      <form
+        onSubmit={handleCreateChallenge}
+        className={styles.addChallengeForm__form}
+      >
+        <div className={styles.addChallengeForm__field}>
+          <label htmlFor={"name"} className={styles.addChallengeForm__label}>
+            {t("addChallengeForm.namePlaceholder")}
+          </label>
+          <input
+            id={"name"}
+            type={"text"}
+            className={styles.addChallengeForm__input}
+            name={"name"}
+            onChange={handleChallengeNameChange}
+            value={challengeName}
+          />
         </div>
-        <button
-          className="ping-check-button"
-          onClick={handleCheckLink}
-          disabled={isLoading}
-        >
-          {t("addChallengeForm.checkSite")}
-        </button>
-        {renderCheckLinkResult()}
-        <div className="times-container-title">
-          {t("addChallengeForm.timeOnSiteTitle")}
+        <div className={styles.addChallengeForm__field}>
+          <label
+            htmlFor={"description"}
+            className={styles.addChallengeForm__label}
+          >
+            {t("addChallengeForm.descriptionPlaceholder")}
+          </label>
+          <textarea
+            id={"description"}
+            type={"text"}
+            className={clsx(
+              styles.addChallengeForm__input,
+              styles.addChallengeForm__input_textarea,
+            )}
+            name={"description"}
+            onChange={handleChallengeDescriptionChange}
+            value={challengeDescription}
+          />
         </div>
-        <div className="times-container">
-          <div
-            className={`times-container-item ${selectedTimes === "10" ? "active" : ""}`}
-            onClick={() => handleTimesClick("10")}
+        <div className={styles.addChallengeForm__field}>
+          <label htmlFor={"link"} className={styles.addChallengeForm__label}>
+            {t("addChallengeForm.linkPlaceholder")}
+          </label>
+          <input
+            id={"link"}
+            type={"text"}
+            className={styles.addChallengeForm__input}
+            name={"link"}
+            onChange={handleChallengeLinkChange}
+            value={challengeLink}
+          />
+        </div>
+        <div className={styles.addChallengeForm__checkAddress}>
+          <span>{t("addChallengeForm.checkWebsiteStep")}</span>
+          <MainButton
+            type="button"
+            onClick={handleCheckLink}
+            disabled={isLoading}
+            size="sm"
           >
-            10
-          </div>
-          <div
-            className={`times-container-item ${selectedTimes === "20" ? "active" : ""}`}
-            onClick={() => handleTimesClick("20")}
-          >
-            20
-          </div>
-          <div
-            className={`times-container-item ${selectedTimes === "30" ? "active" : ""}`}
-            onClick={() => handleTimesClick("30")}
-          >
-            30
-          </div>
-          <div
-            className={`times-container-item ${selectedTimes === "40" ? "active" : ""}`}
-            onClick={() => handleTimesClick("40")}
-          >
-            40
-          </div>
-          <div
-            className={`times-container-item ${selectedTimes === "50" ? "active" : ""}`}
-            onClick={() => handleTimesClick("50")}
-          >
-            50
-          </div>
-          <div
-            className={`times-container-item ${selectedTimes === "60" ? "active" : ""}`}
-            onClick={() => handleTimesClick("60")}
-          >
-            60
+            {t("addChallengeForm.checkSite")}
+          </MainButton>
+          {renderCheckLinkResult()}
+        </div>
+        <div className={styles.addChallengeForm__timeOptions}>
+          <h6 className={styles.addChallengeForm__label}>
+            {t("addChallengeForm.timeOnSiteTitle")}
+          </h6>
+          <div className={styles.addChallengeForm__timeOptionsList}>
+            {timeOptions.map((opt) => (
+              <button
+                type="button"
+                key={opt}
+                className={clsx(
+                  styles.addChallengeForm__timeOptionBtn,
+                  selectedTimes === opt &&
+                    styles.addChallengeForm__timeOptionBtn_active,
+                )}
+                onClick={() => handleTimesClick(opt)}
+              >
+                {opt}
+              </button>
+            ))}
           </div>
         </div>
-        <input
-          className="add-challenge-form-input"
-          type="text"
-          placeholder={t("addChallengeForm.doAmountPlaceholder")}
-          onChange={handleChallengeDoAmountChange}
-          value={challengeDoAmount}
-        />
-      </div>
-      <div className="total-price-container">
-        <div className="total-price-container-title">
-          {t("addChallengeForm.toPay")}:
+        <div className={styles.addChallengeForm__field}>
+          <label htmlFor={"amount"} className={styles.addChallengeForm__label}>
+            {t("addChallengeForm.doAmountPlaceholder")}
+          </label>
+          <input
+            id={"amount"}
+            type={"text"}
+            className={styles.addChallengeForm__input}
+            name={"amount"}
+            onChange={handleChallengeDoAmountChange}
+            value={challengeDoAmount}
+          />
         </div>
         <div
-          className={`total-price-container-price ${tonBalance < calculateTotalPrice ? "red" : "green"}`}
+          className={clsx(
+            styles.addChallengeForm__toPay,
+            tonBalance < calculateTotalPrice &&
+              styles.addChallengeForm__toPay_invalid,
+          )}
         >
-          {calculateTotalPrice.toFixed(6)}
+          <span className={styles.addChallengeForm__label}>
+            {t("addChallengeForm.toPay")}
+          </span>
+          <span className={styles.addChallengeForm__toPayValueText}>
+            {calculateTotalPrice.toFixed(6)}
+          </span>
         </div>
-      </div>
-      <div className="add-challenge-form-button-container">
-        <button
-          className="add-challenge-form-button"
+        <SecondaryBtn
           disabled={
             isLoading || tonBalance < calculateTotalPrice || !isFormValid
           }
-          onClick={handleCreateChallenge}
+          isSecondaryVariant
         >
+          {" "}
           {t("addChallengeForm.launchChallenge")}
-        </button>
-      </div>
-    </div>
+        </SecondaryBtn>
+      </form>
+    </section>
   );
 }

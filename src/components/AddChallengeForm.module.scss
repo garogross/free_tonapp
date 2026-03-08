@@ -1,0 +1,154 @@
+@use "@/styles/style" as *;
+
+.addChallengeForm {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  min-height: 100%;
+  padding-bottom: 10px;
+
+  &__titleText {
+    @include setFont(32px, 600);
+    text-align: center;
+
+    @include smScreenMedia {
+      @include setFont(26px, 600);
+    }
+  }
+
+  &__form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    @include smScreenMedia {
+      gap: 14px;
+    }
+  }
+
+  &__field {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    @include smScreenMedia {
+      gap: 7px;
+    }
+  }
+
+  &__label {
+    @include setFont(22px, 300);
+
+    @include smScreenMedia {
+      @include setFont(18px, 300);
+    }
+  }
+
+  &__input {
+    background: #372646;
+    border: 3px solid #756589;
+    border-radius: 15px;
+    width: 100%;
+    outline: none;
+    padding: 14px 15px;
+    @include setFont(22px, 300);
+    transition: $transition;
+
+    &:focus,
+    &:active {
+      border-color: #ffd100;
+    }
+
+    &:hover {
+      border-color: #e7b775;
+    }
+
+    @include smScreenMedia {
+      padding: 12px 12px;
+      @include setFont(18px, 300);
+    }
+
+    &_textarea {
+      min-height: 120px;
+      resize: none;
+
+      @include smScreenMedia {
+        min-height: 90px;
+      }
+    }
+  }
+
+  &__checkAddress {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    @include setFont(16px, 500);
+
+    & button {
+      width: fit-content;
+    }
+  }
+
+  &__timeOptions {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+  }
+  &__timeOptionsList {
+    @include flexCol(flex-start);
+    gap: 6px;
+    width: 100%;
+  }
+  &__timeOptionBtn {
+    @include button(#372646, 2px solid #756589);
+    width: 40px;
+    aspect-ratio: 1/1;
+    @include flexCol();
+    @include setFont(16px, 500);
+    border-radius: 50%;
+
+    &_active {
+      background: #573977;
+    }
+  }
+  &__toPay {
+    background: #25173b;
+    border: 3px solid #756589;
+    border-radius: 15px;
+    width: 100%;
+    padding: 14px 15px;
+    @include setFont(22px, 300);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: $transition;
+
+    &_invalid {
+      border-color: #dc3c30;
+    }
+  }
+  &__toPayValueText {
+    @include setFont(20px, 600);
+  }
+
+  &__toPay_invalid &__toPayValueText {
+    color: #dc3c30;
+  }
+
+  &__checkLickResult {
+    @include setFont(18px, 800);
+
+    &_success {
+      color: $color-green-light;
+    }
+
+    &_success {
+      color: #dc3c30;
+    }
+  }
+}
