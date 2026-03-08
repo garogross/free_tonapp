@@ -16,7 +16,6 @@ const Cran = ({
   setEndTime,
   setRollStarted,
   setTonBalance,
-  setLastRollNumber,
   isAnimating,
   currentContent,
   displayNumber,
@@ -42,7 +41,6 @@ const Cran = ({
         setIsSkipAvailable={setIsSkipAvailable}
         setIsPushed={setIsPushed}
         setEndTime={setEndTime}
-        setLastRollNumber={setLastRollNumber}
         setSkipEndTime={setSkipEndTime}
         isAnimating={isAnimating}
         setLuckyNumber={setLuckyNumber}

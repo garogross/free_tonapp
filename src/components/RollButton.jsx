@@ -11,7 +11,6 @@ export default function RollButton({
   setIsSkipAvailable,
   setIsPushed,
   setEndTime,
-  setLastRollNumber,
   setSkipEndTime,
   isAnimating,
   setLuckyNumber,
@@ -47,7 +46,6 @@ export default function RollButton({
               setIsPushed(!res.data.isAvailable);
               const endDateTime = new Date(res.data.endTime);
               setEndTime(endDateTime);
-              setLastRollNumber(res.data.lastRollNumber);
               const now = new Date();
               const minutesLater = new Date(now.getTime() + 60 * 60 * 1000);
               setSkipEndTime(minutesLater);
@@ -75,7 +73,6 @@ export default function RollButton({
     if (!isAnimating && rollSuccesfullResponse != null) {
       setLuckyNumber(rollSuccesfullResponse.luckyNumber);
       setTonBalance(rollSuccesfullResponse.tonBalance);
-      setLastRollNumber(rollSuccesfullResponse.luckyNumber);
       setIsPushed(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
