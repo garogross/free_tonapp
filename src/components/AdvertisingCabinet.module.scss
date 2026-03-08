@@ -1,0 +1,177 @@
+@use "@/styles/style" as *;
+
+.advertisingCabinet {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-bottom: 10px;
+  height: 100%;
+  overflow: hidden;
+
+  &__container {
+    width: 100%;
+    height: 100%;
+    background: #392c48;
+    border: 4px solid #77649c;
+    border-radius: 24px;
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+    gap: 20px;
+    overflow: hidden;
+  }
+
+  // Balance Title
+  &__balanceTitle {
+    @include setFont(clamp(20px, 4vw, 28px), 700);
+    color: $color-white;
+    text-align: center;
+  }
+
+  // Balance Container
+  &__balanceContainer {
+    @include flexCol(center, center);
+    gap: 8px;
+  }
+
+  &__balanceValue {
+    @include setFont(clamp(28px, 5vw, 44px), 700);
+  }
+
+  &__balanceIcon {
+    & img {
+      width: 28px;
+      display: block;
+    }
+  }
+
+  &__starSwitchIcon {
+    width: 25px !important;
+  }
+
+  &__adsList {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    height: 100%;
+    margin-bottom: 10px;
+    overflow-y: auto;
+    gap: 13px;
+  }
+
+  // Empty List
+  &__emptyWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100px;
+    height: 100%;
+    justify-content: center;
+  }
+
+  &__emptyMessage {
+    @include setFont(22px, 800);
+    color: $color-white;
+    text-align: center;
+  }
+
+  // AD Container
+  &__adContainer {
+    width: 100%;
+    border-radius: 15px;
+    border: 2px solid #756589;
+    background: #2d2041;
+    border-radius: 11px;
+    box-shadow: 0 2px 4px 0 #180f24;
+    padding: 15px;
+    cursor: pointer;
+    transition: background 0.15s;
+
+    &:active {
+      background: #331f48;
+    }
+  }
+
+  &__adCreativeWrapperMain {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 18px;
+  }
+  &__adCreativeInfo {
+    display: flex;
+    flex-direction: column;
+    flex: 7;
+    gap: 10px;
+  }
+
+  &__adInfo {
+    @include setFont(clamp(14px, 3vw, 18px), 500, #edcb9b);
+  }
+
+  // Status coloring with modifiers
+  &__active {
+    color: #6cd742 !important;
+  }
+  &__moderation {
+    color: #ffb300 !important;
+  }
+  &__deprecated,
+  &__deny {
+    color: #dc3c30 !important;
+  }
+
+  &__adCreativeWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+  }
+
+  &__adText {
+    @include setFont(clamp(16px, 3.5vh, 22px), 800);
+    color: #f3ecfa;
+    flex: 1;
+    min-width: 0;
+    text-align: left;
+    word-break: break-word;
+    width: 100%;
+  }
+
+  &__adActions {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  &__adBtnMain,
+  &__adBtnAlt {
+    @include setFont(14px, 700);
+    padding: 5px 13px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+  }
+
+  &__adBtnMain {
+    color: $color-white;
+    background: $color-green-light;
+    transition: background 0.15s;
+
+    &:active {
+      background: #4d9214;
+    }
+  }
+
+  &__adBtnAlt {
+    color: #332343;
+    background: #efd135;
+    transition: background 0.15s;
+
+    &:active {
+      background: #ddc433;
+    }
+  }
+}

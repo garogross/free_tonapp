@@ -26,7 +26,6 @@ import FootMenu from "./components/FootMenu";
 import Friends from "./components/Friends";
 import Header from "./components/Header";
 import Profile from "./components/Profile/Profile";
-import ProfileMenu from "./components/ProfileMenu";
 import ProtectedRoute from "./components/ProtectedRoute";
 import SecureIframe from "./components/SecureIframe";
 import Staking from "./components/Staking";
@@ -551,10 +550,6 @@ function App({ user, loadingUser }) {
           case "advertising":
             return (
               <>
-                <ProfileMenu
-                  profileSubMenu={profileSubMenu}
-                  setProfileSubMenu={setProfileSubMenu}
-                />
                 <AdvertisingCabinet
                   setCurrentContent={setCurrentContent}
                   tonBalance={tonBalance}
