@@ -451,7 +451,7 @@ export default function Challenges({
         </div>
         {renderChallenges()}
       </section>
-      {true && (
+      {!isSubscriber && import.meta.env.DEV && (
         <>
           <ChannelFollow setIsSubscriber={setIsSubscriber} />
         </>
