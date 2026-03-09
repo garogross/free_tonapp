@@ -258,7 +258,7 @@ export default function Staking({
                 Offline Mining:{" "}
               </span>
               <span className={styles.staking__offlineMiningValueText}>
-                06:00
+                6:00:00
               </span>
             </div>
           </button>

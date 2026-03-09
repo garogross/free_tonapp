@@ -47,14 +47,14 @@
 
   &__nextGatheringText {
     position: absolute;
-    bottom: 15px;
+    bottom: 2px;
     left: 50%;
     transform: translateX(-50%);
-    @include setFont(24px, 500);
+    @include setFont(20px, 500);
     text-align: center;
     width: 100%;
+
     @include smScreenMedia {
-      bottom: 7px;
       @include setFont(13px, 500);
     }
   }

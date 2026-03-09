@@ -28,7 +28,7 @@
   }
 
   &__cardTitleText {
-    @include setFont(clamp(14px, 3vw, 18px), 800, #c1c1c1);
+    @include setFont(clamp(12px, 3vw, 18px), 800, #c1c1c1);
     text-align: center;
   }
 
