@@ -10,9 +10,48 @@
   overflow: auto;
   align-items: center;
 
+  &__header {
+    width: 100%;
+    @include flexCol(space-between);
+    gap: 10px;
+    margin-bottom: 10px;
+
+    @include smScreenMedia {
+      gap: 7px;
+    }
+  }
+  &__heraderCol {
+    flex: 1;
+  }
+
+  &__backBtn {
+    @include button(
+      linear-gradient(90deg, #47547f 0%, #484777 34.41%, #543981 100%),
+      1px solid #edcb9b
+    );
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    @include flexCol();
+
+    @include smScreenMedia {
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  &__arrowIcon {
+    width: 16px;
+    transform: rotate(90deg);
+    fill: #ffd100;
+
+    @include smScreenMedia {
+      width: 12px;
+    }
+  }
+
   &__title {
     @include setFont(clamp(18px, 5vw, 26px), 700, #fff2da);
-    margin-bottom: 10px;
     text-align: center;
   }
 

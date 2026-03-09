@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 import { tonImg, tonWebpImg } from "../assets/images";
 import styles from "./AddsPackagesForm.module.scss";
+import ArrowBottomIcon from "./icons/Common/ArrowBottomIcon";
 import ImageWebp from "./layout/ImageWebp/ImageWebp";
 import { useNotification } from "./useNotification";
 
@@ -25,6 +26,20 @@ export default function AddsPackagesForm({
 
   return (
     <div className={clsx(styles.addPackagesForm, "container")}>
+      <div className={styles.addPackagesForm__header}>
+        <div className={styles.addPackagesForm__heraderCol}>
+          <button
+            onClick={() => setCurrentContent("profile")}
+            className={styles.addPackagesForm__backBtn}
+          >
+            <ArrowBottomIcon className={styles.addPackagesForm__arrowIcon} />
+          </button>
+        </div>
+        <div className={styles.addPackagesForm__title}>
+          {t("addsPackagesForm.title")}
+        </div>
+        <div className={styles.addPackagesForm__heraderCol}></div>
+      </div>
       <div className={styles.addPackagesForm__title}>
         {t("addsPackagesForm.title")}
       </div>

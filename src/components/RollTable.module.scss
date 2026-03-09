@@ -10,6 +10,7 @@
   gap: 4px;
   overflow: auto;
   flex: 1;
+  max-height: fit-content;
 
   @include smScreenMedia {
     border-radius: 20px;
