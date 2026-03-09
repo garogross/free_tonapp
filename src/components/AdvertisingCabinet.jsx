@@ -98,12 +98,6 @@ export default function AdvertisingCabinet({
             </div>
             <div className={styles.advertisingCabinet__adActions}>
               <SecondaryBtn
-                size="sm"
-                className={styles.advertisingCabinet__adBtnMain}
-              >
-                {t("adButtonText")}
-              </SecondaryBtn>
-              <SecondaryBtn
                 isSecondaryVariant
                 size="sm"
                 className={styles.advertisingCabinet__adBtnAlt}
