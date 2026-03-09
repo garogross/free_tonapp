@@ -1,5 +1,6 @@
 import { api } from "../api/axios";
 import AdminAd from "./AdminAd";
+import "./AdminAddAddForm.css";
 import "./AdminApp.css";
 import AdminFootMenu from "./AdminFootMenu";
 import AdminSettings from "./AdminSettings";

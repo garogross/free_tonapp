@@ -123,3 +123,11 @@ footer.hidden {
   margin: 0 !important;
   padding: 0 !important;
 }
+
+.empty-message {
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  color: #777;
+  padding: 20px;
+  text-align: center;
+}

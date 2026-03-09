@@ -3,6 +3,7 @@ import { clsx } from "clsx";
 import { AnimatePresence, motion as Motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 import {
   headerGlobImg,
   headerGlobWebpImg,
@@ -27,6 +28,7 @@ const dropdownVariants = {
 };
 
 const Header = ({ tonBalance }) => {
+  const location = useLocation();
   const { t, i18n } = useTranslation();
   const [langOpen, setLangOpen] = useState(false);
   const [selectedLang, setSelectedLang] = useState(
@@ -85,24 +87,28 @@ const Header = ({ tonBalance }) => {
   return (
     <header className={styles.header}>
       <div className={styles.header__container}>
-        <div className={styles.header__balanceBlock}>
-          <ImageWebp
-            src={headerStarMinerImg}
-            srcSet={headerStarMinerWebpImg}
-            alt="star miner"
-            className={styles.header__minerStartImg}
-          />
-          <div className={styles.header__blanceTextsBlock}>
-            <span className={styles.header__balanceNameText}>
-              {t("balanceTitle")}
-            </span>
-            <span className={styles.header__balnaceValueText}>
-              {typeof tonBalance === "number" && !isNaN(tonBalance)
-                ? tonBalance.toFixed(6)
-                : "0.000000"}
-            </span>
+        {location.pathname !== "/freetonadmin" ? (
+          <div className={styles.header__balanceBlock}>
+            <ImageWebp
+              src={headerStarMinerImg}
+              srcSet={headerStarMinerWebpImg}
+              alt="star miner"
+              className={styles.header__minerStartImg}
+            />
+            <div className={styles.header__blanceTextsBlock}>
+              <span className={styles.header__balanceNameText}>
+                {t("balanceTitle")}
+              </span>
+              <span className={styles.header__balnaceValueText}>
+                {typeof tonBalance === "number" && !isNaN(tonBalance)
+                  ? tonBalance.toFixed(6)
+                  : "0.000000"}
+              </span>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div />
+        )}
         <div className={styles.header__langSelect} ref={dropdownRef}>
           <button
             className={styles.header__langSelectBtn}
