@@ -54,9 +54,21 @@
     }
   }
   &__itemNameText {
-    @include setFont(clamp(16px, 5vw, 26px), 500);
+    @include setFont(clamp(16px, 6vw, 26px), 500);
     max-width: 200px;
   }
+
+  &__infoBtn {
+    @include button();
+    margin-left: 5px;
+    transform: translateY(4px);
+    padding-inline: 5px;
+  }
+  &__infoImg {
+    width: clamp(18px, 6vw, 28px);
+    height: auto;
+  }
+
   &__progressBar {
     position: relative;
     width: 100%;

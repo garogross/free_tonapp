@@ -10,7 +10,7 @@ i18n
     debug: false,
     interpolation: { escapeValue: false },
     backend: {
-      loadPath: "/locales/{{lng}}/{{ns}}.json?v=1.0.3",
+      loadPath: "/locales/{{lng}}/{{ns}}.json?v=1.0.4",
     },
   });
 

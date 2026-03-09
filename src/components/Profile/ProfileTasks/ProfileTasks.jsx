@@ -6,8 +6,14 @@ import {
   profileMineTaskImg,
   profileMineTaskWebpImg,
 } from "@/assets/images";
+import { useTranslation } from "react-i18next";
+import {
+  miningInfoIconImg,
+  miningInfoIconWebpImg,
+} from "../../../assets/images";
 import ImageWebp from "../../layout/ImageWebp/ImageWebp";
 import MainButton from "../../layout/MainButton/MainButton";
+import { useNotification } from "../../useNotification";
 import styles from "./ProfileTasks.module.scss";
 
 const tasks = [
@@ -17,6 +23,7 @@ const tasks = [
     name: "Пригласить друзей",
     progress: [2, 5],
     reward: 10,
+    info: "referralCountingInfo",
   },
   {
     imgSrc: profileCalmTaskImg,
@@ -35,6 +42,8 @@ const tasks = [
 ];
 
 const ProfileTasks = () => {
+  const { t } = useTranslation();
+  const { showNotification } = useNotification();
   return (
     <div className={styles.profileTasks}>
       {tasks.map((task) => (
@@ -47,7 +56,22 @@ const ProfileTasks = () => {
                 alt={task.name}
                 className={styles.profileTasks__taskImg}
               />
-              <h6 className={styles.profileTasks__itemNameText}>{task.name}</h6>
+              <h6 className={styles.profileTasks__itemNameText}>
+                {task.name}
+                {task.info && (
+                  <button
+                    className={styles.profileTasks__infoBtn}
+                    onClick={() => showNotification(t(task.info))}
+                  >
+                    <ImageWebp
+                      src={miningInfoIconImg}
+                      srcSet={miningInfoIconWebpImg}
+                      alt="info"
+                      className={styles.profileTasks__infoImg}
+                    />
+                  </button>
+                )}
+              </h6>
             </div>
             <div className={styles.profileTasks__progressBar}>
               <div

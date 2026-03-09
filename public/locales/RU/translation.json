@@ -127,6 +127,7 @@
   "rulletTopUp": "Пополнить",
   "rulletAddressCheckError": "Ошибка проверки адреса",
   "profileTitle": "Профиль",
+  "referralCountingInfo": "В зачёт идут рефералы, которые собрали доход с крана минимум 2 раза!",
   "advertisementCabinet": "Реклама",
   "transactionTable": {
     "lastTransactions": "История выводов",
