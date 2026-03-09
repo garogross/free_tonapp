@@ -40,9 +40,7 @@ export default function AddsPackagesForm({
         </div>
         <div className={styles.addPackagesForm__heraderCol}></div>
       </div>
-      <div className={styles.addPackagesForm__title}>
-        {t("addsPackagesForm.title")}
-      </div>
+
       <div className={styles.addPackagesForm__description}>
         {t("addsPackagesForm.description")}
       </div>
