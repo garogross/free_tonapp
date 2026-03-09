@@ -6,12 +6,10 @@ import AdminFootMenu from "./AdminFootMenu";
 import AdminSettings from "./AdminSettings";
 import AdminStatistic from "./AdminStatistic";
 import AdminTransaction from "./AdminTransaction";
-import Header from "./Header";
 
 import { useEffect, useState } from "react";
 
 export default function AdminApp({
-  setCurrentContent,
   adPackages,
   setAdPackages,
   initialNumbers,
@@ -134,9 +132,7 @@ export default function AdminApp({
 
   return (
     <>
-      <header>
-        <Header setCurrentContent={setCurrentContent} path={"None"} />
-      </header>
+      <header></header>
       <main>{renderAdminContent()}</main>
       <footer className={`admin ${keyboardVisible ? "hidden" : ""}`}>
         <AdminFootMenu

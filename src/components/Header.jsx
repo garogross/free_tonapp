@@ -84,31 +84,29 @@ const Header = ({ tonBalance }) => {
     setLangOpen(false);
   };
 
+  if (location.pathname === "/freetonadmin") return null;
+
   return (
     <header className={styles.header}>
       <div className={styles.header__container}>
-        {location.pathname !== "/freetonadmin" ? (
-          <div className={styles.header__balanceBlock}>
-            <ImageWebp
-              src={headerStarMinerImg}
-              srcSet={headerStarMinerWebpImg}
-              alt="star miner"
-              className={styles.header__minerStartImg}
-            />
-            <div className={styles.header__blanceTextsBlock}>
-              <span className={styles.header__balanceNameText}>
-                {t("balanceTitle")}
-              </span>
-              <span className={styles.header__balnaceValueText}>
-                {typeof tonBalance === "number" && !isNaN(tonBalance)
-                  ? tonBalance.toFixed(6)
-                  : "0.000000"}
-              </span>
-            </div>
+        <div className={styles.header__balanceBlock}>
+          <ImageWebp
+            src={headerStarMinerImg}
+            srcSet={headerStarMinerWebpImg}
+            alt="star miner"
+            className={styles.header__minerStartImg}
+          />
+          <div className={styles.header__blanceTextsBlock}>
+            <span className={styles.header__balanceNameText}>
+              {t("balanceTitle")}
+            </span>
+            <span className={styles.header__balnaceValueText}>
+              {typeof tonBalance === "number" && !isNaN(tonBalance)
+                ? tonBalance.toFixed(6)
+                : "0.000000"}
+            </span>
           </div>
-        ) : (
-          <div />
-        )}
+        </div>
         <div className={styles.header__langSelect} ref={dropdownRef}>
           <button
             className={styles.header__langSelectBtn}
