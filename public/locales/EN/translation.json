@@ -258,7 +258,7 @@
   },
   "subscribtionWindow": {
     "title": "Access denied!",
-    "subTitle": "Subscribe to the official Community FreeTon channel to access tasks and mining",
+    "subTitle": "Subscribe to the official FreeStars channel to access tasks and mining",
     "buttonText": "SUBSCRIBE",
     "checkText": "CHECK",
     "failedCheck": "Unable to verify subscription"
