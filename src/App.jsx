@@ -10,7 +10,7 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import SockJS from "sockjs-client";
 import { api } from "./api/axios";
 import styles from "./App.module.scss";
-import Add from "./components/Add";
+import AdBanner from "./components/AdBanner";
 import AddAddForm from "./components/AddAddForm";
 import AddChallengeForm from "./components/AddChallengeForm";
 import AddsPackagesForm from "./components/AddsPackagesForm";
@@ -675,7 +675,7 @@ function App({ user, loadingUser }) {
                 />
                 <main className={styles.app__main}>{renderContent()}</main>
                 <footer className={keyboardVisible ? "hidden" : "container"}>
-                  <Add
+                  <AdBanner
                     setCurrentContent={setCurrentContent}
                     setProfileSubMenu={setProfileSubMenu}
                     activeAds={activeAds}

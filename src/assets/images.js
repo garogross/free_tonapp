@@ -1,6 +1,6 @@
 // Common
-import adBannerImg from "./images/common/adBanner.png";
-import adBannerWebpImg from "./images/common/adBanner.webp";
+import adBannerStarImg from "./images/common/adBannerStar.png";
+import adBannerStarWebpImg from "./images/common/adBannerStar.webp";
 import adIconImg from "./images/common/adIcon.png";
 import adIconWebpImg from "./images/common/adIcon.webp";
 import closeIconImg from "./images/common/closeIcon.png";
@@ -53,8 +53,8 @@ import profileWithdrawIconImg from "./images/profile/profileWithdrawIcon.png";
 import profileWithdrawIconWebpImg from "./images/profile/profileWithdrawIcon.webp";
 
 export {
-  adBannerImg,
-  adBannerWebpImg,
+  adBannerStarImg,
+  adBannerStarWebpImg,
   adIconImg,
   adIconWebpImg,
   closeIconImg,

@@ -1,0 +1,70 @@
+@use "@/styles/style" as *;
+
+.adBanner {
+  width: 100%;
+  border: 3px solid #c6a876;
+  border-bottom-width: 0px;
+  border-radius: 20px;
+  background: linear-gradient(90deg, #010818 0%, #2e2621 63.19%, #493827 100%);
+  padding: 15px 48px 10px 20px;
+  @include flexCol(space-between);
+  gap: 10px;
+  position: relative;
+  overflow: hidden;
+
+  &__main {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    overflow: hidden;
+    flex: 1;
+  }
+
+  &__text {
+    @include setFont(clamp(14px, 3vw, 20px), 600);
+  }
+
+  &__openBtn {
+    @include button(transparent, 2px solid #c6a876);
+    border-radius: 15px;
+    white-space: nowrap;
+    text-align: center;
+    padding: 4px 14px;
+    min-height: 40px;
+    @include setFont(17px, 500, #c6a876);
+    text-decoration: none;
+    @include flexCol();
+    gap: 8px;
+    width: 100%;
+    transition: $transition;
+    width: fit-content;
+    min-width: 150px;
+    max-width: 100%;
+    overflow: hidden;
+
+    &:not(&:disabled) {
+      &:hover,
+      &:active,
+      &:focus-visible {
+        background-color: #c6a876;
+        color: $color-white;
+      }
+    }
+  }
+
+  &__starImg {
+    max-width: 88px;
+  }
+
+  &__buyAdBtn {
+    @include button(#c6a876);
+    height: 30px;
+    width: 47px;
+    @include flexCol();
+    @include setFont(18px, 600, #000);
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-bottom-left-radius: 10px;
+  }
+}
