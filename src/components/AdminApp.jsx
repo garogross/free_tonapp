@@ -1,4 +1,5 @@
 import AdminAd from "./AdminAd";
+import "./AdminApp.css";
 import AdminFootMenu from "./AdminFootMenu";
 import AdminSettings from "./AdminSettings";
 import AdminStatistic from "./AdminStatistic";
