@@ -10,6 +10,8 @@ $color-yellow-light: #ffe066;
     background: linear-gradient(0deg, #1d242e 0%, #212e37 100%);
     padding: 8px 23px;
     @include flexCol(space-around);
+    position: relative;
+    z-index: 3;
 
     @include smScreenMedia {
       border-radius: 30px;
