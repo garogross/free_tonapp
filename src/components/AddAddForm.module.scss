@@ -253,26 +253,29 @@
   }
 
   &__addButton {
-    @include button(#ffd100, 2px solid #ffd100);
+    @include button($color-green-light);
     color: #25173b;
     border-radius: 35px;
     padding: 14px 35px;
     font-weight: 800;
     @include setFont(22px, 600);
     transition:
-      background 0.25s,
+      box-shadow 0.25s,
       color 0.25s;
 
-    &:disabled {
-      background: #c2a940;
-      color: #958157;
-      cursor: not-allowed;
+    &:not(&:disabled) {
+      &:hover,
+      &:active,
+      &:focus-visible {
+        box-shadow: 0 2px 12px 0 #6fb61c;
+        outline: none;
+      }
     }
 
-    &:hover:not(:disabled),
-    &:focus:not(:disabled) {
-      background: #ffe96a;
-      color: #25173b;
+    &:disabled {
+      border-color: transparent;
+      background: #5f5f5f;
+      cursor: default;
     }
 
     @include smScreenMedia {
