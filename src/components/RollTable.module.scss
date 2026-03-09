@@ -4,7 +4,7 @@
   width: 100%;
   background: #342448;
   border-radius: 35px;
-  padding: 10px 20px;
+  padding: 0px 20px 10px;
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -16,6 +16,16 @@
     border-radius: 20px;
   }
 
+  &__body {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    overflow: auto;
+    flex: 1;
+    max-height: fit-content;
+  }
+
   &__col {
     @include flexCol(space-between);
     width: 100%;
@@ -23,21 +33,14 @@
     min-height: 47px;
     padding: 0 20px;
 
-    &:first-child {
-      position: sticky;
-      top: 0;
-      background: #342448;
-    }
-
-    &:nth-child(even) {
-      background: #25173b;
-    }
-
     @include smScreenMedia {
       border-radius: 6px;
       height: 30px;
       padding: 0 8px;
     }
+  }
+  &__body &__col:nth-child(odd) {
+    background: #25173b;
   }
 
   &__headerRow {

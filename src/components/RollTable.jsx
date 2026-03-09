@@ -24,17 +24,19 @@ const RollTable = ({ initialNumbers, course }) => {
           {t("rulletTablePrizeTitle")}
         </span>
       </div>
-      {ranges.map((item, index) => (
-        <div key={item} className={styles.rollTable__col}>
-          <span className={styles.rollTable__bodyRow}>{item}</span>
-          <span className={styles.rollTable__bodyRow}>
-            {initialNumbers && initialNumbers[index] !== undefined
-              ? (initialNumbers[index] * course).toFixed(6)
-              : "-"}
-            <ImageWebp srcSet={starWebpImg} src={starImg} alt={"star"} />
-          </span>
-        </div>
-      ))}
+      <div className={styles.rollTable__body}>
+        {ranges.map((item, index) => (
+          <div key={item} className={styles.rollTable__col}>
+            <span className={styles.rollTable__bodyRow}>{item}</span>
+            <span className={styles.rollTable__bodyRow}>
+              {initialNumbers && initialNumbers[index] !== undefined
+                ? (initialNumbers[index] * course).toFixed(6)
+                : "-"}
+              <ImageWebp srcSet={starWebpImg} src={starImg} alt={"star"} />
+            </span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

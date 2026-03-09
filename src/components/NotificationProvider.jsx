@@ -10,7 +10,7 @@ export function NotificationProvider({ children }) {
     const id = `${Date.now()}-${Math.random()}`;
     setNotifications([{ id, message, type: "normal", duration }]);
     setTimeout(() => {
-      setNotifications((prev) => prev.filter((n) => n.id !== id));
+      // setNotifications((prev) => prev.filter((n) => n.id !== id));
     }, duration);
   }, []);
 
@@ -18,7 +18,7 @@ export function NotificationProvider({ children }) {
     const id = `${Date.now()}-${Math.random()}`;
     setNotifications([{ id, message, type: "error", duration }]);
     setTimeout(() => {
-      setNotifications((prev) => prev.filter((n) => n.id !== id));
+      // setNotifications((prev) => prev.filter((n) => n.id !== id));
     }, duration);
   }, []);
 
