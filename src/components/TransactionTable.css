@@ -1,0 +1,116 @@
+.transactions-table {
+  grid-row: 5;
+  background-color: #C9C9C9;
+  border-radius: 20px;
+  margin: 0 auto;
+  max-width: 95%;
+  width: 100%;
+  box-sizing: border-box;
+  color: #343434;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: calc(100vh - 535px);
+  overflow-y: auto;
+  padding-top: 10px;
+}
+
+.transaction-history-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.last-transactions {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #F4F4F4;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.transaction-column-names,
+.transaction-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  max-width: 95%;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0 auto;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  padding: 5px 0;
+}
+
+.transaction-column-name {
+  flex: 1 1 0;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #F4F4F4;
+  padding-left: 10px;
+  text-align: left;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.transaction-column-name:first-child {
+  flex: 2 1 0;
+}
+
+.transaction-row {
+  border-radius: 10px;
+  background-color: #E0E0E0;
+  margin-bottom: 8px;
+  align-items: center;
+  min-height: 40px;
+}
+
+.transaction-cell-date {
+  flex: 2 1 0;
+  padding-left: 10px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #343434;
+  white-space: normal;
+}
+
+.transaction-cell {
+  flex: 1 1 0;
+  padding-left: 10px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #343434;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.transaction-cell.memo {
+  margin-bottom: 10px;
+}
+
+.empty-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.empty-message {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  color: #777;
+  padding: 20px;
+  text-align: center;
+}

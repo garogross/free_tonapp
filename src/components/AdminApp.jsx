@@ -1,4 +1,5 @@
 import { api } from "../api/axios";
+import "./AddsPackagesForm.css";
 import AdminAd from "./AdminAd";
 import "./AdminAddAddForm.css";
 import "./AdminApp.css";
@@ -6,6 +7,8 @@ import AdminFootMenu from "./AdminFootMenu";
 import AdminSettings from "./AdminSettings";
 import AdminStatistic from "./AdminStatistic";
 import AdminTransaction from "./AdminTransaction";
+import "./Challenges.css";
+import "./TransactionTable.css";
 
 import { useEffect, useState } from "react";
 
