@@ -1,5 +1,5 @@
-import { retrieveRawInitData } from "@telegram-apps/sdk";
 import { useEffect, useState } from "react";
+import { api } from "../api/axios";
 import "./AdminSettingsCran.css";
 import { useNotification } from "./useNotification";
 
@@ -49,13 +49,6 @@ export default function AdminSettingsCran({
 
   const handleUpdateCourse = () => {
     setIsLoading(true);
-    let dataRaw;
-    try {
-      dataRaw = retrieveRawInitData();
-    } catch (error) {
-      console.error("Error retrieving raw init data:", error);
-      dataRaw = null;
-    }
 
     const postData = {
       starsPerTon: course,
@@ -84,13 +77,6 @@ export default function AdminSettingsCran({
       return;
     }
 
-    let dataRaw;
-    try {
-      dataRaw = retrieveRawInitData();
-    } catch (error) {
-      console.error("Error retrieving raw init data:", error);
-      dataRaw = null;
-    }
     const postData = {
       prizesTable: numbers,
     };

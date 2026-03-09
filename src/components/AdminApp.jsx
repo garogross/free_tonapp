@@ -1,3 +1,4 @@
+import { api } from "../api/axios";
 import AdminAd from "./AdminAd";
 import "./AdminApp.css";
 import AdminFootMenu from "./AdminFootMenu";
@@ -6,7 +7,6 @@ import AdminStatistic from "./AdminStatistic";
 import AdminTransaction from "./AdminTransaction";
 import Header from "./Header";
 
-import { retrieveRawInitData } from "@telegram-apps/sdk";
 import { useEffect, useState } from "react";
 
 export default function AdminApp({
@@ -29,7 +29,7 @@ export default function AdminApp({
   const [acceleratorsConfig, setAcceleratorsConfig] = useState([]);
   const [challenges, setChallenges] = useState(null);
 
-  async function getStatistic(dataRaw) {
+  async function getStatistic() {
     api
       .get("/api/freetonadmin/statistic")
       .then((response) => {
@@ -41,7 +41,7 @@ export default function AdminApp({
       });
   }
 
-  async function getTransactions(dataRaw) {
+  async function getTransactions() {
     api
       .get("/api/freetonadmin/transactions")
       .then((response) => {
@@ -52,7 +52,7 @@ export default function AdminApp({
       });
   }
 
-  async function getAdvertisements(dataRaw) {
+  async function getAdvertisements() {
     api
       .get("/api/freetonadmin/ad")
       .then((response) => {
@@ -63,7 +63,7 @@ export default function AdminApp({
       });
   }
 
-  async function getAcceleratorsConfig(dataRaw) {
+  async function getAcceleratorsConfig() {
     api
       .get("/api/freetonadmin/acceleratorsconfig")
       .then((response) => {
@@ -74,7 +74,7 @@ export default function AdminApp({
       });
   }
 
-  async function getChallenges(dataRaw) {
+  async function getChallenges() {
     api
       .get("/api/freetonadmin/challenges")
       .then((response) => {
@@ -86,18 +86,11 @@ export default function AdminApp({
   }
 
   useEffect(() => {
-    let dataRaw;
-    try {
-      dataRaw = retrieveRawInitData();
-    } catch (error) {
-      console.error("Error retrieving raw init data:", error);
-      dataRaw = null;
-    }
-    getChallenges(dataRaw);
-    getAcceleratorsConfig(dataRaw);
-    getStatistic(dataRaw);
-    getAdvertisements(dataRaw);
-    getTransactions(dataRaw);
+    getChallenges();
+    getAcceleratorsConfig();
+    getStatistic();
+    getAdvertisements();
+    getTransactions();
   }, []);
 
   const renderAdminContent = () => {

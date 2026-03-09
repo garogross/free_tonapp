@@ -1,4 +1,3 @@
-import { retrieveRawInitData } from "@telegram-apps/sdk";
 import { useEffect, useState } from "react";
 import { api } from "../api/axios";
 import "./AdminSettingsAccelerator.css";
@@ -87,20 +86,9 @@ export default function AdminSettingsAccelerator({
         acceleratorsStatus: acceleratorsStatus,
       }));
 
-      let dataRaw;
-      try {
-        dataRaw = retrieveRawInitData();
-      } catch (error) {
-        console.error("Error retrieving raw init data:", error);
-        dataRaw = null;
-      }
-
       const response = await api.post(
         "/api/freetonadmin/acceleratorsconfig",
         payload,
-        {
-          headers: { Authorization: "tma " + dataRaw },
-        },
       );
 
       if (response.data && Array.isArray(response.data)) {

@@ -1,4 +1,3 @@
-import { retrieveRawInitData } from "@telegram-apps/sdk";
 import { useEffect, useState } from "react";
 import { api } from "../api/axios";
 import { adIconImg, adIconWebpImg } from "../assets/images";
@@ -29,19 +28,9 @@ export default function RollButton({
         console.log(result);
         if (result === "success") {
           setIsSkipAvailable(false);
-          let dataRaw;
-          try {
-            dataRaw = retrieveRawInitData();
-          } catch (error) {
-            console.error("Error retrieving raw init data:", error);
-            dataRaw = null;
-          }
+
           api
-            .get("/api/skiprolltime", {
-              headers: {
-                Authorization: "tma " + dataRaw,
-              },
-            })
+            .get("/api/skiprolltime")
             .then((res) => {
               setIsPushed(!res.data.isAvailable);
               const endDateTime = new Date(res.data.endTime);

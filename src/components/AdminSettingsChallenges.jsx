@@ -1,5 +1,6 @@
 import { retrieveRawInitData } from "@telegram-apps/sdk";
 import { useEffect, useState } from "react";
+import { api } from "../api/axios";
 import "./AdminSettingsChallenges.css";
 import { useNotification } from "./useNotification";
 
@@ -61,6 +62,7 @@ export default function AdminSettingsChallenges({
       setTelegramInputs(valObj);
       setTelegramOriginalInputs(valObj);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [surfingConfigs]);
 
   function handleInputChange(field, value) {
@@ -100,13 +102,6 @@ export default function AdminSettingsChallenges({
       configToSend[field] = num;
     }
 
-    let dataRaw;
-    try {
-      dataRaw = retrieveRawInitData();
-    } catch (error) {
-      console.error("Error retrieving raw init data:", error);
-      dataRaw = null;
-    }
     const postData = {
       ...configToSend,
       id:
@@ -116,9 +111,7 @@ export default function AdminSettingsChallenges({
     };
 
     api
-      .post("/api/freetonadmin/telegramconfigs", postData, {
-        headers: { Authorization: "tma " + dataRaw },
-      })
+      .post("/api/freetonadmin/telegramconfigs", postData)
       .then((response) => {
         setTelegramChalengesConfig(response.data);
         showNotification("Изменения сохранены");

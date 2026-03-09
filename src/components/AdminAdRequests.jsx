@@ -1,5 +1,5 @@
-import { retrieveRawInitData } from "@telegram-apps/sdk";
 import { useEffect, useState } from "react";
+import { api } from "../api/axios";
 import "./AdminAdRequests.css";
 import { useNotification } from "./useNotification";
 import smallTonIcon from "/assets/small_ton.svg";
@@ -59,13 +59,7 @@ export default function AdminAdRequests({
 
   const handleDecisionAd = (id, decision) => {
     setIsLoading(true);
-    let dataRaw;
-    try {
-      dataRaw = retrieveRawInitData();
-    } catch (error) {
-      console.error("Error retrieving raw init data:", error);
-      dataRaw = null;
-    }
+
     const postData = {
       id: id,
       decision: decision,
@@ -86,13 +80,7 @@ export default function AdminAdRequests({
 
   const handleDeleteAd = (id) => {
     setIsLoading(true);
-    let dataRaw;
-    try {
-      dataRaw = retrieveRawInitData();
-    } catch (error) {
-      console.error("Error retrieving raw init data:", error);
-      dataRaw = null;
-    }
+
     const postData = {
       id: id,
     };
@@ -112,13 +100,7 @@ export default function AdminAdRequests({
 
   const handleDeleteChallenge = (id, challengeType) => {
     setIsLoading(true);
-    let dataRaw;
-    try {
-      dataRaw = retrieveRawInitData();
-    } catch (error) {
-      console.error("Error retrieving raw init data:", error);
-      dataRaw = null;
-    }
+
     const postData = {
       id: id,
       challengeType: challengeType,
@@ -139,13 +121,7 @@ export default function AdminAdRequests({
 
   const handleDecisionChallenge = (id, decision, challengeType) => {
     setIsLoading(true);
-    let dataRaw;
-    try {
-      dataRaw = retrieveRawInitData();
-    } catch (error) {
-      console.error("Error retrieving raw init data:", error);
-      dataRaw = null;
-    }
+
     const postData = {
       id: id,
       decision: decision,

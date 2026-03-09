@@ -1,4 +1,4 @@
-import { retrieveRawInitData } from "@telegram-apps/sdk";
+import { api } from "../api/axios";
 import "./WithdrawalRequests.css";
 import { useNotification } from "./useNotification";
 
@@ -31,13 +31,6 @@ export default function WithdrawalRequests({
   };
 
   const handleDecision = (id, decision) => {
-    let dataRaw;
-    try {
-      dataRaw = retrieveRawInitData();
-    } catch (error) {
-      console.error("Error retrieving raw init data:", error);
-      dataRaw = null;
-    }
     const postData = {
       id: id,
       decision: decision,

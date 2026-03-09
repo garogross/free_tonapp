@@ -1,5 +1,5 @@
-import { retrieveRawInitData } from "@telegram-apps/sdk";
 import { useState } from "react";
+import { api } from "../api/axios";
 import "./AdminAdPackages.css";
 import { useNotification } from "./useNotification";
 import tonIcon from "/assets/ton.svg";
@@ -44,13 +44,6 @@ export default function AdminAdPackages({ adPackages, setAdPackages }) {
       return;
     }
 
-    let dataRaw;
-    try {
-      dataRaw = retrieveRawInitData();
-    } catch (error) {
-      console.error("Error retrieving raw init data:", error);
-      dataRaw = null;
-    }
     const postData = {
       adPackageName: adPackageName.trim(),
       adDays: daysNum,
@@ -72,13 +65,6 @@ export default function AdminAdPackages({ adPackages, setAdPackages }) {
   };
 
   const handleDelete = (id) => {
-    let dataRaw;
-    try {
-      dataRaw = retrieveRawInitData();
-    } catch (error) {
-      console.error("Error retrieving raw init data:", error);
-      dataRaw = null;
-    }
     const postData = {
       id: id,
     };
