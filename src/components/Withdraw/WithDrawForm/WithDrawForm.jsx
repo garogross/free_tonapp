@@ -112,7 +112,7 @@ const WithDrawForm = ({
         <h3 className={styles.withDrawForm__title}>{t("cashOut")}</h3>
         <div></div>
       </div>
-      <form className={styles.withDrawForm__main}>
+      <div className={styles.withDrawForm__main}>
         <div className={styles.withDrawForm__inputWrapper}>
           <input
             type="text"
@@ -159,7 +159,7 @@ const WithDrawForm = ({
         <SecondaryBtn onClick={handleCashOut} disabled={isLoading}>
           {t("cashOut").toUpperCase()}
         </SecondaryBtn>
-      </form>
+      </div>
     </div>
   );
 };
