@@ -6,7 +6,7 @@
   border-bottom-width: 0px;
   border-radius: 20px;
   background: linear-gradient(90deg, #010818 0%, #2e2621 63.19%, #493827 100%);
-  padding: 15px 48px 10px 20px;
+  padding: 15px 20px 10px;
   @include flexCol(space-between);
   gap: 10px;
   position: relative;
@@ -14,14 +14,16 @@
 
   &__main {
     display: flex;
-    flex-direction: column;
     gap: 7px;
     overflow: hidden;
     flex: 1;
+    justify-content: space-between;
+    min-height: 70px;
   }
 
   &__text {
     @include setFont(clamp(14px, 3vw, 20px), 600);
+    flex: 1;
   }
 
   &__openBtn {
@@ -41,6 +43,7 @@
     min-width: 150px;
     max-width: 100%;
     overflow: hidden;
+    align-self: flex-end;
 
     &:not(&:disabled) {
       &:hover,
@@ -58,10 +61,10 @@
 
   &__buyAdBtn {
     @include button(#c6a876);
-    height: 30px;
-    width: 47px;
+    height: 25px;
+    width: 37px;
     @include flexCol();
-    @include setFont(18px, 600, #000);
+    @include setFont(16px, 600, #000);
     position: absolute;
     top: 0;
     right: 0;

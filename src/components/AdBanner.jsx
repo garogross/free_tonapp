@@ -1,9 +1,7 @@
 import { openLink } from "@telegram-apps/sdk";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { adBannerStarImg, adBannerStarWebpImg } from "../assets/images";
 import styles from "./AdBanner.module.scss";
-import ImageWebp from "./layout/ImageWebp/ImageWebp";
 
 const AdBanner = ({ setCurrentContent, setProfileSubMenu, activeAds }) => {
   const { t } = useTranslation();
@@ -47,12 +45,7 @@ const AdBanner = ({ setCurrentContent, setProfileSubMenu, activeAds }) => {
           </button>
         )}
       </div>
-      <ImageWebp
-        src={adBannerStarImg}
-        srcSet={adBannerStarWebpImg}
-        alt="star"
-        className={styles.adBanner__starImg}
-      />
+
       <button onClick={followToAdCabinet} className={styles.adBanner__buyAdBtn}>
         AD
       </button>
