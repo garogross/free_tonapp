@@ -13,4 +13,7 @@
       width: 18px;
     }
   }
+  & button:disabled &__adImg {
+    filter: grayscale(1);
+  }
 }
