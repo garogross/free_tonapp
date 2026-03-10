@@ -6,7 +6,9 @@ import {
   profileMineTaskImg,
   profileMineTaskWebpImg,
 } from "@/assets/images";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { api } from "../../../api/axios";
 import {
   miningInfoIconImg,
   miningInfoIconWebpImg,
@@ -16,88 +18,139 @@ import MainButton from "../../layout/MainButton/MainButton";
 import { useNotification } from "../../useNotification";
 import styles from "./ProfileTasks.module.scss";
 
-const tasks = [
-  {
-    imgSrc: profileInviteTaskImg,
-    imgSrcSet: profileInviteTaskWebpImg,
-    name: "Пригласить друзей",
-    progress: [2, 5],
-    reward: 10,
-    info: "referralCountingInfo",
-  },
-  {
-    imgSrc: profileCalmTaskImg,
-    imgSrcSet: profileCalmTaskWebpImg,
-    name: "Собрать с крана",
-    progress: [10, 10],
-    reward: 5,
-  },
-  {
-    imgSrc: profileMineTaskImg,
-    imgSrcSet: profileMineTaskWebpImg,
-    name: "Намайнить звезд",
-    progress: [0, 35],
-    reward: 5,
-  },
-];
+const taskInfos = {
+  invite_friends: "referralCountingInfo",
+};
 
-const ProfileTasks = () => {
+const questImages = {
+  faucet_collect: {
+    src: profileCalmTaskImg,
+    srcSet: profileCalmTaskWebpImg,
+  },
+  invite_friends: {
+    src: profileInviteTaskImg,
+    srcSet: profileInviteTaskWebpImg,
+  },
+  mining_earned: {
+    src: profileMineTaskImg,
+    srcSet: profileMineTaskWebpImg,
+  },
+};
+
+const ProfileTasks = ({ quests, setQuests, setTonBalance }) => {
   const { t } = useTranslation();
-  const { showNotification } = useNotification();
+  const { showNotification, showError } = useNotification();
+  const [loading, setLoading] = useState(false);
+  const [claimingTask, setClaimingTask] = useState(null);
+
+  useEffect(() => {
+    async function getQuests() {
+      api
+        .get("/api/quests")
+        .then((response) => {
+          setQuests(response.data.quests);
+        })
+        .catch((error) => {
+          console.error("Getting accelerate balance error: ", error);
+        });
+    }
+    getQuests();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const claim = (questType) => {
+    setLoading(true);
+    setClaimingTask(questType);
+    api
+      .post("/api/quests/claim", { questType })
+      .then((response) => {
+        if (response.data?.quests) setQuests(response.data?.quests);
+        if (response.data.tonBalance) setTonBalance(response.data.tonBalance);
+        // response.data.quests
+        // response.data.tonBalance
+        // response.data.faucetCollects
+        // response.data.qualifiedFriends
+        // response.data.miningEarned
+      })
+      .catch(() => {
+        showError(t("failedToClaimReward"));
+      })
+      .finally(() => {
+        setLoading(false);
+        setClaimingTask(null);
+      });
+  };
+
   return (
     <div className={styles.profileTasks}>
-      {tasks.map((task) => (
-        <div className={styles.profileTasks__item} key={task.name}>
-          <div className={styles.profileTasks__itemMain}>
-            <div className={styles.profileTasks__mainTopBlock}>
-              <ImageWebp
-                src={task.imgSrc}
-                srcSet={task.imgSrcSet}
-                alt={task.name}
-                className={styles.profileTasks__taskImg}
-              />
-              <h6 className={styles.profileTasks__itemNameText}>
-                {task.name}
-                {task.info && (
-                  <button
-                    className={styles.profileTasks__infoBtn}
-                    onClick={() => showNotification(t(task.info))}
-                  >
-                    <ImageWebp
-                      src={miningInfoIconImg}
-                      srcSet={miningInfoIconWebpImg}
-                      alt="info"
-                      className={styles.profileTasks__infoImg}
-                    />
-                  </button>
-                )}
-              </h6>
-            </div>
-            <div className={styles.profileTasks__progressBar}>
-              <div
-                className={styles.profileTasks__progressBarInner}
-                style={{
-                  width: `${(task.progress[0] / task.progress[1]) * 100}%`,
-                }}
-              ></div>
-              <span className={styles.profileTasks__progressBarText}>
-                {task.progress.join("/")}
-              </span>
-            </div>
-          </div>
-          <div className={styles.profileTasks__rightBlock}>
-            <div className={styles.profileTasks__reward}>
-              <span className={styles.profileTasks__rewardNameText}>
-                Reward
-              </span>
-              <div className={styles.profileTasks__rewardValueText}>
-                {task.reward} Stars
+      {!quests.length ? (
+        <div className={styles.profileTasks__messageText}>{t("emptyList")}</div>
+      ) : (
+        quests.map((quest) => (
+          <div className={styles.profileTasks__item} key={quest.questType}>
+            <div className={styles.profileTasks__itemMain}>
+              <div className={styles.profileTasks__mainTopBlock}>
+                <ImageWebp
+                  src={questImages[quest.questType].src}
+                  srcSet={questImages[quest.questType].srcSet}
+                  alt={t(quest.questType)}
+                  className={styles.profileTasks__taskImg}
+                />
+                <h6 className={styles.profileTasks__itemNameText}>
+                  {t(quest.questType)}
+                  {taskInfos[quest.questType] && (
+                    <button
+                      className={styles.profileTasks__infoBtn}
+                      onClick={() =>
+                        showNotification(t(taskInfos[quest.questType]))
+                      }
+                    >
+                      <ImageWebp
+                        src={miningInfoIconImg}
+                        srcSet={miningInfoIconWebpImg}
+                        alt="info"
+                        className={styles.profileTasks__infoImg}
+                      />
+                    </button>
+                  )}
+                </h6>
+              </div>
+              <div className={styles.profileTasks__progressBar}>
+                <div
+                  className={styles.profileTasks__progressBarInner}
+                  style={{
+                    width: `${Math.min(100, (quest.currentValue / quest.targetValue) * 100)}%`,
+                  }}
+                ></div>
+                <span className={styles.profileTasks__progressBarText}>
+                  {quest.currentValue}/{quest.targetValue}
+                </span>
               </div>
             </div>
-            <MainButton size="md">CLAIM</MainButton>
+            <div className={styles.profileTasks__rightBlock}>
+              <div className={styles.profileTasks__reward}>
+                <span className={styles.profileTasks__rewardNameText}>
+                  Reward
+                </span>
+                <div className={styles.profileTasks__rewardValueText}>
+                  {quest.reward} Stars
+                </div>
+              </div>
+              <MainButton
+                onClick={() => claim(quest.questType)}
+                disabled={quest.currentValue < quest.targetValue || loading}
+                size="md"
+              >
+                {loading && claimingTask === quest.questType ? (
+                  <span className={styles.profileTasks____loader}></span>
+                ) : (
+                  "CLAIM"
+                )}
+              </MainButton>
+            </div>
           </div>
-        </div>
-      ))}
+        ))
+      )}
     </div>
   );
 };

@@ -129,6 +129,10 @@
   "profileTitle": "Профиль",
   "referralCountingInfo": "В зачёт идут рефералы, которые собрали доход с крана минимум 2 раза!",
   "advertisementCabinet": "Реклама",
+  "faucet_collect": "Собрать с крана",
+  "invite_friends": "Пригласить друзей",
+  "mining_earned": "Намайнить звезд",
+  "failedToClaimReward": "Не удалось получить награду",
   "transactionTable": {
     "lastTransactions": "История выводов",
     "date": "Дата",

@@ -143,4 +143,26 @@
       font-size: 17px;
     }
   }
+  &__messageText {
+    @include setFont(24px, 800);
+    text-align: center;
+    padding-block: 20px;
+  }
+  &__loader {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid $color-purple-bg;
+    border-top: 2px solid $color-primary-yellow;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+    margin-left: 4px;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

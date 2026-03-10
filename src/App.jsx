@@ -43,6 +43,7 @@ function App({ user, loadingUser }) {
 
   const [keyboardVisible, setKeyboardVisible] = useState(false);
 
+  const [quests, setQuests] = useState([]);
   const [activeAds, setActiveAds] = useState([]);
   const [transactions, setTransactions] = useState([]);
   const [advertisements, setAdvertisements] = useState([]);
@@ -406,6 +407,25 @@ function App({ user, loadingUser }) {
           console.error("Getting accelerate balance error: ", error);
         });
     }
+    async function getQuests() {
+      api
+        .get("/api/quests")
+        .then((response) => {
+          // {
+          //   "questType": "faucet_collect",
+          //   "name": "Faucet Collect",
+          //   "level": 3,
+          //   "targetValue": 15,
+          //   "currentValue": 12,
+          //   "reward": 15,
+          //   "completed": false
+          // }[]
+          setQuests(response.data.quests);
+        })
+        .catch((error) => {
+          console.error("Getting accelerate balance error: ", error);
+        });
+    }
     getChalleges();
     getChallegesConfigs();
     getAcceleratorsStatus();
@@ -418,6 +438,7 @@ function App({ user, loadingUser }) {
     getAccelerateBalance();
     getFriends();
     getTransactions();
+    getQuests();
   }, []);
 
   const addTransaction = (newTx) => {
@@ -543,6 +564,9 @@ function App({ user, loadingUser }) {
                 <Profile
                   setProfileSubMenu={setProfileSubMenu}
                   setCurrentContent={setCurrentContent}
+                  quests={quests}
+                  setQuests={setQuests}
+                  setTonBalance={setTonBalance}
                 />
               </>
             );

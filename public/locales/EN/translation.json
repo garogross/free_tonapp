@@ -128,6 +128,10 @@
   "rulletTopUp": "Top up",
   "rulletAddressCheckError": "Address verification error",
   "profileTitle": "Profile",
+  "faucet_collect": "Collect from faucet",
+  "invite_friends": "Invite friends",
+  "mining_earned": "Mine stars",
+  "failedToClaimReward": "Failed to claim reward",
   "referralCountingInfo": "Credits are awarded for referrals who have collected income from the faucet at least 2 times!",
   "advertisementCabinet": "Advertisement",
   "transactionTable": {
