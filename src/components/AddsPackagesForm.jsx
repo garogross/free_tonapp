@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
-import { tonImg, tonWebpImg } from "../assets/images";
+import { starImg, starWebpImg } from "../assets/images";
 import styles from "./AddsPackagesForm.module.scss";
 import ArrowBottomIcon from "./icons/Common/ArrowBottomIcon";
 import ImageWebp from "./layout/ImageWebp/ImageWebp";
@@ -68,7 +68,7 @@ export default function AddsPackagesForm({
                   {pkg.price}
                 </div>
                 <div className={styles.addPackagesForm__itemPriceIcon}>
-                  <ImageWebp src={tonImg} srcSet={tonWebpImg} alt="TON" />
+                  <ImageWebp src={starImg} srcSet={starWebpImg} alt="stars" />
                 </div>
               </div>
             </div>

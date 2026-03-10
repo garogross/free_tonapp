@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { api } from "../api/axios";
+import { starImg, starWebpImg } from "../assets/images";
 import "./AdminAdPackages.css";
+import ImageWebp from "./layout/ImageWebp/ImageWebp";
 import { useNotification } from "./useNotification";
-import tonIcon from "/assets/ton.svg";
 
 export default function AdminAdPackages({ adPackages, setAdPackages }) {
   const { showError, showNotification } = useNotification();
@@ -109,7 +110,7 @@ export default function AdminAdPackages({ adPackages, setAdPackages }) {
                     {pkg.price}
                   </div>
                   <div className="add-packages-form-item-price-icon">
-                    <img src={tonIcon} alt="TON" />
+                    <ImageWebp src={starImg} srcSet={starWebpImg} alt="stars" />
                   </div>
                 </div>
               </div>

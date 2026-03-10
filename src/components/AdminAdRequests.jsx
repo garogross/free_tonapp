@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { api } from "../api/axios";
+import { starImg, starWebpImg } from "../assets/images";
 import "./AdminAdRequests.css";
+import ImageWebp from "./layout/ImageWebp/ImageWebp";
 import { useNotification } from "./useNotification";
-import smallTonIcon from "/assets/small_ton.svg";
 
 export default function AdminAdRequests({
   adminAds,
@@ -191,7 +192,7 @@ export default function AdminAdRequests({
                   <div className="challenge-item-text challege-price">
                     {challenge.price.toFixed(7)}
                   </div>
-                  <img src={smallTonIcon} alt="TON" />
+                  <ImageWebp src={starImg} srcSet={starWebpImg} alt="stars" />
                 </span>
                 <button className="challenge-surf-button">ПОСЕТИТЬ</button>
               </div>
@@ -280,7 +281,6 @@ export default function AdminAdRequests({
                   <div className="challenge-item-text challege-price">
                     {challenge.price.toFixed(7)}
                   </div>
-                  <img src={smallTonIcon} alt="TON" />
                 </span>
                 {challenge.selectedType === "1" ? (
                   <>

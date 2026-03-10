@@ -1,10 +1,13 @@
+import { starImg, starWebpImg } from "@/assets/images";
 import { retrieveRawInitData } from "@telegram-apps/sdk";
 import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { api } from "../api/axios";
 import styles from "./AddAddForm.module.scss";
+import ImageWebp from "./layout/ImageWebp/ImageWebp";
 import { useNotification } from "./useNotification";
+
 export default function AddAddForm({
   selectedPackage,
   setAdvertisements,
@@ -269,7 +272,7 @@ export default function AddAddForm({
             {t("addAddForm.price")}: {selectedPackage?.price}
           </div>
           <div className={styles.addAddForm__packageInfoItemPriceIcon}>
-            <img src="/assets/ton.svg" alt="TON" />
+            <ImageWebp src={starImg} srcSet={starWebpImg} alt="Star" />
           </div>
         </div>
       </div>
