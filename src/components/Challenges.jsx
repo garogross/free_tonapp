@@ -11,6 +11,7 @@ import MainButton from "./layout/MainButton/MainButton";
 import SecondaryBtn from "./layout/SecondaryBtn/SecondaryBtn";
 import SwitcherBtn from "./layout/SwitcherBtn/SwitcherBtn";
 import { useNotification } from "./useNotification";
+
 const filters = [
   {
     value: "surfing",
@@ -356,11 +357,11 @@ export default function Challenges({
                   className={styles.chalanges__listItemBtn}
                   size="sm"
                   isSecondaryVariant
-                  onClick={
+                  onClick={() => {
                     isClient
                       ? handleTelegramChallengeClick(sc.link)
-                      : handleSurfingChallengeClick(sc)
-                  }
+                      : handleSurfingChallengeClick(sc);
+                  }}
                 >
                   {t("challengeButtonGoIn")}
                 </SecondaryBtn>
