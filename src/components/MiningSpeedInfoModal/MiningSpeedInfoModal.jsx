@@ -245,7 +245,7 @@ const MiningSpeedInfoModal = ({
               <>
                 <h3 className={styles.miningSpeedInfoModal__title}>
                   {t("acceleratorsBlocked.friendsInfo", {
-                    amount: 0.00000024,
+                    amount: "0.00000024",
                     mode: "stars",
                   })}
                 </h3>
