@@ -1,7 +1,8 @@
-import clsx from "clsx";
+import { retrieveRawInitData } from "@telegram-apps/sdk";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { api } from "../api/axios";
-import styles from "./SecureIframe.module.scss";
+import "./SecureIframe.css";
 import { useNotification } from "./useNotification";
 
 const SecureIframe = ({
@@ -37,9 +38,13 @@ const SecureIframe = ({
 
   const handleEndOfTime = () => {
     setCurrentContent("challenges");
-
-    api
-      .get("/api/challenge/iframeend")
+    const dataRaw = retrieveRawInitData();
+    axios
+      .get("/api/challenge/iframeend", {
+        headers: {
+          Authorization: "tma " + dataRaw,
+        },
+      })
       .then((response) => {
         setChallenges(response.data);
         setTonBalance(response.data.tonBalance);
@@ -68,32 +73,26 @@ const SecureIframe = ({
   };
 
   return (
-    <div className={clsx(styles.secureIframe__container, "container")}>
-      {loading && (
-        <div className={styles.secureIframe__loading}>Загружается...</div>
-      )}
+    <div className="iframeContainer">
+      {/* {loading && <div className="loadingPlaceholder">Загружается...</div>} */}
       {!loading && timeLeft > 0 && (
-        <div className={styles.secureIframe__timerWrapper}>
-          <div className={styles.secureIframe__timerBlock}>
-            <div className={styles.secureIframe__timerLabel}>
-              Оставшееся время
-            </div>
-            <div className={styles.secureIframe__timerDigits}>
-              <span className={styles.secureIframe__timerDigit}>
+        <div className="pretty-timer-challenge">
+          <div className="timer-block-challenge">
+            <div className="timer-label-challenge">Оставшееся время</div>
+            <div className="timer-digits-challenge">
+              <span className="timer-digit-challenge">
                 {Math.floor(timeLeft / 10)}
               </span>
-              <span className={styles.secureIframe__timerDigit}>
-                {timeLeft % 10}
-              </span>
+              <span className="timer-digit-challenge">{timeLeft % 10}</span>
             </div>
-            <span className={styles.secureIframe__timerSeparator}>секунд</span>
+            <span className="timer-separator-challenge">секунд</span>
           </div>
         </div>
       )}
       <iframe
         src={currentSurfingChallenge?.link}
         title={currentSurfingChallenge?.name}
-        className={`${styles.secureIframe__iframe} ${loading || timeLeft === 0 ? styles.secureIframe__iframeHidden : ""}`}
+        className={`iframeStyle ${loading || timeLeft === 0 ? "iframeHidden" : ""}`}
         sandbox="allow-scripts allow-forms"
         loading="lazy"
         allow="fullscreen"
@@ -103,7 +102,7 @@ const SecureIframe = ({
         }}
       />
       {!loading && timeLeft === 0 && (
-        <div className={styles.secureIframe__timeEnded}>
+        <div style={{ marginTop: 16, color: "#78AA28", fontWeight: "700" }}>
           Время просмотра истекло
         </div>
       )}
