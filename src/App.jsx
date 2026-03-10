@@ -40,6 +40,7 @@ function App({ user, loadingUser }) {
   const [backPath, setBackPath] = useState(null);
   const [blockedSlots, setBlockedSlots] = useState(0);
   const [challenges, setChallenges] = useState(null);
+  const [maxOfflineSeconds, setMaxOfflineSeconds] = useState(0);
 
   const [keyboardVisible, setKeyboardVisible] = useState(false);
 
@@ -359,11 +360,14 @@ function App({ user, loadingUser }) {
   }, [rollStarted]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setAccelerateBalance((prevBalance) => prevBalance + accelerateSpeed);
-    }, 1000);
-
-    return () => clearInterval(interval);
+    if (accelerateSpeed > 0) {
+      const interval = setInterval(() => {
+        setAccelerateBalance((prevBalance) => prevBalance + accelerateSpeed);
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+    // If speed = 0, no interval should run.
+    return undefined;
   }, [accelerateSpeed]);
 
   useEffect(() => {
@@ -402,6 +406,8 @@ function App({ user, loadingUser }) {
         .then((response) => {
           setAccelerateBalance(response.data.accelerateBalance);
           setAccelerateSpeed(response.data.accelerateSpeed);
+
+          setMaxOfflineSeconds(response.data.maxOfflineSeconds);
         })
         .catch((error) => {
           console.error("Getting accelerate balance error: ", error);
@@ -547,6 +553,8 @@ function App({ user, loadingUser }) {
               isSubscriber={isSubscriber}
               starsMode={starsMode}
               course={course}
+              maxOfflineSeconds={maxOfflineSeconds}
+              setMaxOfflineSeconds={setMaxOfflineSeconds}
             />
           </>
         );

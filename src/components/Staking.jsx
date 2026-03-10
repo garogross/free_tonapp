@@ -1,6 +1,6 @@
 import { retrieveLaunchParams } from "@telegram-apps/sdk";
 import { clsx } from "clsx";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { api } from "../api/axios";
 import {
@@ -20,6 +20,17 @@ import MiningSpeedInfoModal from "./MiningSpeedInfoModal/MiningSpeedInfoModal";
 import styles from "./Staking.module.scss";
 import { useNotification } from "./useNotification";
 
+// Helper to convert seconds to HH:MM:SS string
+function formatDuration(seconds) {
+  if (!Number.isFinite(seconds) || seconds < 0) return "0:00:00";
+  const hrs = Math.floor(seconds / 3600);
+  const mins = Math.floor((seconds % 3600) / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${hrs}:${mins.toString().padStart(2, "0")}:${secs
+    .toString()
+    .padStart(2, "0")}`;
+}
+
 export default function Staking({
   setTonBalance,
   tonBalance,
@@ -34,6 +45,8 @@ export default function Staking({
   isSubscriber,
   starsMode,
   course,
+  maxOfflineSeconds,
+  setMaxOfflineSeconds,
 }) {
   const [counter, setCounter] = useState(1);
   const [selectedAccelerator, setSelectedAccelerator] = useState(0);
@@ -43,6 +56,8 @@ export default function Staking({
   const [modalPage, setModalPage] = useState("accelerators");
   const [acceleratorsConfig, setAcceleratorsConfig] = useState([]);
   const [acceleratorsList, setAcceleratorsList] = useState([]);
+  const [offlineMiningSecondsLeft, setOfflineMiningSecondsLeft] = useState(0);
+  const timerRef = useRef();
 
   const { showError, showNotification } = useNotification();
 
@@ -55,6 +70,35 @@ export default function Staking({
   }
   const userId = initData?.tgWebAppData.user.id;
   const { t } = useTranslation();
+
+  // Start offline mining timer from maxOfflineSeconds on mount,
+  // without using accelerateBalanceUpdatedAt.
+  useEffect(() => {
+    // If no valid maxOfflineSeconds or less than or equal to 0, stop timer
+    if (typeof maxOfflineSeconds !== "number" || maxOfflineSeconds <= 0) {
+      setOfflineMiningSecondsLeft(0);
+      return;
+    }
+    // Set value initially to maxOfflineSeconds
+    setOfflineMiningSecondsLeft(maxOfflineSeconds);
+
+    timerRef.current && clearInterval(timerRef.current);
+
+    timerRef.current = setInterval(() => {
+      setOfflineMiningSecondsLeft((prev) => {
+        if (prev <= 1) {
+          clearInterval(timerRef.current);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+    // Only restart timer if maxOfflineSeconds changes
+  }, [maxOfflineSeconds]);
 
   const writeLinkInClipboard = () => {
     navigator.clipboard.writeText("https://t.me/Freetoon_bot?start=" + userId);
@@ -113,6 +157,8 @@ export default function Staking({
               .then((response) => {
                 setAccelerateBalance(response.data.accelerateBalance);
                 setAccelerateSpeed(response.data.accelerateSpeed);
+
+                setMaxOfflineSeconds(response.data.maxOfflineSeconds);
                 showNotification(t("stakingForm.rentSuccess"));
               })
               .catch((error) => {
@@ -136,8 +182,6 @@ export default function Staking({
   };
 
   const handleAccelerate = () => {
-    console.log("handleAccelerate");
-
     setIsAcceleratorsLoading(true);
     setShowAccelerateModal(true);
 
@@ -187,8 +231,6 @@ export default function Staking({
   };
 
   const showStakingInfo = (e) => {
-    console.log("showStakingInfo");
-
     e.stopPropagation();
     if (acceleratorsStatus) {
       showNotification(t("stakingForm.offlineMiningInfo"));
@@ -256,7 +298,7 @@ export default function Staking({
                 Offline Mining:{" "}
               </span>
               <span className={styles.staking__offlineMiningValueText}>
-                6:00:00
+                {formatDuration(offlineMiningSecondsLeft)}
               </span>
             </div>
           </button>
@@ -285,7 +327,6 @@ export default function Staking({
           />
         </div>
       </section>
-      ;
       {!isSubscriber && !import.meta.env.DEV && (
         <ChannelFollow setIsSubscriber={setIsSubscriber} />
       )}
