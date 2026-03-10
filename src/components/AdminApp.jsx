@@ -36,7 +36,6 @@ export default function AdminApp({
       .get("/api/freetonadmin/statistic")
       .then((response) => {
         setStatistic(response.data.statistic);
-        console.log(response.data.statistic);
       })
       .catch((error) => {
         console.error("Get statistic error: ", error);
