@@ -169,7 +169,8 @@ const MiningSpeedInfoModal = ({
                   {t("stakingForm.daysLeft")}: {daysLeft} {declOfNum(daysLeft)}
                 </div>
                 <div className={styles.miningSpeedInfoModal__activeIncome}>
-                  {t("stakingForm.totalMined")}: {realtimeIncome.toFixed(6)} TON
+                  {t("stakingForm.totalMined")}: {realtimeIncome.toFixed(6)}{" "}
+                  Stars
                 </div>
               </div>
             </div>
@@ -404,7 +405,7 @@ const MiningSpeedInfoModal = ({
                   <div
                     className={styles.miningSpeedInfoModal__perDayDescription}
                   >
-                    {isAcceleratorsLoading ? spinner : `${totalPerDay} TON`}
+                    {isAcceleratorsLoading ? spinner : `${totalPerDay} Stars`}
                   </div>
                 </div>
                 <div
@@ -420,7 +421,7 @@ const MiningSpeedInfoModal = ({
                       styles.miningSpeedInfoModal__totalProfitDescription
                     }
                   >
-                    {isAcceleratorsLoading ? spinner : `${totalProfit} TON`}
+                    {isAcceleratorsLoading ? spinner : `${totalProfit} Stars`}
                   </div>
                 </div>
                 <div className={styles.miningSpeedInfoModal__counterTitle}>
@@ -458,7 +459,9 @@ const MiningSpeedInfoModal = ({
                       styles.miningSpeedInfoModal__totalRentPriceDescription
                     }
                   >
-                    {isAcceleratorsLoading ? spinner : `${totalRentPrice} TON`}
+                    {isAcceleratorsLoading
+                      ? spinner
+                      : `${totalRentPrice} Stars`}
                   </div>
                 </div>
                 <button

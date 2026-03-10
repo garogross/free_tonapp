@@ -75,12 +75,10 @@ export default function Staking({
         });
     } else {
       showError(
-        starsMode
-          ? t("stakingForm.requestWithdrawMin", {
-              amount: 0.5 * course,
-              mode: "stars",
-            })
-          : t("stakingForm.requestWithdrawMin", { amount: "0.5", mode: "TON" }),
+        t("stakingForm.requestWithdrawMin", {
+          amount: 0.5 * course,
+          mode: "stars",
+        }),
       );
     }
   };

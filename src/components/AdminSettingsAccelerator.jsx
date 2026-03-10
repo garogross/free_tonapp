@@ -166,7 +166,7 @@ export default function AdminSettingsAccelerator({
                 </div>
                 <input
                   type="text"
-                  placeholder="Прибыль в день (TON)"
+                  placeholder="Прибыль в день (Stars)"
                   className="add-add-form-add-input"
                   value={acc.profitPerDay}
                   onChange={(e) =>
@@ -178,7 +178,7 @@ export default function AdminSettingsAccelerator({
                 </div>
                 <input
                   type="text"
-                  placeholder="Цена аренды (TON)"
+                  placeholder="Цена аренды (Stars)"
                   className="add-add-form-add-input"
                   value={acc.rentPrice}
                   onChange={(e) =>

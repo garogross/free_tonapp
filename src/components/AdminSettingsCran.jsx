@@ -121,12 +121,12 @@ export default function AdminSettingsCran({
       </div>
       <div className="create-ad-package-container">
         <div className="cran-settings-form-title">
-          КОЛИЧЕСТВО STARS ЗА 1 TON
+          КОЛИЧЕСТВО STARS ЗА 1 Stars
         </div>
         <div className="create-ad-package-inputs-container">
           <input
             type="text"
-            placeholder="Кол-во stars за 1 TON"
+            placeholder="Кол-во stars за 1 Stars"
             className="add-add-form-add-input"
             value={course}
             onChange={(e) => handleCourseInputChange(e.target.value)}

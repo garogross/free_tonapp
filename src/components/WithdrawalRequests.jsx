@@ -76,7 +76,7 @@ export default function WithdrawalRequests({
               </div>
               <div className="transaction-cell">
                 {tx.transaction.amount}{" "}
-                {tx.transaction.starsMode ? "STARS" : "TON"}
+                {tx.transaction.starsMode ? "STARS" : "Stars"}
               </div>
               <div
                 className="transaction-cell"
