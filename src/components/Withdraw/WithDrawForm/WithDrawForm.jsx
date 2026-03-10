@@ -153,7 +153,7 @@ const WithDrawForm = ({
         <div className={styles.withDrawForm__infoBlock}>
           <p className={styles.withDrawForm__info}>
             {t("cashOutForm.minAmount.stars")}:{" "}
-            <span className="primaryLightText">{course} Stars</span>
+            <span className="primaryLightText">50 Stars</span>
           </p>
         </div>
         <SecondaryBtn onClick={handleCashOut} disabled={isLoading}>
