@@ -74,7 +74,7 @@ const SecureIframe = ({
 
   return (
     <div className="iframeContainer">
-      {/* {loading && <div className="loadingPlaceholder">Загружается...</div>} */}
+      {loading && <div className="loadingPlaceholder">Загружается...</div>}
       {!loading && timeLeft > 0 && (
         <div className="pretty-timer-challenge">
           <div className="timer-block-challenge">
