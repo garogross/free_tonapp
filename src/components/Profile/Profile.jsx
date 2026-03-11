@@ -10,12 +10,14 @@ const Profile = ({
   quests,
   setQuests,
   setTonBalance,
+  getTonBalance,
 }) => {
   return (
     <section className={clsx(styles.profile, "container")}>
       <ProfileMain
         setProfileSubMenu={setProfileSubMenu}
         setCurrentContent={setCurrentContent}
+        getTonBalance={getTonBalance}
       />
       <ProfileTasks
         quests={quests}

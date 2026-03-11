@@ -16,13 +16,19 @@ import { useTranslation } from "react-i18next";
 import ImageWebp from "../../layout/ImageWebp/ImageWebp";
 import SecondaryBtn from "../../layout/SecondaryBtn/SecondaryBtn";
 import { useNotification } from "../../useNotification";
+import ProfileDepositModal from "../ProfileDepositModal/ProfileDepositModal";
 import styles from "./ProfileMain.module.scss";
 
-const ProfileMain = ({ setProfileSubMenu, setCurrentContent }) => {
+const ProfileMain = ({
+  setProfileSubMenu,
+  setCurrentContent,
+  getTonBalance,
+}) => {
   const { t } = useTranslation();
   const { showError } = useNotification();
   const [walletButton, setWalletButton] = useState(t("rulletConnect"));
   const [payload, setPayload] = useState(null);
+  const [depositModalOpened, setDepositModalOpened] = useState(false);
 
   const [proof, setProof] = useState(null);
 
@@ -153,7 +159,7 @@ const ProfileMain = ({ setProfileSubMenu, setCurrentContent }) => {
               isSecondaryVariant
               size="sm"
               className={styles.profileMain__btn}
-              onClick={handleTonConnectClick}
+              onClick={() => setDepositModalOpened(true)}
             >
               <ImageWebp
                 src={profiledepositIconImg}
@@ -191,6 +197,11 @@ const ProfileMain = ({ setProfileSubMenu, setCurrentContent }) => {
           </div>
         </div>
       </div>
+      <ProfileDepositModal
+        show={depositModalOpened}
+        onClose={() => setDepositModalOpened(false)}
+        getTonBalance={getTonBalance}
+      />
     </div>
   );
 };

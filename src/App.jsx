@@ -284,6 +284,17 @@ function App({ user, loadingUser }) {
       });
   }
 
+  async function getTonBalance() {
+    api
+      .get("/api/balance")
+      .then((response) => {
+        setTonBalance(response.data.tonBalance);
+      })
+      .catch((error) => {
+        console.error("Getting ton balance error: ", error);
+      });
+  }
+
   useEffect(() => {
     let dataRaw;
     try {
@@ -378,16 +389,6 @@ function App({ user, loadingUser }) {
     }
     checkIsRollAvailable();
 
-    async function getTonBalance() {
-      api
-        .get("/api/balance")
-        .then((response) => {
-          setTonBalance(response.data.tonBalance);
-        })
-        .catch((error) => {
-          console.error("Getting ton balance error: ", error);
-        });
-    }
     getTonBalance();
 
     async function getAccelerateBalance() {
@@ -564,6 +565,7 @@ function App({ user, loadingUser }) {
                   quests={quests}
                   setQuests={setQuests}
                   setTonBalance={setTonBalance}
+                  getTonBalance={getTonBalance}
                 />
               </>
             );
