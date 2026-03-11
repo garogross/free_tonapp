@@ -144,6 +144,12 @@
     "failToCreateInvoice": "Failed to create invoice",
     "notSupported": "Invoices are not supported on this version of Telegram."
   },
+  "profileTasks": {
+    "emptyList": "No tasks available",
+    "reward": "Reward",
+    "claim": "CLAIM",
+    "completed": "Completed"
+  },
   "transactionTable": {
     "lastTransactions": "Withdrawal History",
     "date": "Date",

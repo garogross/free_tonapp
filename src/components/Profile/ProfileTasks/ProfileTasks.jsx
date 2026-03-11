@@ -86,77 +86,92 @@ const ProfileTasks = ({ quests, setQuests, setTonBalance }) => {
   return (
     <div className={styles.profileTasks}>
       {!quests.length ? (
-        <div className={styles.profileTasks__messageText}>{t("emptyList")}</div>
+        <div className={styles.profileTasks__messageText}>
+          {t("profileTasks.emptyList")}
+        </div>
       ) : (
         [...quests]
           .sort(
             (a, b) =>
               questOrder.indexOf(a.questType) - questOrder.indexOf(b.questType),
           )
-          .map((quest) => (
-            <div className={styles.profileTasks__item} key={quest.questType}>
-              <div className={styles.profileTasks__itemMain}>
-                <div className={styles.profileTasks__mainTopBlock}>
-                  <ImageWebp
-                    src={questImages[quest.questType].src}
-                    srcSet={questImages[quest.questType].srcSet}
-                    alt={t(quest.questType)}
-                    className={styles.profileTasks__taskImg}
-                  />
-                  <h6 className={styles.profileTasks__itemNameText}>
-                    {t(quest.questType)}
-                    {taskInfos[quest.questType] && (
-                      <button
-                        className={styles.profileTasks__infoBtn}
-                        onClick={() =>
-                          showNotification(t(taskInfos[quest.questType]))
-                        }
-                      >
-                        <ImageWebp
-                          src={miningInfoIconImg}
-                          srcSet={miningInfoIconWebpImg}
-                          alt="info"
-                          className={styles.profileTasks__infoImg}
-                        />
-                      </button>
-                    )}
-                  </h6>
-                </div>
-                <div className={styles.profileTasks__progressBar}>
-                  <div
-                    className={styles.profileTasks__progressBarInner}
-                    style={{
-                      width: `${Math.min(100, (quest.currentValue / quest.targetValue) * 100)}%`,
-                    }}
-                  ></div>
-                  <span className={styles.profileTasks__progressBarText}>
-                    {quest.currentValue}/{quest.targetValue}
-                  </span>
-                </div>
-              </div>
-              <div className={styles.profileTasks__rightBlock}>
-                <div className={styles.profileTasks__reward}>
-                  <span className={styles.profileTasks__rewardNameText}>
-                    Reward
-                  </span>
-                  <div className={styles.profileTasks__rewardValueText}>
-                    {quest.reward} Stars
+          .map((quest) => {
+            let btnContent = t("profileTasks.claim");
+            if (loading && claimingTask === quest?.questType)
+              btnContent = (
+                <span className={styles.profileTasks__loader}></span>
+              );
+
+            if (quest.completed) btnContent = t("profileTasks.completed");
+
+            return (
+              <div className={styles.profileTasks__item} key={quest.questType}>
+                <div className={styles.profileTasks__itemMain}>
+                  <div className={styles.profileTasks__mainTopBlock}>
+                    <ImageWebp
+                      src={questImages[quest.questType].src}
+                      srcSet={questImages[quest.questType].srcSet}
+                      alt={t(quest.questType)}
+                      className={styles.profileTasks__taskImg}
+                    />
+                    <h6 className={styles.profileTasks__itemNameText}>
+                      {t(quest.questType)}
+                      {taskInfos[quest.questType] && (
+                        <button
+                          className={styles.profileTasks__infoBtn}
+                          onClick={() =>
+                            showNotification(t(taskInfos[quest.questType]))
+                          }
+                        >
+                          <ImageWebp
+                            src={miningInfoIconImg}
+                            srcSet={miningInfoIconWebpImg}
+                            alt="info"
+                            className={styles.profileTasks__infoImg}
+                          />
+                        </button>
+                      )}
+                    </h6>
+                  </div>
+                  <div className={styles.profileTasks__progressBar}>
+                    <div
+                      className={styles.profileTasks__progressBarInner}
+                      style={{
+                        width: `${Math.min(
+                          100,
+                          (quest.currentValue / quest.targetValue) * 100,
+                        )}%`,
+                      }}
+                    ></div>
+                    <span className={styles.profileTasks__progressBarText}>
+                      {quest.currentValue}/{quest.targetValue}
+                    </span>
                   </div>
                 </div>
-                <MainButton
-                  onClick={() => claim(quest.questType)}
-                  disabled={quest.currentValue < quest.targetValue || loading}
-                  size="md"
-                >
-                  {loading && claimingTask === quest?.questType ? (
-                    <span className={styles.profileTasks__loader}></span>
-                  ) : (
-                    "CLAIM"
-                  )}
-                </MainButton>
+                <div className={styles.profileTasks__rightBlock}>
+                  <div className={styles.profileTasks__reward}>
+                    <span className={styles.profileTasks__rewardNameText}>
+                      {t("profileTasks.reward")}
+                    </span>
+                    <div className={styles.profileTasks__rewardValueText}>
+                      {quest.reward} Stars
+                    </div>
+                  </div>
+                  <MainButton
+                    onClick={() => claim(quest.questType)}
+                    disabled={
+                      quest.currentValue < quest.targetValue ||
+                      loading ||
+                      quest.completed
+                    }
+                    size="md"
+                  >
+                    {btnContent}
+                  </MainButton>
+                </div>
               </div>
-            </div>
-          ))
+            );
+          })
       )}
     </div>
   );

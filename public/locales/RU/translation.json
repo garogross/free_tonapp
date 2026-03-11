@@ -142,6 +142,12 @@
     "failToCreateInvoice": "Не удалось создать счет",
     "notSupported": "Счета не поддерживаются в этой версии Telegram."
   },
+  "profileTasks": {
+    "emptyList": "Нет доступных заданий",
+    "reward": "Награда",
+    "claim": "ПОЛУЧИТЬ",
+    "completed": "Выполнено"
+  },
   "transactionTable": {
     "lastTransactions": "История выводов",
     "date": "Дата",
