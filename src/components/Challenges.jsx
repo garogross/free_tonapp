@@ -166,7 +166,7 @@ export default function Challenges({
         onClick={() => handleAdShow()}
       >
         <h5 className={styles.chalanges__starsInTelegramText}>
-          1000 Stars in Telegram
+          Bonus
           <ImageWebp src={starImg} srcSet={starWebpImg} alt="star" />
         </h5>
         <MainButton size="sm">CLAIM</MainButton>
