@@ -16,18 +16,21 @@ const WithdrawHistory = ({ transactions }) => {
         return t("transactionTable.pending");
     }
   };
+
+  const filteredTransactions = transactions?.filter((tx) => tx.type === "out");
+
   return (
     <div className={styles.withdrawHistory}>
       <h3 className={styles.withdrawHistory__titleText}>
         {t("transactionTable.lastTransactions")}
       </h3>
       <div className={styles.withdrawHistory__list}>
-        {!transactions?.length ? (
+        {!filteredTransactions?.length ? (
           <h6 className={styles.withdrawHistory__messageText}>
             {t("emptyList")}
           </h6>
         ) : (
-          transactions.map((tx, index) => (
+          filteredTransactions.map((tx, index) => (
             <div key={index} className={styles.withdrawHistory__listItem}>
               <span className={styles.withdrawHistory__listItemText}>
                 {new Date(tx.utime * 1000).toLocaleDateString("ru-RU")}
