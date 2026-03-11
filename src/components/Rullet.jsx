@@ -10,7 +10,7 @@ const getLuckyDigits = (number) => {
 
 const generateRandomRulletNumbers = () => {
   return Array.from({ length: 5 }, () =>
-    Array.from({ length: 5 }, () => Math.floor(Math.random() * 10)),
+    Array.from({ length: 20 }, () => Math.floor(Math.random() * 10)),
   );
 };
 
@@ -175,6 +175,7 @@ const Rullet = ({
                       styles.rullet__itemText,
                       isAnimating && styles.rullet__itemText_anim,
                     )}
+                    style={{ height: `${randomRulletNumbers[0].length}00%` }}
                   >
                     {randomRulletNumbers[idx].map((num, index, arr) => (
                       <span>

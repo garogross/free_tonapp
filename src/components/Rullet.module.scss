@@ -36,7 +36,6 @@
   &__itemText {
     @include setFont(min(13vw, 80px), 700);
     width: 100%;
-    height: 500%;
     text-align: center;
     display: flex;
     display: flex;
@@ -59,25 +58,25 @@
     }
 
     &_anim {
-      animation: roll 1.5s ease-in-out;
+      animation: roll 3.5s ease-in-out;
       animation-fill-mode: forwards;
     }
   }
 
   &__item:nth-child(1) &__itemText {
-    animation-duration: 1.6s;
+    animation-duration: 3.6s;
   }
 
   &__item:nth-child(2) &__itemText {
-    animation-duration: 1s;
+    animation-duration: 3.1s;
   }
 
   &__item:nth-child(3) &__itemText {
-    animation-duration: 1.3s;
+    animation-duration: 3.3s;
   }
 
   &__item:nth-child(4) &__itemText {
-    animation-duration: 1.8s;
+    animation-duration: 3.8s;
   }
 
   &__nextGatheringText {
@@ -97,7 +96,7 @@
 
 @keyframes roll {
   from {
-    transform: translateY(-80%);
+    transform: translateY(-95%);
   }
   to {
     transform: translateY(0%);

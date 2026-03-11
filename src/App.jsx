@@ -352,7 +352,7 @@ function App({ user, loadingUser }) {
         luckyNumberRef.current = setTimeout(() => {
           setRollStarted(false);
         }, 3000);
-      }, 3000);
+      }, 5000);
       return () => {
         clearTimeout(timeoutRef.current);
         clearTimeout(luckyNumberRef.current);
