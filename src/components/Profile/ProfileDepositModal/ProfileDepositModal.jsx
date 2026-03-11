@@ -27,7 +27,7 @@ const backdropVariants = {
 const options = [100, 200, 300];
 
 const ProfileDepositModal = ({ show, onClose, getTonBalance }) => {
-  const [selectedOption, setSelectedOption] = useState(options[0]);
+  const [amount, setAmount] = useState(options[0]);
   const [loading, setLoading] = useState(false);
   const { showError, showNotification } = useNotification();
 
@@ -35,7 +35,7 @@ const ProfileDepositModal = ({ show, onClose, getTonBalance }) => {
     try {
       setLoading(true);
       const res = await api.post("/api/deposit/create-invoice", {
-        starsAmount: selectedOption,
+        starsAmount: amount,
       });
       console.log("res.data?.invoiceUrl", res.data?.invoiceUrl);
 
@@ -111,7 +111,7 @@ const ProfileDepositModal = ({ show, onClose, getTonBalance }) => {
               Пополнить Баланс
             </h3>
             <h6 className={styles.profileDepositModal__selectedValueText}>
-              {selectedOption}
+              {+amount}
               <ImageWebp src={starImg} srcSet={starWebpImg} alt="stars" />
             </h6>
             <div className={styles.profileDepositModal__options}>
@@ -120,10 +120,10 @@ const ProfileDepositModal = ({ show, onClose, getTonBalance }) => {
                   size="md"
                   key={opt}
                   isSecondaryVariant
-                  onClick={() => setSelectedOption(opt)}
+                  onClick={() => setAmount(opt)}
                   className={clsx(
                     styles.profileDepositModal__optionBtn,
-                    opt === selectedOption &&
+                    opt === +amount &&
                       styles.profileDepositModal__optionBtn_active,
                   )}
                 >
@@ -132,7 +132,20 @@ const ProfileDepositModal = ({ show, onClose, getTonBalance }) => {
                 </SecondaryBtn>
               ))}
             </div>
-            <MainButton disabled={loading} onClick={handleCreateInvoice}>
+            <input
+              type="number"
+              className={clsx(
+                styles.profileDepositModal__input,
+                !amount && styles.profileDepositModal__input_invalid,
+              )}
+              placeholder="Amount"
+              value={amount.toString()}
+              onChange={(e) => setAmount(e.target.value)}
+            />
+            <MainButton
+              disabled={loading || !amount}
+              onClick={handleCreateInvoice}
+            >
               {loading ? (
                 <span className={styles.profileDepositModal__loader}></span>
               ) : (
