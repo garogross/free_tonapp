@@ -1,6 +1,7 @@
 import { init, miniApp } from "@telegram-apps/sdk";
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
+import { api } from "./api/axios.js";
 import App from "./App.jsx";
 import { NotificationProvider } from "./components/NotificationProvider";
 import "./styles/_global.scss";
@@ -35,7 +36,6 @@ function Root() {
         if (import.meta.env.DEV) {
           setUser("admin");
         } else {
-          const { api } = await import("./api/axios"); // dynamic import of api in prod
           const response = await api.get("/api/login");
           setUser(response.data?.user || null);
         }
