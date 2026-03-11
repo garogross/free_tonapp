@@ -150,6 +150,7 @@ export default function Challenges({
     setChallengeForRelaunch(sc);
     if (currentChallenge === "surfing") {
       setCurrentContent("addChallengeForm");
+      console.log({ currentChallenge });
     } else if (currentChallenge === "telegram") {
       setCurrentContent("addTelegramChallengeForm");
     }
@@ -392,7 +393,7 @@ export default function Challenges({
             <>
               <MainButton
                 className={styles.chalanges__addBtn}
-                onClick={() => setCurrentContent("addChallengeForm")}
+                onClick={() => setCurrentContent("addTelegramChallengeForm")}
               >
                 {t("addChallengeButton")}
               </MainButton>
