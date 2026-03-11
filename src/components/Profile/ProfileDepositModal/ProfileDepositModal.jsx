@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 import { api } from "@/api/axios";
 import { closeIconImg, closeIconWebpImg } from "@/assets/images";
-import { openInvoice } from "@telegram-apps/sdk";
+import { invoice } from "@telegram-apps/sdk";
 import clsx from "clsx";
 import { starImg, starWebpImg } from "../../../assets/images";
 import ImageWebp from "../../layout/ImageWebp/ImageWebp";
@@ -29,7 +29,7 @@ const options = [100, 200, 300];
 const ProfileDepositModal = ({ show, onClose, getTonBalance }) => {
   const [selectedOption, setSelectedOption] = useState(options[0]);
   const [loading, setLoading] = useState(false);
-  const { showError, setNotifications } = useNotification();
+  const { showError, showNotification } = useNotification();
 
   const handleCreateInvoice = async () => {
     try {
@@ -37,27 +37,38 @@ const ProfileDepositModal = ({ show, onClose, getTonBalance }) => {
       const res = await api.post("/api/deposit/create-invoice", {
         starsAmount: selectedOption,
       });
+      console.log("res.data?.invoiceUrl", res.data?.invoiceUrl);
+
       if (res.data?.invoiceUrl) {
-        openInvoice(res.data?.invoiceUrl, (status) => {
-          if (status === "paid") {
-            // The payment was successful
-            getTonBalance();
-            setNotifications("Success! Your stars have been added.");
-          } else if (status === "cancelled") {
-            // User closed the payment window without paying
-            console.log("Payment was cancelled by the user.");
-          } else if (status === "failed") {
-            // Something went wrong (e.g., insufficient funds or network error)
-            showError("Payment failed. Please try again.");
-          } else {
-            // Unknown status or 'pending' (rare for Stars)
-            console.log("Payment status:", status);
+        if (invoice.isSupported()) {
+          try {
+            // open() returns a promise that resolves with the payment status
+            // 'url' is the mode used for full invoice links
+            const status = await invoice.open(res.data?.invoiceUrl, "url");
+            console.log({ status });
+
+            if (status === "paid") {
+              getTonBalance();
+              showNotification("Payment success!");
+              // Update your UI here
+            } else {
+              console.log("Payment status:", status); // 'cancelled', 'failed', etc.
+            }
+          } catch (error) {
+            console.error("Invoice failed to open:", error);
+            showError("Invoice failed to open");
+          } finally {
+            setLoading(false);
           }
-        });
+        } else {
+          showError("Invoices are not supported on this version of Telegram.");
+        }
       }
     } catch (error) {
       console.error(error);
       showError("failed to create invoice");
+    } finally {
+      setLoading(false);
     }
   };
 
