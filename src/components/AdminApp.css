@@ -107,7 +107,6 @@ main {
 
 footer {
   background-color: transparent;
-  flex: 0 0 128px;
 }
 
 footer.admin {
