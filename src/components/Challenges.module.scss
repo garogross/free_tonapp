@@ -38,6 +38,7 @@
     gap: 15px;
     flex: 1;
     overflow: auto;
+    width: 100%;
   }
 
   &__listItem {
@@ -45,15 +46,24 @@
     border: 3px solid #756589;
     width: 100%;
     padding: 15px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
     border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 
     @include smScreenMedia {
       padding: 10px;
-      gap: 10px;
       border-radius: 10px;
+    }
+  }
+
+  &__listItemMainWrapper {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    @include smScreenMedia {
+      gap: 10px;
     }
   }
 
@@ -70,7 +80,6 @@
 
   &__listItemMainDescriptionText {
     @include setFont(18px, 400, #edcb9b);
-    margin-bottom: 20px;
 
     @include smScreenMedia {
       font-size: 16px;
@@ -142,7 +151,9 @@
 
   &__listItemStatusText {
     @include setFont(16px, 400);
+    width: 100%;
     text-align: center;
+    display: block;
 
     &_active {
       color: $color-green-light;

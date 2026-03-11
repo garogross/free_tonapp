@@ -69,6 +69,8 @@ export default function Challenges({
         return t("challengeButtonCheck");
       case "2":
         return t("challengeButtonIframe");
+      default:
+        return "";
     }
   };
 
@@ -118,6 +120,7 @@ export default function Challenges({
         return t("status.deprecated");
       case "deny":
         return t("status.deny");
+      default:
     }
   };
 
@@ -192,97 +195,93 @@ export default function Challenges({
         {table.map((sc, index) => {
           return (
             <div key={sc.id || index} className={styles.chalanges__listItem}>
-              <div className={styles.chalanges__listItemMain}>
-                <h6 className={styles.chalanges__listItemMainTitleText}>
-                  {sc.name}
-                </h6>
-                <p className={styles.chalanges__listItemMainDescriptionText}>
-                  {sc.description}
-                </p>
-                <div className={styles.chalanges__listItemMainFooter}>
-                  <p>
-                    <span
-                      className={styles.chalanges__listItemMainTimeNameText}
-                    >
-                      {t("timeTitle")}:{" "}
-                    </span>
-                    <span
-                      className={styles.chalanges__listItemMainTimeValueText}
-                    >
-                      {sc.timeOfExecution} {t("seconds")}
-                    </span>
-                  </p>
-                  <p className={styles.chalanges__listItemPaymentText}>
-                    <span className={styles.chalanges__listItemPaymentNameText}>
-                      {t("paymentTitle")}:{" "}
-                    </span>
-                    <span
-                      className={styles.chalanges__listItemPaymentValueText}
-                    >
-                      {(sc.price * course).toFixed(7)}
-                    </span>
-                    <ImageWebp src={starImg} srcSet={starWebpImg} alt="star" />
+              <div className={styles.chalanges__listItemWrapper}>
+                <div className={styles.chalanges__listItemMain}>
+                  <h6 className={styles.chalanges__listItemMainTitleText}>
+                    {sc.name}
+                  </h6>
+                  <p className={styles.chalanges__listItemMainDescriptionText}>
+                    {sc.description}
                   </p>
                 </div>
-              </div>
-              <div className={styles.chalanges__listItemActions}>
-                <span
-                  className={clsx(
-                    styles.chalanges__listItemStatusText,
-                    styles[`chalanges__listItemStatusText_${sc.status}`],
-                  )}
-                >
-                  {isClient ? statusToMean(sc.status) : ""}
-                </span>
-                {isClient ? (
-                  <>
-                    <SecondaryBtn
-                      className={styles.chalanges__listItemBtn}
-                      size="sm"
-                      isSecondaryVariant
-                      onClick={() => {
-                        handleTelegramChallengeClick(sc.link, "view", sc.id);
-                      }}
-                    >
-                      {getTypeButton(sc.selectedType)}
-                    </SecondaryBtn>
-                  </>
-                ) : sc.selectedType === "1" ? (
-                  <>
-                    <SecondaryBtn
-                      className={styles.chalanges__listItemBtn}
-                      size="sm"
-                      isSecondaryVariant
-                      onClick={() => {
-                        handleTelegramChallengeCheck(sc.id);
-                      }}
-                    >
-                      {t("challengeButtonCheck")}
-                    </SecondaryBtn>
-                  </>
-                ) : (
-                  <>
-                    <SecondaryBtn
-                      className={styles.chalanges__listItemBtn}
-                      size="sm"
-                      isSecondaryVariant
-                      onClick={() => {
-                        handleTelegramChallengeClick(sc.link, "view", sc.id);
-                      }}
-                    >
-                      {t("challengeButtonIframe")}
-                    </SecondaryBtn>
-                  </>
-                )}
-                {isClient && sc.status === "deprecated" && (
-                  <SecondaryBtn
-                    className={styles.chalanges__listItemBtn}
-                    size="sm"
-                    onClick={() => handleRelaunch(sc)}
+                <div className={styles.chalanges__listItemActions}>
+                  <span
+                    className={clsx(
+                      styles.chalanges__listItemStatusText,
+                      styles[`chalanges__listItemStatusText_${sc.status}`],
+                    )}
                   >
-                    {t("restartChallengeButtonText")}
-                  </SecondaryBtn>
-                )}
+                    {isClient ? statusToMean(sc.status) : ""}
+                  </span>
+                  {isClient ? (
+                    <>
+                      <SecondaryBtn
+                        className={styles.chalanges__listItemBtn}
+                        size="sm"
+                        isSecondaryVariant
+                        onClick={() => {
+                          handleTelegramChallengeClick(sc.link, "view", sc.id);
+                        }}
+                      >
+                        {getTypeButton(sc.selectedType)}
+                      </SecondaryBtn>
+                    </>
+                  ) : sc.selectedType === "1" ? (
+                    <>
+                      <SecondaryBtn
+                        className={styles.chalanges__listItemBtn}
+                        size="sm"
+                        isSecondaryVariant
+                        onClick={() => {
+                          handleTelegramChallengeCheck(sc.id);
+                        }}
+                      >
+                        {t("challengeButtonCheck")}
+                      </SecondaryBtn>
+                    </>
+                  ) : (
+                    <>
+                      <SecondaryBtn
+                        className={styles.chalanges__listItemBtn}
+                        size="sm"
+                        isSecondaryVariant
+                        onClick={() => {
+                          handleTelegramChallengeClick(sc.link, "view", sc.id);
+                        }}
+                      >
+                        {t("challengeButtonIframe")}
+                      </SecondaryBtn>
+                    </>
+                  )}
+                  {isClient && sc.status === "deprecated" && (
+                    <SecondaryBtn
+                      className={styles.chalanges__listItemBtn}
+                      size="sm"
+                      onClick={() => handleRelaunch(sc)}
+                    >
+                      {t("restartChallengeButtonText")}
+                    </SecondaryBtn>
+                  )}
+                </div>
+              </div>
+              <div className={styles.chalanges__listItemMainFooter}>
+                <p>
+                  <span className={styles.chalanges__listItemMainTimeNameText}>
+                    {t("timeTitle")}:{" "}
+                  </span>
+                  <span className={styles.chalanges__listItemMainTimeValueText}>
+                    {sc.timeOfExecution} {t("seconds")}
+                  </span>
+                </p>
+                <p className={styles.chalanges__listItemPaymentText}>
+                  <span className={styles.chalanges__listItemPaymentNameText}>
+                    {t("paymentTitle")}:{" "}
+                  </span>
+                  <span className={styles.chalanges__listItemPaymentValueText}>
+                    {(sc.price * course).toFixed(7)}
+                  </span>
+                  <ImageWebp src={starImg} srcSet={starWebpImg} alt="star" />
+                </p>
               </div>
             </div>
           );
@@ -311,60 +310,56 @@ export default function Challenges({
         {table.map((sc, index) => {
           return (
             <div key={sc.id || index} className={styles.chalanges__listItem}>
-              <div className={styles.chalanges__listItemMain}>
-                <h6 className={styles.chalanges__listItemMainTitleText}>
-                  {sc.name}
-                </h6>
-                <p className={styles.chalanges__listItemMainDescriptionText}>
-                  {sc.description}
-                </p>
-                <div className={styles.chalanges__listItemMainFooter}>
-                  <p>
-                    <span
-                      className={styles.chalanges__listItemMainTimeNameText}
-                    >
-                      {t("timeTitle")}:{" "}
-                    </span>
-                    <span
-                      className={styles.chalanges__listItemMainTimeValueText}
-                    >
-                      {sc.timeOfExecution} {t("seconds")}
-                    </span>
-                  </p>
-                  <p className={styles.chalanges__listItemPaymentText}>
-                    <span className={styles.chalanges__listItemPaymentNameText}>
-                      {t("paymentTitle")}:{" "}
-                    </span>
-                    <span
-                      className={styles.chalanges__listItemPaymentValueText}
-                    >
-                      {(sc.price * course).toFixed(7)}
-                    </span>
-                    <ImageWebp src={starImg} srcSet={starWebpImg} alt="star" />
+              <div className={styles.chalanges__listItemMainWrapper}>
+                <div className={styles.chalanges__listItemMain}>
+                  <h6 className={styles.chalanges__listItemMainTitleText}>
+                    {sc.name}
+                  </h6>
+                  <p className={styles.chalanges__listItemMainDescriptionText}>
+                    {sc.description}
                   </p>
                 </div>
+                <div className={styles.chalanges__listItemActions}>
+                  <span
+                    className={clsx(
+                      styles.chalanges__listItemStatusText,
+                      styles[`chalanges__listItemStatusText_${sc.status}`],
+                    )}
+                  >
+                    {isClient ? statusToMean(sc.status) : ""}
+                  </span>
+                  <SecondaryBtn
+                    className={styles.chalanges__listItemBtn}
+                    size="sm"
+                    isSecondaryVariant
+                    onClick={() => {
+                      isClient
+                        ? handleTelegramChallengeClick(sc.link)
+                        : handleSurfingChallengeClick(sc);
+                    }}
+                  >
+                    {t("challengeButtonGoIn")}
+                  </SecondaryBtn>
+                </div>
               </div>
-              <div className={styles.chalanges__listItemActions}>
-                <span
-                  className={clsx(
-                    styles.chalanges__listItemStatusText,
-                    styles[`chalanges__listItemStatusText_${sc.status}`],
-                  )}
-                >
-                  {isClient ? statusToMean(sc.status) : ""}
-                </span>
-                <SecondaryBtn
-                  className={styles.chalanges__listItemBtn}
-                  size="sm"
-                  isSecondaryVariant
-                  onClick={() => {
-                    isClient
-                      ? handleTelegramChallengeClick(sc.link)
-                      : handleSurfingChallengeClick(sc);
-                  }}
-                >
-                  {t("challengeButtonGoIn")}
-                </SecondaryBtn>
+              <div className={styles.chalanges__listItemMainFooter}>
+                <p>
+                  <span className={styles.chalanges__listItemMainTimeNameText}>
+                    {t("timeTitle")}:{" "}
+                  </span>
+                  <span className={styles.chalanges__listItemMainTimeValueText}>
+                    {sc.timeOfExecution} {t("seconds")}
+                  </span>
+                </p>
+                <p className={styles.chalanges__listItemPaymentText}>
+                  <span className={styles.chalanges__listItemPaymentNameText}>
+                    {t("paymentTitle")}:{" "}
+                  </span>
+                  <span className={styles.chalanges__listItemPaymentValueText}>
+                    {(sc.price * course).toFixed(7)}
+                  </span>
+                  <ImageWebp src={starImg} srcSet={starWebpImg} alt="star" />
+                </p>
               </div>
             </div>
           );
