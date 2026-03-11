@@ -90,6 +90,7 @@
     background: linear-gradient(180deg, #f9dc73 0%, #f9a126 90%);
     border-radius: 16px;
     z-index: 0;
+    transition: $transition;
 
     @include smScreenMedia {
       border-radius: 9px;
