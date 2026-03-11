@@ -30,9 +30,7 @@ const WithdrawHistory = ({ transactions }) => {
           transactions.map((tx, index) => (
             <div key={index} className={styles.withdrawHistory__listItem}>
               <span className={styles.withdrawHistory__listItemText}>
-                {new Date(tx.utime * 1000).toLocaleString("ru-RU", {
-                  hour12: false,
-                })}{" "}
+                {new Date(tx.utime * 1000).toLocaleDateString("ru-RU")}
               </span>
               <span
                 className={clsx(
