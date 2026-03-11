@@ -16,6 +16,7 @@ import {
 import ChannelFollow from "./ChannelFollow";
 import ImageWebp from "./layout/ImageWebp/ImageWebp";
 import MainButton from "./layout/MainButton/MainButton";
+import SecondaryBtn from "./layout/SecondaryBtn/SecondaryBtn";
 import MiningSpeedInfoModal from "./MiningSpeedInfoModal/MiningSpeedInfoModal";
 import styles from "./Staking.module.scss";
 import { useNotification } from "./useNotification";
@@ -265,10 +266,7 @@ export default function Staking({
               {t("stakingForm.request")}
             </MainButton>
           </div>
-          <button
-            onClick={handleAccelerate}
-            className={styles.staking__speedBar}
-          >
+          <div className={styles.staking__speedBar}>
             <div className={styles.staking__speedBarBg}></div>
             <ImageWebp
               src={miningSpeedIconImg}
@@ -301,7 +299,10 @@ export default function Staking({
                 {formatDuration(offlineMiningSecondsLeft)}
               </span>
             </div>
-          </button>
+          </div>
+          <SecondaryBtn onClick={handleAccelerate}>
+            Upgrade Mining Level
+          </SecondaryBtn>
           <MiningSpeedInfoModal
             show={showAccelerateModal}
             onClose={closeAccelerateModal}
