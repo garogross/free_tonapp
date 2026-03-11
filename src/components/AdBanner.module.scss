@@ -6,7 +6,7 @@
   border-bottom-width: 0px;
   border-radius: 20px;
   background: linear-gradient(90deg, #010818 0%, #2e2621 63.19%, #493827 100%);
-  padding: 22px 20px 10px;
+  padding: 10px 20px;
   @include flexCol(space-between);
   gap: 10px;
   position: relative;
@@ -18,30 +18,27 @@
     overflow: hidden;
     flex: 1;
     justify-content: space-between;
-    min-height: 70px;
+    min-height: 50px;
     flex-direction: column;
   }
 
   &__text {
-    @include setFont(clamp(14px, 3vw, 20px), 600);
+    @include setFont(clamp(14px, 3vw, 18px), 600);
+    padding-right: 20px;
     flex: 1;
   }
 
   &__openBtn {
-    @include button(transparent, 2px solid #c6a876);
-    border-radius: 15px;
+    @include button(transparent);
     white-space: nowrap;
     text-align: center;
-    padding: 4px 14px;
-    min-height: 40px;
-    @include setFont(17px, 500, #c6a876);
-    text-decoration: none;
+    @include setFont(17px, 700, #c6a876);
+    text-decoration: underline;
     @include flexCol();
     gap: 8px;
     width: 100%;
     transition: $transition;
     width: fit-content;
-    min-width: 150px;
     max-width: 100%;
     overflow: hidden;
     align-self: flex-end;
