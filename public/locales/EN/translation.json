@@ -259,8 +259,8 @@
     "upgrade": "UPGRADE",
     "request": "REQUEST",
     "accelerate": "ACCELERATE",
-    "offlineMiningInfo": "For users without connected accelerators, offline mining is only available for 4 hours - to keep it running, log into the application at least once every 4 hours.",
-    "offlineMiningInfoAcBlocked": "Offline mining is only available for 4 hours - to keep it running, log into the application at least once every 4 hours."
+    "offlineMiningInfo": "For users without connected accelerators, offline mining is only available for 6 hours - to keep it running, log into the application at least once every 6 hours.",
+    "offlineMiningInfoAcBlocked": "Offline mining is only available for 6 hours - to keep it running, log into the application at least once every 6 hours."
   },
   "subscribtionWindow": {
     "title": "Access denied!",
