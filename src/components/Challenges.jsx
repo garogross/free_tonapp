@@ -23,7 +23,7 @@ const filters = [
   },
   {
     value: "youtube",
-    name: "YouTobe",
+    name: "YouTube",
   },
   {
     value: "reviews",
