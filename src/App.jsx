@@ -43,6 +43,7 @@ function App({ user, loadingUser }) {
   const [maxOfflineSeconds, setMaxOfflineSeconds] = useState(0);
 
   const [keyboardVisible, setKeyboardVisible] = useState(false);
+  const [isClient, setIsClient] = useState(false); // for chalanges
 
   const [quests, setQuests] = useState([]);
   const [activeAds, setActiveAds] = useState([]);
@@ -523,6 +524,8 @@ function App({ user, loadingUser }) {
               isSubscriber={isSubscriber}
               setChallengeForRelaunch={setChallengeForRelaunch}
               course={course}
+              isClient={isClient}
+              setIsClient={setIsClient}
             />
           </>
         );

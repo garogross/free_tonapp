@@ -43,8 +43,9 @@ export default function Challenges({
   isSubscriber,
   setChallengeForRelaunch,
   course,
+  isClient,
+  setIsClient,
 }) {
-  const [isClient, setIsClient] = useState(false);
   const [surfingChallenges, setSurfingChallenges] = useState([]);
   const [ownedSurfingChallenges, setOwnedSurfingChallenges] = useState([]);
   const [telegramChallenges, setTelegramChallenges] = useState([]);
