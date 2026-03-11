@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { api } from "../api/axios";
 import styles from "./AddTelegramChallengeForm.module.scss";
+import ArrowBottomIcon from "./icons/Common/ArrowBottomIcon";
 import { useNotification } from "./useNotification";
 
 export default function AddTelegramChallengeForm({
@@ -13,6 +14,7 @@ export default function AddTelegramChallengeForm({
   setChallenges,
   challengeForRelaunch,
   setChallengeForRelaunch,
+  goBack,
 }) {
   const { showError, showNotification } = useNotification();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -287,9 +289,23 @@ export default function AddTelegramChallengeForm({
 
   return (
     <div className={clsx(styles["addTalegramChallengeForm"], "container")}>
-      <div className={styles["addTalegramChallengeForm__title"]}>
-        {t("addTelegramChallengeForm.createChallengeTelegram")}
+      <div className={styles.addTalegramChallengeForm__header}>
+        <div className={styles.addTalegramChallengeForm__heraderCol}>
+          <button
+            onClick={goBack}
+            className={styles.addTalegramChallengeForm__backBtn}
+          >
+            <ArrowBottomIcon
+              className={styles.addTalegramChallengeForm__arrowIcon}
+            />
+          </button>
+        </div>
+        <h2 className={styles.addTalegramChallengeForm__titleText}>
+          {t("addTelegramChallengeForm.createChallengeTelegram")}
+        </h2>
+        <div className={styles.addTalegramChallengeForm__heraderCol}></div>
       </div>
+
       <div className={styles["addTalegramChallengeForm__inputContainer"]}>
         <div className={styles["addTalegramChallengeForm__selectorContainer"]}>
           <div

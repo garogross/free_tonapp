@@ -666,6 +666,7 @@ function App({ user, loadingUser }) {
               setChallenges={setChallenges}
               challengeForRelaunch={challengeForRelaunch}
               setChallengeForRelaunch={setChallengeForRelaunch}
+              goBack={() => setCurrentContent("challenges")}
             />
           </>
         );
