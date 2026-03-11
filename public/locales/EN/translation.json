@@ -255,6 +255,8 @@
     "rentMiner": "RENT MINER",
     "loading": "Loading...",
     "speed": "SPEED",
+    "miningLevel": "MINING LEVEL",
+    "upgrade": "UPGRADE",
     "request": "REQUEST",
     "accelerate": "ACCELERATE",
     "offlineMiningInfo": "For users without connected accelerators, offline mining is only available for 4 hours - to keep it running, log into the application at least once every 4 hours.",

@@ -145,6 +145,26 @@
     vertical-align: middle;
     margin-left: 4px;
   }
+
+  &__levelBlock {
+    background: #392c48;
+    border: 2px solid #77649c;
+    border-radius: 15px;
+    padding: 6px 15px;
+    @include flexCol();
+  }
+  &__levelBlockMain {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  &__levelBlockTitle {
+    @include setFont(clamp(14px, 3vw, 20px), 600);
+  }
+  &__levelValueText {
+    @include setFont(clamp(14px, 3vw, 18px), 500);
+  }
 }
 
 @keyframes spin {
