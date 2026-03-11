@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { api } from "../api/axios";
 import styles from "./AddTelegramChallengeForm.module.scss";
 import ArrowBottomIcon from "./icons/Common/ArrowBottomIcon";
+import SecondaryBtn from "./layout/SecondaryBtn/SecondaryBtn";
 import { useNotification } from "./useNotification";
 
 export default function AddTelegramChallengeForm({
@@ -417,15 +418,15 @@ export default function AddTelegramChallengeForm({
         </div>
       </div>
       <div className={styles["addTalegramChallengeForm__buttonContainer"]}>
-        <button
-          className={styles["addTalegramChallengeForm__button"]}
+        <SecondaryBtn
+          isSecondaryVariant
           disabled={
             isLoading || tonBalance < calculateTotalPrice || !isFormValid
           }
           onClick={handleCreateChallenge}
         >
           {t("addChallengeForm.launchChallenge")}
-        </button>
+        </SecondaryBtn>
       </div>
     </div>
   );

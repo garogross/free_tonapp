@@ -49,12 +49,8 @@
   }
 
   &__titleText {
-    @include setFont(32px, 600);
+    @include setFont(clamp(19px, 5vw, 32px), 600);
     text-align: center;
-
-    @include smScreenMedia {
-      @include setFont(26px, 600);
-    }
   }
 
   &__form {
