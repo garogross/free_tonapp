@@ -707,11 +707,13 @@ function App({ user, loadingUser }) {
                 />
                 <main className={styles.app__main}>{renderContent()}</main>
                 <footer className={keyboardVisible ? "hidden" : "container"}>
-                  <AdBanner
-                    setCurrentContent={setCurrentContent}
-                    setProfileSubMenu={setProfileSubMenu}
-                    activeAds={activeAds}
-                  />
+                  {currentContent !== "secureIframe" && (
+                    <AdBanner
+                      setCurrentContent={setCurrentContent}
+                      setProfileSubMenu={setProfileSubMenu}
+                      activeAds={activeAds}
+                    />
+                  )}
                   <FootMenu
                     setCurrentContent={setCurrentContent}
                     currentContent={currentContent}
