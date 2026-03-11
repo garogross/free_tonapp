@@ -304,7 +304,7 @@ export default function Staking({
               <h5 className={styles.staking__levelBlockTitle}>
                 {t("stakingForm.miningLevel")}
               </h5>
-              <p className={styles.staking__levelValueText}>Level 5</p>
+              <p className={styles.staking__levelValueText}>Level 1</p>
             </div>
             <MainButton isSecondaryVariant onClick={handleAccelerate} size="sm">
               {t("stakingForm.upgrade")}
