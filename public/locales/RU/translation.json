@@ -133,6 +133,15 @@
   "invite_friends": "Пригласить друзей",
   "mining_earned": "Намайнить звезд",
   "failedToClaimReward": "Не удалось получить награду",
+  "profileDeposit": {
+    "title": "Пополнить баланс",
+    "inputPlaceholder": "Сумма",
+    "button": "Пополнить",
+    "success": "Платеж успешно выполнен!",
+    "failToOpenInvoice": "Не удалось открыть счет",
+    "failToCreateInvoice": "Не удалось создать счет",
+    "notSupported": "Счета не поддерживаются в этой версии Telegram."
+  },
   "transactionTable": {
     "lastTransactions": "История выводов",
     "date": "Дата",

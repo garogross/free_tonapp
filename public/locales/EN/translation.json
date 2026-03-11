@@ -134,6 +134,16 @@
   "failedToClaimReward": "Failed to claim reward",
   "referralCountingInfo": "Credits are awarded for referrals who have collected income from the faucet at least 2 times!",
   "advertisementCabinet": "Advertisement",
+
+  "profileDeposit": {
+    "title": "Top Up Balance",
+    "inputPlaceholder": "Amount",
+    "button": "Top Up",
+    "success": "Payment success!",
+    "failToOpenInvoice": "Invoice failed to open",
+    "failToCreateInvoice": "Failed to create invoice",
+    "notSupported": "Invoices are not supported on this version of Telegram."
+  },
   "transactionTable": {
     "lastTransactions": "Withdrawal History",
     "date": "Date",

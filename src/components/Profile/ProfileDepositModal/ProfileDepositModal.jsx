@@ -5,6 +5,7 @@ import { api } from "@/api/axios";
 import { closeIconImg, closeIconWebpImg } from "@/assets/images";
 import { invoice } from "@telegram-apps/sdk";
 import clsx from "clsx";
+import { useTranslation } from "react-i18next";
 import { starImg, starWebpImg } from "../../../assets/images";
 import ImageWebp from "../../layout/ImageWebp/ImageWebp";
 import MainButton from "../../layout/MainButton/MainButton";
@@ -27,6 +28,7 @@ const backdropVariants = {
 const options = [100, 200, 300];
 
 const ProfileDepositModal = ({ show, onClose, getTonBalance }) => {
+  const { t } = useTranslation();
   const [amount, setAmount] = useState(options[0]);
   const [loading, setLoading] = useState(false);
   const { showError, showNotification } = useNotification();
@@ -49,24 +51,24 @@ const ProfileDepositModal = ({ show, onClose, getTonBalance }) => {
 
             if (status === "paid") {
               getTonBalance();
-              showNotification("Payment success!");
+              showNotification(t("profileDeposit.success"));
               // Update your UI here
             } else {
               console.log("Payment status:", status); // 'cancelled', 'failed', etc.
             }
           } catch (error) {
             console.error("Invoice failed to open:", error);
-            showError("Invoice failed to open");
+            showError(t("profileDeposit.failToOpenInvoice"));
           } finally {
             setLoading(false);
           }
         } else {
-          showError("Invoices are not supported on this version of Telegram.");
+          showError(t("profileDeposit.notSupported"));
         }
       }
     } catch (error) {
       console.error(error);
-      showError("failed to create invoice");
+      showError(t("profileDeposit.failToCreateInvoice"));
     } finally {
       setLoading(false);
     }
@@ -98,7 +100,7 @@ const ProfileDepositModal = ({ show, onClose, getTonBalance }) => {
             <button
               className={styles.profileDepositModal__closeBtn}
               onClick={onClose}
-              aria-label="Закрыть"
+              aria-label={t("common.close", "Закрыть")}
               type="button"
             >
               <ImageWebp
@@ -108,7 +110,7 @@ const ProfileDepositModal = ({ show, onClose, getTonBalance }) => {
               />
             </button>
             <h3 className={styles.profileDepositModal__titleText}>
-              Пополнить Баланс
+              {t("profileDeposit.title")}
             </h3>
             <h6 className={styles.profileDepositModal__selectedValueText}>
               {+amount}
@@ -138,7 +140,7 @@ const ProfileDepositModal = ({ show, onClose, getTonBalance }) => {
                 styles.profileDepositModal__input,
                 !amount && styles.profileDepositModal__input_invalid,
               )}
-              placeholder="Amount"
+              placeholder={t("profileDeposit.inputPlaceholder")}
               value={amount.toString()}
               onChange={(e) => setAmount(e.target.value)}
             />
@@ -149,7 +151,7 @@ const ProfileDepositModal = ({ show, onClose, getTonBalance }) => {
               {loading ? (
                 <span className={styles.profileDepositModal__loader}></span>
               ) : (
-                "Пополнить"
+                t("profileDeposit.button")
               )}
             </MainButton>
           </Motion.div>
