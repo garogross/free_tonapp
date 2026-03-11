@@ -15,9 +15,10 @@ const Rullet = ({
   setIsPushed,
   rollStarted,
   setRollStarted,
+  showTimer,
+  setShowTimer,
 }) => {
   const { t } = useTranslation();
-  const [showTimer, setShowTimer] = useState(true);
   const [timeLeft, setTimeLeft] = useState(0);
 
   // --- Timer/Result Switch Logic ---
@@ -36,6 +37,7 @@ const Rullet = ({
     } else {
       setShowTimer(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rollStarted, isPushed, setRollStarted]);
 
   useEffect(() => {
@@ -54,6 +56,7 @@ const Rullet = ({
     updateTimeLeft();
     const intervalId = setInterval(updateTimeLeft, 1000);
     return () => clearInterval(intervalId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showTimer, endTime, setIsPushed]);
 
   // Digits for number

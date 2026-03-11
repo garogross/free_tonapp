@@ -17,6 +17,7 @@ export default function RollButton({
   isPushed,
   setIsAnimating,
   setRollStarted,
+  showTimer,
   isSkipAvailable,
 }) {
   const { showError, showNotification } = useNotification();
@@ -118,8 +119,10 @@ export default function RollButton({
 
   return (
     <div className={styles.rollButton}>
-      {!isPushed && !isAnimating ? (
-        <MainButton onClick={() => getRoll()}>ROLL</MainButton>
+      {!showTimer ? (
+        <MainButton disabled={isPushed} onClick={() => getRoll()}>
+          ROLL
+        </MainButton>
       ) : (
         <MainButton
           onClick={() => handleAdShow()}

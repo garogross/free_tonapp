@@ -1,5 +1,5 @@
 import { clsx } from "clsx";
-import React from "react";
+import React, { useState } from "react";
 import styles from "./Cran.module.scss";
 import RollButton from "./RollButton";
 import RollTable from "./RollTable";
@@ -25,6 +25,8 @@ const Cran = ({
   initialNumbers,
   course,
 }) => {
+  const [showTimer, setShowTimer] = useState(true);
+
   return (
     <section className={clsx(styles.cran, "container")}>
       <Rullet
@@ -35,6 +37,8 @@ const Cran = ({
         setIsPushed={setIsPushed}
         rollStarted={rollStarted}
         setRollStarted={setRollStarted}
+        showTimer={showTimer}
+        setShowTimer={setShowTimer}
       />
       <RollTable initialNumbers={initialNumbers} course={course} />
       <RollButton
@@ -49,6 +53,7 @@ const Cran = ({
         setIsAnimating={setIsAnimating}
         setRollStarted={setRollStarted}
         isSkipAvailable={isSkipAvailable}
+        showTimer={showTimer}
       />
     </section>
   );
