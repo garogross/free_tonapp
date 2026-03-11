@@ -58,7 +58,6 @@ function App({ user, loadingUser }) {
 
   const [isPushed, setIsPushed] = useState(true);
   const [luckyNumber, setLuckyNumber] = useState(null);
-  const [displayNumber, setDisplayNumber] = useState(null);
   const [isAnimating, setIsAnimating] = useState(false);
   const [endTime, setEndTime] = useState(0);
   const timeoutRef = useRef(null);
@@ -70,7 +69,6 @@ function App({ user, loadingUser }) {
 
   const [tonBalance, setTonBalance] = useState(0);
 
-  const intervalRef = useRef(null);
   const [isSubscriber, setIsSubscriber] = useState(false);
 
   const [accelerateSpeed, setAccelerateSpeed] = useState(0.00000013);
@@ -337,26 +335,18 @@ function App({ user, loadingUser }) {
   useEffect(() => {
     if (rollStarted) {
       setIsAnimating(true);
-      intervalRef.current = setInterval(() => {
-        const randomNum = Math.floor(10000 + Math.random() * 90000);
-        setDisplayNumber(randomNum);
-      }, 100);
 
       timeoutRef.current = setTimeout(() => {
         setIsAnimating(false);
-        clearInterval(intervalRef.current);
-        setDisplayNumber(luckyNumber);
         luckyNumberRef.current = setTimeout(() => {
           setRollStarted(false);
         }, 3000);
       }, 3000);
       return () => {
-        clearInterval(intervalRef.current);
         clearTimeout(timeoutRef.current);
         clearTimeout(luckyNumberRef.current);
       };
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rollStarted]);
 
   useEffect(() => {
@@ -510,7 +500,6 @@ function App({ user, loadingUser }) {
             setTonBalance={setTonBalance}
             isAnimating={isAnimating}
             currentContent={currentContent}
-            displayNumber={displayNumber}
             luckyNumber={luckyNumber}
             endTime={endTime}
             rollStarted={rollStarted}

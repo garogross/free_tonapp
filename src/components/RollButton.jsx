@@ -84,7 +84,6 @@ export default function RollButton({
 
   useEffect(() => {
     if (!isAnimating && rollSuccesfullResponse != null) {
-      setLuckyNumber(rollSuccesfullResponse.luckyNumber);
       setTonBalance(rollSuccesfullResponse.tonBalance);
       setIsPushed(true);
     }
@@ -103,6 +102,10 @@ export default function RollButton({
         .then((response) => {
           setRollSuccessfullResponse(response.data);
           checkIsRollAvailable();
+
+          setTimeout(() => {
+            setLuckyNumber(response.data.luckyNumber);
+          }, 500);
         })
         .catch((error) => {
           if (error.response && error.response.status === 429) {

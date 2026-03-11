@@ -18,7 +18,6 @@ const Cran = ({
   setTonBalance,
   isAnimating,
   currentContent,
-  displayNumber,
   luckyNumber,
   endTime,
   rollStarted,
@@ -31,13 +30,14 @@ const Cran = ({
     <section className={clsx(styles.cran, "container")}>
       <Rullet
         currentContent={currentContent}
-        luckyNumber={isAnimating ? displayNumber : luckyNumber}
+        luckyNumber={luckyNumber}
         isPushed={isPushed}
         endTime={endTime}
         setIsPushed={setIsPushed}
         rollStarted={rollStarted}
         setRollStarted={setRollStarted}
         showTimer={showTimer}
+        isAnimating={isAnimating}
         setShowTimer={setShowTimer}
       />
       <RollTable initialNumbers={initialNumbers} course={course} />
