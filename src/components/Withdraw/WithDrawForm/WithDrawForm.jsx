@@ -8,6 +8,8 @@ import SecondaryBtn from "../../layout/SecondaryBtn/SecondaryBtn";
 import { useNotification } from "../../useNotification";
 import styles from "./WithDrawForm.module.scss";
 
+const MIN_AMOUNT = 50;
+
 const WithDrawForm = ({
   tonBalance,
   course,
@@ -91,7 +93,12 @@ const WithDrawForm = ({
   };
 
   const handleCashOut = () => {
-    if (!amount || isNaN(amount) || Number(amount) <= 0 || amount < 1) {
+    if (
+      !amount ||
+      isNaN(amount) ||
+      Number(amount) <= 0 ||
+      amount < MIN_AMOUNT
+    ) {
       showError(t("cashOutForm.enterValidAmount"));
       return;
     }
@@ -153,7 +160,7 @@ const WithDrawForm = ({
         <div className={styles.withDrawForm__infoBlock}>
           <p className={styles.withDrawForm__info}>
             {t("cashOutForm.minAmount.stars")}:{" "}
-            <span className="primaryLightText">50 Stars</span>
+            <span className="primaryLightText">{MIN_AMOUNT} Stars</span>
           </p>
         </div>
         <SecondaryBtn onClick={handleCashOut} disabled={isLoading}>
