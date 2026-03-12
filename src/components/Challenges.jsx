@@ -96,6 +96,23 @@ export default function Challenges({
           console.log("error view telegram challenge: {}", error);
           showError(t("notification.failed"));
         });
+    } else {
+      setChallenges((prev) => {
+        console.log({ prev });
+        let updatedChalanges = [...prev.activeTelegramChallenges];
+
+        const updatingItemIndex = updatedChalanges.findIndex(
+          (t) => t.link === challengeLink,
+        );
+
+        if (updatingItemIndex === -1) return prev;
+        updatedChalanges[updatingItemIndex] = {
+          ...updatedChalanges[updatingItemIndex],
+          completed: true,
+        };
+
+        return { ...prev, activeTelegramChallenges: updatedChalanges };
+      });
     }
   };
 
@@ -197,7 +214,7 @@ export default function Challenges({
         {table.map((sc, index) => {
           return (
             <div key={sc.id || index} className={styles.chalanges__listItem}>
-              <div className={styles.chalanges__listItemWrapper}>
+              <div className={styles.chalanges__listItemMainWrapper}>
                 <div className={styles.chalanges__listItemMain}>
                   <h6 className={styles.chalanges__listItemMainTitleText}>
                     {sc.name}
@@ -235,10 +252,22 @@ export default function Challenges({
                         size="sm"
                         isSecondaryVariant
                         onClick={() => {
-                          handleTelegramChallengeCheck(sc.id);
+                          if (sc.completed) {
+                            handleTelegramChallengeCheck(sc.id);
+                          } else {
+                            handleTelegramChallengeClick(
+                              sc.link,
+                              undefined,
+                              sc.id,
+                            );
+                          }
                         }}
                       >
-                        {t("challengeButtonCheck")}
+                        {t(
+                          sc.completed
+                            ? "challengeButtonCheck"
+                            : "challengeButtonDo",
+                        )}
                       </SecondaryBtn>
                     </>
                   ) : (

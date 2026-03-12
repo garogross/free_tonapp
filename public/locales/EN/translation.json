@@ -47,6 +47,7 @@
   "challengeButtonView": "VIEW",
   "challengeButtonCheck": "CHECK",
   "challengeButtonIframe": "WATCH",
+  "challengeButtonDo": "COMPLETE",
   "challengeButtonGoIn": "VISIT",
   "balanceTitle": "BALANCE",
   "clientTitle": "I am a client",
