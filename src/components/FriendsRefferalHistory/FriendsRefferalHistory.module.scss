@@ -60,6 +60,7 @@
     border-radius: 20px;
     height: 33px;
     padding: 0 20px;
+    gap: 10px;
 
     &:nth-child(odd) {
       background: #25173b;
@@ -68,7 +69,14 @@
 
   &__listItemText {
     @include setFont(20px, 500);
+    white-space: nowrap;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
+    &:last-child {
+      text-align: right;
+    }
     @include smScreenMedia {
       font-size: 16px;
     }

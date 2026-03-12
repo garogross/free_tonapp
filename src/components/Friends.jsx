@@ -57,12 +57,14 @@ export default function Friends({ friends, course }) {
     <>
       <section className={styles.friends}>
         <FriendsHero handleInvite={handleInvite} userId={userId} />
-        <FriendsInfoCards />
-        <FriendsRefferalHistory
-          totalPrize={totalPrize}
-          course={course}
-          friends={friends}
-        />
+        <div className="container">
+          <FriendsInfoCards />
+          <FriendsRefferalHistory
+            totalPrize={totalPrize}
+            course={course}
+            friends={friends}
+          />
+        </div>
       </section>
     </>
   );

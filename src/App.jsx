@@ -95,7 +95,7 @@ function App({ user, loadingUser }) {
     );
 
   useEffect(() => {
-    if (import.meta.env) eruda.init();
+    if (import.meta.env.DEV) eruda.init();
   }, []);
 
   useEffect(() => {
