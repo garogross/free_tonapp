@@ -2,6 +2,7 @@ import { starImg, starWebpImg } from "@/assets/images";
 import { useTranslation } from "react-i18next";
 import ImageWebp from "../layout/ImageWebp/ImageWebp";
 
+import clsx from "clsx";
 import styles from "./FriendsRefferalHistory.module.scss";
 
 const FriendsRefferalHistory = (totalPrize, course, friends) => {
@@ -18,7 +19,7 @@ const FriendsRefferalHistory = (totalPrize, course, friends) => {
     return firstName + " " + lastName;
   };
   return (
-    <div className={styles.friendsRefferalHistory}>
+    <div className={clsx(styles.friendsRefferalHistory, "container")}>
       <div className={styles.friendsRefferalHistory__header}>
         <div className={styles.friendsRefferalHistory__info}>
           <span className={styles.friendsRefferalHistory__infoText}>

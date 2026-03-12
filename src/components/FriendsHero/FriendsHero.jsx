@@ -7,6 +7,7 @@ import {
 import { useTranslation } from "react-i18next";
 import ImageWebp from "../layout/ImageWebp/ImageWebp";
 
+import clsx from "clsx";
 import { useNotification } from "../useNotification";
 import styles from "./FriendsHero.module.scss";
 
@@ -26,7 +27,10 @@ const FriendsHero = ({ handleInvite, userId }) => {
         alt="referal"
         className={styles.friendsHero__img}
       />
-      <button onClick={handleInvite} className={styles.friendsHero__shareBtn}>
+      <button
+        onClick={handleInvite}
+        className={clsx(styles.friendsHero__shareBtn, "container")}
+      >
         <span className={styles.friendsHero__shareBtnText}>
           {t("friends.invite")}
         </span>

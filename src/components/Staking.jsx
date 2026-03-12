@@ -243,14 +243,14 @@ export default function Staking({
 
   return (
     <>
+      <ImageWebp
+        src={miningReadyMinerImg}
+        srcSet={miningReadyMinerWebpImg}
+        alt="miner"
+        className={styles.staking__img}
+      />
       <section className={clsx(styles.staking, "container")}>
         <div className={styles.staking}>
-          <ImageWebp
-            src={miningReadyMinerImg}
-            srcSet={miningReadyMinerWebpImg}
-            alt="miner"
-            className={styles.staking__img}
-          />
           <div className={styles.staking__collectBar}>
             <div className={styles.staking__collectText}>
               <span> {(accelerateBalance * course).toFixed(8)}</span>

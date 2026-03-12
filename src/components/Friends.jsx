@@ -3,7 +3,6 @@ import {
   shareMessage,
   ShareMessageError,
 } from "@telegram-apps/sdk";
-import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./Friends.module.scss";
@@ -54,14 +53,16 @@ export default function Friends({ friends, course }) {
   }, [friends]);
 
   return (
-    <section className={clsx(styles.friends, "container")}>
-      <FriendsHero handleInvite={handleInvite} userId={userId} />
-      <FriendsInfoCards />
-      <FriendsRefferalHistory
-        totalPrize={totalPrize}
-        course={course}
-        friends={friends}
-      />
-    </section>
+    <>
+      <section className={styles.friends}>
+        <FriendsHero handleInvite={handleInvite} userId={userId} />
+        <FriendsInfoCards />
+        <FriendsRefferalHistory
+          totalPrize={totalPrize}
+          course={course}
+          friends={friends}
+        />
+      </section>
+    </>
   );
 }
