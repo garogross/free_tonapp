@@ -31,6 +31,39 @@ const filters = [
   },
 ];
 
+const dummyChallenges = [
+  {
+    id: 1,
+    name: "Test Challenge 1",
+    description: "Complete the first test challenge.",
+    status: "active",
+    selectedType: "1",
+    link: "https://t.me/test_channel_1",
+    price: 10,
+    completed: false,
+  },
+  {
+    id: 2,
+    name: "Test Challenge 2",
+    description: "Complete the second test challenge.",
+    status: "moderation",
+    selectedType: "2",
+    link: "https://t.me/test_channel_2",
+    price: 20,
+    completed: true,
+  },
+  {
+    id: 3,
+    name: "Test Challenge 3",
+    description: "This is a deprecated challenge.",
+    status: "deprecated",
+    selectedType: "1",
+    link: "https://t.me/test_channel_3",
+    price: 5,
+    completed: false,
+  },
+];
+
 export default function Challenges({
   setCurrentContent,
   currentChallenge,
@@ -70,6 +103,16 @@ export default function Challenges({
         return t("challengeButtonCheck");
       case "2":
         return t("challengeButtonIframe");
+      default:
+        return "";
+    }
+  };
+  const getTypeText = (type) => {
+    switch (type) {
+      case "1":
+        return t("addTelegramChallengeForm.subscription");
+      case "2":
+        return t("addTelegramChallengeForm.view");
       default:
         return "";
     }
@@ -203,15 +246,15 @@ export default function Challenges({
         table = telegramChallenges;
         break;
     }
-    if (!table || table.length === 0) {
-      return (
-        <div className={styles.chalanges__messageText}>{t("emptyList")}</div>
-      );
-    }
+    // if (!table || table.length === 0) {
+    //   return (
+    //     <div className={styles.chalanges__messageText}>{t("emptyList")}</div>
+    //   );
+    // }
 
     return (
       <div className={styles.chalanges__list}>
-        {table.map((sc, index) => {
+        {dummyChallenges.map((sc, index) => {
           return (
             <div key={sc.id || index} className={styles.chalanges__listItem}>
               <div className={styles.chalanges__listItemMainWrapper}>
@@ -298,10 +341,10 @@ export default function Challenges({
               <div className={styles.chalanges__listItemMainFooter}>
                 <p>
                   <span className={styles.chalanges__listItemMainTimeNameText}>
-                    {t("timeTitle")}:{" "}
+                    {t("typeTitle")}:{" "}
                   </span>
                   <span className={styles.chalanges__listItemMainTimeValueText}>
-                    {sc.timeOfExecution} {t("seconds")}
+                    {getTypeText(sc.selectedType)}{" "}
                   </span>
                 </p>
                 <p className={styles.chalanges__listItemPaymentText}>
