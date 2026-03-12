@@ -21,6 +21,9 @@ import styles from "./ProfileTasks.module.scss";
 const taskInfos = {
   invite_friends: "referralCountingInfo",
 };
+const maxLevels = {
+  invite_friends: 100,
+};
 
 const questImages = {
   faucet_collect: {
@@ -101,8 +104,10 @@ const ProfileTasks = ({ quests, setQuests, setTonBalance }) => {
               btnContent = (
                 <span className={styles.profileTasks__loader}></span>
               );
-
-            if (quest.completed) btnContent = t("profileTasks.completed");
+            const completed =
+              maxLevels[quest.questType] &&
+              maxLevels[quest.questType] === quest.level;
+            if (completed) btnContent = t("profileTasks.completed");
 
             return (
               <div className={styles.profileTasks__item} key={quest.questType}>
@@ -162,7 +167,7 @@ const ProfileTasks = ({ quests, setQuests, setTonBalance }) => {
                     disabled={
                       quest.currentValue < quest.targetValue ||
                       loading ||
-                      quest.completed
+                      completed
                     }
                     size="md"
                   >
