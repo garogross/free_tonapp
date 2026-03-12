@@ -51,6 +51,7 @@ export default function Friends({ friends, course }) {
     const total = friends.reduce((acc, friend) => acc + friend.prize, 0);
     setTotalPrize(total);
   }, [friends]);
+  console.log("friends", { friends: friends.length });
 
   return (
     <>

@@ -64,22 +64,28 @@ export default function RollButton({
   };
 
   const handleAdShow = () => {
-    if (import.meta.env.DEV) {
-      fetchSkipRollTime();
-      return;
+    // if (import.meta.env.DEV) {
+    //   fetchSkipRollTime();
+    //   return;
+    // }
+
+    try {
+      window.TelegramAdsController.triggerNativeNotification(true)
+        .then((result) => {
+          console.log(result);
+          if (result === "success") {
+            setIsSkipAvailable(false);
+            fetchSkipRollTime();
+          }
+        })
+        .catch((error) => {
+          showError(error);
+          console.log("handleAdShow", error);
+        });
+    } catch (error) {
+      console.error(error);
+      showError("Failed To Load Ad");
     }
-    window.TelegramAdsController.triggerNativeNotification(true)
-      .then((result) => {
-        console.log(result);
-        if (result === "success") {
-          setIsSkipAvailable(false);
-          fetchSkipRollTime();
-        }
-      })
-      .catch((error) => {
-        showError(error);
-        console.log(error);
-      });
   };
 
   useEffect(() => {

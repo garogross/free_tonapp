@@ -39,7 +39,6 @@ const ProfileDepositModal = ({ show, onClose, getTonBalance }) => {
       const res = await api.post("/api/deposit/create-invoice", {
         starsAmount: amount,
       });
-      console.log("res.data?.invoiceUrl", res.data?.invoiceUrl);
 
       if (res.data?.invoiceUrl) {
         if (invoice.isSupported()) {
@@ -47,7 +46,6 @@ const ProfileDepositModal = ({ show, onClose, getTonBalance }) => {
             // open() returns a promise that resolves with the payment status
             // 'url' is the mode used for full invoice links
             const status = await invoice.open(res.data?.invoiceUrl, "url");
-            console.log({ status });
 
             if (status === "paid") {
               getTonBalance();

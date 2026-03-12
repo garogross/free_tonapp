@@ -5,7 +5,9 @@ import ImageWebp from "../layout/ImageWebp/ImageWebp";
 import clsx from "clsx";
 import styles from "./FriendsRefferalHistory.module.scss";
 
-const FriendsRefferalHistory = (totalPrize, course, friends) => {
+const FriendsRefferalHistory = ({ totalPrize, course, friends }) => {
+  console.log("FriendsRefferalHistory", { friends });
+
   const { t } = useTranslation();
   const getFriendFullName = (firstName, lastName, index) => {
     if (firstName === "" && lastName === "")

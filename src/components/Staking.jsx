@@ -101,7 +101,9 @@ export default function Staking({
   }, [maxOfflineSeconds]);
 
   const writeLinkInClipboard = () => {
-    navigator.clipboard.writeText("https://t.me/Freetoon_bot?start=" + userId);
+    navigator.clipboard.writeText(
+      "https://t.me/F_r_e_e_S_t_a_r_s_Bot?start=" + userId,
+    );
     showNotification(t("friends.linkCopied"), 1000);
   };
 

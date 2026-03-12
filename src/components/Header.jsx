@@ -35,7 +35,6 @@ const Header = ({ tonBalance }) => {
     i18n.language.toLowerCase() === "ru" ? "RU" : "EN",
   );
   const dropdownRef = useRef(null);
-  console.log("i18n.language", i18n.language);
 
   useEffect(() => {
     setSelectedLang(i18n.language.toUpperCase());

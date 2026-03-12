@@ -22,7 +22,7 @@ body {
   background: $color-purple-bg;
   overflow: hidden;
   height: 100dvh;
-  margin: 0 auto;
+  margin: 0;
 
   &[data-scroll-locked] {
     padding-top: 0 !important;

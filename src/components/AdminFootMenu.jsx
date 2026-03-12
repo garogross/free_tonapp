@@ -6,8 +6,6 @@ export default function FootMenu({
   setAdminCurrentContent,
   adminCurrentContent,
 }) {
-  console.log({ adminFootMenuItems });
-
   return (
     <div className="foot-menu">
       <MenuItem

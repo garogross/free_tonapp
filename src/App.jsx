@@ -5,6 +5,7 @@ import {
   retrieveRawInitData,
 } from "@telegram-apps/sdk";
 import { TonConnectUIProvider } from "@tonconnect/ui-react";
+import eruda from "eruda";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import SockJS from "sockjs-client";
@@ -92,6 +93,10 @@ function App({ user, loadingUser }) {
     /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(
       navigator.userAgent,
     );
+
+  useEffect(() => {
+    if (import.meta.env) eruda.init();
+  }, []);
 
   useEffect(() => {
     if (!isMobileDevice) return;

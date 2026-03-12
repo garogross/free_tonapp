@@ -386,9 +386,9 @@ export default function AddTelegramChallengeForm({
         <div>
           <div
             className={styles["addTalegramChallengeForm__usernameText"]}
-            onClick={() => copyTelegramUsername("@Freetoon_bot")}
+            onClick={() => copyTelegramUsername("@F_r_e_e_S_t_a_r_s_Bot")}
           >
-            @Freetoon_bot
+            @F_r_e_e_S_t_a_r_s_Bot
           </div>
           <div className={styles["addTalegramChallengeForm__descInfo"]}>
             {t("addTelegramChallengeForm.clickToCopy")}

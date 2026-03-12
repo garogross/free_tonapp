@@ -14,7 +14,7 @@ export default function ChannelFollow({ setIsSubscriber }) {
   const [isLoading, setIsLoading] = useState(false);
   const { showError } = useNotification();
 
-  const challengeLink = "https://t.me/communityfreeton";
+  const challengeLink = "https://t.me/F_r_e_e_S_t_a_r";
 
   function checkSub() {
     setIsLoading(true);

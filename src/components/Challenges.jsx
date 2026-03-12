@@ -178,7 +178,6 @@ export default function Challenges({
     setChallengeForRelaunch(sc);
     if (currentChallenge === "surfing") {
       setCurrentContent("addChallengeForm");
-      console.log({ currentChallenge });
     } else if (currentChallenge === "telegram") {
       setCurrentContent("addTelegramChallengeForm");
     }
