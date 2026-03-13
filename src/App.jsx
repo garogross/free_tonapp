@@ -26,6 +26,7 @@ import Cran from "./components/Cran";
 import FootMenu from "./components/FootMenu";
 import Friends from "./components/Friends";
 import Header from "./components/Header";
+import LiveInternetCounterHidden from "./components/LiveInternetCounterHidden";
 import Profile from "./components/Profile/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
 import SecureIframe from "./components/SecureIframe";
@@ -720,6 +721,7 @@ function App({ user, loadingUser }) {
                   />
                 </footer>
               </div>
+              <LiveInternetCounterHidden />
             </TonConnectUIProvider>
           }
         />
