@@ -1,0 +1,101 @@
+@import "@/styles/vars";
+@import "@/styles/mixins";
+
+.giftRullet {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+
+  &__starsBar {
+    width: 100%;
+    border: 2px solid #7a649b;
+    border-radius: 33px;
+    background: #382b47;
+    @include flexCol();
+    padding: 5px;
+    border-radius: 50px;
+  }
+
+  &__starsBarBtn {
+    flex: 1;
+    border-radius: 50px;
+    @include button();
+    @include setFont(clamp(16px, 3vw, 24px), 500);
+    @include flexCol();
+    gap: 6px;
+    transition: $transition;
+    padding: 10px;
+
+    &_active {
+      background: #7a649b;
+    }
+
+    & img {
+      width: 21px;
+    }
+  }
+  &__main {
+    width: 100%;
+    overflow: hidden;
+    border: 2px solid #52436c;
+    border-radius: 35px;
+    background: #241735;
+    padding: 12px;
+    position: relative;
+  }
+
+  &__indicator {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+    height: 100%;
+  }
+  &__indicatorImg {
+    height: 100%;
+  }
+  &__indicatorPicture {
+    height: 100%;
+  }
+
+  &__list {
+    @include flexCol(flex-start);
+    gap: 6px;
+    border-radius: 10px;
+
+    overflow: auto;
+  }
+  &__item {
+    border-radius: 10px;
+    background: linear-gradient(180deg, #322344 0%, #543e72 50%, #352748 100%);
+    min-width: clamp(95px, 24vw, 160px);
+    @include flexCol();
+    flex-direction: column;
+    gap: 14px;
+    padding: 14px 8px;
+  }
+
+  &__itemImg {
+    width: 90px;
+    max-width: 100%;
+  }
+  &__itemStarsText {
+    border: 1px solid #edcb9b;
+    border-radius: 30px;
+    background: rgba(0, 0, 0, 0.25);
+    @include flexCol();
+    gap: 4px;
+    @include setFont(clamp(13px, 3vw, 20px), 500);
+    padding: 4px 8px;
+    width: 100%;
+    max-width: 100px;
+
+    & img {
+      width: 22px;
+    }
+  }
+  &__rollBtn {
+    max-width: 100% !important;
+  }
+}

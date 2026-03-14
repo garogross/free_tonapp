@@ -63,6 +63,8 @@ $color-yellow-light: #ffe066;
     transition: $transition;
     fill: inherit;
     stroke: inherit;
+    width: 30px;
+    height: 30px;
 
     @include smScreenMedia {
       width: 23px !important;

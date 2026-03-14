@@ -52,11 +52,39 @@ import profileNotificationsiconWebpImg from "./images/profile/profileNotificatio
 import profileWithdrawIconImg from "./images/profile/profileWithdrawIcon.png";
 import profileWithdrawIconWebpImg from "./images/profile/profileWithdrawIcon.webp";
 
+// Gift
+import chanceDiceiconImg from "./images/gift/chanceDiceicon.png";
+import chanceDiceiconWebpImg from "./images/gift/chanceDiceicon.webp";
+import gift1Img from "./images/gift/gift-1.png";
+import gift1WebpImg from "./images/gift/gift-1.webp";
+import gift10Img from "./images/gift/gift-10.png";
+import gift10WebpImg from "./images/gift/gift-10.webp";
+import gift2Img from "./images/gift/gift-2.png";
+import gift2WebpImg from "./images/gift/gift-2.webp";
+import gift3Img from "./images/gift/gift-3.png";
+import gift3WebpImg from "./images/gift/gift-3.webp";
+import gift4Img from "./images/gift/gift-4.png";
+import gift4WebpImg from "./images/gift/gift-4.webp";
+import gift5Img from "./images/gift/gift-5.png";
+import gift5WebpImg from "./images/gift/gift-5.webp";
+import gift6Img from "./images/gift/gift-6.png";
+import gift6WebpImg from "./images/gift/gift-6.webp";
+import gift7Img from "./images/gift/gift-7.png";
+import gift7WebpImg from "./images/gift/gift-7.webp";
+import gift8Img from "./images/gift/gift-8.png";
+import gift8WebpImg from "./images/gift/gift-8.webp";
+import gift9Img from "./images/gift/gift-9.png";
+import gift9WebpImg from "./images/gift/gift-9.webp";
+import giftRulletIndicatorImg from "./images/gift/giftRulletIndicator.png";
+import giftRulletIndicatorWebpImg from "./images/gift/giftRulletIndicator.webp";
+
 export {
   adBannerStarImg,
   adBannerStarWebpImg,
   adIconImg,
   adIconWebpImg,
+  chanceDiceiconImg,
+  chanceDiceiconWebpImg,
   closeIconImg,
   closeIconWebpImg,
   friends2UsersIconImg,
@@ -69,6 +97,28 @@ export {
   friendsHeroWebpImg,
   friendsManyUsersIconImg,
   friendsManyUsersIconWebpImg,
+  gift10Img,
+  gift10WebpImg,
+  gift1Img,
+  gift1WebpImg,
+  gift2Img,
+  gift2WebpImg,
+  gift3Img,
+  gift3WebpImg,
+  gift4Img,
+  gift4WebpImg,
+  gift5Img,
+  gift5WebpImg,
+  gift6Img,
+  gift6WebpImg,
+  gift7Img,
+  gift7WebpImg,
+  gift8Img,
+  gift8WebpImg,
+  gift9Img,
+  gift9WebpImg,
+  giftRulletIndicatorImg,
+  giftRulletIndicatorWebpImg,
   headerGlobImg,
   headerGlobWebpImg,
   headerStarMinerImg,

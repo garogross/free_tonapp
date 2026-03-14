@@ -8,6 +8,7 @@ import {
   ProfileIcon,
   TasksIcon,
 } from "./icons/BottomNavbar";
+import GiftIcon from "./icons/BottomNavbar/GiftIcon";
 const items = [
   {
     key: "cran",
@@ -18,6 +19,11 @@ const items = [
     key: "staking",
     text: "staking",
     icon: MiningIcon,
+  },
+  {
+    key: "gift",
+    text: "gift",
+    icon: GiftIcon,
   },
   {
     key: "challenges",

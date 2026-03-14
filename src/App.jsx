@@ -25,8 +25,10 @@ import Challenges from "./components/Challenges";
 import Cran from "./components/Cran";
 import FootMenu from "./components/FootMenu";
 import Friends from "./components/Friends";
+import Gift from "./components/Gift/Gift";
 import Header from "./components/Header";
 import LiveInternetCounterHidden from "./components/LiveInternetCounterHidden";
+import MyGifts from "./components/MyGifts/MyGifts";
 import Profile from "./components/Profile/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
 import SecureIframe from "./components/SecureIframe";
@@ -561,6 +563,18 @@ function App({ user, loadingUser }) {
         return (
           <>
             <Friends friends={friends} course={course} />
+          </>
+        );
+      case "gift":
+        return (
+          <>
+            <Gift setCurrentContent={setCurrentContent} />
+          </>
+        );
+      case "myGifts":
+        return (
+          <>
+            <MyGifts />
           </>
         );
       case "profile":
