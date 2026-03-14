@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { api } from "../api/axios";
 import { adIconImg, adIconWebpImg } from "../assets/images";
 import ImageWebp from "./layout/ImageWebp/ImageWebp";
@@ -20,6 +21,7 @@ export default function RollButton({
   showTimer,
   isSkipAvailable,
 }) {
+  const { t } = useTranslation();
   const { showError, showNotification } = useNotification();
   const [rollSuccesfullResponse, setRollSuccessfullResponse] = useState(null);
 
@@ -64,10 +66,10 @@ export default function RollButton({
   };
 
   const handleAdShow = () => {
-    // if (import.meta.env.DEV) {
-    //   fetchSkipRollTime();
-    //   return;
-    // }
+    if (import.meta.env.DEV) {
+      fetchSkipRollTime();
+      return;
+    }
 
     try {
       window.TelegramAdsController.triggerNativeNotification(true)
@@ -90,7 +92,16 @@ export default function RollButton({
 
   useEffect(() => {
     if (!isAnimating && rollSuccesfullResponse != null) {
-      setTonBalance(rollSuccesfullResponse.tonBalance);
+      setTonBalance((prev) => {
+        const balance = rollSuccesfullResponse.tonBalance - prev;
+        if (balance) {
+          showNotification(t("starsCredited", { balance: balance }));
+        } else {
+          showNotification(t("starsCreditedZero"));
+        }
+
+        return rollSuccesfullResponse.tonBalance;
+      });
       setIsPushed(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

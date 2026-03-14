@@ -85,7 +85,6 @@ const Rullet = ({
         <>
           {showTimer ? (
             <>
-              {/* Timer digits */}
               {(() => {
                 const m = Math.floor((timeLeft % 3600) / 60)
                   .toString()
@@ -105,7 +104,6 @@ const Rullet = ({
                         {timeArray.map((num) => (
                           <span>{num}</span>
                         ))}
-                        {/* {m[0]} */}
                       </span>
                     </div>
                     <div className={styles.rullet__item}>
@@ -119,7 +117,6 @@ const Rullet = ({
                         {timeArray.map((num) => (
                           <span>{num}</span>
                         ))}
-                        {/* {m[1]} */}
                       </span>
                     </div>
                     <div className={styles.rullet__item}>
@@ -138,7 +135,6 @@ const Rullet = ({
                         {timeArray.map((num) => (
                           <span>{num}</span>
                         ))}
-                        {/* {m[0]} */}
                       </span>
                     </div>
                     <div className={styles.rullet__item}>
@@ -152,7 +148,6 @@ const Rullet = ({
                         {timeArray.map((num) => (
                           <span>{num}</span>
                         ))}
-                        {/* {m[1]} */}
                       </span>
                     </div>
                   </>

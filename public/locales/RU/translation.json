@@ -41,6 +41,8 @@
   "yourBalanceTitle": "Ваш баланс",
   "rulletTableNumberTitle": "Число",
   "rulletTablePrizeTitle": "Выплата",
+  "starsCredited": "На ваш счет зачислено {{balance}} Stars",
+  "starsCreditedZero": "Stars не зачислены",
   "droppedNumber": "Выпавшее число",
   "challengeButtonFollow": "ПОДПИСКА",
   "challengeButtonView": "ПРОСМОТР",

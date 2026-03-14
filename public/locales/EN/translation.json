@@ -42,6 +42,8 @@
   "yourBalanceTitle": "Your balance",
   "rulletTableNumberTitle": "Number",
   "rulletTablePrizeTitle": "Prize",
+  "starsCredited": "{{balance}} Stars have been credited to your account",
+  "starsCreditedZero": "Stars not credited",
   "droppedNumber": "Dropped number",
   "challengeButtonFollow": "SUBSCRIBE",
   "challengeButtonView": "VIEW",
