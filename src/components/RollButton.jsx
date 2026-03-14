@@ -95,7 +95,9 @@ export default function RollButton({
       setTonBalance((prev) => {
         const balance = rollSuccesfullResponse.tonBalance - prev;
         if (balance) {
-          showNotification(t("starsCredited", { balance: balance }));
+          showNotification(
+            t("starsCredited", { balance: +balance.toFixed(4) }),
+          );
         } else {
           showNotification(t("starsCreditedZero"));
         }
