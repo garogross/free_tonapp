@@ -11,6 +11,35 @@
   overflow: hidden;
   padding-bottom: 10px;
 
+  &__starsBar {
+    width: 100%;
+    border: 2px solid #7a649b;
+    border-radius: 33px;
+    background: #382b47;
+    @include flexCol();
+    padding: 5px;
+    border-radius: 50px;
+  }
+
+  &__starsBarBtn {
+    flex: 1;
+    border-radius: 50px;
+    @include button();
+    @include setFont(clamp(16px, 3vw, 24px), 500);
+    @include flexCol();
+    gap: 6px;
+    transition: $transition;
+    padding: 10px;
+
+    &_active {
+      background: #7a649b;
+    }
+
+    & img {
+      width: 21px;
+    }
+  }
+
   &__list {
     flex: 1;
     border: 2px solid #52436c;
