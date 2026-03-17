@@ -55,10 +55,12 @@
     border-radius: 20px;
     background: #241735;
     padding: 12px;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    flex-wrap: wrap;
     gap: 10px;
     overflow: auto;
+    align-items: flex-start;
+    max-height: fit-content;
   }
 
   &__item {
@@ -68,7 +70,7 @@
     flex-direction: column;
     gap: 10px;
     padding: 12px 10px;
-    height: fit-content;
+    width: calc(50% - 5px);
   }
   &__img {
     max-width: 80px;
@@ -93,6 +95,13 @@
   &__btn {
     width: 100%;
     font-size: 18px;
+    overflow: hidden;
+
+    & span {
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 
   &__messageText {

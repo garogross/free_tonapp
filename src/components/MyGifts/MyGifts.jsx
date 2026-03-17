@@ -121,7 +121,7 @@ const MyGifts = ({ getMyGifts, myGifts, setMyGifts, setTonBalance }) => {
                 className={styles.myGifts__btn}
                 size="sm"
               >
-                {getBtnStatusText(gift.status, t)}
+                <span>{getBtnStatusText(gift.status, t)}</span>
               </MainButton>
               {gift.status === "held" && (
                 <MainButton
