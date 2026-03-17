@@ -173,7 +173,7 @@ const GiftRullet = ({ gifts, getGifts, tonBalance, setTonBalance }) => {
         disabled={fetchLoading || animating}
         className={styles.giftRullet__rollBtn}
       >
-        Try Your Luck
+        {t("gift.tryYourLuck")}
       </MainButton>
     </div>
   );

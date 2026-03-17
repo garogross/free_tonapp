@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import {
   chanceDiceiconImg,
   chanceDiceiconWebpImg,
@@ -6,14 +7,17 @@ import {
   starWebpImg,
 } from "../../../assets/images";
 import ImageWebp from "../../layout/ImageWebp/ImageWebp";
-
 import MainButton from "../../layout/MainButton/MainButton";
 import styles from "./GiftAvailablesList.module.scss";
 
 const GiftAvailablesList = ({ setCurrentContent, gifts }) => {
+  const { t } = useTranslation();
+
   return (
     <div className={styles.giftAvailablesList}>
-      <h4 className={styles.giftAvailablesList__titleText}>Availlable Gifts</h4>
+      <h4 className={styles.giftAvailablesList__titleText}>
+        {t("gift.availableGiftsTitle")}
+      </h4>
       <div className={styles.giftAvailablesList__main}>
         <div className={styles.giftAvailablesList__items}>
           {gifts.map((gift) => (
@@ -45,7 +49,7 @@ const GiftAvailablesList = ({ setCurrentContent, gifts }) => {
         isSecondaryVariant
         className={styles.giftAvailablesList__myGiftsBtn}
       >
-        My Gifts
+        {t("gift.myGiftsBtn")}
       </MainButton>
     </div>
   );

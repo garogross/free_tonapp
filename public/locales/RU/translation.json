@@ -28,6 +28,9 @@
     "noGifts": "У вас нет подарков",
     "insufficientFunds": "Недостаточно средств",
     "withdrawRequestSent": "Ваша заявка на вывод отправлена администраторам",
+    "tryYourLuck": "Попробовать удачу",
+    "availableGiftsTitle": "Доступные подарки",
+    "myGiftsBtn": "Мои подарки",
     "gifts": {
       "bouquet": "Букет",
       "cake": "Торт",

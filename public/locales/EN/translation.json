@@ -28,6 +28,9 @@
     "noGifts": "You have no any gift",
     "insufficientFunds": "Insufficient funds",
     "withdrawRequestSent": "Your withdraw request has been sent to administrators",
+    "tryYourLuck": "Try your luck",
+    "availableGiftsTitle": "Available gifts",
+    "myGiftsBtn": "My gifts",
 
     "gifts": {
       "bouquet": "Bouquet",
