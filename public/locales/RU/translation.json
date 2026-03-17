@@ -11,7 +11,8 @@
     "statistics": "Статистика",
     "operations": "Операции",
     "advertisement": "Реклама",
-    "settings": "Настройки"
+    "settings": "Настройки",
+    "gifts": "Подарки"
   },
   "languages": {
     "russian": "Русский",
@@ -19,7 +20,40 @@
   },
   "notification": {
     "successfullChallenge": "Задание выполнено",
-    "failed": "Не удалось выполнить"
+    "failed": "Не удалось выполнить",
+    "requestError": "Произошла ошибка во время запроса"
+  },
+  "gift": {
+    "youWon": "Вы выиграли",
+    "noGifts": "У вас нет подарков",
+    "insufficientFunds": "Недостаточно средств",
+    "withdrawRequestSent": "Ваша заявка на вывод отправлена администраторам",
+    "gifts": {
+      "bouquet": "Букет",
+      "cake": "Торт",
+      "candle_pink": "Розовая свеча",
+      "candle": "Свеча",
+      "cherry_blossom": "Сакура",
+      "chocolate_box": "Коробка шоколада",
+      "dino": "Динозавр",
+      "gift_box": "Подарочная коробка",
+      "gingerbread_heart": "Пряничное сердце",
+      "heart_candy": "Конфета-сердце",
+      "heart_key": "Ключ-сердце",
+      "heart_web": "Сердце-паутинка",
+      "heart": "Сердце",
+      "high_heels": "Туфли на каблуках",
+      "ice_cream": "Мороженое",
+      "love_potion": "Любовное зелье",
+      "love_you": "Люблю тебя",
+      "noodles": "Лапша",
+      "peonies": "Пионы",
+      "ring": "Кольцо",
+      "rocket": "Ракета",
+      "rose": "Роза",
+      "teddy_bear": "Плюшевый медведь",
+      "trophy": "Трофей"
+    }
   },
   "status": {
     "moderation": "МОДЕРИРУЕТСЯ",

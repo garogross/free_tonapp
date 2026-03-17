@@ -16,6 +16,11 @@ export const adminFootMenuItems = [
   },
   {
     image: "/images/staking.svg",
+    alt: "Подарки",
+    textKey: "adminFootMenu.gifts",
+  },
+  {
+    image: "/images/staking.svg",
     alt: "Настройки",
     textKey: "adminFootMenu.settings",
   },

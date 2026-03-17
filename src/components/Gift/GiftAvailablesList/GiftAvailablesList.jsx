@@ -5,22 +5,21 @@ import {
   starImg,
   starWebpImg,
 } from "../../../assets/images";
-import { GIFTS } from "../../../dummyData/gifts";
 import ImageWebp from "../../layout/ImageWebp/ImageWebp";
 
 import MainButton from "../../layout/MainButton/MainButton";
 import styles from "./GiftAvailablesList.module.scss";
 
-const GiftAvailablesList = ({ setCurrentContent }) => {
+const GiftAvailablesList = ({ setCurrentContent, gifts }) => {
   return (
     <div className={styles.giftAvailablesList}>
       <h4 className={styles.giftAvailablesList__titleText}>Availlable Gifts</h4>
       <div className={styles.giftAvailablesList__main}>
         <div className={styles.giftAvailablesList__items}>
-          {GIFTS.map((gift) => (
+          {gifts.map((gift) => (
             <div key={gift.id} className={styles.giftAvailablesList__item}>
               <p className={styles.giftAvailablesList__itemChanceText}>
-                {gift.chance}%
+                {gift.dropChance}%
                 <ImageWebp
                   src={chanceDiceiconImg}
                   srcSet={chanceDiceiconWebpImg}
@@ -28,13 +27,13 @@ const GiftAvailablesList = ({ setCurrentContent }) => {
                 />
               </p>
               <ImageWebp
-                src={gift.image}
-                srcSet={gift.imageWebp}
+                src={`/images/gifts/${gift.imageUrl}.png`}
+                srcSet={`/images/gifts/${gift.imageUrl}.webp`}
                 alt="gift"
                 className={styles.giftAvailablesList__itemImg}
               />
               <p className={styles.giftAvailablesList__starsText}>
-                {gift.stars}
+                {gift.convertValue}
                 <ImageWebp src={starImg} srcSet={starWebpImg} alt="star" />
               </p>
             </div>

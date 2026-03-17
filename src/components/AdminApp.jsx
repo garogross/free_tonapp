@@ -4,6 +4,7 @@ import AdminAd from "./AdminAd";
 import "./AdminAddAddForm.css";
 import "./AdminApp.css";
 import AdminFootMenu from "./AdminFootMenu";
+import AdminGifts from "./AdminGifts/AdminGifts";
 import AdminSettings from "./AdminSettings";
 import AdminStatistic from "./AdminStatistic";
 import AdminTransaction from "./AdminTransaction";
@@ -116,6 +117,8 @@ export default function AdminApp({
             setChallenges={setChallenges}
           />
         );
+      case "adminGifts":
+        return <AdminGifts />;
       case "adminsettings":
         return (
           <AdminSettings

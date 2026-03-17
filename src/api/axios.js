@@ -6,7 +6,7 @@ const initData = import.meta.env.DEV
   : retrieveRawInitData();
 
 export const api = axios.create({
-  baseURL: import.meta.env.DEV ? import.meta.env.VITE_API_URL : "",
+  baseURL: import.meta.env.DEV ? import.meta.env.VITE_DEV_API_URL : "",
   headers: {
     "Content-Type": "application/json",
     Authorization: "tma " + initData,

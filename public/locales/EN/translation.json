@@ -11,7 +11,8 @@
     "statistics": "Statistics",
     "operations": "Operations",
     "advertisement": "Advertisement",
-    "settings": "Settings"
+    "settings": "Settings",
+    "gifts": "Gifts"
   },
   "languages": {
     "russian": "Russian",
@@ -19,7 +20,41 @@
   },
   "notification": {
     "successfullChallenge": "Challenge completed",
-    "failed": "Failed to complete"
+    "failed": "Failed to complete",
+    "requestError": "An error occurred during the request"
+  },
+  "gift": {
+    "youWon": "You won",
+    "noGifts": "You have no any gift",
+    "insufficientFunds": "Insufficient funds",
+    "withdrawRequestSent": "Your withdraw request has been sent to administrators",
+
+    "gifts": {
+      "bouquet": "Bouquet",
+      "cake": "Cake",
+      "candle_pink": "Pink Candle",
+      "candle": "Candle",
+      "cherry_blossom": "Cherry Blossom",
+      "chocolate_box": "Chocolate Box",
+      "dino": "Dinosaur",
+      "gift_box": "Gift Box",
+      "gingerbread_heart": "Gingerbread Heart",
+      "heart_candy": "Heart Candy",
+      "heart_key": "Heart Key",
+      "heart_web": "Web Heart",
+      "heart": "Heart",
+      "high_heels": "High Heels",
+      "ice_cream": "Ice Cream",
+      "love_potion": "Love Potion",
+      "love_you": "Love You",
+      "noodles": "Noodles",
+      "peonies": "Peonies",
+      "ring": "Ring",
+      "rocket": "Rocket",
+      "rose": "Rose",
+      "teddy_bear": "Teddy Bear",
+      "trophy": "Trophy"
+    }
   },
   "status": {
     "moderation": "MODERATION",

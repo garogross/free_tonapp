@@ -51,6 +51,7 @@
     transform: translateX(-50%);
     top: 0;
     height: 100%;
+    z-index: 2;
   }
   &__indicatorImg {
     height: 100%;
@@ -64,7 +65,10 @@
     gap: 6px;
     border-radius: 10px;
 
-    overflow: auto;
+    &_animating {
+      transition: all 6s cubic-bezier(0.41, -0.02, 0, 0.99);
+      will-change: transform;
+    }
   }
   &__item {
     border-radius: 10px;

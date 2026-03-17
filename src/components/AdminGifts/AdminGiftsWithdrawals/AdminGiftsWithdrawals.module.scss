@@ -1,6 +1,8 @@
 @use "@/styles/style" as *;
 
-.myGifts {
+@use "@/styles/style" as *;
+
+.adminGiftsWithdrawals {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -9,12 +11,6 @@
   overflow: hidden;
   padding-bottom: 10px;
 
-  &__title {
-    @include setFont(24px, 600);
-    text-align: center;
-    width: 100%;
-  }
-
   &__list {
     flex: 1;
     border: 2px solid #52436c;
@@ -22,7 +18,7 @@
     background: #241735;
     padding: 12px;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
     gap: 10px;
     overflow: auto;
   }
@@ -30,29 +26,49 @@
   &__item {
     background: #352748;
     border-radius: 10px;
-    @include flexCol();
+    padding: 12px 10px;
+    @include flexCol(flex-start, flex-start);
     flex-direction: column;
     gap: 10px;
+    height: fit-content;
+  }
+  &__itemWrapper {
     padding: 12px 10px;
+    @include flexCol(flex-start, flex-start);
+    gap: 10px;
   }
-  &__img {
-    max-width: 80px;
-    width: 100%;
+
+  &__itemMain {
+    @include flexCol(flex-start);
+    flex: 1;
+    flex-direction: column;
+    gap: 10px;
   }
+
   &__starsText {
+    border-radius: 4px;
     border: 1px solid #edcb9b;
     border-radius: 30px;
     background: rgba(0, 0, 0, 0.25);
     @include flexCol();
     gap: 4px;
-    @include setFont(clamp(13px, 3vw, 20px), 500);
     padding: 4px 8px;
-    width: 100%;
-    max-width: 100px;
+    @include setFont(clamp(15px, 3.4vw, 20px), 500);
 
     & img {
-      width: 22px;
+      width: 20px;
     }
+  }
+
+  &__img {
+    max-width: 70px;
+    width: 100%;
+  }
+  &__text {
+    @include setFont(clamp(16px, 4vw, 24px), 500);
+    width: 100%;
+    @include flexCol(flex-start);
+    gap: 10px;
   }
 
   &__btn {

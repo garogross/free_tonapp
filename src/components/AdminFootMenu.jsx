@@ -25,6 +25,11 @@ export default function FootMenu({
       />
       <MenuItem
         {...adminFootMenuItems[3]}
+        isActive={adminCurrentContent === "adminGifts"}
+        onClick={() => setAdminCurrentContent("adminGifts")}
+      />
+      <MenuItem
+        {...adminFootMenuItems[4]}
         isActive={adminCurrentContent === "adminsettings"}
         onClick={() => setAdminCurrentContent("adminsettings")}
       />

@@ -56,6 +56,8 @@ function App({ user, loadingUser }) {
   const [adPackages, setAdPackages] = useState([]);
   const [friends, setFriends] = useState([]);
   const [initialNumbers, setInitialNumbers] = useState([]);
+  const [gifts, setGifts] = useState([]);
+  const [myGifts, setMyGifts] = useState([]);
   const [isSkipAvailable, setIsSkipAvailable] = useState(true);
   const [skipEndTime, setSkipEndTime] = useState(0);
   const [starsMode] = useState(true);
@@ -303,6 +305,44 @@ function App({ user, loadingUser }) {
         console.error("Getting ton balance error: ", error);
       });
   }
+  async function getGifts(tier) {
+    api
+      .get("/api/gifts?tier=" + (tier || "25"))
+      .then((response) => {
+        setGifts(response.data);
+        //   {
+        //     "id": 22,
+        //     "name": "Ice Cream",
+        //     "imageUrl": "ice_cream",
+        //     "convertValue": 125.000000,
+        //     "displayOrder": 7,
+        //     "tier": 50,
+        //     "dropChance": 5.00
+        // },
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+  async function getMyGifts() {
+    api
+      .get("/api/gifts/my")
+      .then((response) => {
+        setMyGifts(response.data);
+        // {
+        //   "id": 123,
+        //   "giftName": "Cake",
+        //   "giftImageUrl": "cake",
+        //   "convertValue": 50,
+        //   "tier": 25,
+        //   "status": "held",
+        //   "wonAt": "2026-03-16T12:00:00+00:00"
+        // }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
 
   useEffect(() => {
     let dataRaw;
@@ -445,6 +485,8 @@ function App({ user, loadingUser }) {
     getFriends();
     getTransactions();
     getQuests();
+    getGifts();
+    getMyGifts();
   }, []);
 
   const addTransaction = (newTx) => {
@@ -568,13 +610,24 @@ function App({ user, loadingUser }) {
       case "gift":
         return (
           <>
-            <Gift setCurrentContent={setCurrentContent} />
+            <Gift
+              setCurrentContent={setCurrentContent}
+              gifts={gifts}
+              getGifts={getGifts}
+              tonBalance={tonBalance}
+              setTonBalance={setTonBalance}
+            />
           </>
         );
       case "myGifts":
         return (
           <>
-            <MyGifts />
+            <MyGifts
+              getMyGifts={getMyGifts}
+              myGifts={myGifts}
+              setMyGifts={setMyGifts}
+              setTonBalance={setTonBalance}
+            />
           </>
         );
       case "profile":
