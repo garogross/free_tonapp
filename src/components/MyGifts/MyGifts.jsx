@@ -15,6 +15,8 @@ const getBtnStatusText = (status, t) => {
       return t("myGifts.toStars");
     case "converted":
       return t("myGifts.convertedBtn");
+    case "withdraw_pending":
+      return t("myGifts.withdrawPendingBtn");
     case "withdrawn":
       return t("myGifts.withdrawnBtn");
     default:
@@ -22,21 +24,7 @@ const getBtnStatusText = (status, t) => {
   }
 };
 
-// Tab label based on status, using translation keys from myGifts: held/converted/withdrawn
-const getTabStatusText = (status, t) => {
-  switch (status) {
-    case "held":
-      return t("myGifts.held");
-    case "converted":
-      return t("myGifts.converted");
-    case "withdrawn":
-      return t("myGifts.withdrawn");
-    default:
-      return t("myGifts.toStars");
-  }
-};
-
-const statuses = ["held", "converted", "withdrawn"];
+const statuses = ["held", "converted", "withdraw_pending", "withdrawn"];
 
 const MyGifts = ({ getMyGifts, myGifts, setMyGifts, setTonBalance }) => {
   const { t } = useTranslation();
@@ -104,7 +92,10 @@ const MyGifts = ({ getMyGifts, myGifts, setMyGifts, setTonBalance }) => {
               setCurrentTab(status);
             }}
           >
-            <span>{getTabStatusText(status, t)}</span>
+            <ImageWebp
+              src={`/images/adminGiftFilters/${status}.png`}
+              srcSet={`/images/adminGiftFilters/${status}.webp`}
+            />
           </button>
         ))}
       </div>

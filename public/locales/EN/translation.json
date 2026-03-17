@@ -67,6 +67,7 @@
     "toStars": "To Stars",
     "convertedBtn": "Converted",
     "withdrawnBtn": "Withdrawn",
+    "withdrawPendingBtn": "Pending",
     "withdraw": "Withdraw"
   },
   "status": {

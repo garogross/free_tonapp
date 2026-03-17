@@ -63,6 +63,7 @@
     "held": "На удержании",
     "converted": "Конвертированы",
     "withdrawn": "Выведены",
+    "withdrawPendingBtn": "Ждет вывода",
     "toStars": "В Stars",
     "convertedBtn": "Конвертировано",
     "withdrawnBtn": "Выведено",

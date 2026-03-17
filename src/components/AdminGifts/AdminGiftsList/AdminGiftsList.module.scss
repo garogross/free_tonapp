@@ -84,9 +84,11 @@
     width: 100%;
     font-size: 18px;
     overflow: hidden;
+    height: auto;
 
     & span {
       width: 100%;
+      white-space: normal;
       overflow: hidden;
       text-overflow: ellipsis;
     }

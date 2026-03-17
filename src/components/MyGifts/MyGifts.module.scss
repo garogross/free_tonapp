@@ -20,7 +20,7 @@
     border: 2px solid #7a649b;
     border-radius: 33px;
     background: #382b47;
-    @include flexCol();
+    display: flex;
     padding: 5px;
     border-radius: 50px;
   }
