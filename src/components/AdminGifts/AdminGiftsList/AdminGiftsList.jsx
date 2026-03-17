@@ -2,7 +2,11 @@ import { api } from "@/api/axios";
 import { starImg } from "@/assets/images";
 import { clsx } from "clsx";
 import React, { useEffect, useState } from "react";
-import { starWebpImg } from "../../../assets/images";
+import {
+  chanceDiceiconImg,
+  chanceDiceiconWebpImg,
+  starWebpImg,
+} from "../../../assets/images";
 import ImageWebp from "../../layout/ImageWebp/ImageWebp";
 import MainButton from "../../layout/MainButton/MainButton";
 import AdminGiftsEditChancesModal from "../AdminGiftsEditChancesModal/AdminGiftsEditChancesModal";
@@ -108,10 +112,23 @@ const AdminGiftsList = () => {
                 <ImageWebp src={starImg} srcSet={starWebpImg} alt="star" />
               </p>
               <p className={styles.adminGiftsList__starsText}>
-                <strong>Шанс</strong> {gift.dropChance}%
+                <ImageWebp
+                  src={chanceDiceiconImg}
+                  srcSet={chanceDiceiconWebpImg}
+                  alt="dice"
+                />
+                {gift.dropChance}%
               </p>
               <p className={styles.adminGiftsList__starsText}>
-                <strong>Шанс на демо</strong> {gift.demoDropChance}%
+                <>
+                  демо
+                  <ImageWebp
+                    src={chanceDiceiconImg}
+                    srcSet={chanceDiceiconWebpImg}
+                    alt="dice"
+                  />
+                </>{" "}
+                {gift.demoDropChance}%
               </p>
               <MainButton
                 onClick={() => {
@@ -121,7 +138,7 @@ const AdminGiftsList = () => {
                 className={styles.adminGiftsList__btn}
                 size="sm"
               >
-                Изменить Шансы
+                <span>Изменить Шансы</span>
               </MainButton>
             </div>
           ))}
