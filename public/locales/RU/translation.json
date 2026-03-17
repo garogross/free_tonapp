@@ -55,6 +55,16 @@
       "trophy": "Трофей"
     }
   },
+  "myGifts": {
+    "title": "Мои подарки",
+    "held": "На удержании",
+    "converted": "Конвертированы",
+    "withdrawn": "Выведены",
+    "toStars": "В Stars",
+    "convertedBtn": "Конвертировано",
+    "withdrawnBtn": "Выведено",
+    "withdraw": "Вывести"
+  },
   "status": {
     "moderation": "МОДЕРИРУЕТСЯ",
     "active": "ЗАПУЩЕНО",

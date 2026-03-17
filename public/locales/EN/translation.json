@@ -56,6 +56,16 @@
       "trophy": "Trophy"
     }
   },
+  "myGifts": {
+    "title": "My Gifts",
+    "held": "Held",
+    "converted": "Converted",
+    "withdrawn": "Withdrawn",
+    "toStars": "To Stars",
+    "convertedBtn": "Converted",
+    "withdrawnBtn": "Withdrawn",
+    "withdraw": "Withdraw"
+  },
   "status": {
     "moderation": "MODERATION",
     "active": "ACTIVE",
