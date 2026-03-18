@@ -15,6 +15,13 @@ const GiftAvailablesList = ({ setCurrentContent, gifts }) => {
 
   return (
     <div className={styles.giftAvailablesList}>
+      <MainButton
+        onClick={() => setCurrentContent("myGifts")}
+        isSecondaryVariant
+        className={styles.giftAvailablesList__myGiftsBtn}
+      >
+        {t("gift.myGiftsBtn")}
+      </MainButton>
       <h4 className={styles.giftAvailablesList__titleText}>
         {t("gift.availableGiftsTitle")}
       </h4>
@@ -44,13 +51,6 @@ const GiftAvailablesList = ({ setCurrentContent, gifts }) => {
           ))}
         </div>
       </div>
-      <MainButton
-        onClick={() => setCurrentContent("myGifts")}
-        isSecondaryVariant
-        className={styles.giftAvailablesList__myGiftsBtn}
-      >
-        {t("gift.myGiftsBtn")}
-      </MainButton>
     </div>
   );
 };
