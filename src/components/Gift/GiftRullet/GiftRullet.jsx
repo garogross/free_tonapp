@@ -13,7 +13,14 @@ import SwitcherBtn from "../../layout/SwitcherBtn/SwitcherBtn";
 import { useNotification } from "../../useNotification";
 import styles from "./GiftRullet.module.scss";
 
-const GiftRullet = ({ gifts, getGifts, tonBalance, setTonBalance }) => {
+const GiftRullet = ({
+  gifts,
+  getGifts,
+  tonBalance,
+  setTonBalance,
+  setDepositBalance,
+  setEarnedBalance,
+}) => {
   const { t } = useTranslation();
   const { showNotification, showError } = useNotification();
   const [tier, setTier] = useState(25);
@@ -38,7 +45,11 @@ const GiftRullet = ({ gifts, getGifts, tonBalance, setTonBalance }) => {
       })
       .then((response) => {
         setWonGiftId(response.data.wonGift.imageUrl);
-        if (response.data.newBalance) setTonBalance(response.data.newBalance);
+        if (response.data.tonBalance) setTonBalance(response.data.tonBalance);
+        if (response.data.depositBalance)
+          setDepositBalance(response.data.depositBalance);
+        if (response.data.earnedBalance)
+          setEarnedBalance(response.data.earnedBalance);
         setAnimating(true);
       })
       .catch((error) => {

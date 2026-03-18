@@ -33,6 +33,8 @@ function formatDuration(seconds) {
 
 export default function Staking({
   setTonBalance,
+  setDepositBalance,
+  setEarnedBalance,
   tonBalance,
   accelerateBalance,
   accelerateSpeed,
@@ -113,6 +115,8 @@ export default function Staking({
         .get("/api/accelerateunfund")
         .then((response) => {
           setTonBalance(response.data.tonBalance);
+          setDepositBalance(response.data.depositBalance);
+          setEarnedBalance(response.data.earnedBalance);
           setAccelerateBalance(response.data.accelerateBalance);
           setAccelerateSpeed(response.data.accelerateSpeed);
         })
@@ -153,6 +157,8 @@ export default function Staking({
           setAcceleratorsList(response.data.accelerators);
           setIsAcceleratorsLoading(false);
           setTonBalance(response.data.tonBalance);
+          setDepositBalance(response.data.depositBalance);
+          setEarnedBalance(response.data.earnedBalance);
           function getAccelerateBalance() {
             api
               .get("/api/acceleratebalance")

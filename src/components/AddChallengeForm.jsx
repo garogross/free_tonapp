@@ -16,6 +16,8 @@ export default function AddChallengeForm({
   tonBalance,
   setChallenges,
   setTonBalance,
+  setDepositBalance,
+  setEarnedBalance,
   challengeForRelaunch,
   setChallengeForRelaunch,
   goBack,
@@ -238,6 +240,8 @@ export default function AddChallengeForm({
       .then((response) => {
         setChallenges(response.data);
         setTonBalance(response.data.tonBalance);
+        setDepositBalance(response.data.depositBalance);
+        setEarnedBalance(response.data.earnedBalance);
         setIsLoading(false);
         setChallengeName("");
         setChallengeDescription("");

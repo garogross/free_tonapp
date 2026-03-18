@@ -15,6 +15,8 @@ export default function RollButton({
   isAnimating,
   setLuckyNumber,
   setTonBalance,
+  setDepositBalance,
+  setEarnedBalance,
   isPushed,
   setIsAnimating,
   setRollStarted,
@@ -104,6 +106,8 @@ export default function RollButton({
 
         return rollSuccesfullResponse.tonBalance;
       });
+      setDepositBalance(rollSuccesfullResponse.depositBalance);
+      setEarnedBalance(rollSuccesfullResponse.earnedBalance);
       setIsPushed(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

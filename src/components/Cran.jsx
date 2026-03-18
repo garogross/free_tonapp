@@ -16,6 +16,8 @@ const Cran = ({
   setEndTime,
   setRollStarted,
   setTonBalance,
+  setDepositBalance,
+  setEarnedBalance,
   isAnimating,
   currentContent,
   luckyNumber,
@@ -49,6 +51,8 @@ const Cran = ({
         isAnimating={isAnimating}
         setLuckyNumber={setLuckyNumber}
         setTonBalance={setTonBalance}
+        setDepositBalance={setDepositBalance}
+        setEarnedBalance={setEarnedBalance}
         isPushed={isPushed}
         setIsAnimating={setIsAnimating}
         setRollStarted={setRollStarted}

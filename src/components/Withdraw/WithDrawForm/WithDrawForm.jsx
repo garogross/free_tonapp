@@ -11,10 +11,12 @@ import styles from "./WithDrawForm.module.scss";
 const MIN_AMOUNT = 50;
 
 const WithDrawForm = ({
-  tonBalance,
+  earnedBalance,
   course,
   setTransactions,
   setTonBalance,
+  setDepositBalance,
+  setEarnedBalance,
   goBack,
 }) => {
   const { t } = useTranslation();
@@ -50,6 +52,9 @@ const WithDrawForm = ({
       .then((response) => {
         setTransactions(response.data.transactions);
         setTonBalance(response.data.tonBalance);
+
+        setDepositBalance(response.data.depositBalance);
+        setEarnedBalance(response.data.earnedBalance);
         setAmount("");
         setMemoPhrase("");
         showNotification(t("cashOutForm.requestSent"));
@@ -85,11 +90,11 @@ const WithDrawForm = ({
   }
 
   const handleCashOutAll = () => {
-    if (tonBalance < 1) {
+    if (earnedBalance < 1) {
       showError(t("cashOutForm.minimumSumError"));
       return;
     }
-    setAmount(toFixedDown(tonBalance * course, 0));
+    setAmount(toFixedDown(earnedBalance * course, 0));
   };
 
   const handleCashOut = () => {
@@ -102,7 +107,11 @@ const WithDrawForm = ({
       showError(t("cashOutForm.enterValidAmount"));
       return;
     }
-    if (tonBalance < 1 || amount > tonBalance * course || amount < course) {
+    if (
+      earnedBalance < 1 ||
+      amount > earnedBalance * course ||
+      amount < course
+    ) {
       showError(t("cashOutForm.insufficientFunds"));
       return;
     }

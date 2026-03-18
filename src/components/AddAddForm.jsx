@@ -12,6 +12,8 @@ export default function AddAddForm({
   selectedPackage,
   setAdvertisements,
   setTonBalance,
+  setDepositBalance,
+  setEarnedBalance,
   setCurrentContent,
   setProfileSubMenu,
   blockedSlots,
@@ -234,6 +236,8 @@ export default function AddAddForm({
       .then((response) => {
         setAdvertisements(response.data.advertisements);
         setTonBalance(response.data.tonBalance);
+        setDepositBalance(response.data.depositBalance);
+        setEarnedBalance(response.data.earnedBalance);
         setCurrentContent("profile");
         setProfileSubMenu("advertising");
         setIsLoading(false);

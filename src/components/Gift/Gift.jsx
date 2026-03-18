@@ -10,6 +10,8 @@ const Gift = ({
   getGifts,
   tonBalance,
   setTonBalance,
+  setDepositBalance,
+  setEarnedBalance,
 }) => {
   return (
     <section className={clsx(styles.gift, "container")}>
@@ -18,6 +20,8 @@ const Gift = ({
         getGifts={getGifts}
         tonBalance={tonBalance}
         setTonBalance={setTonBalance}
+        setDepositBalance={setDepositBalance}
+        setEarnedBalance={setEarnedBalance}
       />
       <GiftAvailablesList gifts={gifts} setCurrentContent={setCurrentContent} />
     </section>

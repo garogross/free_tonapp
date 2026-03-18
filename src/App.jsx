@@ -75,6 +75,8 @@ function App({ user, loadingUser }) {
   const [challengeForRelaunch, setChallengeForRelaunch] = useState(null);
 
   const [tonBalance, setTonBalance] = useState(0);
+  const [earnedBalance, setEarnedBalance] = useState(0);
+  const [_depositBalance, setDepositBalance] = useState(0);
 
   const [isSubscriber, setIsSubscriber] = useState(false);
 
@@ -265,6 +267,8 @@ function App({ user, loadingUser }) {
       .then((response) => {
         setAdvertisements(response.data.advertisements);
         setTonBalance(response.data.tonBalance);
+        setDepositBalance(response.data.depositBalance);
+        setEarnedBalance(response.data.earnedBalance);
       })
       .catch((error) => {
         console.error("Get advertisements error: ", error);
@@ -300,6 +304,8 @@ function App({ user, loadingUser }) {
       .get("/api/balance")
       .then((response) => {
         setTonBalance(response.data.tonBalance);
+        setEarnedBalance(response.data.earnedBalance);
+        setDepositBalance(response.data.depositBalance);
       })
       .catch((error) => {
         console.error("Getting ton balance error: ", error);
@@ -364,6 +370,9 @@ function App({ user, loadingUser }) {
         stompClient.current.subscribe("/user/queue/balance", (message) => {
           const body = JSON.parse(message.body);
           setTonBalance(body.tonBalance);
+
+          setDepositBalance(body.depositBalance);
+          setEarnedBalance(body.earnedBalance);
           showNotification("Баланс пополнен");
           getTransactions(dataRaw);
         });
@@ -550,6 +559,8 @@ function App({ user, loadingUser }) {
             setEndTime={setEndTime}
             setRollStarted={setRollStarted}
             setTonBalance={setTonBalance}
+            setDepositBalance={setDepositBalance}
+            setEarnedBalance={setEarnedBalance}
             isAnimating={isAnimating}
             currentContent={currentContent}
             luckyNumber={luckyNumber}
@@ -584,6 +595,8 @@ function App({ user, loadingUser }) {
           <>
             <Staking
               setTonBalance={setTonBalance}
+              setDepositBalance={setDepositBalance}
+              setEarnedBalance={setEarnedBalance}
               tonBalance={tonBalance}
               accelerateBalance={accelerateBalance}
               accelerateSpeed={accelerateSpeed}
@@ -616,6 +629,8 @@ function App({ user, loadingUser }) {
               getGifts={getGifts}
               tonBalance={tonBalance}
               setTonBalance={setTonBalance}
+              setDepositBalance={setDepositBalance}
+              setEarnedBalance={setEarnedBalance}
             />
           </>
         );
@@ -682,8 +697,10 @@ function App({ user, loadingUser }) {
         return (
           <>
             <CashOutForm
-              tonBalance={tonBalance}
+              earnedBalance={earnedBalance}
               setTonBalance={setTonBalance}
+              setDepositBalance={setDepositBalance}
+              setEarnedBalance={setEarnedBalance}
               setTransactions={setTransactions}
               starsMode={starsMode}
               course={course}
@@ -701,6 +718,8 @@ function App({ user, loadingUser }) {
               tonBalance={tonBalance}
               setChallenges={setChallenges}
               setTonBalance={setTonBalance}
+              setDepositBalance={setDepositBalance}
+              setEarnedBalance={setEarnedBalance}
               challengeForRelaunch={challengeForRelaunch}
               setChallengeForRelaunch={setChallengeForRelaunch}
               goBack={() => setCurrentContent("challenges")}
@@ -725,6 +744,8 @@ function App({ user, loadingUser }) {
               selectedPackage={selectedPackage}
               setAdvertisements={setAdvertisements}
               setTonBalance={setTonBalance}
+              setDepositBalance={setDepositBalance}
+              setEarnedBalance={setEarnedBalance}
               setProfileSubMenu={setProfileSubMenu}
               setCurrentContent={setCurrentContent}
               blockedSlots={blockedSlots}

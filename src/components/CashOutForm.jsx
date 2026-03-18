@@ -4,8 +4,10 @@ import WithDrawForm from "./Withdraw/WithDrawForm/WithDrawForm";
 import WithdrawHistory from "./Withdraw/WithdrawHistory/WithdrawHistory";
 
 export default function CashOutForm({
-  tonBalance,
+  earnedBalance,
   setTonBalance,
+  setDepositBalance,
+  setEarnedBalance,
   setTransactions,
   course,
   transactions,
@@ -14,10 +16,12 @@ export default function CashOutForm({
   return (
     <section className={clsx(styles.cashOutForm, "container")}>
       <WithDrawForm
-        tonBalance={tonBalance}
         course={course}
         setTransactions={setTransactions}
         setTonBalance={setTonBalance}
+        setDepositBalance={setDepositBalance}
+        setEarnedBalance={setEarnedBalance}
+        earnedBalance={earnedBalance}
         goBack={goBack}
       />
       <WithdrawHistory transactions={transactions} />
