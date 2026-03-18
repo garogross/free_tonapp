@@ -25,12 +25,15 @@ const AdminGiftsEditChancesModal = ({
   giftId,
   giftDropChance,
   giftDemoDropChance,
+  gifDisplayChance,
 }) => {
   const { showError, showNotification } = useNotification();
   const [loading, setLoading] = useState(false);
   const [dropChanceValue, setDropChanceValue] = useState(giftDropChance);
   const [demoDropChanceValue, setDemoDropChanceValue] =
     useState(giftDemoDropChance);
+  const [displayChanceValue, setDisplayChanceValue] =
+    useState(gifDisplayChance);
 
   useEffect(() => {
     setDropChanceValue(giftDropChance);
@@ -40,6 +43,10 @@ const AdminGiftsEditChancesModal = ({
     setDemoDropChanceValue(giftDemoDropChance);
   }, [giftDemoDropChance]);
 
+  useEffect(() => {
+    setDisplayChanceValue(gifDisplayChance);
+  }, [gifDisplayChance]);
+
   async function changeChances() {
     if (!giftId) return;
     setLoading(true);
@@ -48,12 +55,14 @@ const AdminGiftsEditChancesModal = ({
         giftId,
         dropChance: +dropChanceValue,
         demoDropChance: +demoDropChanceValue,
+        displayChance: +displayChanceValue,
       })
       .then(() => {
         showNotification("Шансы обновлены");
         onClose({
           dropChance: +dropChanceValue,
           demoDropChance: +demoDropChanceValue,
+          displayChance: +displayChanceValue,
         });
       })
       .catch((error) => {
@@ -74,7 +83,7 @@ const AdminGiftsEditChancesModal = ({
             animate="visible"
             exit="exit"
             transition={{ duration: 0.15 }}
-            onClick={onClose}
+            onClick={() => onClose()}
             style={{ zIndex: 1100 }}
           />
           <Motion.div
@@ -88,7 +97,7 @@ const AdminGiftsEditChancesModal = ({
           >
             <button
               className={styles.adminGiftsEditChancesModal__closeBtn}
-              onClick={onClose}
+              onClick={() => onClose()}
               aria-label="Закрыть"
               type="button"
               disabled={loading}
@@ -126,6 +135,21 @@ const AdminGiftsEditChancesModal = ({
                 type="text"
                 value={demoDropChanceValue}
                 onChange={(e) => setDemoDropChanceValue(e.target.value)}
+                className={styles.adminGiftsEditChancesModal__input}
+                disabled={loading}
+              />
+            </div>
+            <div className={styles.adminGiftsEditChancesModal__inputWrapper}>
+              <label
+                htmlFor="display-chance"
+                className={styles.adminGiftsEditChancesModal__label}
+              >
+                Шанс fake
+              </label>
+              <input
+                type="number"
+                value={displayChanceValue}
+                onChange={(e) => setDisplayChanceValue(e.target.value)}
                 className={styles.adminGiftsEditChancesModal__input}
                 disabled={loading}
               />

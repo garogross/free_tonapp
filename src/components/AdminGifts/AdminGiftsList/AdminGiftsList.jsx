@@ -35,6 +35,7 @@ const AdminGiftsList = () => {
         //     "tier": 25,
         //     "dropChance": 25.00,
         //     "demoDropChance": 10.00,
+        //     "displayChance": 10.00,
         //     "convertValue": 15,
         //     "displayOrder": 1,
         //     "active": true
@@ -99,49 +100,62 @@ const AdminGiftsList = () => {
       </div>
       <section className={styles.adminGiftsList}>
         <div className={styles.adminGiftsList__list}>
-          {filteredGifts.map((gift) => (
-            <div key={gift.id} className={styles.adminGiftsList__item}>
-              <ImageWebp
-                src={`/images/gifts/${gift.imageUrl}.png`}
-                srcSet={`/images/gifts/${gift.imageUrl}.webp`}
-                alt="gift"
-                className={styles.adminGiftsList__img}
-              />
-              <p className={styles.adminGiftsList__starsText}>
-                {gift.convertValue}
-                <ImageWebp src={starImg} srcSet={starWebpImg} alt="star" />
-              </p>
-              <p className={styles.adminGiftsList__starsText}>
+          {filteredGifts
+            .sort((a, b) => a.displayOrder - b.displayOrder)
+            .map((gift) => (
+              <div key={gift.id} className={styles.adminGiftsList__item}>
                 <ImageWebp
-                  src={chanceDiceiconImg}
-                  srcSet={chanceDiceiconWebpImg}
-                  alt="dice"
+                  src={`/images/gifts/${gift.imageUrl}.png`}
+                  srcSet={`/images/gifts/${gift.imageUrl}.webp`}
+                  alt="gift"
+                  className={styles.adminGiftsList__img}
                 />
-                {gift.dropChance}%
-              </p>
-              <p className={styles.adminGiftsList__starsText}>
-                <>
-                  демо
+                <p className={styles.adminGiftsList__starsText}>
+                  {gift.convertValue}
+                  <ImageWebp src={starImg} srcSet={starWebpImg} alt="star" />
+                </p>
+                <p className={styles.adminGiftsList__starsText}>
                   <ImageWebp
                     src={chanceDiceiconImg}
                     srcSet={chanceDiceiconWebpImg}
                     alt="dice"
                   />
-                </>{" "}
-                {gift.demoDropChance}%
-              </p>
-              <MainButton
-                onClick={() => {
-                  setEditingItemId(gift.id);
-                  setEditModalOpened(true);
-                }}
-                className={styles.adminGiftsList__btn}
-                size="sm"
-              >
-                <span>Изменить Шансы</span>
-              </MainButton>
-            </div>
-          ))}
+                  {gift.dropChance || "--"}%
+                </p>
+                <p className={styles.adminGiftsList__starsText}>
+                  <>
+                    Демо
+                    <ImageWebp
+                      src={chanceDiceiconImg}
+                      srcSet={chanceDiceiconWebpImg}
+                      alt="dice"
+                    />
+                  </>{" "}
+                  {gift.demoDropChance || "--"}%
+                </p>
+                <p className={styles.adminGiftsList__starsText}>
+                  <>
+                    Fake
+                    <ImageWebp
+                      src={chanceDiceiconImg}
+                      srcSet={chanceDiceiconWebpImg}
+                      alt="dice"
+                    />
+                  </>{" "}
+                  {gift.displayChance || "--"}%
+                </p>
+                <MainButton
+                  onClick={() => {
+                    setEditingItemId(gift.id);
+                    setEditModalOpened(true);
+                  }}
+                  className={styles.adminGiftsList__btn}
+                  size="sm"
+                >
+                  <span>Изменить Шансы</span>
+                </MainButton>
+              </div>
+            ))}
         </div>
 
         {editingItem && (
@@ -157,6 +171,7 @@ const AdminGiftsList = () => {
                           ...gift,
                           dropChance: chances.dropChance,
                           demoDropChance: chances.demoDropChance,
+                          displayChance: chances.displayChanceValue,
                         }
                       : gift,
                   ),
@@ -166,6 +181,7 @@ const AdminGiftsList = () => {
             giftId={editingItemId}
             giftDropChance={editingItem.dropChance}
             giftDemoDropChance={editingItem.demoDropChance}
+            gifDisplayChance={editingItem.displayChance}
           />
         )}
       </section>
