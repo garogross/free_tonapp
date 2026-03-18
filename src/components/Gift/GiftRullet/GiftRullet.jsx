@@ -26,7 +26,7 @@ const GiftRullet = ({ gifts, getGifts, tonBalance, setTonBalance }) => {
   const listWrapperRef = useRef(null);
 
   async function spin() {
-    if (tonBalance < tier) {
+    if (!demoMode && tonBalance < tier) {
       showError(t("gift.insufficientFunds"));
       return;
     }
